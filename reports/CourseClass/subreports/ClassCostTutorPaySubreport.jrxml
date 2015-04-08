@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ClassCostTutorPaySubreport" pageWidth="786" pageHeight="514" orientation="Landscape" columnWidth="786" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4359333e-5116-49dd-b939-2709161b6d78">
+	<property name="name" value="ClassCost Tutor Pay Subreport"/>
+	<property name="entity" value="ClassCost"/>
+	<property name="isSubreport" value="true"/>
+	<property name="isVisible" value="false"/>
+	<property name="versionNumber" value="3"/>
+	<property name="keyCode" value="ish.onCourse.classCostTutorPaySubreport"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="Report_Title" isDefault="true" fontName="Arial" fontSize="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Column_Header" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Column_Field" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Footer" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<parameter name="sessionNumber" class="java.lang.Integer" isForPrompting="false"/>
+	<parameter name="payableTime" class="java.lang.Long" isForPrompting="false"/>
+	<parameter name="attendanceNumber" class="java.lang.Integer" isForPrompting="false"/>
+	<parameter name="tutorId" class="java.lang.Long" isForPrompting="false"/>
+	<parameter name="tutorRole" class="java.lang.String" isForPrompting="true"/>
+	<field name="contact.tutor.id" class="java.lang.Long"/>
+	<field name="contact.firstName" class="java.lang.String"/>
+	<field name="contact.lastName" class="java.lang.String"/>
+	<field name="definedTutorRole.name" class="java.lang.String"/>
+	<field name="isAmountOverride" class="java.lang.Boolean"/>
+	<field name="perUnitAmountExTax" class="java.lang.Object"/>
+	<field name="repetitionType" class="java.lang.Object"/>
+	<field name="flowType" class="java.lang.Object"/>
+	<field name="courseClass.enrolments" class="java.util.List"/>
+	<sortField name="repetitionType" type="Field" order="Ascending"/>
+	<!-- print only ClassCost with "Wages" type -->
+	<variable name="isWageType" class="java.lang.Boolean">
+		<variableExpression><![CDATA[ish.common.types.ClassCostFlowType.WAGES.equals($F{flowType})]]></variableExpression>
+	</variable>
+	<!--Report rules for paylines: If type = fixed, then payline due on first session of the class  -->
+	<variable name="isFixedTypeOfPayOrPerEnrolment" class="java.lang.Boolean">
+		<variableExpression><![CDATA[($P{sessionNumber} == 1 && $P{attendanceNumber} == 1 && (ish.common.types.ClassCostRepetitionType.FIXED.equals($F{repetitionType}) || ish.common.types.ClassCostRepetitionType.PER_ENROLMENT.equals($F{repetitionType})))]]></variableExpression>
+	</variable>
+	<variable name="isTutorSession" class="java.lang.Boolean">
+		<variableExpression><![CDATA[($P{tutorId} == $F{contact.tutor.id} && ($P{tutorRole}.equals($F{definedTutorRole.name})) && (!ish.common.types.ClassCostRepetitionType.FIXED.equals($F{repetitionType}) && !ish.common.types.ClassCostRepetitionType.PER_ENROLMENT.equals($F{repetitionType})))]]></variableExpression>
+	</variable>
+	<variable name="printPayLine" class="java.lang.Boolean">
+		<variableExpression><![CDATA[($V{isWageType} && ($V{isTutorSession} || $V{isFixedTypeOfPayOrPerEnrolment}))]]></variableExpression>
+	</variable>
+	<variable name="multiplyByEnrolments" class="java.lang.Boolean">
+		<variableExpression><![CDATA[(ish.common.types.ClassCostRepetitionType.PER_ENROLMENT.equals($F{repetitionType}) || ish.common.types.ClassCostRepetitionType.PER_STUDENT_CONTACT_HOUR.equals($F{repetitionType}))]]></variableExpression>
+	</variable>
+	<variable name="multiplyByTime" class="java.lang.Boolean">
+		<variableExpression><![CDATA[(ish.common.types.ClassCostRepetitionType.PER_TIMETABLED_HOUR.equals($F{repetitionType}) || ish.common.types.ClassCostRepetitionType.PER_STUDENT_CONTACT_HOUR.equals($F{repetitionType}))]]></variableExpression>
+	</variable>
+	<variable name="payable" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[((ish.math.Money)$F{perUnitAmountExTax}).multiply((($V{multiplyByEnrolments})?$F{courseClass.enrolments}.size():1)).multiply((($V{multiplyByTime})?($P{payableTime}/60.0):1)).toBigDecimal()]]></variableExpression>
+	</variable>
+	<variable name="classCostTotalPayable" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[($V{printPayLine} ? $V{payable} : new java.math.BigDecimal(0))]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<printWhenExpression><![CDATA[($V{printPayLine})]]></printWhenExpression>
+			<line>
+				<reportElement key="line" style="Footer" positionType="FixRelativeToBottom" mode="Transparent" x="0" y="0" width="1" height="20"/>
+			</line>
+			<textField>
+				<reportElement style="Column_Field" x="10" y="0" width="110" height="20"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contact.lastName}+", "+$F{contact.firstName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column_Field" x="130" y="0" width="110" height="20"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{definedTutorRole.name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column_Field" x="250" y="0" width="40" height="20"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($F{isAmountOverride})?("Yes"):("No"))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column_Field" x="300" y="0" width="120" height="20"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{repetitionType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column_Field" x="440" y="0" width="60" height="20"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(ish.math.Money)$F{perUnitAmountExTax}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column_Field" x="540" y="0" width="60" height="20"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new ish.math.Money($V{payable})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

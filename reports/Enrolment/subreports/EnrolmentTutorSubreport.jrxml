@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EnrolmentTutorSubreport" pageWidth="478" pageHeight="842" columnWidth="478" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="name" value="Enrolment Conf Tutors"/>
+	<property name="entity" value="CourseClassTutor"/>
+	<property name="isSubreport" value="true"/>
+	<property name="isVisible" value="false"/>
+	<property name="versionNumber" value="8"/>
+	<property name="keyCode" value="ish.onCourse.enrolmentConfirmationTutors"/>
+	<property name="ish.oncourse.filePrefix" value="courseClass_tutors"/>
+	<property name="ish.oncourse.pdfFileName" value="whatever.pdf"/>
+	<property name="ish.oncourse.title" value="Tutors"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="ish.util.Textile"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="Report_Title" isDefault="true" fontName="Arial" fontSize="14"/>
+	<field name="tutor.contact.firstName" class="java.lang.String"/>
+	<field name="tutor.resume" class="java.lang.String"/>
+	<field name="tutor.contact.lastName" class="java.lang.String"/>
+	<field name="inPublicity" class="java.lang.Boolean"/>
+	<group name="tutor">
+		<groupExpression><![CDATA[null]]></groupExpression>
+		<groupHeader>
+			<band height="17" splitType="Stretch">
+				<staticText>
+					<reportElement key="staticText-1" style="Report_Title" positionType="Float" x="0" y="1" width="158" height="15"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[About the tutors]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+		<printWhenExpression><![CDATA[$F{inPublicity}]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField-1" x="0" y="2" width="435" height="14"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[(($F{tutor.contact.lastName}==null)?"":($F{tutor.contact.lastName} +", "))+
+(($F{tutor.contact.firstName}==null)?"":($F{tutor.contact.firstName}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-3" positionType="Float" x="0" y="17" width="470" height="15" isRemoveLineWhenBlank="true"/>
+				<textElement markup="html">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[Textile.processToJasperHtml($F{tutor.resume})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

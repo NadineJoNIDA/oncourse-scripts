@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ClassPromotionalEnrolments" pageWidth="782" pageHeight="595" orientation="Landscape" columnWidth="782" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="name" value="Class Promotional Enrolments"/>
+	<property name="entity" value="Enrolment"/>
+	<property name="isSubreport" value="true"/>
+	<property name="isVisible" value="false"/>
+	<property name="versionNumber" value="2"/>
+	<property name="keyCode" value="ish.onCourse.classPromotionalEnrolments"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="ish.math.Money"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<field name="courseClass.code" class="java.lang.String"/>
+	<field name="courseClass.course.name" class="java.lang.String"/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="invoiceLine.discountEachExTax" class="java.lang.Object"/>
+	<field name="courseClass.course.code" class="java.lang.String"/>
+	<field name="courseClass.fee_with_tax" class="java.lang.Object"/>
+	<variable name="totalEnrolments" class="java.math.BigDecimal" calculation="Count">
+		<variableExpression><![CDATA[$F{id}]]></variableExpression>
+	</variable>
+	<variable name="discountedEnrolments" class="java.math.BigDecimal" calculation="Count">
+		<variableExpression><![CDATA[((((Money)$F{invoiceLine.discountEachExTax}).floatValue() == 0)?null:$F{invoiceLine.discountEachExTax})]]></variableExpression>
+	</variable>
+	<variable name="percentageDiscounted" class="java.lang.Float">
+		<variableExpression><![CDATA[new Float((($V{discountedEnrolments}.floatValue())/($V{totalEnrolments}.floatValue())))]]></variableExpression>
+	</variable>
+	<variable name="discountValue" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[new Float(((Money)$F{invoiceLine.discountEachExTax}).floatValue())]]></variableExpression>
+	</variable>
+	<variable name="fullFee" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[new Float(((Money)$F{courseClass.fee_with_tax}).floatValue())]]></variableExpression>
+	</variable>
+	<group name="enrolments">
+		<groupExpression><![CDATA[null]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="13" splitType="Stretch">
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField-1" x="0" y="0" width="82" height="13" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Arial"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{courseClass.course.code}+"-"+$F{courseClass.code}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+					<reportElement key="textField-2" x="87" y="0" width="216" height="13" isRemoveLineWhenBlank="true"/>
+					<box>
+						<pen lineWidth="0.0" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid"/>
+					</box>
+					<textElement>
+						<font fontName="Arial" size="11" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{courseClass.course.name}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField-3" x="589" y="0" width="60" height="13" isRemoveLineWhenBlank="true"/>
+					<box>
+						<pen lineWidth="0.0" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{totalEnrolments}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField-7" x="654" y="0" width="60" height="13" isRemoveLineWhenBlank="true"/>
+					<box>
+						<pen lineWidth="0.0" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{discountedEnrolments}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0 %" isBlankWhenNull="false">
+					<reportElement key="textField-8" x="718" y="0" width="60" height="13" isRemoveLineWhenBlank="true"/>
+					<box>
+						<pen lineWidth="0.0" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Float"><![CDATA[$V{percentageDiscounted}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00" isBlankWhenNull="false">
+					<reportElement key="textField-9" x="312" y="0" width="130" height="13" isRemoveLineWhenBlank="true"/>
+					<box>
+						<pen lineWidth="0.0" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Float"><![CDATA[$V{discountValue}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00" isBlankWhenNull="false">
+					<reportElement key="textField-10" x="448" y="0" width="130" height="13"/>
+					<box>
+						<pen lineWidth="0.0" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Float"><![CDATA[$V{fullFee}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-5" x="289" y="-1" width="109" height="0"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-6" x="408" y="-2" width="126" height="0"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Float"><![CDATA[new Float(((Money)$F{invoiceLine.discountEachExTax}).floatValue())]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

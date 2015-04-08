@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ClassPromotional" pageWidth="781" pageHeight="595" orientation="Landscape" columnWidth="781" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isFloatColumnFooter="true">
+	<property name="name" value="Class Promotional"/>
+	<property name="entity" value="DiscountCourseClass"/>
+	<property name="isSubreport" value="true"/>
+	<property name="isVisible" value="false"/>
+	<property name="versionNumber" value="11"/>
+	<property name="keyCode" value="ish.onCourse.classPromotionalReport"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="Column_Header" isDefault="true" fontName="Arial" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Column_Field" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<parameter name="discountCode" class="java.lang.String" isForPrompting="false"/>
+	<field name="subreport.ish.onCourse.classPromotionalEnrolments" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="datasource.courseClass.enrolments" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<variable name="totalEnrolments" class="java.math.BigDecimal" calculation="Sum">
+		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="discountedEnrolments" class="java.math.BigDecimal" calculation="Sum">
+		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="percentageDiscounted" class="java.lang.Float" calculation="Average">
+		<initialValueExpression><![CDATA[new java.lang.Float(0)]]></initialValueExpression>
+	</variable>
+	<variable name="discountValue" class="java.lang.Float" calculation="Sum">
+		<initialValueExpression><![CDATA[new java.lang.Float(0)]]></initialValueExpression>
+	</variable>
+	<variable name="fullFee" class="java.lang.Float" calculation="Sum">
+		<initialValueExpression><![CDATA[new java.lang.Float(0)]]></initialValueExpression>
+	</variable>
+	<group name="discountedClasses">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band height="20" splitType="Stretch">
+				<textField evaluationTime="Group" evaluationGroup="discountedClasses" pattern="¤ #,##0.00" isBlankWhenNull="false">
+					<reportElement key="textField-1" style="Column_Field" x="312" y="1" width="130" height="15"/>
+					<textElement textAlignment="Right">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Float"><![CDATA[($V{discountValue}==null)?new Float(0):$V{discountValue}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="discountedClasses" pattern="¤ #,##0.00" isBlankWhenNull="false">
+					<reportElement key="textField-2" style="Column_Field" x="448" y="1" width="130" height="15"/>
+					<textElement textAlignment="Right">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Float"><![CDATA[($V{fullFee}==null)?new Float(0):$V{fullFee}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="discountedClasses" isBlankWhenNull="false">
+					<reportElement key="textField-3" style="Column_Field" x="589" y="1" width="60" height="15"/>
+					<textElement textAlignment="Right">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[($V{totalEnrolments}==null)?new BigDecimal(0):$V{totalEnrolments}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="discountedClasses" isBlankWhenNull="false">
+					<reportElement key="textField-4" style="Column_Field" x="654" y="1" width="60" height="15"/>
+					<textElement textAlignment="Right">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[($V{discountedEnrolments}==null)?new BigDecimal(0):$V{discountedEnrolments}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="discountedClasses" pattern="#,##0 %" isBlankWhenNull="false">
+					<reportElement key="textField-5" style="Column_Field" x="718" y="1" width="60" height="15"/>
+					<textElement textAlignment="Right">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Float"><![CDATA[($V{percentageDiscounted}==null)?new Float(0):$V{percentageDiscounted}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<subreport isUsingCache="true">
+				<reportElement key="subreport-2" style="Column_Field" x="0" y="0" width="780" height="15" isRemoveLineWhenBlank="true"/>
+				<dataSourceExpression><![CDATA[$F{datasource.courseClass.enrolments}]]></dataSourceExpression>
+				<returnValue subreportVariable="totalEnrolments" toVariable="totalEnrolments" calculation="Sum"/>
+				<returnValue subreportVariable="discountedEnrolments" toVariable="discountedEnrolments" calculation="Sum"/>
+				<returnValue subreportVariable="percentageDiscounted" toVariable="percentageDiscounted" calculation="Average"/>
+				<returnValue subreportVariable="discountValue" toVariable="discountValue" calculation="Sum"/>
+				<returnValue subreportVariable="fullFee" toVariable="fullFee" calculation="Sum"/>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$F{subreport.ish.onCourse.classPromotionalEnrolments}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

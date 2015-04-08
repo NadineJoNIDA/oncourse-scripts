@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RoomDetailReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="786" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="51798940-3a6b-408e-a8c4-c03fa694cb0d">
+	<property name="name" value="Room Timetable"/>
+	<property name="entity" value="Room"/>
+	<property name="isSubreport" value="false"/>
+	<property name="isVisible" value="true"/>
+	<property name="versionNumber" value="33"/>
+	<property name="keyCode" value="ish.onCourse.roomDetailsReport"/>
+	<property name="ish.oncourse.description" value="A report that allows users to print the details of all sessions that are scheduled for a particular room, for a particular date range.This report prints in Landscape format."/>
+	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ish.oncourse.additionalProperty" value="classRange"/>
+	<property name="ish.oncourse.additionalProperty.displayLabel1" value="from"/>
+	<property name="ish.oncourse.additionalProperty.displayLabel2" value="to"/>
+	<property name="ish.oncourse.additionalProperty.visualElement" value="DateRange"/>
+	<property name="ish.oncourse.additionalProperty.defaultValue1" value="financialYearStart"/>
+	<property name="ish.oncourse.additionalProperty.defaultValue2" value="tomorrow"/>
+	<property name="sortOn" value="name"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="Report_Name" isDefault="true" fontName="Arial" fontSize="18" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Column_Header" isDefault="true" fontName="Arial" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Column_Field" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Footer" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<parameter name="ReportName" class="java.lang.String"/>
+	<parameter name="date1" class="java.util.Date" isForPrompting="false"/>
+	<field name="site.name" class="java.lang.String"/>
+	<field name="seatedCapacity" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="site.street" class="java.lang.String"/>
+	<field name="site.suburb" class="java.lang.String"/>
+	<field name="site.postcode" class="java.lang.String"/>
+	<field name="site.state" class="java.lang.String"/>
+	<field name="directions" class="java.lang.String"/>
+	<field name="facilities" class="java.lang.String"/>
+	<field name="image.poweredby" class="java.io.InputStream"/>
+	<field name="datasource.unavailableRuleRelations|sortOn=rule.startDateTime" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="datasource.sessions|sortOn=startDatetime" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="subreport.ish.onCourse.roomDetailSessionSubReport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="subreport.ish.onCourse.unavailableRulesSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<group name="details" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{name}]]></groupExpression>
+		<groupHeader>
+			<band height="50" splitType="Stretch">
+				<staticText>
+					<reportElement uuid="713dfa92-bdde-4d15-af01-f19dfe763a0f" key="staticText-1" style="Column_Header" x="0" y="0" width="86" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Seated capacity]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="d4217530-1c53-4f83-8d3c-5119ec369e99" key="staticText-2" style="Column_Header" x="0" y="17" width="76" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Address]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="a764868a-4f88-4c58-aa45-f113c58471f4" key="textField-2" style="Column_Field" x="100" y="0" width="119" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{seatedCapacity}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="f59cb38b-95e4-4722-96b0-d177a4a7a8a0" key="textField-3" style="Column_Field" x="100" y="17" width="204" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[( ($F{site.street} == null) ? "No street address" : $F{site.street} )]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="b6701051-e6cd-43c5-b733-9101c8332708" key="textField-9" style="Column_Field" x="100" y="34" width="204" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[(($F{site.suburb}==null) ? "" : ($F{site.suburb}+" "))+
+(($F{site.state}==null) ? "" : ($F{site.state}+" "))+
+(($F{site.postcode}==null) ? "" : ($F{site.postcode}))]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<group name="directions">
+		<groupExpression><![CDATA[null]]></groupExpression>
+		<groupHeader>
+			<band height="20" splitType="Stretch">
+				<printWhenExpression><![CDATA[new Boolean($F{directions} != null)]]></printWhenExpression>
+				<staticText>
+					<reportElement uuid="688dded8-a5d7-45c6-b007-443e470cc989" key="staticText-3" style="Column_Header" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Directions]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement uuid="bbd1ca57-b664-4a1c-ad46-3fb0a0e9539f" key="textField-16" style="Column_Field" stretchType="RelativeToBandHeight" x="100" y="0" width="686" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{directions}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<group name="facilities">
+		<groupExpression><![CDATA[null]]></groupExpression>
+		<groupHeader>
+			<band height="16" splitType="Stretch">
+				<printWhenExpression><![CDATA[new Boolean($F{facilities} != null)]]></printWhenExpression>
+				<staticText>
+					<reportElement uuid="00ba7d0a-0e47-43f4-8ebd-0f269495f44e" key="staticText-4" style="Column_Header" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Facilities]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement uuid="c5ae6159-7183-47f8-889b-52bd294af1c5" key="textField-17" style="Column_Field" stretchType="RelativeToBandHeight" x="100" y="0" width="686" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{facilities}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<group name="sessions">
+		<groupExpression><![CDATA[null]]></groupExpression>
+		<groupFooter>
+			<band height="44" splitType="Stretch">
+				<subreport isUsingCache="true">
+					<reportElement uuid="61b3970f-132d-420c-a3e5-10b18e648f6e" key="subreport-2" style="Footer" mode="Transparent" x="1" y="19" width="785" height="20" isRemoveLineWhenBlank="true">
+						<printWhenExpression><![CDATA[new Boolean($F{datasource.unavailableRuleRelations|sortOn=rule.startDateTime}!=null)]]></printWhenExpression>
+					</reportElement>
+					<dataSourceExpression><![CDATA[$F{datasource.unavailableRuleRelations|sortOn=rule.startDateTime}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$F{subreport.ish.onCourse.unavailableRulesSubreport}]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="115" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="45" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement uuid="0bd271ca-4a4c-4029-8969-708fa9235095" key="textField-1" style="Report_Name" x="0" y="4" width="786" height="26"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{site.name}+": "+$F{name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<subreport isUsingCache="true">
+				<reportElement uuid="9ec59e77-f6fa-402e-9f7f-de8fedea1dde" key="subreport-1" style="Footer" mode="Transparent" x="1" y="3" width="785" height="20" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean($F{datasource.sessions|sortOn=startDatetime}!=null)]]></printWhenExpression>
+				</reportElement>
+				<dataSourceExpression><![CDATA[$F{datasource.sessions|sortOn=startDatetime}]]></dataSourceExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$F{subreport.ish.onCourse.roomDetailSessionSubReport}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement uuid="44c2486d-d421-4d0b-bbb3-dc64fa7811c9" key="textField-6" style="Footer" x="0" y="12" width="35" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Report" isBlankWhenNull="false">
+				<reportElement uuid="99989028-86a5-47d8-9520-ad4171728619" key="textField-7" style="Footer" x="36" y="12" width="24" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="false">
+				<reportElement uuid="c500dcdd-ae2e-4b4f-8c06-48d20ade5ae6" key="textField-15" style="Footer" positionType="FixRelativeToBottom" x="0" y="0" width="160" height="12"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image scaleImage="RetainShape" hAlign="Right" isUsingCache="true">
+				<reportElement uuid="2863530e-11e5-4c1e-8296-ae64db1a9926" key="image-1" style="Footer" x="719" y="20" width="67" height="7"/>
+				<imageExpression><![CDATA[$F{image.poweredby}]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+</jasperReport>

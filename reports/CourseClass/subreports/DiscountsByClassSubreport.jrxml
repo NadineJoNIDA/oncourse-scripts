@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DiscountsByClassSubreport" pageWidth="514" pageHeight="842" columnWidth="514" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="af2e35b6-57af-4a24-832d-193797be1a21">
+	<property name="name" value="Discounts By Class Subreport"/>
+	<property name="entity" value="InvoiceLine"/>
+	<property name="isSubreport" value="true"/>
+	<property name="isVisible" value="false"/>
+	<property name="versionNumber" value="17"/>
+	<property name="keyCode" value="ish.onCourse.discountsByClassSubreport"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="ish.math.Money"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="Report_Title" isDefault="true" fontName="Arial" fontSize="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Column_Header" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Column_Field" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Footer" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<field name="discount_names" class="java.lang.String"/>
+	<field name="enrolment" class="java.lang.Object"/>
+	<field name="total_price_ex_tax" class="java.lang.Number"/>
+	<field name="discount_applied_ex_tax" class="java.lang.Number"/>
+	<field name="enrolment.courseClass.full_fee_enrolments_count" class="java.lang.Integer"/>
+	<field name="enrolment.courseClass.full_fee_enrolments_fees_sum" class="ish.math.Money"/>
+	<field name="enrolment.courseClass.manual_discount_enrolments_count" class="java.lang.Integer"/>
+	<field name="enrolment.courseClass.manual_discount_enrolments_fees_sum" class="ish.math.Money"/>
+	<field name="enrolment.courseClass.manual_discount_enrolments_discount_sum" class="ish.math.Money"/>
+	<variable name="discountEachExTax" class="java.math.BigDecimal" resetType="Group" resetGroup="detail" calculation="Sum">
+		<variableExpression><![CDATA[((ish.math.Money)$F{discount_applied_ex_tax}).toBigDecimal()]]></variableExpression>
+	</variable>
+	<variable name="discountEachExTaxTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[((ish.math.Money)$F{discount_applied_ex_tax}).toBigDecimal()]]></variableExpression>
+	</variable>
+	<variable name="total_price" class="java.math.BigDecimal" resetType="Group" resetGroup="detail" calculation="Sum">
+		<variableExpression><![CDATA[((ish.math.Money)$F{total_price_ex_tax}).toBigDecimal()]]></variableExpression>
+	</variable>
+	<variable name="total_priceTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[((ish.math.Money)$F{total_price_ex_tax}).toBigDecimal()]]></variableExpression>
+	</variable>
+	<variable name="manualDiscountEnrolmentCount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[(($F{discount_names}==null)? (new BigDecimal(1)): (new BigDecimal(0)))]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="enrolmentCount" class="java.math.BigDecimal" resetType="Group" resetGroup="detail" calculation="Sum">
+		<variableExpression><![CDATA[(($F{discount_names}!=null)? (new BigDecimal(1)): (new BigDecimal(0)))]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="totalEnrolmentCount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[($V{totalEnrolmentCount}!=null)?(new BigDecimal(1)):(new BigDecimal($F{enrolment.courseClass.full_fee_enrolments_count} + $F{enrolment.courseClass.manual_discount_enrolments_count})).add(new BigDecimal(1))]]></variableExpression>
+	</variable>
+	<group name="total">
+		<groupExpression><![CDATA[null]]></groupExpression>
+		<groupFooter>
+			<band height="46" splitType="Stretch">
+				<line>
+					<reportElement uuid="ae899262-dc06-4771-9831-87ad0f45db57" key="line-2" mode="Transparent" x="0" y="12" width="514" height="1"/>
+					<graphicElement fill="Solid">
+						<pen lineWidth="0.5" lineStyle="Solid"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement uuid="8d4a12ae-17b7-4f51-8eff-a9eaf40cc98b" key="staticText-10" style="Column_Header" x="100" y="23" width="95" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total ]]></text>
+				</staticText>
+				<textField evaluationTime="Group" evaluationGroup="detail">
+					<reportElement uuid="aee0ab46-d4c8-42c1-9e1d-c95f4b85b6c1" key="textField-37" style="Column_Field" positionType="Float" x="417" y="23" width="95" height="15"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[new ish.math.Money($V{discountEachExTaxTotal}).add($F{enrolment.courseClass.manual_discount_enrolments_discount_sum})]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="detail">
+					<reportElement uuid="eaa5fc60-996a-4fcb-a863-07e96aa40f27" key="textField-3" style="Column_Field" x="205" y="23" width="115" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[$V{totalEnrolmentCount}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="95c523a9-aec7-4965-b666-7b63e3c75e76" key="line-1" mode="Transparent" x="0" y="42" width="514" height="1"/>
+					<graphicElement fill="Solid">
+						<pen lineWidth="0.5" lineStyle="Solid"/>
+					</graphicElement>
+				</line>
+				<textField evaluationTime="Group" evaluationGroup="detail">
+					<reportElement uuid="6ca70e61-d371-410a-be56-3e3033acbff5" key="textField-37" style="Column_Field" positionType="Float" x="321" y="23" width="95" height="15"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[(new ish.math.Money($V{total_priceTotal})).add(((ish.math.Money)$F{enrolment.courseClass.full_fee_enrolments_fees_sum}).add($F{enrolment.courseClass.manual_discount_enrolments_fees_sum}))]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="detail">
+		<groupExpression><![CDATA[$F{discount_names}]]></groupExpression>
+		<groupHeader>
+			<band height="16" splitType="Stretch">
+				<elementGroup/>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="25c31852-163b-4e5a-ba44-f1bc9f7a9a82" key="textField-3" style="Column_Field" x="0" y="1" width="205" height="14"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[($F{discount_names}==null)? "Manual discount" : $F{discount_names}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="detail">
+					<reportElement uuid="e28bf0a5-2546-4c29-ad09-c69b7e406fe0" key="textField-3" style="Column_Field" x="205" y="0" width="115" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[($F{discount_names}==null)? $V{manualDiscountEnrolmentCount}:$V{enrolmentCount}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="detail">
+					<reportElement uuid="0b313e13-186a-4e57-861d-922baa088f91" key="textField-37" style="Column_Field" positionType="Float" x="417" y="0" width="95" height="15"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[new ish.math.Money($V{discountEachExTax})]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="detail">
+					<reportElement uuid="53626ab6-ffef-444a-b5ba-12e5490df600" key="textField-37" style="Column_Field" positionType="Float" x="321" y="1" width="94" height="14"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[new ish.math.Money($V{total_price})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+</jasperReport>

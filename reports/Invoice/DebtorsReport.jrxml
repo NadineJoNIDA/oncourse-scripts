@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DebtorsReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="786" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" isFloatColumnFooter="true" whenResourceMissingType="Empty">
+	<property name="name" value="Debtors and Creditors Report"/>
+	<property name="entity" value="Invoice"/>
+	<property name="isSubreport" value="false"/>
+	<property name="isVisible" value="true"/>
+	<property name="versionNumber" value="15"/>
+	<property name="keyCode" value="ish.onCourse.debtorsReport "/>
+	<property name="ish.oncourse.title" value="Debtors and Creditors list"/>
+	<property name="ish.oncourse.filePrefix" value="debtors"/>
+	<property name="ish.oncourse.description" value="To obtain an aged debtors and creditors report for all unbalanced invoices.This report prints in Landscape format."/>
+	<property name="ish.oncourse.pdfFileName" value="DebtorsCreditors list.pdf"/>
+	<property name="sortOn" value="contact.lastName"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="ish.math.Money"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="Report_Name" isDefault="true" fontName="Arial" fontSize="18" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Column_Header" isDefault="true" fontName="Arial" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Column_Field" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Footer" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<parameter name="ReportName" class="java.lang.String"/>
+	<field name="contact.full_name" class="java.lang.String"/>
+	<field name="contact.lastName" class="java.lang.String"/>
+	<field name="global.reportTitle" class="java.lang.String"/>
+	<field name="dateDue" class="java.util.Date"/>
+	<field name="amountOwing" class="java.lang.Object"/>
+	<field name="contact.phones" class="java.lang.String">
+		<fieldDescription><![CDATA[Phone numbers for this contact.]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Long"/>
+	<field name="contact.id" class="java.lang.Long"/>
+	<field name="contact.student.studentNumber" class="java.lang.Long"/>
+	<field name="image.poweredby" class="java.io.InputStream"/>
+	<variable name="oldest" class="java.util.Date" resetType="Group" resetGroup="invoice" calculation="Lowest">
+		<variableExpression><![CDATA[((((ish.math.Money)$F{amountOwing}).toBigDecimal()).compareTo(new BigDecimal("0")) != 0) ?$F{dateDue}:null]]></variableExpression>
+	</variable>
+	<variable name="sum30days" class="java.math.BigDecimal" resetType="Group" resetGroup="invoice" calculation="Sum">
+		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*30l) && (new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*60l))?
+		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
+	</variable>
+	<variable name="sum60days" class="java.math.BigDecimal" resetType="Group" resetGroup="invoice" calculation="Sum">
+		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*60l) && (new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*90l))?
+		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
+	</variable>
+	<variable name="sum90days" class="java.math.BigDecimal" resetType="Group" resetGroup="invoice" calculation="Sum">
+		<variableExpression><![CDATA[(new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*90l)?
+		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
+	</variable>
+	<variable name="sumUnder30" class="java.math.BigDecimal" resetType="Group" resetGroup="invoice" calculation="Sum">
+		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*30l))?
+		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
+	</variable>
+	<variable name="totalOwing" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[((ish.math.Money)$F{amountOwing}).toBigDecimal()]]></variableExpression>
+	</variable>
+	<variable name="totalSumUnder30" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*30l))?
+		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="totalSum30days" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*30l) && (new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*60l))?
+		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="totalSum60days" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*60l) && (new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*90l))?
+		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="totalSum90days" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[(new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*90l)?
+		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<group name="total">
+		<groupExpression><![CDATA[null]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="34" splitType="Stretch">
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField-20" style="Footer" x="693" y="3" width="68" height="15"/>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Number"><![CDATA[new ish.math.Money($V{totalSum90days})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField-21" style="Footer" x="622" y="3" width="68" height="15"/>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Number"><![CDATA[new ish.math.Money($V{totalSum60days})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField-22" style="Footer" x="550" y="3" width="68" height="15"/>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Number"><![CDATA[new ish.math.Money($V{totalSum30days})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField-23" style="Footer" x="477" y="3" width="68" height="15"/>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Number"><![CDATA[new ish.math.Money($V{totalSumUnder30})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="staticText-15" style="Footer" x="421" y="3" width="48" height="15"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-16" style="Footer" x="421" y="19" width="59" height="15"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Grand total:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField-24" style="Footer" x="492" y="19" width="269" height="15"/>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Number"><![CDATA[new ish.math.Money(
+					$V{totalSum90days}.add($V{totalSum60days}).add($V{totalSum30days}).add($V{totalSumUnder30}))]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="invoice">
+		<groupExpression><![CDATA[$F{contact.id}]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="20" splitType="Stretch">
+				<printWhenExpression><![CDATA[new Boolean($V{totalOwing} != null && $V{totalOwing}.compareTo(new BigDecimal("0"))!=0)]]></printWhenExpression>
+				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="invoice" isBlankWhenNull="true">
+					<reportElement key="textField-3" style="Column_Field" x="50" y="0" width="145" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{contact.full_name}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="invoice" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement key="textField-5" style="Column_Field" x="421" y="0" width="53" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.util.Date"><![CDATA[($V{totalOwing}.compareTo(new BigDecimal("0")) == 0)?null:$V{oldest}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="invoice" isBlankWhenNull="true">
+					<reportElement key="textField-6" style="Column_Field" x="477" y="0" width="68" height="15">
+						<printWhenExpression><![CDATA[new Boolean($V{sumUnder30}.compareTo( new BigDecimal("0"))!=0)]]></printWhenExpression>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box> 
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Number"><![CDATA[new ish.math.Money($V{sumUnder30})]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="invoice" isBlankWhenNull="true">
+					<reportElement key="textField-7" style="Column_Field" x="550" y="0" width="68" height="15">
+						<printWhenExpression><![CDATA[new Boolean($V{sum30days}.compareTo( new BigDecimal("0"))!=0)]]></printWhenExpression>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Number"><![CDATA[new ish.math.Money($V{sum30days})]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="invoice" isBlankWhenNull="true">
+					<reportElement key="textField-16" style="Column_Field" x="622" y="0" width="68" height="15">
+						<printWhenExpression><![CDATA[new Boolean($V{sum60days}.compareTo( new BigDecimal("0"))!=0)]]></printWhenExpression>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Number"><![CDATA[new ish.math.Money($V{sum60days})]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="invoice" isBlankWhenNull="true">
+					<reportElement key="textField-17" style="Column_Field" x="693" y="0" width="68" height="15">
+						<printWhenExpression><![CDATA[new Boolean($V{sum90days}.compareTo( new BigDecimal("0"))!=0)]]></printWhenExpression>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Number"><![CDATA[new ish.math.Money($V{sum90days})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="invoice" isBlankWhenNull="true">
+					<reportElement key="textField-18" style="Column_Field" x="201" y="0" width="215" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{contact.phones}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="invoice" pattern="###0" isBlankWhenNull="true">
+					<reportElement key="textField-19" style="Column_Field" x="0" y="0" width="44" height="15"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[($F{contact.student.studentNumber}==null)?"":($F{contact.student.studentNumber}.toString())]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="115" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="60" splitType="Stretch">
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement key="textField" style="Report_Name" x="0" y="0" width="762" height="26"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[(($F{global.reportTitle}==null)?($P{ReportName}):($F{global.reportTitle}))]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-7" style="Column_Header" x="50" y="45" width="145" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-9" style="Column_Header" x="421" y="45" width="53" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Oldest]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-10" style="Column_Header" x="477" y="45" width="68" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[<30 days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-11" style="Column_Header" x="622" y="45" width="68" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[61-90 days]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line-1" x="0" y="42" width="764" height="1"/>
+				<graphicElement fill="Solid">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement key="line-2" x="0" y="59" width="764" height="1"/>
+				<graphicElement fill="Solid">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement key="staticText-12" style="Column_Header" x="550" y="45" width="68" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[31-60 days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-13" style="Column_Header" x="201" y="45" width="215" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Phones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-14" style="Column_Header" x="693" y="45" width="68" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[>91 days]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement uuid="44c2486d-d421-4d0b-bbb3-dc64fa7811c9" key="textField-6" style="Footer" x="0" y="12" width="35" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Report" isBlankWhenNull="false">
+				<reportElement uuid="99989028-86a5-47d8-9520-ad4171728619" key="textField-7" style="Footer" x="36" y="12" width="24" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="false">
+				<reportElement uuid="c500dcdd-ae2e-4b4f-8c06-48d20ade5ae6" key="textField-15" style="Footer" positionType="FixRelativeToBottom" x="0" y="0" width="160" height="12"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image scaleImage="RetainShape" hAlign="Right" isUsingCache="true">
+				<reportElement uuid="2863530e-11e5-4c1e-8296-ae64db1a9926" key="image-1" style="Footer" x="719" y="20" width="67" height="7"/>
+				<imageExpression><![CDATA[$F{image.poweredby}]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

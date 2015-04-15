@@ -20,13 +20,14 @@ Invoice to: ${invoice.contact.fullName}
 Items
 -----
 <% invoice.invoiceLines.each { %>
-${it.title}    ${it.priceTotalIncTax}
+${it.title}    ${it.priceTotalExTax} (ex Tax)
 ${it.description}
 
 <% } %>
 
 o-------------------o
-Total GST ${invoice.totalIncTax}
+Total (inc Tax) ${invoice.totalIncTax}
+Total Tax ${invoice.totalTax}
 Total Paid ${invoice.totalIncTax.subtract(invoice.amountOwing)}
 Total Owing ${invoice.amountOwing}
 o-------------------o

@@ -21,7 +21,7 @@ Items
 -----
 <% invoice.invoiceLines.each { %>
 ${it.title}    ${it.priceTotalExTax} (ex Tax)
-${it.description}
+<% if (it.description) { %>${it.description}<% } %>
 
 <% } %>
 
@@ -32,4 +32,10 @@ Total Paid ${invoice.totalIncTax.subtract(invoice.amountOwing)}
 Total ${invoice.amountOwing >= 0 ? "Owing" : "Credit"} ${invoice.amountOwing}
 o-------------------o
 
+<% if (invoice.invoiceDueDates.size() > 0) { %>
+Payment due date
+-----------------
+<% invoice.invoiceDueDates.sort{ it.dueDate }.each { %>${it.dueDate.format("dd MMMM yyyy")} - ${it.amount}
+<% } %>
+<% } %>
 ${render("Footer")}

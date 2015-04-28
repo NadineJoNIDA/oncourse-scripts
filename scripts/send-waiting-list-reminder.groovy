@@ -3,16 +3,10 @@ def run(args) {
     def waitingLists = context.select(SelectQuery.query(WaitingList))
 
     waitingLists.each() { waitingList ->
-        def courseClasses = []
-        waitingList.course.courseClasses.each() { courseClass ->
-            if (courseClass.isActive && courseClass.isShownOnWeb && courseClass.successAndQueuedEnrolments.size() < courseClass.maximumPlaces) {
-                if (courseClass.isDistantLearningCourse) {
-                    courseClasses.add(courseClass)
-                } else if (new Date() < courseClass.endDateTime) {
-                    courseClasses.add(courseClass)
-                }
-            }
+        def courseClasses = waitingList.course.courseClasses.findAll() { courseClass ->
+            courseClass.isActive && courseClass.isShownOnWeb && courseClass.successAndQueuedEnrolments.size() < courseClass.maximumPlaces && (courseClass.isDistantLearningCourse || new Date() < courseClass.endDateTime)
         }
+        
         if (courseClasses.size() > 0) {
             def m = Email.create("Waiting List reminder")
             m.bind(waitingList : waitingList)

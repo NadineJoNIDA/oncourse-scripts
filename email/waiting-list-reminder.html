@@ -46,43 +46,73 @@ ${render("Header", [title: "Reminder: CourseClasses are avaliable to enrol"])}
 <table class="ish_block" style="border: 0;border-collapse: collapse;mso-table-lspace: 0pt; mso-table-rspace: 0pt;clear: both;border: 0;min-width: 100%;" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
     <tbody>
     <tr>
-        <td class="ish_content_container right" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 0;padding-right: 0;padding-bottom: 10px;padding-left: 17px; vertial-align: top; width: 120px;" align="left" valign="top">
+        <td class="ish_content_container right" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 17px; vertial-align: top; width: 120px;" align="left" valign="top">
             <div class="ish_text_container">
                 <p class="align-right" style="font-family: Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;font-size: 13px;color: #7f7f7f;color: #7f7f7f !important;background-color: #ffffff;border: 0;letter-spacing: normal;mso-line-height-rule: exactly;-mso-line-height-rule: exactly;line-height: 150%;margin-top: .2em;margin-right: 0;margin-bottom: 0;margin-left: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;word-wrap: break-word;border: 0;text-align: right;">
-                    Start<br />
-                    <% if (courseClass.startDateTime == null) { %>
-                    Expected duration<br />
-                    <% } else { %>
-                    End<br />
-                    <% } %>
-                    <% if (!courseClass.displayableLocation.isEmpty()) { %>
-                    Location
-                    <% } %>
+                    Start
+                </p>
             </div>
         </td>
-        <td class="ish_content_container left" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 0;padding-right: 17px;padding-bottom: 10px;padding-left: 17px; vertical-align: top;" align="left" valign="top">
+        <td class="ish_content_container left" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 0;padding-right: 17px;padding-bottom: 0;padding-left: 17px; vertical-align: top;" align="left" valign="top">
             <div class="ish_text_container">
                 <p class="align-left" style="font-family: Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;font-size: 13px;color: #000000;color: #000000 !important;background-color: #ffffff;border: 0;letter-spacing: normal;mso-line-height-rule: exactly;-mso-line-height-rule: exactly;line-height: 150%;margin-top: .2em;margin-right: 0;margin-bottom: 0;margin-left: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;word-wrap: break-word;border: 0;text-align: left;">
                     <% if (courseClass.startDateTime == null) { %>
-                    On enrolment<br />
-                    ${courseClass.expectedHours ?: "not specified"}<br />
+                    On enrolment
                     <% } else { %>
-                    ${courseClass.startDateTime.format("h:mm a EEEE d MMMM yyyy zzzz", courseClass.getTimeZone())}<br />
-                    ${courseClass.endDateTime.format("h:mm a EEEE d MMMM yyyy zzzz", courseClass.getTimeZone())}<br />
-                    <% } %>
-                    <% if (!courseClass.displayableLocation.isEmpty()) { %>
-                    ${courseClass.displayableLocation}
+                    ${courseClass.startDateTime.format("h:mm a EEEE d MMMM yyyy zzzz", courseClass.getTimeZone())}
                     <% } %>
                 </p>
             </div>
         </td>
     </tr>
+    <tr>
+        <td class="ish_content_container right" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 17px; vertial-align: top; width: 120px;" align="left" valign="top">
+            <div class="ish_text_container">
+                <p class="align-right" style="font-family: Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;font-size: 13px;color: #7f7f7f;color: #7f7f7f !important;background-color: #ffffff;border: 0;letter-spacing: normal;mso-line-height-rule: exactly;-mso-line-height-rule: exactly;line-height: 150%;margin-top: .2em;margin-right: 0;margin-bottom: 0;margin-left: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;word-wrap: break-word;border: 0;text-align: right;">
+                    <% if (courseClass.startDateTime == null) { %>
+                    Expected duration
+                    <% } else { %>
+                    End
+                    <% } %>
+                </p>
+            </div>
+        </td>
+        <td class="ish_content_container left" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 0;padding-right: 17px;padding-bottom: 0;padding-left: 17px; vertical-align: top;" align="left" valign="top">
+            <div class="ish_text_container">
+                <p class="align-left" style="font-family: Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;font-size: 13px;color: #000000;color: #000000 !important;background-color: #ffffff;border: 0;letter-spacing: normal;mso-line-height-rule: exactly;-mso-line-height-rule: exactly;line-height: 150%;margin-top: .2em;margin-right: 0;margin-bottom: 0;margin-left: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;word-wrap: break-word;border: 0;text-align: left;">
+                    <% if (courseClass.startDateTime == null) { %>
+                    ${courseClass.expectedHours ? courseClass.expectedHours + " hours": "not specified"}
+                    <% } else { %>
+                    ${courseClass.endDateTime.format("h:mm a EEEE d MMMM yyyy zzzz", courseClass.getTimeZone())}
+                    <% } %>
+                </p>
+            </div>
+        </td>
+    </tr>
+    <% if (!courseClass.displayableLocation.isEmpty()) { %>
+    <tr>
+        <td class="ish_content_container right" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 17px; vertial-align: top; width: 120px;" align="left" valign="top">
+            <div class="ish_text_container">
+                <p class="align-right" style="font-family: Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;font-size: 13px;color: #7f7f7f;color: #7f7f7f !important;background-color: #ffffff;border: 0;letter-spacing: normal;mso-line-height-rule: exactly;-mso-line-height-rule: exactly;line-height: 150%;margin-top: .2em;margin-right: 0;margin-bottom: 0;margin-left: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;word-wrap: break-word;border: 0;text-align: right;">
+                    Location
+                </p>
+            </div>
+        </td>
+        <td class="ish_content_container left" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 0;padding-right: 17px;padding-bottom: 0;padding-left: 17px; vertical-align: top;" align="left" valign="top">
+            <div class="ish_text_container">
+                <p class="align-left" style="font-family: Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;font-size: 13px;color: #000000;color: #000000 !important;background-color: #ffffff;border: 0;letter-spacing: normal;mso-line-height-rule: exactly;-mso-line-height-rule: exactly;line-height: 150%;margin-top: .2em;margin-right: 0;margin-bottom: 0;margin-left: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;word-wrap: break-word;border: 0;text-align: left;">
+                    ${courseClass.displayableLocation}
+                </p>
+            </div>
+        </td>
+    </tr>
+    <% } %>
     </tbody>
 </table>
 <table class="ish_block" style="border: 0;border-collapse: collapse;mso-table-lspace: 0pt; mso-table-rspace: 0pt;clear: both;border: 0;min-width: 100%;" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
     <tbody>
     <tr>
-        <td class="ish_content_container left" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 0;padding-right: 17px;padding-bottom: 20px;padding-left: 17px; vertical-align: top;" align="left" valign="top">
+        <td class="ish_content_container left" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 5px;padding-right: 17px;padding-bottom: 10px;padding-left: 17px; vertical-align: top;" align="left" valign="top">
             <div class="ish_text_container">
                 <p class="align-left" style="font-family: Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;font-size: 13px;color: #464646;color: #464646 !important;background-color: #ffffff;border: 0;letter-spacing: normal;mso-line-height-rule: exactly;-mso-line-height-rule: exactly;line-height: 150%;margin-top: .2em;margin-right: 0;margin-bottom: 0;margin-left: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;word-wrap: break-word;border: 0;text-align: left;">
                     Please visit <a style="color: #0084b4;color: #0084b4 !important;background-color: #ffffff;text-decoration: none;border: 0;word-wrap: break-word;" href="${Preferences.get("web.url")}/class/${courseClass.course.code}-${courseClass.code}" target="_blank">${Preferences.get("web.url")}/class/${courseClass.course.code}-${courseClass.code}</a> to enrol in this course.
@@ -93,4 +123,17 @@ ${render("Header", [title: "Reminder: CourseClasses are avaliable to enrol"])}
     </tbody>
 </table>
 <% } %>
+<table class="ish_block" style="border: 0;border-collapse: collapse;mso-table-lspace: 0pt; mso-table-rspace: 0pt;clear: both;border: 0;min-width: 100%;" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
+    <tbody>
+    <tr>
+        <td class="ish_content_container left" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 5px;padding-right: 17px;padding-bottom: 10px;padding-left: 17px; vertical-align: top;" align="left" valign="top">
+            <div class="ish_text_container">
+                <p class="align-left" style="font-family: Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;font-size: 13px;color: #464646;color: #464646 !important;background-color: #ffffff;border: 0;letter-spacing: normal;mso-line-height-rule: exactly;-mso-line-height-rule: exactly;line-height: 150%;margin-top: .2em;margin-right: 0;margin-bottom: 0;margin-left: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;word-wrap: break-word;border: 0;text-align: left;">
+                    To remove yourself from the waiting list and unsubscribe to these notices, please visit <a style="color: #0084b4;color: #0084b4 !important;background-color: #ffffff;text-decoration: none;border: 0;word-wrap: break-word;" href="https://www.skillsoncourse.com.au/portal/subscriptions" target="_blank">https://www.skillsoncourse.com.au/portal/subscriptions</a>
+                </p>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
 ${render("Footer")}

@@ -14,14 +14,18 @@ def run(args) {
   def classesStartingTomorrow = context.select(SelectQuery.query(CourseClass, exp))
 
   classesStartingTomorrow.each() { courseClass ->
-    courseClass.tutorRoles.each() { role ->
-      def m = Email.create("Tutor notice of class commencement")
-      m.bind(courseClass: courseClass)
-      m.bind(tutor: role.tutor)
 
-      m.to(role.tutor.contact)
+    if ( courseClass.successAndQueuedEnrolments.size() >= courseClass.minimumPlaces ) {
 
-      m.send()
+      courseClass.tutorRoles.each() { role ->
+        def m = Email.create("Tutor notice of class commencement")
+        m.bind(courseClass: courseClass)
+        m.bind(tutor: role.tutor)
+
+        m.to(role.tutor.contact)
+
+        m.send()
+      }
 
       context.commitChanges()
     }

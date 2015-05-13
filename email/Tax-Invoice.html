@@ -114,7 +114,7 @@ ${render("Header", [title: "Tax Invoice"])}
         <p class="align-right" style="font-family: Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;font-size: 13px;color: #7f7f7f;color: #7f7f7f !important;background-color: #ffffff;border: 0;letter-spacing: normal;mso-line-height-rule: exactly;-mso-line-height-rule: exactly;line-height: 150%;margin-top: .2em;margin-right: 0;margin-bottom: 0;margin-left: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;word-wrap: break-word;border: 0;text-align: right;">
           <b>Payment due date</b><br />
           <% invoice.invoiceDueDates.sort{ it.dueDate }.each { invoiceDueDate -> %>
-          ${invoiceDueDate.dueDate.format("dd MMMM yyyy")}<br />
+          ${invoiceDueDate.dueDate.format("d MMMM yyyy")}<br />
           <% } %>
         </p>
       </div>

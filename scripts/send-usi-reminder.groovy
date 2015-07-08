@@ -15,11 +15,15 @@ def run(args) {
   enrolmentsWithoutUsi.each() {
     def m = Email.create("USI reminder email")
     m.bind(enrolment: it)
-
     m.to(it.student.contact)
-
     m.send()
-
     context.commitChanges()
   }
+    smtp {
+        from preference.email.admin
+        subject 'USI reminder email notification'
+        to preference.email.admin
+        content "A USI reminder was sent to ${enrolmentsWithoutUsi.size()} students enrolled in VET classes who have not supplied their USI."
+    }
 }
+

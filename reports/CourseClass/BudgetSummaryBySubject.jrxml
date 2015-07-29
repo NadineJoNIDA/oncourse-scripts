@@ -1,27 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BudgetSummaryBySubject" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="786" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="2bdffbe4-9d5c-4083-8e34-9f2983996b67">
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BudgetSummaryBySubject" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="786" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="2bdffbe4-9d5c-4083-8e34-9f2983996b67">
 	<property name="name" value="Budget Summary by Subject"/>
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="11"/>
+	<property name="versionNumber" value="15"/>
 	<property name="keyCode" value="ish.onCourse.budgetSummaryReport"/>
 	<property name="ish.oncourse.description" value="This report shows in a subject grouping summary format the same data as the Budget Details by Subject report, without the class level data. This report prints in Landscape format."/>
-	<property name="ireport.scriptlethandling" value="0"/>
-	<property name="ireport.encoding" value="UTF-8"/>
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
 	<property name="sortOn" value="firstSubjectTag"/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="ish.math.Money"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
-	<style name="Report_Name" isDefault="true" fontName="Arial" fontSize="18" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Column_Header" isDefault="true" fontName="Arial" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Column_Field" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Footer" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
+		<paragraph spacingAfter="8"/>
+	</style>
+	<style name="header 1" style="default" forecolor="#4F0018" vTextAlign="Middle" fontName="Open Sans Light" fontSize="18" pdfFontName="Open Sans Light"/>
+	<style name="header 2" style="header 1" fontSize="12"/>
+	<style name="header 3" style="default" vTextAlign="Middle" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
+	<style name="header 3 (right)" style="header 3" hTextAlign="Right"/>
+	<style name="Label" style="default" forecolor="#6A7E99"/>
+	<style name="Label right" style="Label" hTextAlign="Right"/>
+	<style name="data field" style="default"/>
+	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
+	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
+	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
+	<style name="subHead box" style="default" backcolor="#E6E7F0"/>
+	<style name="crosstab" mode="Opaque" backcolor="#EDE6DA">
+		<box>
+			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#A3A3A3"/>
+			<leftPen lineWidth="0.2" lineStyle="Solid" lineColor="#A3A3A3"/>
+			<bottomPen lineWidth="0.2" lineStyle="Solid" lineColor="#A3A3A3"/>
+			<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#A3A3A3"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{ROW_COUNT}.intValue() % 2 == 1 ? Boolean.TRUE : Boolean.FALSE]]></conditionExpression>
+			<style mode="Opaque" backcolor="#FFFFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="alternateRow" mode="Opaque" forecolor="rgba(255, 255, 255, 0.0)" backcolor="#FAF7F0">
+		<box>
+			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{PAGE_COUNT}.intValue() % 2 == 1 ? Boolean.TRUE : Boolean.FALSE]]></conditionExpression>
+			<style mode="Opaque" backcolor="#FFFFFF"/>
+		</conditionalStyle>
+	</style>
 	<parameter name="ReportName" class="java.lang.String" isForPrompting="false"/>
 	<field name="course.name" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
@@ -132,63 +165,34 @@
 		<groupFooter>
 			<band height="27" splitType="Stretch">
 				<staticText>
-					<reportElement uuid="a83e6fad-3c4c-4cb5-b188-ab0a41307f3d" key="staticText-10" style="Footer" x="1" y="7" width="325" height="16"/>
-					<textElement>
-						<font size="13" isBold="true"/>
-					</textElement>
+					<reportElement key="staticText-10" style="header 3" x="1" y="7" width="325" height="16" uuid="a83e6fad-3c4c-4cb5-b188-ab0a41307f3d"/>
 					<text><![CDATA[Total]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="total" isBlankWhenNull="false">
-					<reportElement uuid="d8949d0f-f758-42d0-a96e-e44df886c0ff" key="textField-19" style="Footer" x="363" y="6" width="41" height="16"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-19" style="header 3 (right)" x="363" y="6" width="63" height="16" uuid="d8949d0f-f758-42d0-a96e-e44df886c0ff"/>
 					<textFieldExpression><![CDATA[(($V{totalECA}==null)?"0":$V{totalECA}.toString())+"/"+
 ((($V{totalECB}==null)||$V{totalECB}.equals(""))?"0":$V{totalECB}.toString())]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="total" isBlankWhenNull="false">
-					<reportElement uuid="a90c706f-7e2c-45fd-ae5f-59d02933ec64" key="textField-22" style="Footer" x="408" y="6" width="114" height="16"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-22" style="header 3 (right)" x="428" y="6" width="94" height="16" uuid="a90c706f-7e2c-45fd-ae5f-59d02933ec64"/>
 					<textFieldExpression><![CDATA[(new Money($V{totalIA}.toString())).toString()+"/"+
 (new Money($V{totalIB}.toString())).toString()]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="total" isBlankWhenNull="false">
-					<reportElement uuid="811f35e7-8140-46d4-a348-b2458d981941" key="textField-25" style="Footer" x="526" y="6" width="109" height="16"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-25" style="header 3 (right)" x="526" y="6" width="109" height="16" uuid="811f35e7-8140-46d4-a348-b2458d981941"/>
 					<textFieldExpression><![CDATA[(new Money($V{totalEA}.toString()).negate()).toString()+"/"+
 (new Money($V{totalEB}.toString()).negate()).toString()]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="total" isBlankWhenNull="false">
-					<reportElement uuid="aa84d82b-6707-4980-a7df-58c03bf849b7" key="textField-28" style="Footer" x="642" y="6" width="101" height="16"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-28" style="header 3 (right)" x="642" y="6" width="101" height="16" uuid="aa84d82b-6707-4980-a7df-58c03bf849b7"/>
 					<textFieldExpression><![CDATA[(new Money($V{totalPA}.toString())).toString()+"/"+
 (new Money($V{totalPB}.toString())).toString()]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="total" isBlankWhenNull="false">
-					<reportElement uuid="4c3fc014-d907-4cbe-922a-2ecab7b75c60" key="textField-31" style="Footer" x="745" y="6" width="36" height="16"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-31" style="header 3 (right)" x="745" y="6" width="36" height="16" uuid="4c3fc014-d907-4cbe-922a-2ecab7b75c60"/>
+					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[((($V{totalPB}==null)||($V{totalPB}.floatValue()==0))?"n.a.":String.valueOf(  ((float)Math.round(100*( (new Money(String.valueOf($V{totalPA})).floatValue()) - (new Money(String.valueOf($V{totalPB})).floatValue()) ) /  (new Money(String.valueOf($V{totalPB})).floatValue()) * 100  ))/100))]]></textFieldExpression>
 				</textField>
-				<line>
-					<reportElement uuid="a2b7cacf-b3a9-40f5-90a4-eeeeacda6bc4" key="line-5" style="Footer" x="0" y="6" width="780" height="1"/>
-					<graphicElement>
-						<pen lineWidth="0.25" lineStyle="Solid"/>
-					</graphicElement>
-				</line>
-				<line>
-					<reportElement uuid="11285b87-9e96-4e10-827b-c728f3274e00" key="line-6" style="Footer" x="0" y="25" width="780" height="1"/>
-					<graphicElement>
-						<pen lineWidth="0.25" lineStyle="Solid"/>
-					</graphicElement>
-				</line>
 			</band>
 		</groupFooter>
 	</group>
@@ -197,61 +201,32 @@
 		<groupHeader>
 			<band height="24" splitType="Stretch">
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="106c2d7c-47b0-4f06-821d-f2a1d5349781" key="textField-13" style="Column_Field" x="1" y="3" width="325" height="17"/>
-					<box>
-						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<bottomPen lineWidth="0.0" lineColor="#000000"/>
-						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					</box>
-					<textElement verticalAlignment="Top">
-						<font size="14" isBold="true"/>
-					</textElement>
+					<reportElement key="textField-13" style="header 2" x="1" y="3" width="325" height="17" uuid="106c2d7c-47b0-4f06-821d-f2a1d5349781"/>
 					<textFieldExpression><![CDATA[((($F{category}==null)||($F{category}.equals("")))?"No category specified":$F{category})]]></textFieldExpression>
 				</textField>
-				<line>
-					<reportElement uuid="2b4c7de2-69f4-41b3-b43b-d3e3bc865ec5" key="line-3" x="0" y="21" width="780" height="1"/>
-					<graphicElement>
-						<pen lineWidth="0.25" lineStyle="Solid"/>
-					</graphicElement>
-				</line>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="category" isBlankWhenNull="false">
-					<reportElement uuid="c311f699-127e-4c65-bcf4-70723b521beb" key="textField-17" style="Footer" x="364" y="4" width="40" height="16"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-17" style="data field (numeric)" x="364" y="4" width="62" height="16" uuid="c311f699-127e-4c65-bcf4-70723b521beb"/>
 					<textFieldExpression><![CDATA[(($V{catECA}==null)?"0":$V{catECA}.toString())+"/"+
 ((($V{catECB}==null)||$V{catECB}.equals(""))?"0":$V{catECB}.toString())]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="category" isBlankWhenNull="false">
-					<reportElement uuid="1e9dc183-3942-4a0d-8c9e-0d8a7c454b97" key="textField-20" style="Footer" x="408" y="4" width="114" height="16"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-20" style="data field (money)" x="428" y="4" width="94" height="16" uuid="1e9dc183-3942-4a0d-8c9e-0d8a7c454b97"/>
 					<textFieldExpression><![CDATA[(new Money($V{catIA}.toString())).toString()+"/"+
 (new Money($V{catIB}.toString())).toString()]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="category" isBlankWhenNull="false">
-					<reportElement uuid="0d93c86c-71e0-42e5-957a-41c913210a50" key="textField-23" style="Footer" x="526" y="4" width="111" height="16"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-23" style="data field (money)" x="526" y="4" width="111" height="16" uuid="0d93c86c-71e0-42e5-957a-41c913210a50"/>
 					<textFieldExpression><![CDATA[(new Money($V{catEA}.toString()).negate()).toString()+"/"+
 (new Money($V{catEB}.toString()).negate()).toString()]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="category" isBlankWhenNull="false">
-					<reportElement uuid="94a95a22-dd9b-4e41-b45e-ac2c28a56d37" key="textField-26" style="Footer" x="642" y="4" width="101" height="16"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-26" style="data field (money)" x="642" y="4" width="101" height="16" uuid="94a95a22-dd9b-4e41-b45e-ac2c28a56d37"/>
 					<textFieldExpression><![CDATA[(new Money($V{catPA}.toString())).toString()+"/"+
 (new Money($V{catPB}.toString())).toString()]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="category" isBlankWhenNull="false">
-					<reportElement uuid="82a08ef2-7a37-48f7-86a1-4cb2fe4eac58" key="textField-29" style="Footer" x="745" y="4" width="36" height="16"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-29" style="data field" x="745" y="4" width="36" height="16" uuid="82a08ef2-7a37-48f7-86a1-4cb2fe4eac58"/>
+					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[((($V{catPB}==null)||($V{catPB}.floatValue()==0))?"n.a.":String.valueOf(  ((float)Math.round(100*( (new Money(String.valueOf($V{catPA})).floatValue()) - (new Money(String.valueOf($V{catPB})).floatValue()) ) /  (new Money(String.valueOf($V{catPB})).floatValue()) * 100  ))/100))]]></textFieldExpression>
 				</textField>
 			</band>
@@ -263,60 +238,42 @@
 	<group name="subcategory">
 		<groupExpression><![CDATA[$F{subcategory}]]></groupExpression>
 		<groupHeader>
-			<band height="23" splitType="Stretch">
+			<band height="20" splitType="Stretch">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				<printWhenExpression><![CDATA[new Boolean(($F{subcategory}!=null)&&(!$F{subcategory}.equals("")))]]></printWhenExpression>
+				<rectangle>
+					<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="786" height="20" uuid="47273164-d7a4-4165-9808-5e2207b48eae">
+						<property name="com.jaspersoft.studio.unit.x" value="mm"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</rectangle>
 				<textField isBlankWhenNull="false">
-					<reportElement uuid="1b90c6c2-cfdb-4454-b6b1-29706fe5e8da" key="textField-16" style="Footer" x="1" y="3" width="325" height="14"/>
-					<textElement>
-						<font size="11" isBold="true"/>
-					</textElement>
+					<reportElement key="textField-16" style="data field" x="1" y="3" width="325" height="14" uuid="1b90c6c2-cfdb-4454-b6b1-29706fe5e8da"/>
 					<textFieldExpression><![CDATA[$F{subcategory}]]></textFieldExpression>
 				</textField>
-				<line>
-					<reportElement uuid="0033ad75-4775-4566-af8b-0c971a1c5cc7" key="line-4" style="Footer" x="0" y="19" width="780" height="1">
-						<printWhenExpression><![CDATA[new Boolean($F{suppressClassDetail}==null||$F{suppressClassDetail}.equals(Boolean.FALSE))]]></printWhenExpression>
-					</reportElement>
-					<graphicElement>
-						<pen lineWidth="0.25" lineStyle="Solid"/>
-					</graphicElement>
-				</line>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="subcategory" isBlankWhenNull="false">
-					<reportElement uuid="efed0f79-e72d-4193-8483-262c53d340a9" key="textField-18" style="Footer" x="364" y="3" width="40" height="14"/>
-					<textElement textAlignment="Right">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-18" style="data field (numeric)" x="364" y="3" width="62" height="14" uuid="efed0f79-e72d-4193-8483-262c53d340a9"/>
 					<textFieldExpression><![CDATA[(($V{subECA}==null)?"0":$V{subECA}.toString())+"/"+
 ((($V{subECB}==null)||$V{subECB}.equals(""))?"0":$V{subECB}.toString())]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="subcategory" isBlankWhenNull="false">
-					<reportElement uuid="ff4c7d4a-153f-4b0a-9da3-c4b5084202f2" key="textField-21" style="Footer" x="408" y="3" width="113" height="14"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-21" style="data field (money)" x="428" y="3" width="93" height="14" uuid="ff4c7d4a-153f-4b0a-9da3-c4b5084202f2"/>
 					<textFieldExpression><![CDATA[(new Money($V{subIA}.toString())).toString()+"/"+
 (new Money($V{subIB}.toString())).toString()]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="subcategory" isBlankWhenNull="false">
-					<reportElement uuid="8304915e-f499-4ffd-b100-2fa3529e7569" key="textField-24" style="Footer" x="526" y="3" width="111" height="14"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-24" style="data field (money)" x="526" y="3" width="111" height="14" uuid="8304915e-f499-4ffd-b100-2fa3529e7569"/>
 					<textFieldExpression><![CDATA[(new Money($V{subEA}.toString()).negate()).toString()+"/"+
 (new Money($V{subEB}.toString()).negate()).toString()]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="subcategory" isBlankWhenNull="false">
-					<reportElement uuid="d9aeb420-7550-4bf3-9139-b2b63cee4dfd" key="textField-27" style="Footer" x="642" y="3" width="101" height="14"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-27" style="data field (money)" x="642" y="3" width="101" height="14" uuid="d9aeb420-7550-4bf3-9139-b2b63cee4dfd"/>
 					<textFieldExpression><![CDATA[(new Money($V{subPA}.toString())).toString()+"/"+
 (new Money($V{subPB}.toString())).toString()]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="subcategory" isBlankWhenNull="false">
-					<reportElement uuid="a1c71bf9-4812-4016-991b-9bae0f989a21" key="textField-30" style="Footer" x="745" y="3" width="36" height="14"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10"/>
-					</textElement>
+					<reportElement key="textField-30" style="data field" x="745" y="3" width="36" height="14" uuid="a1c71bf9-4812-4016-991b-9bae0f989a21"/>
+					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[((($V{subPB}==null)||($V{subPB}.floatValue()==0))?"n.a.":String.valueOf(  ((float)Math.round(100*( (new Money(String.valueOf($V{subPA})).floatValue()) - (new Money(String.valueOf($V{subPB})).floatValue()) ) /  (new Money(String.valueOf($V{subPB})).floatValue()) * 100  ))/100))]]></textFieldExpression>
 				</textField>
 			</band>
@@ -332,154 +289,53 @@
 		<band height="115" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="40" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<textField isBlankWhenNull="false">
-				<reportElement uuid="06b0e055-5d22-40c4-bfc6-379c1c43d689" key="textField-4" style="Report_Name" x="1" y="0" width="325" height="26"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="18" isBold="true"/>
-				</textElement>
+				<reportElement key="textField-4" style="header 1" x="1" y="0" width="325" height="26" uuid="06b0e055-5d22-40c4-bfc6-379c1c43d689"/>
 				<textFieldExpression><![CDATA["Actual/Budget Summary"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report" isBlankWhenNull="false">
-				<reportElement uuid="492b37a7-2271-4f1e-9c91-06cf98a76975" key="textField-5" style="Footer" x="2" y="25" width="309" height="15">
-					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA["Printed " + String.valueOf($V{REPORT_COUNT}) + " records"]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="32" splitType="Stretch">
-			<staticText>
-				<reportElement uuid="3bb71378-c37f-44c3-92ae-a1e94175f7e0" key="staticText-1" style="Column_Header" x="191" y="15" width="94" height="15"/>
-				<box>
+			<rectangle>
+				<reportElement x="0" y="12" width="786" height="20" backcolor="#E6E7F0" uuid="0162343b-4094-42d3-a87c-0bf1e1666cb6">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<graphicElement>
 					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="11" isBold="true"/>
-				</textElement>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText-1" style="header 3" x="191" y="15" width="94" height="15" uuid="3bb71378-c37f-44c3-92ae-a1e94175f7e0"/>
 				<text><![CDATA[Code]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="ea1caade-2716-4c44-9984-ba576b90b018" key="staticText-2" style="Column_Header" x="288" y="15" width="73" height="15"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="11" isBold="true"/>
-				</textElement>
+				<reportElement key="staticText-2" style="header 3" x="288" y="15" width="73" height="15" uuid="ea1caade-2716-4c44-9984-ba576b90b018"/>
 				<text><![CDATA[Starts]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="498e02cc-f3f7-43b1-b9ff-86ca0cba8b58" key="staticText-3" style="Column_Header" x="364" y="15" width="62" height="15"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Right">
-					<font size="11" isBold="true"/>
-				</textElement>
+				<reportElement key="staticText-3" style="header 3 (right)" x="364" y="15" width="62" height="15" uuid="498e02cc-f3f7-43b1-b9ff-86ca0cba8b58"/>
 				<text><![CDATA[Enrolments]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="6b37dadc-7a04-460b-b914-33f5008ee94b" key="staticText-4" style="Column_Header" x="428" y="15" width="95" height="15"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Right">
-					<font size="11" isBold="true"/>
-				</textElement>
+				<reportElement key="staticText-4" style="header 3 (right)" x="428" y="15" width="95" height="15" uuid="6b37dadc-7a04-460b-b914-33f5008ee94b"/>
 				<text><![CDATA[Income]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="3b3f3856-0b67-4bbf-86a2-2f1f60c4650e" key="staticText-5" style="Column_Header" x="533" y="15" width="102" height="15"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Right">
-					<font size="11" isBold="true"/>
-				</textElement>
+				<reportElement key="staticText-5" style="header 3 (right)" x="533" y="15" width="102" height="15" uuid="3b3f3856-0b67-4bbf-86a2-2f1f60c4650e"/>
 				<text><![CDATA[Expense]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="82b7c81c-3400-4cd9-be53-53069341a732" key="staticText-6" style="Column_Header" x="745" y="15" width="33" height="15"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Right">
-					<font size="11" isBold="true"/>
-				</textElement>
+				<reportElement key="staticText-6" style="header 3 (right)" x="745" y="15" width="33" height="15" uuid="82b7c81c-3400-4cd9-be53-53069341a732"/>
 				<text><![CDATA[%]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="f0f5debb-ad96-4559-a754-149d0c945787" key="staticText-7" style="Column_Header" x="1" y="15" width="187" height="15"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="11" isBold="true"/>
-				</textElement>
+				<reportElement key="staticText-7" style="header 3" x="1" y="15" width="187" height="15" uuid="f0f5debb-ad96-4559-a754-149d0c945787"/>
 				<text><![CDATA[Course]]></text>
 			</staticText>
-			<line>
-				<reportElement uuid="4b67c88e-63cf-44db-9155-84845638822c" key="line-1" x="0" y="31" width="779" height="1"/>
-				<graphicElement>
-					<pen lineWidth="0.25" lineStyle="Solid"/>
-				</graphicElement>
-			</line>
 			<staticText>
-				<reportElement uuid="f37cc8d7-9b81-4989-82ea-24fc328e31ea" key="staticText-9" style="Column_Header" x="645" y="15" width="99" height="15"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Right">
-					<font size="11" isBold="true"/>
-				</textElement>
+				<reportElement key="staticText-9" style="header 3 (right)" x="645" y="15" width="99" height="15" uuid="f37cc8d7-9b81-4989-82ea-24fc328e31ea"/>
 				<text><![CDATA[Profit]]></text>
 			</staticText>
 		</band>
@@ -488,42 +344,17 @@
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="27" splitType="Stretch">
-			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
-				<reportElement uuid="44c2486d-d421-4d0b-bbb3-dc64fa7811c9" key="textField-6" style="Footer" x="0" y="12" width="35" height="15"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+		<band height="25" splitType="Stretch">
+			<textField evaluationTime="Page" isBlankWhenNull="false">
+				<reportElement key="pageNumberFooter" style="Footer strong" x="0" y="0" width="300" height="15" uuid="1106d334-b156-4af7-a64d-a75ba7206e2c"/>
+				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" evaluationTime="Report" isBlankWhenNull="false">
-				<reportElement uuid="99989028-86a5-47d8-9520-ad4171728619" key="textField-7" style="Footer" x="36" y="12" width="24" height="15"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement/>
-				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			<textField evaluationTime="Report" isBlankWhenNull="false">
+				<reportElement key="totalPageCountFooter" style="Footer" x="0" y="11" width="300" height="13" uuid="d3e402c5-a433-4f08-90db-5c66216e08f3"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT} + " record" + ($V{REPORT_COUNT}>1 ? "s" : "") + " on " + $V{PAGE_NUMBER} + " page" + ($V{PAGE_NUMBER}>1 ? "s" : "") + " (printed " + new Date().format("E d MMM yyyy h:mma") + ")"]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Report" pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="false">
-				<reportElement uuid="c500dcdd-ae2e-4b4f-8c06-48d20ade5ae6" key="textField-15" style="Footer" positionType="FixRelativeToBottom" x="0" y="0" width="160" height="12"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<image scaleImage="RetainShape" hAlign="Right" isUsingCache="true">
-				<reportElement uuid="2863530e-11e5-4c1e-8296-ae64db1a9926" key="image-1" style="Footer" x="719" y="20" width="67" height="7"/>
+			<image scaleImage="RetainShape" hAlign="Right" isUsingCache="true" onErrorType="Blank">
+				<reportElement key="oncourseLogo" style="Footer" x="472" y="17" width="67" height="7" uuid="2863530e-11e5-4c1e-8296-ae64db1a9926"/>
 				<imageExpression><![CDATA[$F{image.poweredby}]]></imageExpression>
 			</image>
 		</band>

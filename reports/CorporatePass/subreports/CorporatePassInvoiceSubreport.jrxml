@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="9"/>
+	<property name="versionNumber" value="11"/>
 	<property name="keyCode" value="ish.onCourse.corporatePassInvoiceSubreport"/>
 	<property name="ish.oncourse.title" value="CorporatePass"/>
 	<property name="ish.oncourse.filePrefix" value="CorporatePass"/>
@@ -26,7 +26,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -55,16 +56,15 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="invoiceLine" class="ish.oncourse.server.cayenne.InvoiceLine"/>
 	<field name="invoice.invoiceNumber" class="java.lang.Long"/>
 	<field name="invoice.invoiceDate" class="java.util.Date"/>
 	<field name="invoice.amountOwing" class="ish.math.Money"/>
-	<field name="invoice.invoice_total_inc_property" class="ish.math.Money"/>
 	<field name="title" class="java.lang.String"/>
-	<field name="total_price" class="ish.math.Money"/>
 	<field name="description" class="java.lang.String"/>
 	<sortField name="invoice.invoiceNumber"/>
 	<variable name="invoiceTotal" class="java.math.BigDecimal" incrementType="Group" incrementGroup="Invoice" calculation="Sum">
-		<variableExpression><![CDATA[$F{invoice.invoice_total_inc_property}.toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[$F{invoiceLine}.invoice.totalIncTax.toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="totalOwing" class="java.math.BigDecimal" incrementType="Group" incrementGroup="Invoice" calculation="Sum">
 		<variableExpression><![CDATA[$F{invoice.amountOwing}.toBigDecimal()]]></variableExpression>
@@ -89,7 +89,7 @@
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement style="data field (numeric)" x="335" y="0" width="104" height="20" uuid="dab39a90-d151-4a79-91fb-1b6e789bb9cb"/>
-					<textFieldExpression><![CDATA[$F{invoice.invoice_total_inc_property}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{invoiceLine}.invoice.totalIncTax]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement style="data field (numeric)" x="446" y="0" width="99" height="20" uuid="206acce1-6562-45a7-bd2e-7ebc0cac1a6a"/>

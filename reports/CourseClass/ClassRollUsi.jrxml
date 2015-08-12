@@ -4,7 +4,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="23"/>
+	<property name="versionNumber" value="26"/>
 	<property name="keyCode" value="ish.onCourse.classRollUsi"/>
 	<property name="ish.oncourse.description" value="To create a list of students enrolled and columns for each of the scheduled sessions, used to mark attendance. This roll includes a column showing the student&apos;s USI status. This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
@@ -24,7 +24,8 @@
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -62,18 +63,15 @@
 	<field name="isShownOnWeb" class="java.lang.Boolean"/>
 	<field name="minimumPlaces" class="java.lang.Number"/>
 	<field name="maximumPlaces" class="java.lang.Number"/>
-	<field name="deliveryModeString" class="java.lang.String"/>
-	<field name="enrolments_count" class="java.lang.Integer"/>
 	<field name="datasource.attendance" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.roll.usi" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="room.site.name" class="java.lang.String"/>
-	<field name="sessions_count" class="java.lang.Integer"/>
 	<field name="room.name" class="java.lang.String"/>
 	<field name="datasource.tutorRoles" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<field name="subreport.ish.onCourse.classRollTutors" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="subreport.ish.onCourse.trainingPlanSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
-	<field name="datasource.unique_session_modules" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="datasource.uniqueSessionModules" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="course.qualification.level" class="java.lang.String"/>
 	<field name="course.qualification.nationalCode" class="java.lang.String"/>
 	<field name="course.qualification.title" class="java.lang.String"/>
@@ -164,7 +162,7 @@
 			<elementGroup>
 				<subreport isUsingCache="true">
 					<reportElement key="subreport-2" x="1" y="0" width="785" height="15" uuid="a8f7768d-0e87-465b-9264-81bb01a659ef"/>
-					<dataSourceExpression><![CDATA[$F{datasource.unique_session_modules}]]></dataSourceExpression>
+					<dataSourceExpression><![CDATA[$F{datasource.uniqueSessionModules}]]></dataSourceExpression>
 					<subreportExpression><![CDATA[$F{subreport.ish.onCourse.trainingPlanSubreport}]]></subreportExpression>
 				</subreport>
 			</elementGroup>

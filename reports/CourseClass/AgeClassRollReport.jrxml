@@ -5,12 +5,13 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="10"/>
+	<property name="versionNumber" value="16"/>
 	<property name="keyCode" value="ish.onCourse.classRollAge"/>
 	<property name="ish.oncourse.title" value="Class Roll - Age"/>
 	<property name="ish.oncourse.filePrefix" value="classRoll"/>
 	<property name="ish.oncourse.pdfFileName" value="ClassRoll.pdf"/>
 	<property name="ish.oncourse.description" value="Session by Session grid created for marking student attendance. Includes mobile phone and student age column. This report prints in Portrait format."/>
+	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
@@ -26,7 +27,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -65,12 +67,9 @@
 	<field name="maximumPlaces" class="java.lang.Number"/>
 	<field name="global.print_pre_printed" class="java.lang.Boolean"/>
 	<field name="datasource.title" class="net.sf.jasperreports.engine.JRDataSource"/>
-	<field name="deliveryModeString" class="java.lang.String"/>
-	<field name="enrolments_count" class="java.lang.Integer"/>
-	<field name="datasource.attendance_without_tutor" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="datasource.attendanceWithoutTutor" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.rollAge" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="room.site.name" class="java.lang.String"/>
-	<field name="sessions_count" class="java.lang.Integer"/>
 	<field name="room.name" class="java.lang.String"/>
 	<field name="datasource.tutorRoles" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
@@ -92,9 +91,19 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="60" splitType="Stretch">
+			<band height="80" splitType="Stretch">
 				<staticText>
-					<reportElement key="staticText-17" style="Label" x="1" y="12" width="70" height="15" uuid="1e8a1d75-790d-4040-8baf-1456c300f2c4"/>
+					<reportElement key="staticText-15" style="Label" x="1" y="12" width="34" height="15" uuid="c561a5b6-c9ed-4738-8e6e-bf0d68ba5dd7"/>
+					<text><![CDATA[Tutor]]></text>
+				</staticText>
+				<subreport isUsingCache="true">
+					<reportElement key="subreport-3" style="Footer" x="51" y="12" width="266" height="15" uuid="30ab3a14-ab49-475b-8c8b-b10501841178"/>
+					<dataSourceExpression><![CDATA[$F{datasource.tutorRoles}]]></dataSourceExpression>
+					<returnValue subreportVariable="tutorNumber" toVariable="tutorNumber"/>
+					<subreportExpression><![CDATA[$F{subreport.ish.onCourse.classRollTutors}]]></subreportExpression>
+				</subreport>
+				<staticText>
+					<reportElement key="staticText-17" style="Label" x="1" y="62" width="70" height="15" uuid="1e8a1d75-790d-4040-8baf-1456c300f2c4"/>
 					<text><![CDATA[Comments]]></text>
 				</staticText>
 			</band>
@@ -109,11 +118,13 @@
 	<pageHeader>
 		<band height="50" splitType="Stretch">
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-2" style="header 1" x="0" y="23" width="517" height="26" uuid="3167b12c-ce5b-4039-ad5f-495e7b1f4370"/>
+				<reportElement key="textField-2" style="header 1" x="0" y="24" width="517" height="26" uuid="3167b12c-ce5b-4039-ad5f-495e7b1f4370"/>
 				<textFieldExpression><![CDATA[$F{course.name}+" ("+$F{course.code}+"-"+$F{code}+")"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement key="staticText-17" style="header 1" x="1" y="0" width="539" height="30" uuid="812ca124-0370-4840-891c-3a1ef9f0d0f7"/>
+				<reportElement key="staticText-17" style="header 1" x="0" y="0" width="539" height="26" uuid="812ca124-0370-4840-891c-3a1ef9f0d0f7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
 				<text><![CDATA[Class Roll]]></text>
 			</staticText>
 		</band>
@@ -126,26 +137,12 @@
 			<elementGroup>
 				<subreport isUsingCache="true">
 					<reportElement key="subreport" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="0" width="517" height="15" uuid="debae67f-2495-421c-96dd-7abc0f331d63"/>
-					<dataSourceExpression><![CDATA[$F{datasource.attendance_without_tutor}]]></dataSourceExpression>
+					<dataSourceExpression><![CDATA[$F{datasource.attendanceWithoutTutor}]]></dataSourceExpression>
 					<subreportExpression><![CDATA[$F{subreport.ish.onCourse.rollAge}]]></subreportExpression>
 				</subreport>
 			</elementGroup>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="29" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText-15" style="Label" x="1" y="2" width="34" height="15" uuid="c561a5b6-c9ed-4738-8e6e-bf0d68ba5dd7"/>
-				<text><![CDATA[Tutor]]></text>
-			</staticText>
-			<subreport isUsingCache="true">
-				<reportElement key="subreport-3" style="Footer" x="51" y="2" width="266" height="15" uuid="30ab3a14-ab49-475b-8c8b-b10501841178"/>
-				<dataSourceExpression><![CDATA[$F{datasource.tutorRoles}]]></dataSourceExpression>
-				<returnValue subreportVariable="tutorNumber" toVariable="tutorNumber"/>
-				<subreportExpression><![CDATA[$F{subreport.ish.onCourse.classRollTutors}]]></subreportExpression>
-			</subreport>
-		</band>
-	</columnFooter>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<textField evaluationTime="Page" isBlankWhenNull="false">

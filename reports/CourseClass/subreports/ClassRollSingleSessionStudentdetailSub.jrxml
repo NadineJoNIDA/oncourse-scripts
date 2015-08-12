@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="9"/>
+	<property name="versionNumber" value="11"/>
 	<property name="keyCode" value="ish.onCourse.classRollSingleSessionStudentSub"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -22,7 +22,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -51,7 +52,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<field name="student.contact.full_name" class="java.lang.String"/>
+	<field name="enrolment" class="ish.oncourse.server.cayenne.Enrolment"/>
 	<field name="invoiceLine.invoice.invoiceNumber" class="java.lang.Long"/>
 	<field name="student.studentNumber" class="java.lang.Long"/>
 	<background>
@@ -102,7 +103,7 @@
 			</rectangle>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField" style="data field" x="2" y="0" width="175" height="18" uuid="f75149d3-50a3-41e2-95b0-235e1c995deb"/>
-				<textFieldExpression><![CDATA[$F{student.contact.full_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{enrolment}.student.contact.fullName]]></textFieldExpression>
 			</textField>
 			<elementGroup>
 				<textField isBlankWhenNull="false">

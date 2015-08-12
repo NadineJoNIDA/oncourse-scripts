@@ -5,7 +5,7 @@
 	<property name="entity" value="TrainingPackage"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="13"/>
+	<property name="versionNumber" value="15"/>
 	<property name="keyCode" value="ish.onCourse.trainingPackageReport"/>
 	<property name="ish.oncourse.title" value="Training Packages List"/>
 	<property name="ish.oncourse.filePrefix" value="TrainingPackagesList"/>
@@ -26,7 +26,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -63,16 +64,14 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="40" splitType="Stretch">
+		<band height="155" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-2" style="header 1" x="0" y="0" width="529" height="26" uuid="766d8743-9ab8-4b22-b77e-6f8db6d7547b"/>
+				<reportElement key="textField-2" style="header 1" x="0" y="115" width="529" height="26" uuid="766d8743-9ab8-4b22-b77e-6f8db6d7547b"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="mm"/>
@@ -85,11 +84,11 @@
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText-5" style="header 3" x="1" y="2" width="120" height="15" uuid="3369fdb0-1aaa-49ec-9033-ab3f4551937e"/>
+				<reportElement key="staticText-5" style="header 3" x="3" y="2" width="120" height="15" uuid="3369fdb0-1aaa-49ec-9033-ab3f4551937e"/>
 				<text><![CDATA[NationalISC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-6" style="header 3" x="125" y="2" width="385" height="15" uuid="711c4323-1794-4e0c-b3ad-23f6f8952d82"/>
+				<reportElement key="staticText-6" style="header 3" x="126" y="2" width="385" height="15" uuid="711c4323-1794-4e0c-b3ad-23f6f8952d82"/>
 				<text><![CDATA[Title]]></text>
 			</staticText>
 		</band>
@@ -102,11 +101,11 @@
 				</reportElement>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-11" style="data field" x="1" y="1" width="120" height="14" uuid="a53c5a11-5c4d-4ed2-a19a-0221c775c228"/>
+				<reportElement key="textField-11" style="data field" x="3" y="1" width="120" height="14" uuid="a53c5a11-5c4d-4ed2-a19a-0221c775c228"/>
 				<textFieldExpression><![CDATA[$F{nationalISC}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-12" style="data field" x="125" y="1" width="385" height="14" uuid="a944a7ab-ce21-4593-a272-be43b34e5338"/>
+				<reportElement key="textField-12" style="data field" x="126" y="1" width="385" height="14" uuid="a944a7ab-ce21-4593-a272-be43b34e5338"/>
 				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
 			</textField>
 		</band>

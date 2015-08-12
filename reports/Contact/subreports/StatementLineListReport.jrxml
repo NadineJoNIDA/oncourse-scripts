@@ -5,11 +5,12 @@
 	<property name="entity" value="StatementLinePrintableObject"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="16"/>
+	<property name="versionNumber" value="21"/>
 	<property name="keyCode" value="ish.onCourse.statementLineListReport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="ish.math.Money"/>
+	<import value="ish.common.types.PaymentStatus"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
 	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
 		<paragraph spacingAfter="8"/>
@@ -23,7 +24,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -58,9 +60,10 @@
 	<field name="description" class="java.lang.String"/>
 	<field name="amount" class="ish.math.Money"/>
 	<field name="total" class="ish.math.Money"/>
+	<field name="status" class="java.lang.String"/>
 	<sortField name="date"/>
-	<variable name="firstBalance" class="ish.math.Money" calculation="First" resetType="Column">
-		<variableExpression><![CDATA[$F{total}.subtract(($F{description}.startsWith("PaymentIn") ? $F{amount}.negate() : $F{amount}))]]></variableExpression>
+	<variable name="firstBalance" class="ish.math.Money" resetType="Column" calculation="First">
+		<variableExpression><![CDATA[$F{total}.subtract(($F{description}.startsWith("PaymentIn") ? (PaymentStatus.STATUSES_FAILED.contains($F{status}) ? $F{amount}.negate() : Money.ZERO) : $F{amount}))]]></variableExpression>
 	</variable>
 	<variable name="totalBalance" class="ish.math.Money">
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
@@ -96,23 +99,23 @@
 				<text><![CDATA[Amount]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-6" style="header 3 (right)" x="466" y="4" width="65" height="15"/>
+				<reportElement key="staticText-6" style="header 3 (right)" x="466" y="4" width="65" height="15" uuid="c37da84b-0d4b-42d3-a966-4919638a3550"/>
 				<text><![CDATA[Balance]]></text>
 			</staticText>
-			<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+			<textField pattern="d MMM yyyy" isBlankWhenNull="true">
 				<reportElement key="textField" style="header 3" x="0" y="24" width="99" height="15" uuid="96f399a8-fd03-4464-bc9f-5d9a84987bcf">
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} ==  1]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{global.dateRange_from}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement key="staticText-4" style="header 3" x="320" y="24" width="132" height="15" uuid="0c4c9565-692b-4644-a91d-2f7ceba9dad0">
+				<reportElement key="staticText-4" style="header 3" x="340" y="24" width="112" height="15" uuid="0c4c9565-692b-4644-a91d-2f7ceba9dad0">
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} ==  1]]></printWhenExpression>
 				</reportElement>
 				<text><![CDATA[Opening Balance]]></text>
 			</staticText>
 			<textField evaluationTime="Page">
-				<reportElement  key="textField" style="header 3 (right)" x="466" y="24" width="65" height="15" uuid="23e6f359-7bef-47d3-ad0e-c0c29e798e45"/>
+				<reportElement key="textField" style="header 3 (right)" x="466" y="24" width="65" height="15" uuid="23e6f359-7bef-47d3-ad0e-c0c29e798e45"/>
 				<textFieldExpression><![CDATA[$V{firstBalance}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -124,7 +127,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 				</reportElement>
 			</rectangle>
-			<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+			<textField pattern="d MMM yyyy" isBlankWhenNull="true">
 				<reportElement key="textField" style="data field (date)" x="0" y="3" width="99" height="14" uuid="96f399a8-fd03-4464-bc9f-5d9a84987bcf"/>
 				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 			</textField>
@@ -146,27 +149,26 @@
 	</detail>
 	<columnFooter>
 		<band height="21" splitType="Prevent">
-			<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true" evaluationTime="Report">
+			<textField evaluationTime="Report" pattern="d MMM yyyy" isBlankWhenNull="true">
 				<reportElement key="textField" style="header 3" x="0" y="3" width="99" height="15" uuid="96f399a8-fd03-4464-bc9f-5d9a84987bcf">
 					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{global.dateRange_to}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement key="staticText-4" style="header 3" x="320" y="3" width="132" height="15" uuid="0c4c9565-692b-4644-a91d-2f7ceba9dad0">
+				<reportElement key="staticText-4" style="header 3" x="340" y="3" width="112" height="15" uuid="0c4c9565-692b-4644-a91d-2f7ceba9dad0">
 					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
 				</reportElement>
 				<text><![CDATA[Closing Balance]]></text>
 			</staticText>
 			<textField evaluationTime="Page">
-				<reportElement  key="textField" style="header 3 (right)" x="466" y="3" width="65" height="15" uuid="23e6f359-7bef-47d3-ad0e-c0c29e798e45"/>
+				<reportElement key="textField" style="header 3 (right)" x="466" y="3" width="65" height="15" uuid="23e6f359-7bef-47d3-ad0e-c0c29e798e45"/>
 				<textFieldExpression><![CDATA[$V{totalBalance}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>
 	<summary>
-		<band height="0">
-			<!--This summary needs to define last page of the report for footer-->
+		<band>
 			<printWhenExpression><![CDATA[new Boolean($P{REPORT_PARAMETERS_MAP}.put("LastPageNumber",$V{PAGE_NUMBER}).equals("dummyPrintWhen"))]]></printWhenExpression>
 		</band>
 	</summary>

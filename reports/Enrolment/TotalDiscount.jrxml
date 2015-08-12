@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="22"/>
+	<property name="versionNumber" value="25"/>
 	<property name="keyCode" value="ish.onCourse.totalDiscounts"/>
 	<property name="ish.oncourse.description" value="To confirm uptake and cost of discounts across a selection of classes.This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
@@ -28,7 +28,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -62,28 +63,25 @@
 	<field name="courseClass.course.code" class="java.lang.String"/>
 	<field name="courseClass.course.name" class="java.lang.String"/>
 	<field name="courseClass.code" class="java.lang.String"/>
-	<field name="courseClass.enrolments_count" class="java.lang.Integer"/>
+	<field name="courseClass.enrolmentsCount" class="java.lang.Integer"/>
 	<field name="courseClass.feeExGst" class="ish.math.Money"/>
 	<field name="courseClass.uniqueCode" class="java.lang.String"/>
-	<field name="invoiceLine.discount_names" class="java.lang.String"/>
+	<field name="invoiceLine.discountNames" class="java.lang.String"/>
 	<field name="invoiceLine.discountEachExTax" class="ish.math.Money"/>
-	<field name="invoiceLine.total_price_ex_tax" class="ish.math.Money"/>
 	<field name="status" class="ish.common.types.EnrolmentStatus"/>
 	<filterExpression><![CDATA[new Boolean(EnrolmentStatus.SUCCESS.equals($F{status}))]]></filterExpression>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="29">
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-2" style="header 1" x="0" y="0" width="535" height="25" uuid="0a863292-9bd5-4da4-8222-73f08066cf92"/>
+				<reportElement key="textField-2" style="header 1" x="0" y="116" width="535" height="25" uuid="0a863292-9bd5-4da4-8222-73f08066cf92"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<detail>
 		<band splitType="Stretch"/>
 	</detail>
@@ -155,7 +153,7 @@
 				</rowGroup>
 				<columnGroup name="discountName" height="78" totalPosition="End">
 					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$F{invoiceLine.discount_names}]]></bucketExpression>
+						<bucketExpression><![CDATA[$F{invoiceLine.discountNames}]]></bucketExpression>
 					</bucket>
 					<crosstabColumnHeader>
 						<cellContents mode="Transparent">
@@ -183,7 +181,7 @@
 					<measureExpression><![CDATA[$F{invoiceLine.discountEachExTax} != null ? $F{invoiceLine.discountEachExTax}.toBigDecimal() : BigDecimal.ZERO]]></measureExpression>
 				</measure>
 				<measure name="classExpectedIncome" class="java.math.BigDecimal">
-					<measureExpression><![CDATA[$F{courseClass.feeExGst}.multiply($F{courseClass.enrolments_count}).toBigDecimal()]]></measureExpression>
+					<measureExpression><![CDATA[$F{courseClass.feeExGst}.multiply($F{courseClass.enrolmentsCount}).toBigDecimal()]]></measureExpression>
 				</measure>
 				<crosstabCell width="62" height="29">
 					<cellContents mode="Opaque" style="crosstab">

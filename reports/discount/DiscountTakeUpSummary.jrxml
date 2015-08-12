@@ -5,7 +5,7 @@
 	<property name="entity" value="Discount"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="5"/>
+	<property name="versionNumber" value="9"/>
 	<property name="keyCode" value="ish.oncourse.discount.takeUpSummary"/>
 	<property name="ish.oncourse.description" value="This report can be working incorrectly with invoice lines which apply more than 1 discounts and one (or more) of these discounts has been changed. It prints in Portrait format."/>
 	<property name="ish.oncourse.pdfFileName" value="DiscountTakeUpSummary_report.pdf"/>
@@ -29,7 +29,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -74,24 +75,23 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="70" splitType="Stretch">
+		<band height="169" splitType="Stretch">
 			<textField>
-				<reportElement style="header 1" x="0" y="0" width="539" height="30" uuid="48fe317c-61cb-4b6e-b40f-442ec6954d55"/>
+				<reportElement style="header 1" x="0" y="115" width="539" height="26" uuid="48fe317c-61cb-4b6e-b40f-442ec6954d55">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="data field" x="53" y="37" width="486" height="15" uuid="7d2ff4e2-02df-4d9b-93d1-0175615075cc"/>
-				<textFieldExpression><![CDATA[($F{global.dateRange_from} ? "From : " + $F{global.dateRange_from}.format("dd/MM/yyyy") : "") + ( $F{global.dateRange_to} ? "    To : " + $F{global.dateRange_to}.format("dd/MM/yyyy") : "")]]></textFieldExpression>
+				<reportElement style="data field (date)" x="53" y="147" width="486" height="15" uuid="7d2ff4e2-02df-4d9b-93d1-0175615075cc"/>
+				<textFieldExpression><![CDATA[($F{global.dateRange_from} ? "From : " + $F{global.dateRange_from}.format("d MMM yyyy") : "") + ( $F{global.dateRange_to} ? "    To : " + $F{global.dateRange_to}.format("d MMM yyyy") : "")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Label" x="0" y="37" width="52" height="15" uuid="07f47e19-9368-4e2b-a896-a0fb0b6559cd"/>
+				<reportElement style="Label" x="0" y="147" width="52" height="15" uuid="07f47e19-9368-4e2b-a896-a0fb0b6559cd"/>
 				<text><![CDATA[Date range]]></text>
 			</staticText>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band splitType="Stretch"/>
 	</columnHeader>
@@ -115,8 +115,8 @@
 				</reportElement>
 				<text><![CDATA[Valid from]]></text>
 			</staticText>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement key="textField" style="data field" isPrintRepeatedValues="false" x="57" y="37" width="183" height="13" uuid="e29035e3-d6a5-4a9f-9a50-5f95d2b4a273"/>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" style="data field (date)" isPrintRepeatedValues="false" x="57" y="37" width="183" height="13" uuid="e29035e3-d6a5-4a9f-9a50-5f95d2b4a273"/>
 				<textFieldExpression><![CDATA[$F{validFrom}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -125,8 +125,8 @@
 				</reportElement>
 				<text><![CDATA[Valid to]]></text>
 			</staticText>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement key="textField" style="data field" isPrintRepeatedValues="false" x="57" y="50" width="183" height="13" uuid="6747526b-0a6d-44da-812e-6cf287bb6f8f"/>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" style="data field (date)" isPrintRepeatedValues="false" x="57" y="50" width="183" height="13" uuid="6747526b-0a6d-44da-812e-6cf287bb6f8f"/>
 				<textFieldExpression><![CDATA[$F{validTo}]]></textFieldExpression>
 			</textField>
 			<elementGroup>

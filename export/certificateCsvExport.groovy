@@ -4,7 +4,7 @@ records.each { Certificate c ->
 			"studentLastName"                : c.studentLastName,
 			"certificateNumber"              : c.certificateNumber,
 			"fullQualification"              : c.isQualification,
-			"printed"                        : c.printedOn?.format("yyyy-MM-dd"),
+			"printed"                        : c.printedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
 			"modifiedOn"                     : c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
 			"createdOn"                      : c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
 			"revokedOn"                      : c.revokedOn?.format("yyyy-MM-dd"),

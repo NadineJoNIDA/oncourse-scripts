@@ -5,7 +5,7 @@
 	<property name="entity" value="ClassCost"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="5"/>
+	<property name="versionNumber" value="7"/>
 	<property name="keyCode" value="ish.oncourse.budgetSummary.classCostSubreport"/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
 	<import value="ish.common.types.ClassCostFlowType"/>
@@ -23,7 +23,8 @@
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -52,25 +53,22 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<field name="budgeted_displayString" class="ish.math.Money"/>
-	<field name="maximum_displayString" class="ish.math.Money"/>
-	<field name="actual_displayString" class="ish.math.Money[]"/>
+	<field name="classCost" class="ish.oncourse.server.cayenne.ClassCost"/>
 	<field name="flowType" class="ish.common.types.ClassCostFlowType"/>
 	<field name="invoiceToStudent" class="java.lang.Boolean"/>
 	<field name="isSunk" class="java.lang.Boolean"/>
 	<field name="description" class="java.lang.String"/>
-	<field name="type_summary" class="java.lang.String"/>
 	<sortField name="flowType"/>
 	<sortField name="invoiceToStudent"/>
 	<sortField name="isSunk"/>
 	<variable name="maximum_sub_sum" class="java.math.BigDecimal" resetType="Group" resetGroup="classCostType" calculation="Sum">
-		<variableExpression><![CDATA[((Money)$F{maximum_displayString}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((Money)$F{classCost}.maximumCost).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="budgeted_sub_sum" class="java.math.BigDecimal" resetType="Group" resetGroup="classCostType" calculation="Sum">
-		<variableExpression><![CDATA[((Money)$F{budgeted_displayString}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((Money)$F{classCost}.budgetedCost).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="actual_sub_sum" class="java.math.BigDecimal" resetType="Group" resetGroup="classCostType" calculation="Sum">
-		<variableExpression><![CDATA[((Money)$F{actual_displayString}[0]).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((Money)$F{classCost}.actualCost).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="costType" class="java.lang.Integer" incrementType="Group" incrementGroup="classCostType" calculation="Count">
 		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
@@ -121,21 +119,21 @@
 			</rectangle>
 			<textField>
 				<reportElement style="data field (money)" positionType="Float" x="439" y="0" width="115" height="14" uuid="8a49e881-6fd7-481c-a2c3-947174c53175"/>
-				<textFieldExpression><![CDATA[$F{maximum_displayString}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{classCost}.maximumCost]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="data field (money)" positionType="Float" x="667" y="0" width="115" height="14" uuid="9e051a1b-de7b-4716-8df2-b40c0b5e45a2"/>
-				<textFieldExpression><![CDATA[$F{actual_displayString}[0]]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{classCost}.actualCost]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="data field (money)" positionType="Float" x="554" y="0" width="114" height="14" uuid="e414a736-872d-42ac-8b70-700e3b0743de"/>
-				<textFieldExpression><![CDATA[$F{budgeted_displayString}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{classCost}.budgetedCost]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement style="data field" positionType="Float" x="230" y="0" width="209" height="14" uuid="95e0338f-68a1-428e-a283-ac4890543a6b">
-					<printWhenExpression><![CDATA[$F{type_summary} != null && ($F{type_summary}.length() > 1)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{classCost}.perUnitAmountExTax != null && $F{classCost}.unit2 != null]]></printWhenExpression>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{type_summary}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["${$F{classCost}.perUnitAmountExTax} ${$F{classCost}.unit2}"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="data field" positionType="Float" x="0" y="0" width="229" height="14" uuid="4316fd75-7bd6-495d-8ec5-c4d6cd13483d"/>

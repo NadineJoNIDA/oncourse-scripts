@@ -19,7 +19,7 @@ records.collectMany { Invoice i -> i.invoiceLines }.each { il ->
 			"Invoice Due Date"              : il.invoice.dateDue?.format("yyyy-MM-dd"),
 			"Invoice Created by"            : il.invoice.createdByUserName,
 			"Invoice Source"                : il.invoice.source.displayName,
-			"Invoice modified on"           : il.invoice.modifiedOn?.format("D/M/Y h:m"),
-			"Invoice created on"            : il.invoice.createdOn?.format("D/M/Y h:m")
+			"Invoice modified on"           : il.invoice.modifiedOn?.format("d/M/Y hh:mm"),
+			"Invoice created on"            : il.invoice.createdOn?.format("d/M/Y hh:mm")
 	]
 }

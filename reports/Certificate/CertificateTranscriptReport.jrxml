@@ -5,7 +5,7 @@
 	<property name="entity" value="Certificate"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="18"/>
+	<property name="versionNumber" value="22"/>
 	<property name="keyCode" value="ish.onCourse.certificate.transcript"/>
 	<property name="ish.oncourse.title" value="Academic Transcript"/>
 	<property name="ish.oncourse.filePrefix" value="certificate"/>
@@ -15,7 +15,7 @@
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
 	<import value="org.apache.commons.lang3.time.DateUtils"/>
-		<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
+	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
 		<paragraph spacingAfter="8"/>
 	</style>
 	<style name="header 1" style="default" forecolor="#4F0018" vTextAlign="Middle" fontName="Open Sans Light" fontSize="18" pdfFontName="Open Sans Light"/>
@@ -26,9 +26,9 @@
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
-
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -76,41 +76,37 @@
 	<pageHeader>
 		<band height="180" splitType="Stretch">
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-7" style="header 1" mode="Transparent" x="0" y="110" width="517" height="21" backcolor="#FFFFFF" uuid="48d7faa9-3794-4613-9263-0e48f0c2afc3"/>
-				<textElement textAlignment="Left">
-					<font size="12"/>
-				</textElement>
+				<reportElement key="textField-7" style="header 1" x="0" y="103" width="517" height="26" uuid="48d7faa9-3794-4613-9263-0e48f0c2afc3"/>
 				<textFieldExpression><![CDATA["Academic Transcript for " + [$F{student.contact.firstName}, $F{student.contact.middleName}, $F{student.contact.lastName}].findAll().join(" ")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-7" style="header 1" mode="Transparent" x="0" y="131" width="517" height="12" backcolor="#FFFFFF" uuid="6ee44421-681b-4c2c-92a7-1259557dd808"/>
-				<textElement textAlignment="Left">
-					<font isBold="true"/>
-				</textElement>
+				<reportElement key="textField-7" style="header 2" x="0" y="129" width="517" height="20" uuid="6ee44421-681b-4c2c-92a7-1259557dd808">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
 				<textFieldExpression><![CDATA["Student number "+$F{student.studentNumber}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Label" x="0" y="147" width="66" height="13" uuid="a63ff761-45be-4f3d-993d-7991e3d82468"/>
+				<reportElement style="Label" x="0" y="150" width="66" height="13" uuid="a63ff761-45be-4f3d-993d-7991e3d82468"/>
 				<text><![CDATA[Awarded]]></text>
 			</staticText>
-			<textField evaluationTime="Report" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement key="textField" style="data field (date)" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="66" y="147" width="71" height="13" uuid="40509b29-4569-4155-9400-9e586025da53"/>
+			<textField evaluationTime="Report" pattern="d MMM yyyy" isBlankWhenNull="false">
+				<reportElement key="textField" style="data field (date)" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="66" y="150" width="71" height="13" uuid="40509b29-4569-4155-9400-9e586025da53"/>
 				<textFieldExpression><![CDATA[$F{awardedOn}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Report" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement key="textField" style="data field (date)" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="230" y="147" width="71" height="13" uuid="97f364b5-2ad6-474d-bc5a-76570ceb01f1"/>
+			<textField evaluationTime="Report" pattern="d MMM yyyy" isBlankWhenNull="false">
+				<reportElement key="textField" style="data field (date)" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="230" y="150" width="71" height="13" uuid="97f364b5-2ad6-474d-bc5a-76570ceb01f1"/>
 				<textFieldExpression><![CDATA[$F{issuedOn}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Label" x="164" y="147" width="66" height="13" uuid="f61e6061-375c-4297-a2c4-e79cd6a63c97"/>
+				<reportElement style="Label" x="164" y="150" width="66" height="13" uuid="f61e6061-375c-4297-a2c4-e79cd6a63c97"/>
 				<text><![CDATA[Issued]]></text>
 			</staticText>
-			<textField evaluationTime="Report" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement key="textField" style="data field (date)" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="66" y="160" width="71" height="13" uuid="73baab83-b5d0-4524-b2b4-7c2c627642fb"/>
+			<textField evaluationTime="Report" pattern="d MMM yyyy" isBlankWhenNull="false">
+				<reportElement key="textField" style="data field (date)" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="66" y="163" width="71" height="13" uuid="73baab83-b5d0-4524-b2b4-7c2c627642fb"/>
 				<textFieldExpression><![CDATA[$F{issuedOn}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Label" x="0" y="160" width="66" height="13" uuid="69457b69-72c4-45ba-97bd-c24f8322ad68"/>
+				<reportElement style="Label" x="0" y="163" width="66" height="13" uuid="69457b69-72c4-45ba-97bd-c24f8322ad68"/>
 				<text><![CDATA[Printed]]></text>
 			</staticText>
 		</band>

@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="29"/>
+	<property name="versionNumber" value="34"/>
 	<property name="keyCode" value="ish.onCourse.classBySiteReport"/>
 	<property name="ish.oncourse.description" value="This report provides a list of all current and future classes assigned to a given site. Information includes, course and class name and code, start and end date, fee charged, enrolments (against target) and statistics on Male Female breakdown. This report prints in Landscape format."/>
 	<property name="sortOn" value="room.site.name"/>
@@ -25,7 +25,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -55,30 +56,29 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String" isForPrompting="false"/>
+	<field name="courseClass" class="ish.oncourse.server.cayenne.CourseClass"/>
 	<field name="room.site.name" class="java.lang.String"/>
 	<field name="room.name" class="java.lang.String"/>
 	<field name="room" class="java.lang.Object"/>
 	<field name="course.name" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
-	<field name="startDateTime" class="java.util.Date"/>
-	<field name="endDateTime" class="java.util.Date"/>
 	<field name="feeExGst" class="java.lang.Object"/>
-	<field name="enrolments_count" class="java.lang.Integer"/>
+	<field name="enrolmentsCount" class="java.lang.Integer"/>
 	<field name="maximumPlaces" class="java.lang.Integer"/>
-	<field name="male_enrolments_count" class="java.lang.Integer"/>
+	<field name="maleEnrolmentsCount" class="java.lang.Integer"/>
 	<field name="minimumPlaces" class="java.lang.Integer"/>
 	<field name="isCancelled" class="java.lang.Boolean"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<variable name="female" class="java.lang.Integer">
-		<variableExpression><![CDATA[$F{enrolments_count}-$F{male_enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{enrolmentsCount}-$F{maleEnrolmentsCount}]]></variableExpression>
 	</variable>
 	<variable name="totalGroupEnrolmentsMaleCount" class="java.lang.Integer" resetType="Group" resetGroup="grouptag" calculation="Sum">
-		<variableExpression><![CDATA[$F{male_enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{maleEnrolmentsCount}]]></variableExpression>
 		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
 	</variable>
 	<variable name="totalEnrolmentsMaleCount" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{male_enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{maleEnrolmentsCount}]]></variableExpression>
 		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
 	</variable>
 	<variable name="totalGroupEnrolmentsFemaleCount" class="java.lang.Integer" resetType="Group" resetGroup="grouptag" calculation="Sum">
@@ -90,11 +90,11 @@
 		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
 	</variable>
 	<variable name="totalGroupEnrolmentsCount" class="java.lang.Integer" resetType="Group" resetGroup="grouptag" calculation="Sum">
-		<variableExpression><![CDATA[$F{enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{enrolmentsCount}]]></variableExpression>
 		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
 	</variable>
 	<variable name="totalEnrolmentsCount" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{enrolmentsCount}]]></variableExpression>
 		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
 	</variable>
 	<variable name="totalGroupMaximumPlaces" class="java.lang.Integer" resetType="Group" resetGroup="grouptag" calculation="Sum">
@@ -181,11 +181,11 @@
 				<text><![CDATA[Code]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-2" style="header 3" x="343" y="2" width="97" height="15" uuid="d4feb2ac-5f83-4063-9cd3-21ae275ea234"/>
+				<reportElement key="staticText-2" style="header 3" x="339" y="2" width="104" height="15" uuid="d4feb2ac-5f83-4063-9cd3-21ae275ea234"/>
 				<text><![CDATA[Start date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-3" style="header 3" x="446" y="2" width="97" height="15" uuid="580d1e31-c3ce-49d6-82c6-e224b2dda619"/>
+				<reportElement key="staticText-3" style="header 3" x="443" y="2" width="103" height="15" uuid="580d1e31-c3ce-49d6-82c6-e224b2dda619"/>
 				<text><![CDATA[End date]]></text>
 			</staticText>
 			<staticText>
@@ -231,13 +231,13 @@
 				<reportElement key="textField-6" style="data field" x="276" y="1" width="63" height="14" uuid="d40a6770-3fcd-4e4a-b5b7-53fc1cf19f7b"/>
 				<textFieldExpression><![CDATA[$F{course.code} + "-" + $F{code}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="true">
-				<reportElement key="textField-7" style="data field (datetime)" x="343" y="1" width="97" height="14" uuid="2484ca35-e2a6-4658-a5d4-51d51e562d7c"/>
-				<textFieldExpression><![CDATA[$F{startDateTime}]]></textFieldExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-7" style="data field (day)" x="339" y="1" width="104" height="14" uuid="2484ca35-e2a6-4658-a5d4-51d51e562d7c"/>
+				<textFieldExpression><![CDATA[$F{courseClass}.startDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="true">
-				<reportElement key="textField-8" style="data field (datetime)" x="446" y="1" width="97" height="14" uuid="30d5a907-5641-4444-a128-3fc36c8469e6"/>
-				<textFieldExpression><![CDATA[$F{endDateTime}]]></textFieldExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-8" style="data field (day)" x="443" y="1" width="103" height="14" uuid="30d5a907-5641-4444-a128-3fc36c8469e6"/>
+				<textFieldExpression><![CDATA[$F{courseClass}.endDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-9" style="data field (money)" x="546" y="1" width="47" height="14" uuid="9603590d-b841-4926-b8c4-e3fefaf0724c"/>
@@ -245,13 +245,13 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-10" style="data field (numeric)" x="597" y="1" width="49" height="14" uuid="27ba7e94-d8ed-4993-919d-ca6e65809cf3"/>
-				<textFieldExpression><![CDATA[$F{enrolments_count}+"/"+$F{maximumPlaces}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{enrolmentsCount}+"/"+$F{maximumPlaces}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-11" style="data field (numeric)" x="719" y="1" width="60" height="14" uuid="882e9085-fd8e-460d-9cb8-9be3661e5115"/>
 				<textFieldExpression><![CDATA[($F{isCancelled} != null && $F{isCancelled}.booleanValue())?"Cancelled"
-				:((String.valueOf($F{enrolments_count} - $F{minimumPlaces}))+
-				(( $F{minimumPlaces} > 0)?"("+String.valueOf(100*($F{enrolments_count} - $F{minimumPlaces})/ $F{minimumPlaces})+"%)":""))]]></textFieldExpression>
+				:((String.valueOf($F{enrolmentsCount} - $F{minimumPlaces}))+
+				(( $F{minimumPlaces} > 0)?"("+String.valueOf(100*($F{enrolmentsCount} - $F{minimumPlaces})/ $F{minimumPlaces})+"%)":""))]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-12" style="data field" x="1" y="1" width="181" height="14" uuid="8c883c4b-0ce8-4012-a269-e92a9c0f2bf9"/>
@@ -259,7 +259,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-14" style="data field (numeric)" x="692" y="1" width="21" height="14" uuid="0a80319e-c0ee-48ab-8347-6f99b0f0219d"/>
-				<textFieldExpression><![CDATA[$F{male_enrolments_count}+"/"+$V{female}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{maleEnrolmentsCount}+"/"+$V{female}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-15" style="data field (numeric)" x="651" y="1" width="36" height="14" uuid="dca35119-eb83-4a87-8972-bd3d1469d030"/>

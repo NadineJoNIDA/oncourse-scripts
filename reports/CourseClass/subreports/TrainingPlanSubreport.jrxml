@@ -5,7 +5,7 @@
 	<property name="entity" value="SessionModule"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="11"/>
+	<property name="versionNumber" value="13"/>
 	<property name="keyCode" value="ish.onCourse.trainingPlanSubreport"/>
 	<property name="ish.oncourse.title" value="TrainingPlanReport"/>
 	<property name="ish.oncourse.filePrefix" value="TrainingPlanReport"/>
@@ -25,7 +25,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -57,8 +58,8 @@
 	<field name="module.nationalCode" class="java.lang.String"/>
 	<field name="module.title" class="java.lang.String"/>
 	<field name="module.nominalHours" class="java.math.BigDecimal"/>
-	<field name="module_start_date" class="java.util.Date"/>
-	<field name="module_end_date" class="java.util.Date"/>
+	<field name="moduleStartDate" class="java.util.Date"/>
+	<field name="moduleEndDate" class="java.util.Date"/>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="mm"/>
@@ -115,11 +116,11 @@
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="E d MMM h:mma" isBlankWhenNull="true">
 				<reportElement key="textField-11" style="data field (date)" x="530" y="0" width="120" height="18" uuid="55927bff-8804-4d3f-b9ed-2186296cb6d8"/>
-				<textFieldExpression><![CDATA[$F{module_start_date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{moduleStartDate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="E d MMM h:mma" isBlankWhenNull="true">
 				<reportElement key="textField-12" style="data field (date)" x="650" y="0" width="108" height="18" uuid="754d9226-d27c-4433-a337-b42585bc85ab"/>
-				<textFieldExpression><![CDATA[$F{module_end_date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{moduleEndDate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-8" style="data field (numeric)" x="412" y="0" width="98" height="18" uuid="2e0c6b2d-ed5e-4df5-8e42-0959189ff875"/>

@@ -5,7 +5,7 @@
 	<property name="entity" value="Room"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="19"/>
+	<property name="versionNumber" value="21"/>
 	<property name="keyCode" value="ish.onCourse.roomListReport"/>
 	<property name="ish.oncourse.title" value="Rooms List"/>
 	<property name="ish.oncourse.filePrefix" value="RoomsList"/>
@@ -27,7 +27,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -65,31 +66,34 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement key="textField" style="header 1" x="0" y="115" width="538" height="26" uuid="ba49086b-266b-457e-a4ef-8fac1e0193a7"/>
+				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
+			</textField>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="60" splitType="Stretch">
+		<band height="34" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<rectangle>
-				<reportElement x="0" y="40" width="339" height="19" backcolor="#E6E7F0" uuid="df4d82da-26e7-4c33-af58-36325c616702"/>
+				<reportElement x="0" y="15" width="360" height="19" backcolor="#E6E7F0" uuid="df4d82da-26e7-4c33-af58-36325c616702"/>
 				<graphicElement>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement key="textField" style="header 1" x="0" y="0" width="258" height="26" uuid="ba49086b-266b-457e-a4ef-8fac1e0193a7"/>
-				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
-			</textField>
 			<staticText>
-				<reportElement key="staticText-7" style="header 3" x="2" y="42" width="100" height="15" uuid="424de109-3f6d-4f14-9ebd-f4e8c4a85306"/>
+				<reportElement key="staticText-7" style="header 3" x="2" y="15" width="116" height="15" uuid="424de109-3f6d-4f14-9ebd-f4e8c4a85306"/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-8" style="header 3" x="105" y="42" width="120" height="15" uuid="7d91d8d7-4f25-4cae-a82e-0f93e984dcc8"/>
+				<reportElement key="staticText-8" style="header 3" x="118" y="15" width="135" height="15" uuid="7d91d8d7-4f25-4cae-a82e-0f93e984dcc8"/>
 				<text><![CDATA[Site]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-9" style="header 3 (right)" x="230" y="42" width="100" height="15" uuid="6d248445-2327-48df-934c-70c50d60415a"/>
+				<reportElement key="staticText-9" style="header 3 (right)" x="255" y="15" width="100" height="15" uuid="6d248445-2327-48df-934c-70c50d60415a"/>
 				<text><![CDATA[Seated capacity]]></text>
 			</staticText>
 		</band>
@@ -100,20 +104,20 @@
 	<detail>
 		<band height="18" splitType="Stretch">
 			<rectangle>
-				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="340" height="18" uuid="73356779-9370-47d8-8a71-be80950b7265">
+				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="360" height="18" uuid="73356779-9370-47d8-8a71-be80950b7265">
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 				</reportElement>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-3" style="data field" x="2" y="0" width="100" height="15" uuid="0a22d378-f979-4067-b965-5caa63af7c4a"/>
+				<reportElement key="textField-3" style="data field" x="2" y="0" width="116" height="15" uuid="0a22d378-f979-4067-b965-5caa63af7c4a"/>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-4" style="data field" x="105" y="0" width="120" height="15" uuid="e4c9934b-701f-444c-a964-0b26f09cd526"/>
+				<reportElement key="textField-4" style="data field" x="118" y="0" width="135" height="15" uuid="e4c9934b-701f-444c-a964-0b26f09cd526"/>
 				<textFieldExpression><![CDATA[$F{site.name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-5" style="data field (numeric)" x="230" y="0" width="100" height="15" uuid="f516cdc6-58c2-44a0-ad70-6340d3f25fe8"/>
+				<reportElement key="textField-5" style="data field (numeric)" x="255" y="0" width="100" height="15" uuid="f516cdc6-58c2-44a0-ad70-6340d3f25fe8"/>
 				<textFieldExpression><![CDATA[$F{seatedCapacity}]]></textFieldExpression>
 			</textField>
 		</band>

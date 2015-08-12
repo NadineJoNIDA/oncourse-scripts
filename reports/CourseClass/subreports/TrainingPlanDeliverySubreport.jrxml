@@ -5,7 +5,7 @@
 	<property name="entity" value="SessionModule"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="21"/>
+	<property name="versionNumber" value="23"/>
 	<property name="keyCode" value="ish.onCourse.trainingPlanDeliverySubreport"/>
 	<property name="ish.oncourse.title" value="DeliverPlan"/>
 	<property name="ish.oncourse.filePrefix" value="TrainingPlan_Delivery"/>
@@ -25,7 +25,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -58,8 +59,7 @@
 	<field name="module.title" class="java.lang.String"/>
 	<field name="session.startDatetime" class="java.util.Date"/>
 	<field name="session.endDatetime" class="java.util.Date"/>
-	<field name="start_end_date_string" class="java.lang.String"/>
-	<field name="tutor_names_string" class="java.lang.String"/>
+	<field name="tutorNames" class="java.lang.String"/>
 	<sortField name="module.nationalCode"/>
 	<sortField name="session.startDatetime"/>
 	<columnHeader>
@@ -147,7 +147,7 @@
 					</crosstabTotalColumnHeader>
 				</columnGroup>
 				<measure name="tutorNames" class="java.lang.String">
-					<measureExpression><![CDATA[$F{tutor_names_string}]]></measureExpression>
+					<measureExpression><![CDATA[$F{tutorNames}]]></measureExpression>
 				</measure>
 				<crosstabCell width="55" height="27">
 					<cellContents mode="Opaque" style="crosstab">

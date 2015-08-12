@@ -5,10 +5,9 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="15"/>
+	<property name="versionNumber" value="19"/>
 	<property name="keyCode" value="ish.onCourse.budgetSummaryReport"/>
 	<property name="ish.oncourse.description" value="This report shows in a subject grouping summary format the same data as the Budget Details by Subject report, without the class level data. This report prints in Landscape format."/>
-	<property name="sortOn" value="firstSubjectTag"/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -26,7 +25,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -56,42 +56,36 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String" isForPrompting="false"/>
+	<field name="courseClass" class="java.lang.Object"/>
 	<field name="course.name" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
-	<field name="startDateTime" class="java.util.Date"/>
-	<field name="enrolments_count" class="java.lang.Integer"/>
 	<field name="budgetedPlaces" class="java.lang.Integer"/>
-	<field name="classBudget_actual_total_income" class="java.lang.Object"/>
-	<field name="classBudget_budgeted_total_income" class="java.lang.Object"/>
-	<field name="classBudget_actual_total_cost" class="java.lang.Object"/>
-	<field name="classBudget_budgeted_total_cost" class="java.lang.Object"/>
-	<field name="classBudget_actual_total_profit" class="java.lang.Object"/>
-	<field name="classBudget_budgeted_total_profit" class="java.lang.Object"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<field name="suppressClassDetail" class="java.lang.Boolean"/>
 	<field name="category" class="java.lang.String"/>
 	<field name="subcategory" class="java.lang.String"/>
+	<field name="firstSubjectTag" class="java.lang.String"/>
+	<sortField name="firstSubjectTag"/>
 	<variable name="incomeActual" class="java.lang.Object" calculation="Sum">
-		<variableExpression><![CDATA[((Money)$F{classBudget_actual_total_income})]]></variableExpression>
+		<variableExpression><![CDATA[((Money)$F{courseClass}.actualTotalIncome)]]></variableExpression>
 	</variable>
 	<variable name="incomeBudgeted" class="java.lang.Object" calculation="Sum">
-		<variableExpression><![CDATA[((Money)$F{classBudget_budgeted_total_income})]]></variableExpression>
+		<variableExpression><![CDATA[((Money)$F{courseClass}.budgetedTotalIncome)]]></variableExpression>
 	</variable>
 	<variable name="expenseActual" class="java.lang.Object" calculation="Sum">
-		<variableExpression><![CDATA[((Money)$F{classBudget_actual_total_cost})]]></variableExpression>
+		<variableExpression><![CDATA[((Money)$F{courseClass}.actualTotalCost)]]></variableExpression>
 	</variable>
 	<variable name="expenseBudgeted" class="java.lang.Object" calculation="Sum">
-		<variableExpression><![CDATA[((Money)$F{classBudget_budgeted_total_cost})]]></variableExpression>
+		<variableExpression><![CDATA[((Money)$F{courseClass}.budgetedTotalCost)]]></variableExpression>
 	</variable>
 	<variable name="subECA" class="java.lang.Integer" resetType="Group" resetGroup="subcategory" calculation="Sum">
-		<variableExpression><![CDATA[$F{enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.fullFeeEnrolments.size()]]></variableExpression>
 	</variable>
 	<variable name="catECA" class="java.lang.Integer" resetType="Group" resetGroup="category" calculation="Sum">
-		<variableExpression><![CDATA[$F{enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.fullFeeEnrolments.size()]]></variableExpression>
 	</variable>
 	<variable name="totalECA" class="java.lang.Integer" resetType="Group" resetGroup="total" calculation="Sum">
-		<variableExpression><![CDATA[$F{enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.fullFeeEnrolments.size()]]></variableExpression>
 	</variable>
 	<variable name="subECB" class="java.lang.Integer" resetType="Group" resetGroup="subcategory" calculation="Sum">
 		<variableExpression><![CDATA[$F{budgetedPlaces}]]></variableExpression>
@@ -139,22 +133,22 @@
 		<variableExpression><![CDATA[new Float(((Money)$V{expenseBudgeted}).floatValue())]]></variableExpression>
 	</variable>
 	<variable name="subPA" class="java.lang.Float" resetType="Group" resetGroup="subcategory" calculation="Sum">
-		<variableExpression><![CDATA[new Float(((Money)$F{classBudget_actual_total_profit}).floatValue())]]></variableExpression>
+		<variableExpression><![CDATA[new Float(((Money)$F{courseClass}.actualTotalProfit).floatValue())]]></variableExpression>
 	</variable>
 	<variable name="catPA" class="java.lang.Float" resetType="Group" resetGroup="category" calculation="Sum">
-		<variableExpression><![CDATA[new Float(((Money)$F{classBudget_actual_total_profit}).floatValue())]]></variableExpression>
+		<variableExpression><![CDATA[new Float(((Money)$F{courseClass}.actualTotalProfit).floatValue())]]></variableExpression>
 	</variable>
 	<variable name="totalPA" class="java.lang.Float" resetType="Group" resetGroup="total" calculation="Sum">
-		<variableExpression><![CDATA[new Float(((Money)$F{classBudget_actual_total_profit}).floatValue())]]></variableExpression>
+		<variableExpression><![CDATA[new Float(((Money)$F{courseClass}.actualTotalProfit).floatValue())]]></variableExpression>
 	</variable>
 	<variable name="subPB" class="java.lang.Float" resetType="Group" resetGroup="subcategory" calculation="Sum">
-		<variableExpression><![CDATA[new Float(((Money)$F{classBudget_budgeted_total_profit}).floatValue())]]></variableExpression>
+		<variableExpression><![CDATA[new Float(((Money)$F{courseClass}.budgetedTotalProfit).floatValue())]]></variableExpression>
 	</variable>
 	<variable name="catPB" class="java.lang.Float" resetType="Group" resetGroup="category" calculation="Sum">
-		<variableExpression><![CDATA[new Float(((Money)$F{classBudget_budgeted_total_profit}).floatValue())]]></variableExpression>
+		<variableExpression><![CDATA[new Float(((Money)$F{courseClass}.budgetedTotalProfit).floatValue())]]></variableExpression>
 	</variable>
 	<variable name="totalPB" class="java.lang.Float" resetType="Group" resetGroup="total" calculation="Sum">
-		<variableExpression><![CDATA[new Float(((Money)$F{classBudget_budgeted_total_profit}).floatValue())]]></variableExpression>
+		<variableExpression><![CDATA[new Float(((Money)$F{courseClass}.budgetedTotalProfit).floatValue())]]></variableExpression>
 	</variable>
 	<variable name="category" class="java.lang.String"/>
 	<group name="total">
@@ -286,16 +280,14 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="30" splitType="Stretch">
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-4" style="header 1" x="1" y="0" width="325" height="26" uuid="06b0e055-5d22-40c4-bfc6-379c1c43d689"/>
+				<reportElement key="textField-4" style="header 1" x="0" y="115" width="325" height="26" uuid="06b0e055-5d22-40c4-bfc6-379c1c43d689"/>
 				<textFieldExpression><![CDATA["Actual/Budget Summary"]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="32" splitType="Stretch">
 			<rectangle>

@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="22"/>
+	<property name="versionNumber" value="27"/>
 	<property name="keyCode" value="aftrs.budgetReport"/>
 	<property name="ish.oncourse.description" value="To obtain a detailed print out of the budgeted and actual income and expense lines, one page per class. The report layout is modelled on the budget tab in the class window. This report prints in Landscape format."/>
 	<property name="sortOn" value="course.code;code"/>
@@ -28,7 +28,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -62,6 +63,7 @@
 	<field name="subreport.ish.oncourse.budgetSummary.classCostSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="datasource.invoiceLines" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.oncourse.budgetSummary.invoiceLineSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="courseClass" class="ish.oncourse.server.cayenne.CourseClass"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<field name="uniqueCode" class="java.lang.String"/>
 	<field name="id" class="java.lang.Long"/>
@@ -69,26 +71,13 @@
 	<field name="minimumPlaces" class="java.lang.Integer"/>
 	<field name="maximumPlaces" class="java.lang.Integer"/>
 	<field name="budgetedPlaces" class="java.lang.Integer"/>
-	<field name="successAndQueuedEnrolmentsCount" class="java.lang.Integer"/>
-	<field name="enrolments_to_proceed" class="java.lang.String"/>
-	<field name="enrolments_to_profit" class="java.lang.String"/>
-	<field name="classBudget_actual_total_income" class="ish.math.Money"/>
-	<field name="classBudget_actual_total_cost" class="ish.math.Money"/>
-	<field name="classBudget_actual_total_profit" class="ish.math.Money"/>
-	<field name="classBudget_budgeted_total_income" class="ish.math.Money"/>
-	<field name="classBudget_budgeted_total_cost" class="ish.math.Money"/>
-	<field name="classBudget_budgeted_total_profit" class="ish.math.Money"/>
-	<field name="classBudget_maximum_total_income" class="ish.math.Money"/>
-	<field name="classBudget_maximum_total_cost" class="ish.math.Money"/>
-	<field name="classBudget_maximum_total_profit" class="ish.math.Money"/>
-	<field name="startDateTime" class="java.util.Date"/>
-	<field name="endDateTime" class="java.util.Date"/>
 	<group name="Class" isStartNewPage="true">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
-			<band height="109">
+			<band height="83">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				<rectangle>
-					<reportElement x="0" y="89" width="786" height="20" backcolor="#E6E7F0" uuid="35e1a324-0c2f-436f-9e64-4bb25a6a1940">
+					<reportElement x="0" y="63" width="786" height="20" backcolor="#E6E7F0" uuid="35e1a324-0c2f-436f-9e64-4bb25a6a1940">
 						<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 					</reportElement>
 					<graphicElement>
@@ -96,81 +85,77 @@
 					</graphicElement>
 				</rectangle>
 				<rectangle>
-					<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="54" width="786" height="20" uuid="7b9e5a78-fd57-4228-9fa0-0cca6c0d6929">
+					<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="28" width="786" height="20" uuid="7b9e5a78-fd57-4228-9fa0-0cca6c0d6929">
 						<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 					</reportElement>
 				</rectangle>
 				<rectangle>
-					<reportElement x="0" y="34" width="786" height="20" backcolor="#E6E7F0" uuid="cb90a763-9fc2-4f8e-af80-c5ad6b5d13bc">
+					<reportElement x="0" y="8" width="786" height="20" backcolor="#E6E7F0" uuid="cb90a763-9fc2-4f8e-af80-c5ad6b5d13bc">
 						<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 					</reportElement>
 					<graphicElement>
 						<pen lineWidth="0.0"/>
 					</graphicElement>
 				</rectangle>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false">
-					<reportElement key="textField-4" style="header 1" x="0" y="0" width="781" height="26" uuid="aa21bea3-86d1-4306-8399-0253d8c95551"/>
-					<textFieldExpression><![CDATA["Actual/Budget Summary For "+$F{course.name}+" ("+$F{uniqueCode}+")"]]></textFieldExpression>
-				</textField>
 				<staticText>
-					<reportElement style="header 3 (right)" positionType="Float" x="306" y="36" width="61" height="14" uuid="3cf7e614-f690-4da8-a8a1-980c47c643e9"/>
+					<reportElement style="header 3 (right)" positionType="Float" x="306" y="10" width="61" height="14" uuid="3cf7e614-f690-4da8-a8a1-980c47c643e9"/>
 					<text><![CDATA[Enrolments]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="header 3 (right)" positionType="Float" x="385" y="36" width="55" height="14" uuid="0a1c6742-e509-4602-ab5b-10598bfc7dc3"/>
+					<reportElement style="header 3 (right)" positionType="Float" x="385" y="10" width="55" height="14" uuid="0a1c6742-e509-4602-ab5b-10598bfc7dc3"/>
 					<text><![CDATA[Minimum]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="header 3 (right)" positionType="Float" x="439" y="36" width="115" height="14" uuid="ec28ac48-96b8-4592-a248-e5d3721be2c6"/>
+					<reportElement style="header 3 (right)" positionType="Float" x="439" y="10" width="115" height="14" uuid="ec28ac48-96b8-4592-a248-e5d3721be2c6"/>
 					<text><![CDATA[Maximum]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="header 3 (right)" positionType="Float" x="553" y="36" width="115" height="14" uuid="79c147df-d4e1-4e58-a87c-2cd263f2c44d"/>
+					<reportElement style="header 3 (right)" positionType="Float" x="553" y="10" width="115" height="14" uuid="79c147df-d4e1-4e58-a87c-2cd263f2c44d"/>
 					<text><![CDATA[Budgeted]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="header 3 (right)" positionType="Float" x="667" y="36" width="115" height="14" uuid="60ca74d0-dcd6-4644-bab8-351d6e114af1"/>
+					<reportElement style="header 3 (right)" positionType="Float" x="667" y="10" width="115" height="14" uuid="60ca74d0-dcd6-4644-bab8-351d6e114af1"/>
 					<text><![CDATA[Actual]]></text>
 				</staticText>
 				<textField>
-					<reportElement style="data field (numeric)" positionType="Float" x="385" y="55" width="55" height="14" uuid="63cd2f06-df19-4537-9b40-28e84689945d"/>
+					<reportElement style="data field (numeric)" positionType="Float" x="385" y="29" width="55" height="14" uuid="63cd2f06-df19-4537-9b40-28e84689945d"/>
 					<textFieldExpression><![CDATA[$F{minimumPlaces}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="data field (numeric)" positionType="Float" x="439" y="55" width="115" height="14" uuid="eadfefcd-560b-4309-8134-7eda792981f6"/>
+					<reportElement style="data field (numeric)" positionType="Float" x="439" y="29" width="115" height="14" uuid="eadfefcd-560b-4309-8134-7eda792981f6"/>
 					<textFieldExpression><![CDATA[$F{maximumPlaces}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="data field (numeric)" positionType="Float" x="553" y="55" width="115" height="14" uuid="060be6c4-2d37-45ec-929b-13c666cdccb4"/>
+					<reportElement style="data field (numeric)" positionType="Float" x="553" y="29" width="115" height="14" uuid="060be6c4-2d37-45ec-929b-13c666cdccb4"/>
 					<textFieldExpression><![CDATA[$F{budgetedPlaces}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="data field (numeric)" positionType="Float" x="667" y="55" width="115" height="14" uuid="35b677e2-ccd5-48af-8646-8785d9e3f9ba"/>
-					<textFieldExpression><![CDATA[$F{successAndQueuedEnrolmentsCount}]]></textFieldExpression>
+					<reportElement style="data field (numeric)" positionType="Float" x="667" y="29" width="115" height="14" uuid="35b677e2-ccd5-48af-8646-8785d9e3f9ba"/>
+					<textFieldExpression><![CDATA[$F{courseClass}.successAndQueuedEnrolments.size()]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement key="staticText-1" style="header 3" positionType="Float" x="230" y="92" width="210" height="15" uuid="a0bb4dbf-ca26-4235-9c24-ca76fb4ed7be"/>
+					<reportElement key="staticText-1" style="header 3" positionType="Float" x="230" y="66" width="210" height="15" uuid="a0bb4dbf-ca26-4235-9c24-ca76fb4ed7be"/>
 					<textElement textAlignment="Left"/>
 					<text><![CDATA[Amount]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-7" style="header 3" positionType="Float" x="1" y="92" width="229" height="15" uuid="c1c2c614-25c7-45af-9055-6fd8fed52ccc"/>
+					<reportElement key="staticText-7" style="header 3" positionType="Float" x="1" y="66" width="229" height="15" uuid="c1c2c614-25c7-45af-9055-6fd8fed52ccc"/>
 					<text><![CDATA[Description]]></text>
 				</staticText>
-				<textField pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="true">
-					<reportElement style="data field (datetime)" positionType="Float" x="1" y="55" width="102" height="14" uuid="7295c1a7-2133-49a7-afdf-ad2287a4ce0a"/>
-					<textFieldExpression><![CDATA[$F{startDateTime}]]></textFieldExpression>
+				<textField isBlankWhenNull="true">
+					<reportElement style="data field" positionType="Float" x="1" y="29" width="102" height="14" uuid="7295c1a7-2133-49a7-afdf-ad2287a4ce0a"/>
+					<textFieldExpression><![CDATA[$F{courseClass}.startDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 				</textField>
-				<textField pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="true">
-					<reportElement style="data field (datetime)" positionType="Float" x="103" y="55" width="102" height="14" uuid="19be1e1b-b771-48be-8880-f20b7c9291dd"/>
-					<textFieldExpression><![CDATA[$F{endDateTime}]]></textFieldExpression>
+				<textField isBlankWhenNull="true">
+					<reportElement style="data field" positionType="Float" x="103" y="29" width="102" height="14" uuid="19be1e1b-b771-48be-8880-f20b7c9291dd"/>
+					<textFieldExpression><![CDATA[$F{courseClass}.endDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement style="header 3" positionType="Float" x="1" y="36" width="102" height="14" uuid="ee61ba60-caa6-4b8e-b658-d171ec7111c5"/>
+					<reportElement style="header 3" positionType="Float" x="1" y="10" width="102" height="14" uuid="ee61ba60-caa6-4b8e-b658-d171ec7111c5"/>
 					<text><![CDATA[Starts]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="header 3" positionType="Float" x="103" y="36" width="102" height="14" uuid="7692c629-8ac0-49ea-9942-e4d540f504b8"/>
+					<reportElement style="header 3" positionType="Float" x="103" y="10" width="102" height="14" uuid="7692c629-8ac0-49ea-9942-e4d540f504b8"/>
 					<text><![CDATA[Ends]]></text>
 				</staticText>
 			</band>
@@ -183,23 +168,23 @@
 				</staticText>
 				<textField>
 					<reportElement key="" style="header 3" positionType="Float" x="50" y="51" width="275" height="14" uuid="8df28939-72b7-4bfd-a49f-8bdb937a2391"/>
-					<textFieldExpression><![CDATA[$F{enrolments_to_profit}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{courseClass}.enrolmentsToProfit == null || $F{courseClass}.enrolmentsToProfit <= 0) ? "" : "(${$F{courseClass}.enrolmentsToProfit} more enrolments required)"]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Class">
 					<reportElement key="" style="header 3" positionType="Float" x="454" y="51" width="99" height="14" uuid="94676806-7a9a-4f36-bf1f-35b055a7543e"/>
-					<textFieldExpression><![CDATA[$F{classBudget_maximum_total_profit}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.maximumTotalProfit]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Class">
 					<reportElement key="" style="header 3" positionType="Float" x="568" y="51" width="99" height="14" uuid="73f72790-6a97-4de5-9085-db472d1ed020"/>
-					<textFieldExpression><![CDATA[$F{classBudget_budgeted_total_profit}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.budgetedTotalProfit]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Class">
 					<reportElement key="" style="header 3" positionType="Float" x="681" y="51" width="101" height="14" uuid="a8c852ef-a408-4941-9dcf-0f48f1417bba"/>
-					<textFieldExpression><![CDATA[$F{classBudget_actual_total_profit}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.actualTotalProfit]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement positionType="Float" x="0" y="67" width="782" height="14" uuid="51c4c803-d938-4727-851a-5f1970c59444"/>
-					<textFieldExpression><![CDATA[$F{enrolments_to_proceed}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.enrolmentsToProceed == null ? "" : $F{courseClass}.enrolmentsToProceed <= 0 ? "Running costs are met, class should proceed." : "${$F{courseClass}.enrolmentsToProceed} more enrolments required before running costs are covered and class should proceed."]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-7" style="header 3" positionType="Float" x="0" y="13" width="229" height="14" uuid="49d24518-186a-43eb-8f43-e1099532d233"/>
@@ -211,27 +196,27 @@
 				</staticText>
 				<textField evaluationTime="Group" evaluationGroup="Class">
 					<reportElement key="" style="header 3" positionType="Float" x="455" y="13" width="98" height="14" uuid="fa6577c9-66e3-4c7a-9ca1-267489f51032"/>
-					<textFieldExpression><![CDATA[$F{classBudget_maximum_total_income}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.maximumTotalIncome]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Class">
 					<reportElement key="" style="header 3" positionType="Float" x="567" y="13" width="100" height="14" uuid="6c07f9e4-6776-454e-952a-3c03a3946172"/>
-					<textFieldExpression><![CDATA[$F{classBudget_budgeted_total_income}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.budgetedTotalIncome]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Class">
 					<reportElement key="" style="header 3" positionType="Float" x="681" y="13" width="100" height="14" uuid="c2238e6a-ef53-473d-8b0f-387c1c864756"/>
-					<textFieldExpression><![CDATA[$F{classBudget_actual_total_income}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.actualTotalIncome]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Class">
 					<reportElement key="" style="header 3" positionType="Float" x="681" y="27" width="100" height="14" uuid="c745b85f-49b5-4d93-b4e8-80d4d7dfab46"/>
-					<textFieldExpression><![CDATA[$F{classBudget_actual_total_cost}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.actualTotalCost]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Class">
 					<reportElement key="" style="header 3" positionType="Float" x="567" y="27" width="100" height="14" uuid="ee010a82-80ec-4492-bda6-cdc7a0bf91f2"/>
-					<textFieldExpression><![CDATA[$F{classBudget_budgeted_total_cost}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.budgetedTotalCost]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Class">
 					<reportElement key="" style="header 3" positionType="Float" x="455" y="27" width="98" height="14" uuid="8d29d514-be46-4c28-9933-7b31e8574061"/>
-					<textFieldExpression><![CDATA[$F{classBudget_maximum_total_cost}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.maximumTotalCost]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -240,7 +225,13 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField-4" style="header 1" x="1" y="115" width="781" height="26" uuid="aa21bea3-86d1-4306-8399-0253d8c95551"/>
+				<textFieldExpression><![CDATA["Actual/Budget Summary For "+$F{course.name}+" ("+$F{uniqueCode}+")"]]></textFieldExpression>
+			</textField>
+		</band>
 	</title>
 	<detail>
 		<band height="27">

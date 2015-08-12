@@ -5,7 +5,7 @@
 	<property name="entity" value="Outcome"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="23"/>
+	<property name="versionNumber" value="26"/>
 	<property name="keyCode" value="ish.onCourse.assessmentOutcomeSubReport"/>
 	<property name="sortOn" value="code"/>
 	<import value="net.sf.jasperreports.engine.*"/>
@@ -23,7 +23,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -52,10 +53,9 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<field name="enrolment.student.contact.full_name" class="java.lang.String"/>
+	<field name="outcome" class="ish.oncourse.server.cayenne.Outcome"/>
 	<field name="enrolment.student.studentNumber" class="java.lang.Long"/>
 	<field name="code" class="java.lang.String"/>
-	<field name="status_for_print" class="java.lang.String"/>
 	<field name="module.nationalCode" class="java.lang.String"/>
 	<sortField name="enrolment.student.studentNumber"/>
 	<sortField name="module.nationalCode"/>
@@ -92,7 +92,7 @@
 				</crosstabHeaderCell>
 				<rowGroup name="studentName" width="160">
 					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$F{enrolment.student.contact.full_name}
+						<bucketExpression><![CDATA[$F{outcome}.enrolment.student.contact.fullName
 						+ " (" + $F{enrolment.student.studentNumber}.toString() + ")"]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
@@ -124,14 +124,14 @@
 						<cellContents/>
 					</crosstabTotalColumnHeader>
 				</columnGroup>
-				<measure name="status_for_print" class="java.lang.String">
-					<measureExpression><![CDATA[$F{status_for_print}]]></measureExpression>
+				<measure name="status" class="java.lang.String">
+					<measureExpression><![CDATA[$F{outcome}.status?.displayName]]></measureExpression>
 				</measure>
 				<crosstabCell width="160" height="30">
 					<cellContents mode="Opaque" style="crosstab">
 						<textField isBlankWhenNull="true">
 							<reportElement key="textField-1" style="data field" x="0" y="0" width="160" height="30" uuid="8a3e66ca-d75a-4269-b761-d847c4b7e2d9"/>
-							<textFieldExpression><![CDATA[(($V{status_for_print} == "Not set")?"":$V{status_for_print})]]></textFieldExpression>
+							<textFieldExpression><![CDATA[(($V{status} == "Not set")?"":$V{status})]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>

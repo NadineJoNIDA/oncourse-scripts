@@ -5,7 +5,7 @@
 	<property name="entity" value="Contact"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="28"/>
+	<property name="versionNumber" value="32"/>
 	<property name="keyCode" value="ish.onCourse.tutorDetailsReport"/>
 	<property name="ish.oncourse.title" value="Tutor Details"/>
 	<property name="ish.oncourse.filePrefix" value="tutorDetails"/>
@@ -27,7 +27,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -63,6 +64,7 @@
 	<field name="lastName" class="java.lang.String">
 		<fieldDescription><![CDATA[Student last name]]></fieldDescription>
 	</field>
+	<field name="contact" class="ish.oncourse.server.cayenne.Contact"/>
 	<field name="street" class="java.lang.String"/>
 	<field name="suburb" class="java.lang.String"/>
 	<field name="postcode" class="java.lang.String"/>
@@ -70,7 +72,6 @@
 	<field name="state" class="java.lang.String"/>
 	<field name="datasource.tutor.sessions" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.tutorSessionSubReport" class="net.sf.jasperreports.engine.JasperReport"/>
-	<field name="tutor.contact.full_name" class="java.lang.String"/>
 	<field name="tfn" class="java.lang.String"/>
 	<field name="tutor.dateStarted" class="java.util.Date"/>
 	<field name="tutor.dateFinished" class="java.util.Date"/>
@@ -97,8 +98,8 @@
 					<reportElement key="staticText-2" style="Label" x="0" y="30" width="70" height="15" uuid="cbf04d57-a399-44f0-a6fc-e579f308c06d"/>
 					<text><![CDATA[Address]]></text>
 				</staticText>
-				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement key="textField-2" style="data field" x="87" y="77" width="119" height="15" uuid="6b5cfb77-b747-40e9-92a1-b2ab877ea93a"/>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField-2" style="data field (date)" x="87" y="77" width="119" height="15" uuid="6b5cfb77-b747-40e9-92a1-b2ab877ea93a"/>
 					<textFieldExpression><![CDATA[$F{birthDate}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
@@ -145,7 +146,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement key="textField-10" style="Label" x="0" y="0" width="119" height="15" uuid="a01f68b5-aefa-41c9-8294-abfaa997792d"/>
-					<textFieldExpression><![CDATA[$F{tutor.contact.full_name} == null ? " TFN :" : $F{tutor.contact.full_name} + " ABN :"]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{contact}.fullName == null ? " TFN :" : $F{contact}.fullName + " ABN :"]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-11" style="data field" x="119" y="0" width="80" height="15" uuid="1e7b9086-2e46-4ab7-bdb2-5c39dc31f83b"/>
@@ -171,16 +172,16 @@
 					<reportElement key="staticText-9" style="Label" x="0" y="107" width="70" height="15" uuid="6828c7e4-ea0f-4235-a284-eba7213c72da"/>
 					<text><![CDATA[Started]]></text>
 				</staticText>
-				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement key="textField-14" style="data field" x="87" y="107" width="119" height="15" uuid="8ab4a121-c821-4632-8820-6e90184d6401"/>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField-14" style="data field (date)" x="87" y="107" width="119" height="15" uuid="8ab4a121-c821-4632-8820-6e90184d6401"/>
 					<textFieldExpression><![CDATA[$F{tutor.dateStarted}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-10" style="Label" x="329" y="107" width="70" height="15" uuid="650440d2-a26c-48cd-b5ba-1a6de770d112"/>
 					<text><![CDATA[Finished]]></text>
 				</staticText>
-				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement key="textField-15" style="data field" x="416" y="107" width="119" height="15" uuid="af3ba4c7-ae58-46c7-9f0c-fa3051bac708"/>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField-15" style="data field (date)" x="416" y="107" width="119" height="15" uuid="af3ba4c7-ae58-46c7-9f0c-fa3051bac708"/>
 					<textFieldExpression><![CDATA[$F{tutor.dateFinished}]]></textFieldExpression>
 				</textField>
 			</band>

@@ -5,7 +5,7 @@
 	<property name="entity" value="PrintableAttendance"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="24"/>
+	<property name="versionNumber" value="25"/>
 	<property name="keyCode" value="ish.onCourse.roll"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -22,7 +22,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -182,6 +183,7 @@
 					<cellContents mode="Opaque" style="crosstab">
 						<textField isBlankWhenNull="true">
 							<reportElement key="textField" style="data field" x="0" y="0" width="32" height="16" uuid="5406a802-a84a-44e8-b3d8-bbd6c0939d51"/>
+							<textElement textAlignment="Center"/>
 							<textFieldExpression><![CDATA[$V{isPresent} == null ? "" : $V{isPresent}.booleanValue() ? "Y" : "N"]]></textFieldExpression>
 						</textField>
 					</cellContents>

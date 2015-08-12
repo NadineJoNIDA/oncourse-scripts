@@ -5,7 +5,7 @@
 	<property name="entity" value="ClassCost"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="26"/>
+	<property name="versionNumber" value="28"/>
 	<property name="keyCode" value="ish.onCourse.costSubReport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -23,7 +23,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -61,12 +62,11 @@
 	<parameter name="printRoom" class="java.lang.Boolean" isForPrompting="false">
 		<defaultValueExpression><![CDATA[new Boolean(false)]]></defaultValueExpression>
 	</parameter>
+	<field name="classCost" class="ish.oncourse.server.cayenne.ClassCost"/>
 	<field name="flowType" class="java.lang.Object"/>
 	<field name="description" class="java.lang.String"/>
-	<field name="contact.full_name" class="java.lang.String"/>
 	<field name="tax.description" class="java.lang.String"/>
 	<field name="repetitionType" class="java.lang.Object"/>
-	<field name="displayed_amount" class="java.lang.Object"/>
 	<variable name="tutorNumber" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -125,10 +125,10 @@
 				<reportElement key="textField-8" style="data field" x="286" y="2" width="102" height="13" uuid="9e5944e3-8b3c-4540-99ea-53125f237fce"/>
 				<textFieldExpression><![CDATA[((ish.common.types.ClassCostRepetitionType)$F{repetitionType}).getDisplayName()]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="false">
+			<textField isBlankWhenNull="false">
 				<reportElement key="textField-9" style="data field" x="393" y="2" width="85" height="13" uuid="7fe9d171-434c-4a38-b1ea-c5d69f57b06d"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{displayed_amount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[ClassCostFlowType.INCOME.equals($F{classCost}.flowType) ? $F{classCost}.perUnitAmountExTax?.negate() : $F{classCost}.perUnitAmountExTax]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

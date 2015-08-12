@@ -5,7 +5,7 @@
 	<property name="entity" value="Payline"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="9"/>
+	<property name="versionNumber" value="17"/>
 	<property name="keyCode" value="ish.onCourse.paylineSubreport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -22,7 +22,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -57,7 +58,7 @@
 	<field name="classCost.courseClass.code" class="java.lang.String"/>
 	<field name="classCost.courseClass.course.name" class="java.lang.String"/>
 	<field name="classCost.courseClass.incomeAccount.accountCode" class="java.lang.String"/>
-	<field name="dateFor" class="java.util.Date"/>
+	<field name="payLine" class="ish.oncourse.server.cayenne.PayLine"/>
 	<field name="quantity" class="java.math.BigDecimal"/>
 	<field name="value" class="java.lang.Object"/>
 	<field name="description" class="java.lang.String"/>
@@ -103,12 +104,12 @@
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 				</reportElement>
 			</rectangle>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="60" height="20" uuid="521b50bb-2a2e-42c2-b6f7-756ea2da59f7"/>
-				<textFieldExpression><![CDATA[$F{dateFor}]]></textFieldExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement style="data field (date)" x="2" y="0" width="78" height="20" uuid="521b50bb-2a2e-42c2-b6f7-756ea2da59f7"/>
+				<textFieldExpression><![CDATA[$F{payLine}.dateFor]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#0.##" isBlankWhenNull="true">
-				<reportElement style="data field (numeric)" x="79" y="0" width="20" height="20" uuid="59eafd11-2e95-4648-b57e-ce4074da3bdd"/>
+				<reportElement style="data field (numeric)" x="80" y="0" width="20" height="20" uuid="59eafd11-2e95-4648-b57e-ce4074da3bdd"/>
 				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#0.##" isBlankWhenNull="true">

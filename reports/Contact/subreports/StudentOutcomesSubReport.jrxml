@@ -5,7 +5,7 @@
 	<property name="entity" value="Outcome"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="10"/>
+	<property name="versionNumber" value="19"/>
 	<property name="keyCode" value="ish.onCourse.studentOutcomesSubReport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -22,7 +22,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -51,9 +52,9 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="outcome" class="java.lang.Object"/>
 	<field name="code" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
-	<field name="status_for_print" class="java.lang.String"/>
 	<field name="startDate" class="java.util.Date"/>
 	<field name="endDate" class="java.util.Date"/>
 	<background>
@@ -68,7 +69,7 @@
 	<columnHeader>
 		<band height="45" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="25" width="380" height="20" backcolor="#E6E7F0" uuid="769b0aac-b4a3-4d9f-8ff2-952b499fd7aa"/>
+				<reportElement x="0" y="25" width="500" height="20" backcolor="#E6E7F0" uuid="769b0aac-b4a3-4d9f-8ff2-952b499fd7aa"/>
 				<graphicElement>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
@@ -82,24 +83,30 @@
 				<text><![CDATA[Description]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-7" style="header 3" x="235" y="27" width="145" height="15" uuid="133b9fac-efda-49d8-b797-d6a9905489fb"/>
+				<reportElement key="staticText-7" style="header 3" x="301" y="27" width="199" height="15" uuid="133b9fac-efda-49d8-b797-d6a9905489fb">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
 				<text><![CDATA[Result]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-8" style="header 3" x="91" y="27" width="69" height="15" uuid="6c9a97e3-4e74-4da5-8336-0f5edfe9ecf2"/>
+				<reportElement key="staticText-8" style="header 3" x="91" y="27" width="103" height="15" uuid="6c9a97e3-4e74-4da5-8336-0f5edfe9ecf2">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<text><![CDATA[Start date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-9" style="header 3" x="165" y="27" width="69" height="15" uuid="c2d6c2bb-a6b6-45ea-8a59-53556e888a23"/>
+				<reportElement key="staticText-9" style="header 3" x="194" y="27" width="105" height="15" uuid="c2d6c2bb-a6b6-45ea-8a59-53556e888a23">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<text><![CDATA[End date]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="31" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 			<rectangle>
-				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="380" height="31" uuid="a23120dd-1576-46a1-9ae9-84f28683fac4">
+				<reportElement style="alternateRow" stretchType="RelativeToTallestObject" x="0" y="0" width="500" height="31" uuid="a23120dd-1576-46a1-9ae9-84f28683fac4">
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -108,20 +115,25 @@
 				<reportElement key="textField-1" style="data field" stretchType="RelativeToTallestObject" x="0" y="0" width="91" height="14" isPrintWhenDetailOverflows="true" uuid="a828f6b5-8b3d-41d9-8f56-b813b3445886"/>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement key="textField-2" style="data field" stretchType="RelativeToTallestObject" x="91" y="0" width="289" height="14" isPrintWhenDetailOverflows="true" uuid="6186c5f2-f89f-4eff-a143-9db6e9f6dfd1"/>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-2" style="data field" stretchType="RelativeToTallestObject" x="91" y="0" width="409" height="14" isPrintWhenDetailOverflows="true" uuid="6186c5f2-f89f-4eff-a143-9db6e9f6dfd1"/>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-3" style="data field" stretchType="RelativeToTallestObject" x="235" y="16" width="145" height="14" isPrintWhenDetailOverflows="true" uuid="cf22ba3c-8fb7-448e-90ed-ecb33145c0e2"/>
-				<textFieldExpression><![CDATA[$F{status_for_print}]]></textFieldExpression>
+				<reportElement key="textField-3" style="data field" stretchType="RelativeToTallestObject" x="301" y="15" width="199" height="14" isPrintWhenDetailOverflows="true" uuid="cf22ba3c-8fb7-448e-90ed-ecb33145c0e2"/>
+				<textFieldExpression><![CDATA[$F{outcome}.status?.displayName]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yy" isBlankWhenNull="true">
-				<reportElement key="textField-4" style="data field (date)" stretchType="RelativeToTallestObject" x="91" y="16" width="69" height="14" isPrintWhenDetailOverflows="true" uuid="946b62d9-ca8c-499a-8d56-14a74cb52e0b"/>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-4" style="data field (date)" stretchType="RelativeToTallestObject" x="91" y="15" width="103" height="14" isPrintWhenDetailOverflows="true" uuid="946b62d9-ca8c-499a-8d56-14a74cb52e0b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<textFieldExpression><![CDATA[$F{startDate}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yy" isBlankWhenNull="true">
-				<reportElement key="textField-5" style="data field (date)" stretchType="RelativeToTallestObject" x="166" y="16" width="69" height="14" isPrintWhenDetailOverflows="true" uuid="488b366a-73be-405d-a3cf-4f924b318dd8"/>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-5" style="data field (date)" stretchType="RelativeToTallestObject" x="194" y="15" width="105" height="14" isPrintWhenDetailOverflows="true" uuid="488b366a-73be-405d-a3cf-4f924b318dd8">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<textFieldExpression><![CDATA[$F{endDate}]]></textFieldExpression>
 			</textField>
 		</band>

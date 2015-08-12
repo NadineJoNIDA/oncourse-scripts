@@ -1,5 +1,3 @@
-xml.mkp.xmlDeclaration(version: "1.0", encoding: "utf-8")
-
 records.each { TrainingPackage tp ->
 	csv << [
 			"nationalISC": tp.nationalISC,

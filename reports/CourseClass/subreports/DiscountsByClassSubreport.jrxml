@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="23"/>
+	<property name="versionNumber" value="26"/>
 	<property name="keyCode" value="ish.onCourse.discountsByClassSubreport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -23,7 +23,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -52,37 +53,33 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<field name="discount_names" class="java.lang.String"/>
+	<field name="invoiceLine" class="ish.oncourse.server.cayenne.InvoiceLine"/>
+	<field name="discountNames" class="java.lang.String"/>
 	<field name="enrolment" class="java.lang.Object"/>
-	<field name="total_price_ex_tax" class="java.lang.Number"/>
-	<field name="discount_applied_ex_tax" class="java.lang.Number"/>
-	<field name="enrolment.courseClass.full_fee_enrolments_count" class="java.lang.Integer"/>
-	<field name="enrolment.courseClass.full_fee_enrolments_fees_sum" class="ish.math.Money"/>
-	<field name="enrolment.courseClass.manual_discount_enrolments_count" class="java.lang.Integer"/>
-	<field name="enrolment.courseClass.manual_discount_enrolments_fees_sum" class="ish.math.Money"/>
-	<field name="enrolment.courseClass.manual_discount_enrolments_discount_sum" class="ish.math.Money"/>
+	<field name="finalPriceToPayExTax" class="java.lang.Number"/>
+	<field name="discountTotalExTax" class="java.lang.Number"/>
 	<variable name="discountEachExTax" class="java.math.BigDecimal" resetType="Group" resetGroup="detail" calculation="Sum">
-		<variableExpression><![CDATA[((ish.math.Money)$F{discount_applied_ex_tax}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((ish.math.Money)$F{discountTotalExTax}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="discountEachExTaxTotal" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[((ish.math.Money)$F{discount_applied_ex_tax}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((ish.math.Money)$F{discountTotalExTax}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="total_price" class="java.math.BigDecimal" resetType="Group" resetGroup="detail" calculation="Sum">
-		<variableExpression><![CDATA[((ish.math.Money)$F{total_price_ex_tax}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((ish.math.Money)$F{finalPriceToPayExTax}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="total_priceTotal" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[((ish.math.Money)$F{total_price_ex_tax}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((ish.math.Money)$F{finalPriceToPayExTax}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="manualDiscountEnrolmentCount" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[(($F{discount_names}==null)? (new BigDecimal(1)): (new BigDecimal(0)))]]></variableExpression>
+		<variableExpression><![CDATA[(($F{discountNames}==null)? (new BigDecimal(1)): (new BigDecimal(0)))]]></variableExpression>
 		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
 	</variable>
 	<variable name="enrolmentCount" class="java.math.BigDecimal" resetType="Group" resetGroup="detail" calculation="Sum">
-		<variableExpression><![CDATA[(($F{discount_names}!=null)? (new BigDecimal(1)): (new BigDecimal(0)))]]></variableExpression>
+		<variableExpression><![CDATA[(($F{discountNames}!=null)? (new BigDecimal(1)): (new BigDecimal(0)))]]></variableExpression>
 		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
 	</variable>
 	<variable name="totalEnrolmentCount" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[($V{totalEnrolmentCount}!=null)?(new BigDecimal(1)):(new BigDecimal($F{enrolment.courseClass.full_fee_enrolments_count} + $F{enrolment.courseClass.manual_discount_enrolments_count})).add(new BigDecimal(1))]]></variableExpression>
+		<variableExpression><![CDATA[($V{totalEnrolmentCount}!=null)?(new BigDecimal(1)):(new BigDecimal($F{invoiceLine}.enrolment.courseClass.fullFeeEnrolments.size() + $F{invoiceLine}.enrolment.courseClass.manuallyDiscountedEnrolments.size())).add(new BigDecimal(1))]]></variableExpression>
 	</variable>
 	<group name="total">
 		<groupExpression><![CDATA[null]]></groupExpression>
@@ -105,25 +102,19 @@
 				</staticText>
 				<textField evaluationTime="Group" evaluationGroup="detail">
 					<reportElement key="textField-37" style="header 3 (right)" positionType="Float" x="417" y="18" width="95" height="15" uuid="aee0ab46-d4c8-42c1-9e1d-c95f4b85b6c1"/>
-					<textFieldExpression><![CDATA[new ish.math.Money($V{discountEachExTaxTotal}).add($F{enrolment.courseClass.manual_discount_enrolments_discount_sum})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[new ish.math.Money($V{discountEachExTaxTotal}).add($F{invoiceLine}.enrolment.courseClass.manuallyDiscountedEnrolmentsDiscountSum)]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="detail">
 					<reportElement key="textField-37" style="header 3 (right)" positionType="Float" x="321" y="18" width="95" height="15" uuid="6ca70e61-d371-410a-be56-3e3033acbff5"/>
-					<textFieldExpression><![CDATA[(new ish.math.Money($V{total_priceTotal})).add(((ish.math.Money)$F{enrolment.courseClass.full_fee_enrolments_fees_sum}).add($F{enrolment.courseClass.manual_discount_enrolments_fees_sum}))]]></textFieldExpression>
+					<textFieldExpression><![CDATA[(new ish.math.Money($V{total_priceTotal})).add(((ish.math.Money)$F{invoiceLine}.enrolment.courseClass.fullFeeEnrolmentsFeesSum).add($F{invoiceLine}.enrolment.courseClass.manuallyDiscountedEnrolmentsFeesSum))]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
 	</group>
 	<group name="detail">
-		<groupExpression><![CDATA[$F{discount_names}]]></groupExpression>
+		<groupExpression><![CDATA[$F{discountNames}]]></groupExpression>
 		<groupHeader>
 			<band height="19" splitType="Stretch">
-				<rectangle>
-					<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="-1" width="514" height="20" uuid="ab5072af-2aec-478c-890c-22aa362fb5f3">
-						<property name="com.jaspersoft.studio.unit.x" value="mm"/>
-					</reportElement>
-				</rectangle>
-				<elementGroup/>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-3" style="data field" x="0" y="1" width="205" height="14" uuid="25c31852-163b-4e5a-ba44-f1bc9f7a9a82"/>
 					<box>
@@ -132,7 +123,7 @@
 						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
-					<textFieldExpression><![CDATA[($F{discount_names}==null)? "Manual discount" : $F{discount_names}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{discountNames}==null)? "Manual discount" : $F{discountNames}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="detail">
 					<reportElement key="textField-3" style="data field (numeric)" x="205" y="0" width="115" height="15" uuid="e28bf0a5-2546-4c29-ad09-c69b7e406fe0"/>
@@ -142,7 +133,7 @@
 						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
-					<textFieldExpression><![CDATA[($F{discount_names}==null)? $V{manualDiscountEnrolmentCount}:$V{enrolmentCount}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{discountNames}==null)? $V{manualDiscountEnrolmentCount}:$V{enrolmentCount}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="detail">
 					<reportElement key="textField-37" style="data field (money)" positionType="Float" x="417" y="0" width="95" height="15" uuid="0b313e13-186a-4e57-861d-922baa088f91"/>

@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="13"/>
+	<property name="versionNumber" value="15"/>
 	<property name="keyCode" value="ish.onCourse.SimpleClassRoll"/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
 	<property name="ish.oncourse.description" value="Session by Session grid created for marking student attendance.This report prints in Portrait format."/>
@@ -24,7 +24,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -61,12 +62,9 @@
 	<field name="isShownOnWeb" class="java.lang.Boolean"/>
 	<field name="minimumPlaces" class="java.lang.Number"/>
 	<field name="maximumPlaces" class="java.lang.Number"/>
-	<field name="deliveryModeString" class="java.lang.String"/>
-	<field name="enrolments_count" class="java.lang.Integer"/>
 	<field name="datasource.attendance" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.simpleroll" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="room.site.name" class="java.lang.String"/>
-	<field name="sessions_count" class="java.lang.Integer"/>
 	<field name="room.name" class="java.lang.String"/>
 	<field name="datasource.tutorRoles" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>

@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="19"/>
+	<property name="versionNumber" value="24"/>
 	<property name="keyCode" value="ish.onCourse.classRollContactNo"/>
 	<property name="ish.oncourse.description" value="To create a Class Roll that includes the contact telephone numbers of students in the Class. This roll is not designed to be distributed around the Class Room. This report prints in Landscape format."/>
 	<import value="net.sf.jasperreports.engine.*"/>
@@ -23,7 +23,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -53,6 +54,7 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
+	<field name="courseClass" class="ish.oncourse.server.cayenne.CourseClass"/>
 	<field name="code" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
 	<field name="course.name" class="java.lang.String"/>
@@ -62,8 +64,6 @@
 	<field name="datasource.tutorRoles" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<field name="subreport.ish.onCourse.classRollTutors" class="net.sf.jasperreports.engine.JasperReport"/>
-	<field name="endDateTime" class="java.util.Date"/>
-	<field name="startDateTime" class="java.util.Date"/>
 	<field name="sessionsCount" class="java.lang.Integer"/>
 	<field name="course.isVET" class="java.lang.Boolean"/>
 	<field name="subreport.ish.onCourse.roll.isVET.sub" class="net.sf.jasperreports.engine.JasperReport"/>
@@ -80,28 +80,39 @@
 					<reportElement key="textField-16" style="data field" x="64" y="2" width="243" height="19" uuid="e78f6df0-77d5-4e5d-972e-b379b35ddad6"/>
 					<textFieldExpression><![CDATA[($F{room.name} == null) ? "Not set" : ($F{room.site.name}+" in "+$F{room.name})]]></textFieldExpression>
 				</textField>
-				<textField pattern="dd/MM/yyyy" isBlankWhenNull="false">
-					<reportElement key="textField" x="348" y="3" width="88" height="18" uuid="0a3f072d-efb8-4702-9636-46530c4d2fb9"/>
-					<textFieldExpression><![CDATA[$F{startDateTime}]]></textFieldExpression>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" style="data field (datetime)" x="345" y="2" width="125" height="18" uuid="0a3f072d-efb8-4702-9636-46530c4d2fb9">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{courseClass}.startDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement key="staticText-22" style="Label" x="307" y="2" width="43" height="19" uuid="e363fbd5-0668-47b1-baf8-dcedf5fbafe9"/>
+					<reportElement key="staticText-22" style="Label" x="307" y="2" width="38" height="19" uuid="e363fbd5-0668-47b1-baf8-dcedf5fbafe9">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
 					<text><![CDATA[Starts]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-23" style="Label" x="439" y="3" width="38" height="18" uuid="4da84c0c-ffc4-463d-b7d5-b54ae5f09983"/>
+					<reportElement key="staticText-23" style="Label" x="470" y="2" width="38" height="18" uuid="4da84c0c-ffc4-463d-b7d5-b54ae5f09983">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
 					<text><![CDATA[Ends]]></text>
 				</staticText>
-				<textField pattern="dd/MM/yyyy" isBlankWhenNull="false">
-					<reportElement key="textField" x="477" y="3" width="109" height="18" uuid="576262b3-233e-40da-9193-103968d6ae22"/>
-					<textFieldExpression><![CDATA[$F{endDateTime}]]></textFieldExpression>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" style="data field (datetime)" x="508" y="2" width="122" height="18" uuid="576262b3-233e-40da-9193-103968d6ae22">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{courseClass}.endDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement key="staticText-24" style="Label" x="586" y="3" width="65" height="18" uuid="d331d9ad-c0aa-4fe5-8196-961b83e7e6a7"/>
+					<reportElement key="staticText-24" style="Label" x="642" y="2" width="65" height="18" uuid="d331d9ad-c0aa-4fe5-8196-961b83e7e6a7"/>
 					<text><![CDATA[Sessions]]></text>
 				</staticText>
 				<textField isBlankWhenNull="false">
-					<reportElement key="textField" x="651" y="3" width="70" height="18" uuid="faef279e-e28b-4516-a757-cd8c9023c028"/>
+					<reportElement key="textField" x="707" y="2" width="70" height="18" uuid="faef279e-e28b-4516-a757-cd8c9023c028">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
 					<textFieldExpression><![CDATA[($F{sessionsCount} == null)? new Integer("0"):$F{sessionsCount}]]></textFieldExpression>
 				</textField>
 				<staticText>

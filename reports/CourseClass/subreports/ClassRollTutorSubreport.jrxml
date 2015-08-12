@@ -2,10 +2,10 @@
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ClassRollTutorSubreport" language="groovy" pageWidth="310" pageHeight="842" columnWidth="310" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="01bfa888-e790-475d-b350-a3e34bc983d4">
 	<property name="name" value="Class Roll Tutors"/>
-	<property name="entity" value="Tutor"/>
+	<property name="entity" value="CourseClassTutor"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="10"/>
+	<property name="versionNumber" value="12"/>
 	<property name="keyCode" value="ish.onCourse.classRollTutors"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -22,7 +22,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -51,9 +52,9 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<field name="tutor.contact.full_name" class="java.lang.String"/>
+	<field name="courseClassTutor" class="ish.oncourse.server.cayenne.CourseClassTutor"/>
 	<variable name="tutorNumber" class="java.math.BigDecimal" calculation="Count">
-		<variableExpression><![CDATA[$F{tutor.contact.full_name}]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClassTutor}.tutor.contact.fullName]]></variableExpression>
 		<initialValueExpression><![CDATA[new BigDecimal(1)]]></initialValueExpression>
 	</variable>
 	<background>
@@ -72,7 +73,7 @@
 		<band height="15" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField-1" style="data field" x="0" y="0" width="306" height="15" uuid="baddc2b0-2c32-448d-9392-debcf10cbfde"/>
-				<textFieldExpression><![CDATA[(($F{tutor.contact.full_name}))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[(($F{courseClassTutor}.tutor.contact.fullName))]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

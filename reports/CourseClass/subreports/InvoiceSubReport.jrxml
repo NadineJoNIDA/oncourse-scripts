@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="7"/>
+	<property name="versionNumber" value="9"/>
 	<property name="keyCode" value="ish.onCourse.invoiceSubReport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -24,7 +24,8 @@
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -63,7 +64,7 @@
 		<defaultValueExpression><![CDATA[new Boolean(false)]]></defaultValueExpression>
 	</parameter>
 	<field name="title" class="java.lang.String"/>
-	<field name="invoice.contact.full_name" class="java.lang.String"/>
+	<field name="invoiceLine" class="ish.oncourse.server.cayenne.InvoiceLine"/>
 	<field name="tax.description" class="java.lang.String"/>
 	<field name="priceEachExTax" class="java.lang.Object"/>
 	<variable name="tutorNumber" class="java.math.BigDecimal"/>
@@ -93,7 +94,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-6" style="data field" x="296" y="0" width="146" height="13" uuid="d19bad20-b687-473f-a172-11145a1d1d11"/>
-				<textFieldExpression><![CDATA[$F{invoice.contact.full_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{invoiceLine}.invoice.contact.fullName]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-7" style="data field" x="660" y="1" width="83" height="13" uuid="fabf286b-fe8e-49a8-b263-171bafc58631"/>

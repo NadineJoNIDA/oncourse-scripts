@@ -8,14 +8,14 @@ records.each { CourseClass cc ->
 			"Enrol budget"    : cc.budgetedPlaces,
 			"Enrol actual"    : cc.validEnrolmentCount,
 			"Class fee"       : cc.feeIncGst?.toPlainString(),
-			"Income maximum"  : ish.budget.ClassBudgetUtil.getClassIncomeExTax(cc, ish.budget.ClassBudgetUtil.MAXIMUM)?.toPlainString(),
-			"Income budget"   : ish.budget.ClassBudgetUtil.getClassIncomeExTax(cc, ish.budget.ClassBudgetUtil.BUDGETED)?.toPlainString(),
-			"Income actual"   : ish.budget.ClassBudgetUtil.getClassIncomeExTax(cc, ish.budget.ClassBudgetUtil.ACTUAL)?.toPlainString(),
-			"Expenses maximum": ish.budget.ClassBudgetUtil.getClassCostsExTax(cc, ish.budget.ClassBudgetUtil.MAXIMUM)?.toPlainString(),
-			"Expenses budget" : ish.budget.ClassBudgetUtil.getClassCostsExTax(cc, ish.budget.ClassBudgetUtil.BUDGETED)?.toPlainString(),
-			"Expenses actual" : ish.budget.ClassBudgetUtil.getClassCostsExTax(cc, ish.budget.ClassBudgetUtil.ACTUAL)?.toPlainString(),
-			"Profit maximum"  : ish.budget.ClassBudgetUtil.getClassProfitExTax(cc, ish.budget.ClassBudgetUtil.MAXIMUM)?.toPlainString(),
-			"Profit budget"   : ish.budget.ClassBudgetUtil.getClassProfitExTax(cc, ish.budget.ClassBudgetUtil.BUDGETED)?.toPlainString(),
-			"Profit actual"   : ish.budget.ClassBudgetUtil.getClassProfitExTax(cc, ish.budget.ClassBudgetUtil.ACTUAL)?.toPlainString()
+			"Income maximum"  : cc.maximumTotalIncome?.toPlainString(),
+			"Income budget"   : cc.budgetedTotalIncome?.toPlainString(),
+			"Income actual"   : cc.actualTotalIncome?.toPlainString(),
+			"Expenses maximum": cc.maximumTotalCost?.toPlainString(),
+			"Expenses budget" : cc.budgetedTotalCost?.toPlainString(),
+			"Expenses actual" : cc.actualTotalCost?.toPlainString(),
+			"Profit maximum"  : cc.maximumTotalProfit?.toPlainString(),
+			"Profit budget"   : cc.budgetedTotalProfit?.toPlainString(),
+			"Profit actual"   : cc.actualTotalProfit?.toPlainString()
 	]
 }

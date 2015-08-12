@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="8"/>
+	<property name="versionNumber" value="14"/>
 	<property name="keyCode" value="ish.onCourse.enrolmentSummaryReport"/>
 	<property name="ish.oncourse.title" value="Enrolment Summary by State"/>
 	<property name="ish.oncourse.filePrefix" value="EnrolmentReport"/>
@@ -29,7 +29,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -62,44 +63,41 @@
 	<field name="subreport.ish.onCourse.enrolmentSummarySubreport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="datasource.title" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="datasource.copy|sortOn=room.site.state" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="courseClass" class="ish.oncourse.server.cayenne.CourseClass"/>
 	<field name="room.site.state" class="java.lang.String"/>
 	<field name="category" class="java.lang.String"/>
 	<field name="course.name" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
-	<field name="startDateTime" class="java.util.Date"/>
-	<field name="endDateTime" class="java.util.Date"/>
-	<field name="enrolments_count" class="java.lang.Integer"/>
+	<field name="enrolmentsCount" class="java.lang.Integer"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<field name="subcategory" class="java.lang.String"/>
-	<field name="suppressClassDetail" class="java.lang.Boolean"/>
-	<field name="male_enrolments_count" class="java.lang.Integer"/>
+	<field name="maleEnrolmentsCount" class="java.lang.Integer"/>
 	<field name="isCancelled" class="java.lang.Boolean"/>
-	<field name="refunded_and_cancelled_enrolments_count" class="java.lang.Integer"/>
 	<field name="cancelled_male_enrolments_count" class="java.lang.Integer"/>
 	<variable name="categoryClasses" class="java.lang.Integer" resetType="Group" resetGroup="cancelled" calculation="Sum">
 		<variableExpression><![CDATA[1]]></variableExpression>
 	</variable>
 	<variable name="categoryMale" class="java.lang.Integer" resetType="Group" resetGroup="cancelled" calculation="Sum">
-		<variableExpression><![CDATA[$F{isCancelled} == false ? $F{male_enrolments_count} : $F{cancelled_male_enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{isCancelled} == false ? $F{maleEnrolmentsCount} : $F{cancelled_male_enrolments_count}]]></variableExpression>
 	</variable>
 	<variable name="categoryFemale" class="java.lang.Integer" resetType="Group" resetGroup="cancelled" calculation="Sum">
-		<variableExpression><![CDATA[$F{isCancelled} == false ? ($F{enrolments_count}.intValue() - $F{male_enrolments_count}.intValue()) : ($F{refunded_and_cancelled_enrolments_count}.intValue() - $F{cancelled_male_enrolments_count}.intValue())]]></variableExpression>
+		<variableExpression><![CDATA[$F{isCancelled} == false ? ($F{enrolmentsCount}.intValue() - $F{maleEnrolmentsCount}.intValue()) : ($F{courseClass}.refundedAndCancelledEnrolments.size().intValue() - $F{cancelled_male_enrolments_count}.intValue())]]></variableExpression>
 	</variable>
 	<variable name="categoryTotalAttendees" class="java.lang.Integer" resetType="Group" resetGroup="cancelled" calculation="Sum">
-		<variableExpression><![CDATA[$F{isCancelled} == false ? $F{enrolments_count} : $F{refunded_and_cancelled_enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{isCancelled} == false ? $F{enrolmentsCount} : $F{courseClass}.refundedAndCancelledEnrolments.size()]]></variableExpression>
 	</variable>
 	<variable name="stateClasses" class="java.lang.Integer" resetType="Group" resetGroup="state" calculation="Sum">
 		<variableExpression><![CDATA[1]]></variableExpression>
 	</variable>
 	<variable name="stateMale" class="java.lang.Integer" resetType="Group" resetGroup="state" calculation="Sum">
-		<variableExpression><![CDATA[$F{isCancelled} == false ? $F{male_enrolments_count} : $F{cancelled_male_enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{isCancelled} == false ? $F{maleEnrolmentsCount} : $F{cancelled_male_enrolments_count}]]></variableExpression>
 	</variable>
 	<variable name="stateFemale" class="java.lang.Integer" resetType="Group" resetGroup="state" calculation="Sum">
-		<variableExpression><![CDATA[$F{isCancelled} == false ? ($F{enrolments_count}.intValue() - $F{male_enrolments_count}.intValue()) : ($F{refunded_and_cancelled_enrolments_count}.intValue() - $F{cancelled_male_enrolments_count}.intValue())]]></variableExpression>
+		<variableExpression><![CDATA[$F{isCancelled} == false ? ($F{enrolmentsCount}.intValue() - $F{maleEnrolmentsCount}.intValue()) : ($F{courseClass}.refundedAndCancelledEnrolments.size().intValue() - $F{cancelled_male_enrolments_count}.intValue())]]></variableExpression>
 	</variable>
 	<variable name="stateTotalAttendees" class="java.lang.Integer" resetType="Group" resetGroup="state" calculation="Sum">
-		<variableExpression><![CDATA[$F{isCancelled} == false ? $F{enrolments_count} : $F{refunded_and_cancelled_enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{isCancelled} == false ? $F{enrolmentsCount} : $F{courseClass}.refundedAndCancelledEnrolments.size()]]></variableExpression>
 	</variable>
 	<group name="cancelled">
 		<groupExpression><![CDATA[$F{isCancelled}]]></groupExpression>
@@ -118,15 +116,15 @@
 					<textFieldExpression><![CDATA[$F{isCancelled} == false ? "Running Classes" : "Cancelled Classes"]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement key="staticText-1" style="header 3" x="193" y="33" width="94" height="15" uuid="6145f242-08c3-4043-a7c8-d31b739b497f"/>
+					<reportElement key="staticText-1" style="header 3" x="190" y="33" width="94" height="15" uuid="6145f242-08c3-4043-a7c8-d31b739b497f"/>
 					<text><![CDATA[Code]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-2" style="header 3" x="290" y="33" width="73" height="15" uuid="3b5a8a5b-7fa5-4c06-903d-77a4c47b5e82"/>
+					<reportElement key="staticText-2" style="header 3" x="284" y="33" width="75" height="15" uuid="3b5a8a5b-7fa5-4c06-903d-77a4c47b5e82"/>
 					<text><![CDATA[Starts]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-3" style="header 3" x="366" y="33" width="65" height="15" uuid="18aedfd7-92c1-4c1e-b9e5-93130975e323"/>
+					<reportElement key="staticText-3" style="header 3" x="359" y="33" width="76" height="15" uuid="18aedfd7-92c1-4c1e-b9e5-93130975e323"/>
 					<text><![CDATA[Ends]]></text>
 				</staticText>
 				<staticText>
@@ -214,18 +212,20 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="62" splitType="Stretch">
+		<band height="140" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement style="header 1" x="3" y="0" width="428" height="25" uuid="95e3aaff-e238-4e89-8ae2-73cff6af64c8">
+				<reportElement style="header 1" x="0" y="115" width="428" height="25" uuid="95e3aaff-e238-4e89-8ae2-73cff6af64c8">
 					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
 				</reportElement>
 				<text><![CDATA[State Based Enrolment Summary]]></text>
 			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="36" splitType="Stretch">
 			<subreport isUsingCache="true">
-				<reportElement key="subreport-1" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="37" width="764" height="21" uuid="ad8c6f06-e58c-4a89-b889-49e7bcf6d1f0">
+				<reportElement key="subreport-1" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="11" width="764" height="21" uuid="ad8c6f06-e58c-4a89-b889-49e7bcf6d1f0">
 					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
 				</reportElement>
 				<dataSourceExpression><![CDATA[$F{datasource.copy|sortOn=room.site.state}]]></dataSourceExpression>
@@ -239,42 +239,44 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<printWhenExpression><![CDATA[new Boolean($F{suppressClassDetail}==null||$F{suppressClassDetail}.equals(Boolean.FALSE))]]></printWhenExpression>
 			<rectangle>
 				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="763" height="20" uuid="a03e0a6f-5c67-41c5-aba5-521a7a3aa9d1">
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 				</reportElement>
 			</rectangle>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-6" style="data field" x="193" y="2" width="89" height="14" uuid="7ff7d72a-68e7-483a-a9bf-dfb9ad86c617"/>
+				<reportElement key="textField-6" style="data field" x="190" y="2" width="94" height="14" uuid="7ff7d72a-68e7-483a-a9bf-dfb9ad86c617"/>
 				<textFieldExpression><![CDATA[$F{course.code} + "-" + $F{code}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-7" style="data field" x="290" y="2" width="73" height="14" uuid="c7426c7b-e20c-4e0f-ba16-7f65a3b71caa"/>
-				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yy").format($F{startDateTime})]]></textFieldExpression>
+			<textField isStretchWithOverflow="true" pattern="d MMM yyyy" isBlankWhenNull="true">
+				<reportElement key="textField-7" style="data field (date)" x="284" y="2" width="75" height="14" uuid="c7426c7b-e20c-4e0f-ba16-7f65a3b71caa">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{courseClass}.startDateTime?.format("d MMM yyyy", $F{courseClass}.timeZone)]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-8" style="data field" x="366" y="2" width="65" height="14" uuid="15012652-8689-4456-a42a-765910ec7474"/>
-				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yy").format($F{endDateTime})]]></textFieldExpression>
+				<reportElement key="textField-8" style="data field (date)" x="359" y="2" width="76" height="14" uuid="15012652-8689-4456-a42a-765910ec7474"/>
+				<textFieldExpression><![CDATA[$F{courseClass}.endDateTime?.format("d MMM yyyy", $F{courseClass}.timeZone)]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-9" style="data field (numeric)" x="498" y="2" width="60" height="14" uuid="79cd0e41-b5ef-4580-a1cf-ca4b8e908e87"/>
-				<textFieldExpression><![CDATA[$F{isCancelled} == false ? $F{male_enrolments_count} :$F{cancelled_male_enrolments_count}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{isCancelled} == false ? $F{maleEnrolmentsCount} :$F{cancelled_male_enrolments_count}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-10" style="data field (numeric)" x="565" y="2" width="72" height="14" uuid="4cf6ecc3-e26b-49dc-b2f3-3dffc4024da9"/>
-				<textFieldExpression><![CDATA[$F{isCancelled} == false ? ($F{enrolments_count}.intValue() - $F{male_enrolments_count}.intValue()) : ($F{refunded_and_cancelled_enrolments_count}.intValue() - $F{cancelled_male_enrolments_count}.intValue())]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{isCancelled} == false ? ($F{enrolmentsCount}.intValue() - $F{maleEnrolmentsCount}.intValue()) : ($F{courseClass}.refundedAndCancelledEnrolments.size().intValue() - $F{cancelled_male_enrolments_count}.intValue())]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-12" style="data field" x="2" y="2" width="186" height="14" uuid="4f74ebec-7712-40e7-a7a0-6f2269abdeeb"/>
+				<reportElement key="textField-12" style="data field" x="3" y="2" width="187" height="14" uuid="4f74ebec-7712-40e7-a7a0-6f2269abdeeb"/>
 				<textFieldExpression><![CDATA[$F{course.name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-15" style="data field (numeric)" x="645" y="2" width="99" height="14" uuid="f6bac44f-3361-4594-b586-7724eb9e96ee"/>
-				<textFieldExpression><![CDATA[$F{isCancelled} == false ? $F{enrolments_count} : $F{refunded_and_cancelled_enrolments_count}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{isCancelled} == false ? $F{enrolmentsCount} : $F{courseClass}.refundedAndCancelledEnrolments.size()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="data field (numeric)" x="435" y="2" width="59" height="14" uuid="df9641ff-dcbd-4b7e-89df-fd3121e1f62d"/>
+				<reportElement style="data field" x="435" y="2" width="59" height="14" uuid="df9641ff-dcbd-4b7e-89df-fd3121e1f62d"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{room.site.state} != null ? $F{room.site.state} : "Not set"]]></textFieldExpression>
 			</textField>
 		</band>

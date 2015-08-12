@@ -41,15 +41,15 @@ xml.data() {
 						}
 					}
 					cost {
-						incomeMaximum(ish.budget.ClassBudgetUtil.getClassIncomeExTax(cc, ish.budget.ClassBudgetUtil.MAXIMUM)?.toPlainString())
-						incomeBudget(ish.budget.ClassBudgetUtil.getClassIncomeExTax(cc, ish.budget.ClassBudgetUtil.BUDGETED)?.toPlainString())
-						incomeActual(ish.budget.ClassBudgetUtil.getClassIncomeExTax(cc, ish.budget.ClassBudgetUtil.ACTUAL)?.toPlainString())
-						expensesMaximum(ish.budget.ClassBudgetUtil.getClassCostsExTax(cc, ish.budget.ClassBudgetUtil.MAXIMUM)?.toPlainString())
-						expensesBudget(ish.budget.ClassBudgetUtil.getClassCostsExTax(cc, ish.budget.ClassBudgetUtil.BUDGETED)?.toPlainString())
-						expensesActual(ish.budget.ClassBudgetUtil.getClassCostsExTax(cc, ish.budget.ClassBudgetUtil.ACTUAL)?.toPlainString())
-						profitMaximum(ish.budget.ClassBudgetUtil.getClassProfitExTax(cc, ish.budget.ClassBudgetUtil.MAXIMUM)?.toPlainString())
-						profitBudget(ish.budget.ClassBudgetUtil.getClassProfitExTax(cc, ish.budget.ClassBudgetUtil.BUDGETED)?.toPlainString())
-						profitActual(ish.budget.ClassBudgetUtil.getClassProfitExTax(cc, ish.budget.ClassBudgetUtil.ACTUAL)?.toPlainString())
+						incomeMaximum(cc.maximumTotalIncome?.toPlainString())
+						incomeBudget(cc.budgetedTotalIncome?.toPlainString())
+						incomeActual(cc.actualTotalIncome?.toPlainString())
+						expensesMaximum(cc.maximumTotalCost?.toPlainString())
+						expensesBudget(cc.budgetedTotalCost?.toPlainString())
+						expensesActual(cc.actualTotalCost?.toPlainString())
+						profitMaximum(cc.maximumTotalProfit?.toPlainString())
+						profitBudget(cc.budgetedTotalProfit?.toPlainString())
+						profitActual(cc.actualTotalProfit?.toPlainString())
 					}
 					fundingSource(cc.fundingSource?.displayName)
 					isCancelled(cc.isCancelled)

@@ -6,8 +6,8 @@ records.collectMany { CourseClass cc -> cc.enrolments }.collectMany { e -> e.out
 			"classCode"    : "${o.enrolment.courseClass.course.code}-${o.enrolment.courseClass.code}",
 			"nationalCode" : o.module?.nationalCode,
 			"title"        : o.module?.title,
-			"startDate"    : o.startDate?.format("D/M/Y h:m a"),
-			"endDate"      : o.endDate?.format("D/M/Y h:m a"),
+			"startDate"    : o.startDate?.format("d/M/Y hh:mm a"),
+			"endDate"      : o.endDate?.format("d/M/Y hh:mm a"),
 			"status"       : o.status?.displayName
 	]
 }

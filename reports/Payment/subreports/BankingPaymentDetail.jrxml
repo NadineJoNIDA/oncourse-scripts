@@ -5,7 +5,7 @@
 	<property name="entity" value="Payment"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="10"/>
+	<property name="versionNumber" value="13"/>
 	<property name="keyCode" value="ish.onCourse.banking.payments"/>
 	<property name="ish.oncourse.title" value="Payments"/>
 	<property name="ish.oncourse.filePrefix" value="Banking_payments"/>
@@ -26,7 +26,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -61,7 +62,7 @@
 	<field name="contact.full_name" class="java.lang.String"/>
 	<field name="amount" class="java.lang.Object"/>
 	<field name="createdOn" class="java.util.Date"/>
-	<field name="paymentType" class="java.lang.String"/>
+	<field name="typeOfPayment" class="java.lang.String"/>
 	<variable name="total" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[((ish.math.Money)$F{amount}).toBigDecimal()]]></variableExpression>
 		<initialValueExpression><![CDATA[null]]></initialValueExpression>
@@ -117,9 +118,9 @@
 			<elementGroup>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-1" style="data field" x="0" y="1" width="37" height="14" uuid="40a05125-e65b-49f6-9ef6-5d8a4aaf337a"/>
-					<textFieldExpression><![CDATA[($F{paymentType} == "paymentIn") ? "In" : "Out"]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{typeOfPayment}.equals("payment in") ? "In" : "Out"]]></textFieldExpression>
 				</textField>
-				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<textField isBlankWhenNull="true">
 					<reportElement key="textField-2" style="data field (date)" x="41" y="0" width="72" height="13" uuid="33654257-4a0a-4241-ab05-d93ee76806bf"/>
 					<textFieldExpression><![CDATA[$F{createdOn}]]></textFieldExpression>
 				</textField>

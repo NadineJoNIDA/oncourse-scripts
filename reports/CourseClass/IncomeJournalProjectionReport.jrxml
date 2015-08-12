@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="4"/>
+	<property name="versionNumber" value="8"/>
 	<property name="keyCode" value="ish.oncourse.courseClass.IncomeJournalProjection"/>
 	<property name="ish.oncourse.description" value="This report prints in Landscape format."/>
 	<property name="ish.oncourse.pdfFileName" value="IncomeJournalProjection_report.pdf"/>
@@ -31,7 +31,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -61,54 +62,42 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
+	<field name="courseClass" class="ish.oncourse.server.cayenne.CourseClass"/>
 	<field name="course.name" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
-	<field name="enrolments_count_string" class="java.lang.String"/>
 	<field name="feeExGst" class="ish.math.Money"/>
-	<field name="startDateTime" class="java.util.Date"/>
-	<field name="endDateTime" class="java.util.Date"/>
-	<field name="total_amount_exclude_prepaid_fees" class="ish.math.Money"/>
-	<field name="prepaid_fees_for_month_0" class="ish.math.Money"/>
-	<field name="prepaid_fees_for_month_1" class="ish.math.Money"/>
-	<field name="prepaid_fees_for_month_2" class="ish.math.Money"/>
-	<field name="prepaid_fees_for_month_3" class="ish.math.Money"/>
-	<field name="prepaid_fees_for_month_4" class="ish.math.Money"/>
-	<field name="prepaid_fees_for_month_5" class="ish.math.Money"/>
-	<field name="prepaid_fees_for_month_6" class="ish.math.Money"/>
-	<field name="prepaid_fees_for_month_7" class="ish.math.Money"/>
-	<field name="total_amount" class="ish.math.Money"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<variable name="currentDate" class="java.util.Date">
 		<variableExpression><![CDATA[new Date()]]></variableExpression>
 		<initialValueExpression><![CDATA[new Date()]]></initialValueExpression>
 	</variable>
 	<variable name="total_amount_exclude_prepaid_fees" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{total_amount_exclude_prepaid_fees}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.totalIncomeAmountWithoutPrepaidFees.floatValue()]]></variableExpression>
 	</variable>
 	<variable name="prepaid_fees_for_month_0" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{prepaid_fees_for_month_0}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(0).floatValue()]]></variableExpression>
 	</variable>
 	<variable name="prepaid_fees_for_month_1" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{prepaid_fees_for_month_1}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(1).floatValue()]]></variableExpression>
 	</variable>
 	<variable name="prepaid_fees_for_month_2" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{prepaid_fees_for_month_2}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(2).floatValue()]]></variableExpression>
 	</variable>
 	<variable name="prepaid_fees_for_month_3" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{prepaid_fees_for_month_3}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(3).floatValue()]]></variableExpression>
 	</variable>
 	<variable name="prepaid_fees_for_month_4" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{prepaid_fees_for_month_4}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(4).floatValue()]]></variableExpression>
 	</variable>
 	<variable name="prepaid_fees_for_month_5" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{prepaid_fees_for_month_5}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(5).floatValue()]]></variableExpression>
 	</variable>
 	<variable name="prepaid_fees_for_month_6" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{prepaid_fees_for_month_6}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(6).floatValue()]]></variableExpression>
 	</variable>
 	<variable name="total_amount" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{total_amount}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.totalIncomeAmount.floatValue()]]></variableExpression>
 	</variable>
 	<group name="total">
 		<groupExpression><![CDATA[null]]></groupExpression>
@@ -246,49 +235,49 @@
 				<reportElement key="textField-1" style="data field" x="0" y="13" width="200" height="13" uuid="7d834652-645c-4c0e-9966-ee403b64f0cf">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{enrolments_count_string} + " enrolments, " + $F{feeExGst} + " (ex tax) fee"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.successAndQueuedEnrolments.size() + " enrolments, " + $F{feeExGst} + " (ex tax) fee"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field" x="0" y="27" width="200" height="13" uuid="76e820e0-9b32-4d52-b1a2-86f96cec0c27">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{startDateTime}.format("dd MMM yy") + " - " + $F{endDateTime}.format("dd MMM yy")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.startDateTime.format("dd MMM yyyy", $F{courseClass}.timeZone) + " - " + $F{courseClass}.endDateTime.format("dd MMM yyyy", $F{courseClass}.timeZone)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field (money)" x="200" y="0" width="75" height="13" uuid="de8c223f-acac-458c-9da6-d80b8807e3f5"/>
-				<textFieldExpression><![CDATA[$F{total_amount_exclude_prepaid_fees}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.totalIncomeAmountWithoutPrepaidFees]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field (money)" x="300" y="0" width="60" height="13" uuid="160df20b-da09-476e-84a8-e958cc34208d"/>
-				<textFieldExpression><![CDATA[$F{prepaid_fees_for_month_0}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(0)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field (money)" x="360" y="0" width="60" height="13" uuid="1ac81a06-630b-4aaf-b065-1403ece3ee3e"/>
-				<textFieldExpression><![CDATA[$F{prepaid_fees_for_month_1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(1)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field (money)" x="420" y="0" width="60" height="13" uuid="2040fc2a-4557-41c3-872b-8e89ed673e7b"/>
-				<textFieldExpression><![CDATA[$F{prepaid_fees_for_month_2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(2)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field (money)" x="480" y="0" width="60" height="13" uuid="97a582ba-94c0-431f-9d13-f148f6a4e823"/>
-				<textFieldExpression><![CDATA[$F{prepaid_fees_for_month_3}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(3)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field (money)" x="540" y="0" width="60" height="13" uuid="6924b3eb-518d-4be3-9d54-e3287393b7ba"/>
-				<textFieldExpression><![CDATA[$F{prepaid_fees_for_month_4}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(4)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field (money)" x="600" y="0" width="60" height="13" uuid="e69b1cad-33a6-46bf-bebc-d3fa4726084e"/>
-				<textFieldExpression><![CDATA[$F{prepaid_fees_for_month_5}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(5)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field (money)" x="660" y="0" width="60" height="13" uuid="c9c1e504-ac6b-4c60-a867-a501ba7d2eae"/>
-				<textFieldExpression><![CDATA[$F{prepaid_fees_for_month_6}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.getPrepaidFeesForMonth(6)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field (money)" x="720" y="0" width="66" height="13" uuid="c6d247c8-156b-4c97-af73-252e58f2affe"/>
-				<textFieldExpression><![CDATA[$F{total_amount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.totalIncomeAmount]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

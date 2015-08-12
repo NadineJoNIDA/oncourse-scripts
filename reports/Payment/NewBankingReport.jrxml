@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentInterface"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="33"/>
+	<property name="versionNumber" value="37"/>
 	<property name="keyCode" value="ish.onCourse.banking2"/>
 	<property name="ish.oncourse.description" value="This report shows payments in and is designed to take along to the bank when you deposit cash and cheques.This report prints in Portrait format."/>
 	<property name="sortOn" value="administrationCentre.name;dateBanked;paymentMethod.name;createdOn"/>
@@ -28,7 +28,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" markup="html" pattern="$#,##0.00;&lt;span color=&quot;red&quot;&gt;($#,##0.00-)&lt;/span&gt;"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -70,25 +71,25 @@
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<field name="status" class="java.lang.Object"/>
 	<field name="paymentMethod.name" class="java.lang.String"/>
-	<field name="paymentType" class="java.lang.String"/>
+	<field name="typeOfPayment" class="java.lang.String"/>
 	<variable name="total_type" class="java.math.BigDecimal" resetType="Group" resetGroup="paymentType" calculation="Sum">
 		<variableExpression><![CDATA[(($F{status}!= null && ((ish.common.types.PaymentStatus)$F{status}).equals(ish.common.types.PaymentStatus.SUCCESS))?
-		( StringUtils.equalsIgnoreCase("payment in", $F{paymentType}) ? ((ish.math.Money)$F{amount}).toBigDecimal() : ((ish.math.Money)$F{amount}).negate().toBigDecimal()):
+		( StringUtils.equalsIgnoreCase("payment in", $F{typeOfPayment}) ? ((ish.math.Money)$F{amount}).toBigDecimal() : ((ish.math.Money)$F{amount}).negate().toBigDecimal()):
 		(new BigDecimal(0)))]]></variableExpression>
 	</variable>
 	<variable name="total_banked" class="java.math.BigDecimal" resetType="Group" resetGroup="dateBanked" calculation="Sum">
 		<variableExpression><![CDATA[(($F{status}!= null && ((ish.common.types.PaymentStatus)$F{status}).equals(ish.common.types.PaymentStatus.SUCCESS))?
-		( StringUtils.equalsIgnoreCase("payment in", $F{paymentType}) ? ((ish.math.Money)$F{amount}).toBigDecimal() : ((ish.math.Money)$F{amount}).negate().toBigDecimal()):
+		( StringUtils.equalsIgnoreCase("payment in", $F{typeOfPayment}) ? ((ish.math.Money)$F{amount}).toBigDecimal() : ((ish.math.Money)$F{amount}).negate().toBigDecimal()):
 		(new BigDecimal(0)))]]></variableExpression>
 	</variable>
 	<variable name="total" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[(($F{status}!= null && ((ish.common.types.PaymentStatus)$F{status}).equals(ish.common.types.PaymentStatus.SUCCESS))?
-		( StringUtils.equalsIgnoreCase("payment in", $F{paymentType}) ? ((ish.math.Money)$F{amount}).toBigDecimal() : ((ish.math.Money)$F{amount}).negate().toBigDecimal()):
+		( StringUtils.equalsIgnoreCase("payment in", $F{typeOfPayment}) ? ((ish.math.Money)$F{amount}).toBigDecimal() : ((ish.math.Money)$F{amount}).negate().toBigDecimal()):
 		(new BigDecimal(0)))]]></variableExpression>
 	</variable>
 	<variable name="total_site" class="java.math.BigDecimal" resetType="Group" resetGroup="site" calculation="Sum">
-		<variableExpression><![CDATA[(($F{status}!= null && ((ish.common.types.PaymentStatus)$F{status}).equals(ish.common.types.PaymentStatus.SUCCESS) && StringUtils.equalsIgnoreCase("payment in", $F{paymentType}) )?
-		( StringUtils.equalsIgnoreCase("payment in", $F{paymentType}) ? ((ish.math.Money)$F{amount}).toBigDecimal() : ((ish.math.Money)$F{amount}).negate().toBigDecimal()):
+		<variableExpression><![CDATA[(($F{status}!= null && ((ish.common.types.PaymentStatus)$F{status}).equals(ish.common.types.PaymentStatus.SUCCESS) && StringUtils.equalsIgnoreCase("payment in", $F{typeOfPayment}) )?
+		( StringUtils.equalsIgnoreCase("payment in", $F{typeOfPayment}) ? ((ish.math.Money)$F{amount}).toBigDecimal() : ((ish.math.Money)$F{amount}).negate().toBigDecimal()):
 		(new BigDecimal(0)))]]></variableExpression>
 	</variable>
 	<variable name="items" class="java.math.BigDecimal" resetType="Group" resetGroup="paymentType" calculation="Count">
@@ -109,7 +110,7 @@
 				</textField>
 				<staticText>
 					<reportElement key="staticText-1" style="header 3 (right)" x="249" y="6" width="79" height="14" uuid="f06c5574-1d17-4ee1-af3b-a059105db822"/>
-					<text><![CDATA[Total:]]></text>
+					<text><![CDATA[Total]]></text>
 				</staticText>
 			</band>
 		</groupFooter>
@@ -117,13 +118,13 @@
 	<group name="site">
 		<groupExpression><![CDATA[$F{administrationCentre.name}]]></groupExpression>
 		<groupHeader>
-			<band height="28" splitType="Stretch">
+			<band height="37" splitType="Stretch">
 				<textField isBlankWhenNull="false">
-					<reportElement key="textField-14" style="header 2" x="0" y="2" width="328" height="26" uuid="1577ac9f-b8b7-4d19-b1cd-80757c68e70a"/>
+					<reportElement key="textField-14" style="header 2" x="0" y="11" width="328" height="26" uuid="1577ac9f-b8b7-4d19-b1cd-80757c68e70a"/>
 					<textFieldExpression><![CDATA[($F{administrationCentre.name}==null)?"No site specified":$F{administrationCentre.name}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="site" isBlankWhenNull="false">
-					<reportElement key="textField-19" style="header 2" x="329" y="2" width="133" height="26" uuid="b4e542e6-c0c3-4f1e-8782-95310a260d91"/>
+					<reportElement key="textField-19" style="header 2" x="329" y="11" width="133" height="26" uuid="b4e542e6-c0c3-4f1e-8782-95310a260d91"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[new ish.math.Money($V{total_site})]]></textFieldExpression>
 				</textField>
@@ -164,10 +165,10 @@
 					</graphicElement>
 				</rectangle>
 				<textField evaluationTime="Group" evaluationGroup="paymentType" isBlankWhenNull="false">
-					<reportElement key="textField-16" style="header 3" x="0" y="3" width="64" height="14" uuid="4bd318c8-8ecd-4efa-88ce-1822337afb92"/>
+					<reportElement key="textField-16" style="header 3" x="2" y="3" width="64" height="14" uuid="4bd318c8-8ecd-4efa-88ce-1822337afb92"/>
 					<textFieldExpression><![CDATA[$F{paymentMethod.name}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="paymentType" pattern="" isBlankWhenNull="false">
+				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="paymentType" isBlankWhenNull="false">
 					<reportElement key="textField-21" style="header 3" x="110" y="3" width="50" height="14" uuid="531cfb3f-15d1-4336-98e2-278f867d031f"/>
 					<textFieldExpression><![CDATA[$V{items}.toString() + (($V{items}.intValue()>1)?" items,":" item,")]]></textFieldExpression>
 				</textField>
@@ -187,16 +188,14 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="40" splitType="Stretch">
+		<band height="145" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-1" style="header 1" x="0" y="0" width="258" height="30" uuid="27238445-f159-4aed-a256-546079995133"/>
+				<reportElement key="textField-1" style="header 1" x="0" y="115" width="258" height="30" uuid="27238445-f159-4aed-a256-546079995133"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band splitType="Stretch"/>
 	</columnHeader>
@@ -208,7 +207,7 @@
 				</reportElement>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-6" style="data field" x="0" y="1" width="40" height="16" uuid="be04c0a7-ace9-4e9e-841c-50d906ddd281">
+				<reportElement key="textField-6" style="data field" x="2" y="1" width="40" height="16" uuid="be04c0a7-ace9-4e9e-841c-50d906ddd281">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[($F{status}!= null && ((ish.common.types.PaymentStatus)$F{status}).equals(ish.common.types.PaymentStatus.SUCCESS)  )?($F{paymentMethod.name}):("("+$F{paymentMethod.name})]]></textFieldExpression>
@@ -222,10 +221,10 @@
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
 				<reportElement key="textField-8" style="data field (money)" x="372" y="1" width="90" height="16" uuid="f4659b5d-ce4a-4f6e-a4e7-12066cb774f7"/>
-				<textFieldExpression><![CDATA[StringUtils.equalsIgnoreCase("payment in", $F{paymentType}) ? $F{amount} : "( " + $F{amount} + " )"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[StringUtils.equalsIgnoreCase("payment in", $F{typeOfPayment}) ? $F{amount} : "( " + $F{amount} + " )"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-23" style="data field" x="40" y="1" width="56" height="16" uuid="09757663-49c2-42bc-a722-2ab75b13a367">
+				<reportElement key="textField-23" style="data field" x="42" y="1" width="56" height="16" uuid="09757663-49c2-42bc-a722-2ab75b13a367">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>

@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="4"/>
+	<property name="versionNumber" value="10"/>
 	<property name="keyCode" value="ish.oncourse.discount.takeUp.discountedInvoiceLines"/>
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
@@ -27,7 +27,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -58,17 +59,17 @@
 	</style>
 	<field name="invoice.invoiceNumber" class="java.lang.Long"/>
 	<field name="createdOn" class="java.util.Date"/>
-	<field name="discount_applied_ex_tax" class="ish.math.Money"/>
-	<field name="discount_applied_inc_tax" class="ish.math.Money"/>
+	<field name="discountTotalExTax" class="ish.math.Money"/>
+	<field name="discountTotalIncTax" class="ish.math.Money"/>
 	<variable name="invoiceLineCount" class="java.math.BigDecimal" calculation="Count">
 		<variableExpression><![CDATA[$F{invoice.invoiceNumber}]]></variableExpression>
 		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
 	</variable>
 	<variable name="totalDiscountExTax" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{discount_applied_ex_tax}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{discountTotalExTax}.floatValue()]]></variableExpression>
 	</variable>
 	<variable name="totalDiscountIncTax" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{discount_applied_inc_tax}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{discountTotalIncTax}.floatValue()]]></variableExpression>
 	</variable>
 	<group name="total">
 		<groupExpression><![CDATA[null]]></groupExpression>
@@ -76,7 +77,7 @@
 			<band height="20" splitType="Stretch">
 				<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				<rectangle>
-					<reportElement x="0" y="0" width="410" height="20" backcolor="#E6E7F0" uuid="e9e52e79-224a-4d7c-aea7-a3f462b64aea">
+					<reportElement x="0" y="0" width="420" height="20" backcolor="#E6E7F0" uuid="e9e52e79-224a-4d7c-aea7-a3f462b64aea">
 						<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 					</reportElement>
 					<graphicElement>
@@ -84,19 +85,19 @@
 					</graphicElement>
 				</rectangle>
 				<staticText>
-					<reportElement style="header 3" x="10" y="5" width="90" height="15" uuid="416d61ef-8a96-4163-a97d-b5cc02e7e7e1"/>
+					<reportElement style="header 3" x="3" y="5" width="90" height="15" uuid="416d61ef-8a96-4163-a97d-b5cc02e7e7e1"/>
 					<text><![CDATA[Invoice]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="header 3" x="100" y="5" width="70" height="15" uuid="3613b510-c59c-434b-a444-aafa0cdbd9b7"/>
+					<reportElement style="header 3" x="93" y="5" width="114" height="15" uuid="3613b510-c59c-434b-a444-aafa0cdbd9b7"/>
 					<text><![CDATA[Date]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="header 3 (right)" x="190" y="5" width="100" height="15" uuid="e65fad2b-25de-47ef-834c-b438461f02fe"/>
+					<reportElement style="header 3 (right)" x="207" y="5" width="100" height="15" uuid="e65fad2b-25de-47ef-834c-b438461f02fe"/>
 					<text><![CDATA[Discount ex tax]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="header 3 (right)" x="290" y="5" width="100" height="15" uuid="86d72ac2-3394-42e2-85dd-a85f8e23e17c"/>
+					<reportElement style="header 3 (right)" x="307" y="5" width="100" height="15" uuid="86d72ac2-3394-42e2-85dd-a85f8e23e17c"/>
 					<text><![CDATA[Discount total]]></text>
 				</staticText>
 			</band>
@@ -104,11 +105,11 @@
 		<groupFooter>
 			<band height="25" splitType="Stretch">
 				<textField isBlankWhenNull="true">
-					<reportElement style="header 3 (right)" x="190" y="5" width="100" height="15" uuid="29f85008-0c81-4fc8-8680-dbc31abcf008"/>
+					<reportElement style="header 3 (right)" x="207" y="5" width="100" height="15" uuid="29f85008-0c81-4fc8-8680-dbc31abcf008"/>
 					<textFieldExpression><![CDATA[new ish.math.Money($V{totalDiscountExTax})]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement style="header 3 (right)" x="290" y="5" width="100" height="15" uuid="2cccbbdb-b415-4508-96c4-1e53acb9ffe1"/>
+					<reportElement style="header 3 (right)" x="307" y="5" width="100" height="15" uuid="2cccbbdb-b415-4508-96c4-1e53acb9ffe1"/>
 					<textFieldExpression><![CDATA[new ish.math.Money($V{totalDiscountIncTax})]]></textFieldExpression>
 				</textField>
 			</band>
@@ -117,25 +118,25 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<rectangle>
-				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="410" height="20" uuid="e630e49c-2840-4178-8174-ba2694d03380">
+				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="420" height="20" uuid="e630e49c-2840-4178-8174-ba2694d03380">
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 				</reportElement>
 			</rectangle>
 			<textField>
-				<reportElement style="data field" x="10" y="0" width="90" height="15" uuid="0309296b-9a2c-4420-9fb5-eaec7ea27765"/>
+				<reportElement style="data field" x="3" y="0" width="90" height="15" uuid="0309296b-9a2c-4420-9fb5-eaec7ea27765"/>
 				<textFieldExpression><![CDATA[$F{invoice.invoiceNumber}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement style="data field" x="100" y="0" width="70" height="15" uuid="860e8db6-17f8-4ac8-b286-35bd6eec292e"/>
+			<textField isBlankWhenNull="true">
+				<reportElement style="data field (date)" x="93" y="0" width="114" height="15" uuid="860e8db6-17f8-4ac8-b286-35bd6eec292e"/>
 				<textFieldExpression><![CDATA[$F{createdOn}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="data field (money)" x="190" y="0" width="100" height="15" uuid="1f127abb-504e-4f01-8792-d022efdaa03d"/>
-				<textFieldExpression><![CDATA[$F{discount_applied_ex_tax}]]></textFieldExpression>
+				<reportElement style="data field (money)" x="207" y="0" width="100" height="15" uuid="1f127abb-504e-4f01-8792-d022efdaa03d"/>
+				<textFieldExpression><![CDATA[$F{discountTotalExTax}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="data field (money)" x="290" y="0" width="100" height="15" uuid="fbc82bba-aefc-4ae9-9380-0f8745c631a2"/>
-				<textFieldExpression><![CDATA[$F{discount_applied_inc_tax}]]></textFieldExpression>
+				<reportElement style="data field (money)" x="307" y="0" width="100" height="15" uuid="fbc82bba-aefc-4ae9-9380-0f8745c631a2"/>
+				<textFieldExpression><![CDATA[$F{discountTotalIncTax}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

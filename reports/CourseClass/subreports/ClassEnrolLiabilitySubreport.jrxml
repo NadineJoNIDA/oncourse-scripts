@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="7"/>
+	<property name="versionNumber" value="10"/>
 	<property name="keyCode" value="ish.onCourse.CourseClass.prepaidFeesLiability.enrolments"/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
 	<import value="ish.common.types.EnrolmentStatus"/>
@@ -22,7 +22,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -51,10 +52,10 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="enrolment" class="ish.oncourse.server.cayenne.Enrolment"/>
 	<field name="status" class="ish.common.types.EnrolmentStatus"/>
-	<field name="student.contact.full_name" class="java.lang.String"/>
 	<field name="invoiceLine.prepaidFeesRemaining" class="ish.math.Money"/>
-	<field name="invoiceLine.total_price_ex_tax" class="ish.math.Money"/>
+	<field name="invoiceLine.finalPriceToPayExTax" class="ish.math.Money"/>
 	<variable name="printLine" class="java.lang.Boolean">
 		<variableExpression><![CDATA[EnrolmentStatus.STATUSES_LEGIT.contains($F{status})]]></variableExpression>
 	</variable>
@@ -62,7 +63,7 @@
 		<variableExpression><![CDATA[($V{printLine} ? $F{invoiceLine.prepaidFeesRemaining}.toBigDecimal() : 0)]]></variableExpression>
 	</variable>
 	<variable name="subClassTotalSum" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[($V{printLine} ? $F{invoiceLine.total_price_ex_tax}.toBigDecimal() : 0)]]></variableExpression>
+		<variableExpression><![CDATA[($V{printLine} ? $F{invoiceLine.finalPriceToPayExTax}.toBigDecimal() : 0)]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -84,7 +85,7 @@
 			</rectangle>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field" x="12" y="1" width="251" height="14" uuid="0c8e262b-7a3d-4e35-a979-379074597e30"/>
-				<textFieldExpression><![CDATA[$F{student.contact.full_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{enrolment}.student.contact.fullName]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-2" style="data field (money)" x="371" y="1" width="75" height="14" uuid="06489aae-b95f-4a03-b8a1-239e418a2e3a"/>
@@ -92,7 +93,7 @@
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-3" style="data field (money)" x="456" y="1" width="78" height="14" uuid="5096fc17-76e7-4e06-99eb-0ee0f3b74bf3"/>
-				<textFieldExpression><![CDATA[$F{invoiceLine.total_price_ex_tax}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{invoiceLine.finalPriceToPayExTax}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

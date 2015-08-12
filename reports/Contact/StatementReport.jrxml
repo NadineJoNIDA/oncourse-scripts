@@ -5,7 +5,7 @@
 	<property name="entity" value="Contact"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="18"/>
+	<property name="versionNumber" value="21"/>
 	<property name="keyCode" value="ish.onCourse.statementReport"/>
 	<property name="ish.oncourse.description" value="To print all transactions (both debits and credits) for a particular contact.This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
@@ -23,9 +23,9 @@
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
-
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -55,32 +55,34 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
+	<field name="global.dateRange_from" class="java.util.Date"/>
+	<field name="global.dateRange_to" class="java.util.Date"/>
+	<field name="contact" class="ish.oncourse.server.cayenne.Contact"/>
 	<field name="street" class="java.lang.String"/>
 	<field name="suburb" class="java.lang.String"/>
 	<field name="state" class="java.lang.String"/>
 	<field name="postcode" class="java.lang.String"/>
+	<field name="datasource.this" class="ish.oncourse.server.print.ReportDataSource"/>
 	<field name="datasource.invoices" class="net.sf.jasperreports.engine.JRDataSource"/>
-	<field name="datasource.statementLines|sortOn=date" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.statementLineListReport" class="net.sf.jasperreports.engine.JasperReport"/>
-	<field name="full_name" class="java.lang.String"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<variable name="invoiceTotal" class="java.math.BigDecimal"/>
 	<title>
 		<band height="115" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="84" splitType="Prevent">
+		<band height="76" splitType="Prevent">
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-4" style="header 1" x="0" y="0" width="539" height="30" uuid="12dcd9b8-b5cb-4aa7-8d60-70ee1a4637ce"/>
-				<textFieldExpression><![CDATA["Statement for "+$F{full_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Statement for "+$F{contact}.fullName]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="dd MMMMM yyyy" isBlankWhenNull="true">
-				<reportElement key="textField-19" style="data field (date)" positionType="FixRelativeToBottom" x="439" y="64" width="100" height="18" uuid="ebd57b89-52cb-4f71-bea8-e56e1e167c82"/>
+				<reportElement key="textField-19" style="data field (date)" positionType="FixRelativeToBottom" x="439" y="54" width="100" height="18" uuid="ebd57b89-52cb-4f71-bea8-e56e1e167c82"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" style="data field" x="0" y="49" width="250" height="33" uuid="7846f69a-20e6-4ff1-ad51-46b820c03138"/>
+				<reportElement key="textField" style="data field" x="0" y="39" width="250" height="33" uuid="7846f69a-20e6-4ff1-ad51-46b820c03138"/>
 				<textFieldExpression><![CDATA[($F{street}==null?"":$F{street})+ "\n" +
 																	($F{suburb}==null?"":$F{suburb})+ " " +
 																	($F{state}==null?"":$F{state})+ " " + ($F{postcode}==null?"":$F{postcode})]]></textFieldExpression>
@@ -91,7 +93,7 @@
 		<band height="29" splitType="Stretch">
 			<subreport isUsingCache="true">
 				<reportElement key="subreport-3" style="data field" stretchType="RelativeToBandHeight" x="0" y="4" width="539" height="15" uuid="2d1476fb-d59a-4833-8e19-f7601cd7e229"/>
-				<dataSourceExpression><![CDATA[$F{datasource.statementLines|sortOn=date}]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[$F{datasource.this}.buildChildDataSource($F{contact}.getStatementLines($F{global.dateRange_from}, $F{global.dateRange_to}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$F{subreport.ish.onCourse.statementLineListReport}]]></subreportExpression>
 			</subreport>
 		</band>

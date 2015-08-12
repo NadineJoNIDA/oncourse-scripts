@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClassTutor"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="7"/>
+	<property name="versionNumber" value="10"/>
 	<property name="keyCode" value="ish.onCourse.traineeshipTrainingPlanTutorsSubReport"/>
 	<property name="ish.oncourse.title" value="TutorsSubReport"/>
 	<property name="ish.oncourse.filePrefix" value="traineeshipTrainingPlanTutorsSubReport"/>
@@ -24,9 +24,9 @@
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
-
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -55,7 +55,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<field name="tutor.contact.full_name" class="java.lang.String"/>
+	<field name="courseClassTutor" class="ish.oncourse.server.cayenne.CourseClassTutor"/>
 	<field name="tutor.contact.homePhone" class="java.lang.String"/>
 	<field name="tutor.contact.workPhone" class="java.lang.String"/>
 	<field name="tutor.contact.mobilePhone" class="java.lang.String"/>
@@ -90,9 +90,9 @@
 				<reportElement key="textField-1" style="data field" stretchType="RelativeToTallestObject" x="95" y="36" width="375" height="15" isPrintWhenDetailOverflows="true" uuid="ed64c0ea-7604-4ffa-99c5-179d8f6b6740"/>
 				<textFieldExpression><![CDATA[$F{tutor.contact.email}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+			<textField pattern="d MMM yyyy" isBlankWhenNull="true">
 				<reportElement key="textField-2" style="data field" stretchType="RelativeToTallestObject" x="95" y="5" width="375" height="15" isPrintWhenDetailOverflows="true" uuid="d067e2b5-f8bc-4cf3-b3a2-737acdc953b8"/>
-				<textFieldExpression><![CDATA[$F{tutor.contact.full_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClassTutor}.tutor.contact.fullName]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-4" style="data field" stretchType="RelativeToTallestObject" x="95" y="20" width="375" height="15" isPrintWhenDetailOverflows="true" uuid="af2c5d70-3fa1-4a9d-ae3c-9fdbad0ec44c">

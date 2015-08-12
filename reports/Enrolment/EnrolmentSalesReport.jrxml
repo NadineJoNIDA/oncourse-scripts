@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="23"/>
+	<property name="versionNumber" value="27"/>
 	<property name="keyCode" value="ish.onCourse.enrolmentSales"/>
 	<property name="ish.oncourse.title" value="Enrolment Sales"/>
 	<property name="ish.oncourse.filePrefix" value="enrolmentSales"/>
@@ -30,7 +30,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -60,7 +61,7 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
-	<field name="invoiceLine.total_price" class="java.lang.Object"/>
+	<field name="invoiceLine.finalPriceToPayIncTax" class="java.lang.Object"/>
 	<field name="invoiceLine.invoice.createdByUser" class="java.lang.Object"/>
 	<field name="invoiceLine.invoice.createdByUser.firstName" class="java.lang.String"/>
 	<field name="invoiceLine.invoice.createdByUser.lastName" class="java.lang.String"/>
@@ -70,7 +71,7 @@
 		<variableExpression><![CDATA[$F{invoiceLine.invoice.createdByUser.lastName}!=null]]></variableExpression>
 	</variable>
 	<variable name="groupValue" class="java.math.BigDecimal" resetType="Group" resetGroup="user" calculation="Sum">
-		<variableExpression><![CDATA[((ish.math.Money)$F{invoiceLine.total_price}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((ish.math.Money)$F{invoiceLine.finalPriceToPayIncTax}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="groupWebsiteEnrolCount" class="java.lang.Integer" resetType="Group" resetGroup="user" calculation="Count">
 		<variableExpression><![CDATA[($F{invoiceLine.invoice.createdByUser}==null ||
@@ -82,7 +83,7 @@
 		<initialValueExpression><![CDATA[new java.lang.Integer("0")]]></initialValueExpression>
 	</variable>
 	<variable name="sumGroupValue" class="java.math.BigDecimal" resetType="Group" resetGroup="site" calculation="Sum">
-		<variableExpression><![CDATA[((ish.math.Money)$F{invoiceLine.total_price}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((ish.math.Money)$F{invoiceLine.finalPriceToPayIncTax}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="sumEnrolCount" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[($F{invoiceLine.invoice.createdByUser.lastName}!=null || $F{invoiceLine.invoice.createdByUser}==null ||
@@ -90,14 +91,14 @@
 		<initialValueExpression><![CDATA[new java.lang.Integer("0")]]></initialValueExpression>
 	</variable>
 	<variable name="sumValue" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[((ish.math.Money)$F{invoiceLine.total_price}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((ish.math.Money)$F{invoiceLine.finalPriceToPayIncTax}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<group name="site">
 		<groupExpression><![CDATA[$F{invoiceLine.invoice.createdByUser.defaultAdministrationCentre.name}]]></groupExpression>
 		<groupHeader>
-			<band height="31" splitType="Stretch">
+			<band height="35" splitType="Stretch">
 				<rectangle>
-					<reportElement x="0" y="11" width="600" height="20" backcolor="#E6E7F0" uuid="423942bb-5c6c-492d-a362-eb374a6a8964">
+					<reportElement x="0" y="15" width="600" height="20" backcolor="#E6E7F0" uuid="423942bb-5c6c-492d-a362-eb374a6a8964">
 						<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 					</reportElement>
 					<graphicElement>
@@ -105,16 +106,16 @@
 					</graphicElement>
 				</rectangle>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-13" style="header 3" x="5" y="14" width="358" height="13" uuid="0f7936b1-7899-4c38-8aa7-28f141c4d52f"/>
+					<reportElement key="textField-13" style="header 3" x="5" y="18" width="358" height="13" uuid="0f7936b1-7899-4c38-8aa7-28f141c4d52f"/>
 					<textFieldExpression><![CDATA[($F{invoiceLine.invoice.createdByUser.defaultAdministrationCentre.name}==null)?
 					new java.lang.String("website"):$F{invoiceLine.invoice.createdByUser.defaultAdministrationCentre.name}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement key="staticText-1" style="header 3 (right)" x="370" y="14" width="116" height="13" uuid="dc650ce8-ebf5-4014-9874-b7dbe61f6633"/>
+					<reportElement key="staticText-1" style="header 3 (right)" x="370" y="18" width="116" height="13" uuid="dc650ce8-ebf5-4014-9874-b7dbe61f6633"/>
 					<text><![CDATA[No. of enrolments]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-2" style="header 3 (right)" x="486" y="14" width="100" height="13" uuid="3d84a393-641a-4162-8e77-877b52030817"/>
+					<reportElement key="staticText-2" style="header 3 (right)" x="486" y="18" width="100" height="13" uuid="3d84a393-641a-4162-8e77-877b52030817"/>
 					<text><![CDATA[Value]]></text>
 				</staticText>
 			</band>
@@ -168,16 +169,14 @@
 		</groupHeader>
 	</group>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="60" splitType="Stretch">
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-4" style="header 1" x="1" y="0" width="669" height="26" uuid="b898fed7-f91b-415b-abe5-977823c0dc35"/>
+				<reportElement key="textField-4" style="header 1" x="0" y="115" width="669" height="26" uuid="b898fed7-f91b-415b-abe5-977823c0dc35"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnFooter>
 		<band height="35">
 			<textField isBlankWhenNull="true">

@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="18"/>
+	<property name="versionNumber" value="23"/>
 	<property name="keyCode" value="ish.onCourse.cancelledClassesCountReport"/>
 	<property name="ish.oncourse.description" value="Provides a summary list of the number of enrolments and monetary value of those enrolments for classes which have been cancelled and the students transferred, refunded or credited. This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
@@ -25,7 +25,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -54,9 +55,8 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="courseClass" class="java.lang.Object"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<field name="startDateTime" class="java.util.Date"/>
-	<field name="endDateTime" class="java.util.Date"/>
 	<field name="room.name" class="java.lang.String"/>
 	<field name="room.site.name" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
@@ -65,14 +65,12 @@
 	<field name="isCancelled" class="java.lang.Boolean"/>
 	<field name="maximumPlaces" class="java.lang.Integer"/>
 	<field name="minimumPlaces" class="java.lang.Integer"/>
-	<field name="refunded_and_cancelled_enrolments_count" class="java.lang.Integer"/>
-	<field name="class_fee_total_income_refunded_and_cancelled_enrolments" class="java.lang.Object"/>
 	<field name="feeExGst" class="java.lang.Object"/>
 	<variable name="sum_income" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[new Float(((Money)$F{class_fee_total_income_refunded_and_cancelled_enrolments}).floatValue())]]></variableExpression>
+		<variableExpression><![CDATA[new Float(((Money)$F{courseClass}.classTotalFeeIncomeExTaxForRefundedAndCancelledEnrolments).floatValue())]]></variableExpression>
 	</variable>
 	<variable name="sum_enrolment" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{refunded_and_cancelled_enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{courseClass}.refundedAndCancelledEnrolments.size()]]></variableExpression>
 	</variable>
 	<group name="total">
 		<groupExpression><![CDATA[]]></groupExpression>
@@ -82,15 +80,15 @@
 		<groupFooter>
 			<band height="37" splitType="Stretch">
 				<staticText>
-					<reportElement key="staticText-6" style="header 3 (right)" x="440" y="14" width="127" height="14" uuid="1f53a403-1efb-4401-9952-6a0b86c890b1"/>
+					<reportElement key="staticText-6" style="header 3 (right)" x="455" y="14" width="127" height="14" uuid="1f53a403-1efb-4401-9952-6a0b86c890b1"/>
 					<text><![CDATA[Total]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-7" style="header 3 (right)" x="642" y="15" width="49" height="13" uuid="9fe219e9-881b-447a-b172-74ded3f05915"/>
+					<reportElement key="textField-7" style="header 3 (right)" x="670" y="15" width="49" height="13" uuid="9fe219e9-881b-447a-b172-74ded3f05915"/>
 					<textFieldExpression><![CDATA[$V{sum_enrolment}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-7" style="header 3 (right)" x="692" y="15" width="72" height="13" uuid="f4715582-76e3-4b2c-811e-c668883b0a1e"/>
+					<reportElement key="textField-7" style="header 3 (right)" x="720" y="15" width="57" height="13" uuid="f4715582-76e3-4b2c-811e-c668883b0a1e"/>
 					<textFieldExpression><![CDATA[(new Money($V{sum_income}.toString()))]]></textFieldExpression>
 				</textField>
 			</band>
@@ -100,15 +98,16 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="52" splitType="Stretch">
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement key="staticText-6" style="header 1" x="0" y="12" width="763" height="33" uuid="bdc19355-a7d9-4505-8366-fd697a9a2167"/>
+				<reportElement key="staticText-6" style="header 1" x="0" y="108" width="763" height="33" uuid="bdc19355-a7d9-4505-8366-fd697a9a2167"/>
 				<text><![CDATA[Cancelled Classes Count]]></text>
 			</staticText>
 		</band>
+	</title>
+	<pageHeader>
+		<band height="12" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
@@ -122,27 +121,29 @@
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText-2" style="header 3" x="231" y="2" width="98" height="14" uuid="27f805c5-91a5-4cdb-a56b-6aa68a84559b"/>
+				<reportElement key="staticText-2" style="header 3" x="229" y="2" width="108" height="14" uuid="27f805c5-91a5-4cdb-a56b-6aa68a84559b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<text><![CDATA[Start date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-3" style="header 3" x="329" y="2" width="100" height="14" uuid="9450d9b1-68af-40a9-b4b6-982a9d6bbf73"/>
+				<reportElement key="staticText-3" style="header 3" x="337" y="2" width="108" height="14" uuid="9450d9b1-68af-40a9-b4b6-982a9d6bbf73"/>
 				<text><![CDATA[End date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-6" style="header 3" x="440" y="2" width="127" height="14" uuid="a3c5989a-9cd3-47e2-b950-b5bf8309fadd"/>
+				<reportElement key="staticText-6" style="header 3" x="445" y="2" width="156" height="14" uuid="a3c5989a-9cd3-47e2-b950-b5bf8309fadd"/>
 				<text><![CDATA[Site/Room]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-8" style="header 3 (right)" x="642" y="2" width="49" height="14" uuid="02781c38-b8cf-4885-9376-54a2703a05b1"/>
+				<reportElement key="staticText-8" style="header 3 (right)" x="670" y="2" width="49" height="14" uuid="02781c38-b8cf-4885-9376-54a2703a05b1"/>
 				<text><![CDATA[Enrolled]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-9" style="header 3 (right)" x="691" y="2" width="72" height="14" uuid="90c386d0-ab08-4ede-b274-7170e7eef77b"/>
+				<reportElement key="staticText-9" style="header 3 (right)" x="720" y="2" width="56" height="14" uuid="90c386d0-ab08-4ede-b274-7170e7eef77b"/>
 				<text><![CDATA[Income]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-10" style="header 3 (right)" x="576" y="2" width="30" height="14" uuid="7d01633d-e046-40a1-b1f0-ee4afa3a1e6d"/>
+				<reportElement key="staticText-10" style="header 3 (right)" x="604" y="2" width="30" height="14" uuid="7d01633d-e046-40a1-b1f0-ee4afa3a1e6d"/>
 				<text><![CDATA[Max]]></text>
 			</staticText>
 			<staticText>
@@ -150,11 +151,11 @@
 				<text><![CDATA[Course Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-6" style="header 3" x="164" y="2" width="67" height="14" uuid="e5999b8f-3b78-4435-84a6-cdfca17fd935"/>
+				<reportElement key="staticText-6" style="header 3" x="162" y="2" width="67" height="14" uuid="e5999b8f-3b78-4435-84a6-cdfca17fd935"/>
 				<text><![CDATA[Code]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-10" style="header 3 (right)" x="609" y="2" width="30" height="14" uuid="3c842a13-af1a-4b06-85bb-2e6971470b28"/>
+				<reportElement key="staticText-10" style="header 3 (right)" x="637" y="2" width="30" height="14" uuid="3c842a13-af1a-4b06-85bb-2e6971470b28"/>
 				<text><![CDATA[Min]]></text>
 			</staticText>
 		</band>
@@ -162,25 +163,20 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<printWhenExpression><![CDATA[new Boolean($F{isCancelled})]]></printWhenExpression>
-			<rectangle>
-				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="786" height="20" uuid="2ad8caab-84a0-4eca-9ba2-f8eb81688e3a">
-					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
-				</reportElement>
-			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-2" style="data field (datetime)" x="231" y="2" width="98" height="13" uuid="bdd466b4-404d-46a7-88a6-de430f05fc1c"/>
-				<textFieldExpression><![CDATA[$F{startDateTime}]]></textFieldExpression>
+				<reportElement key="textField-2" style="data field (day)" x="229" y="2" width="108" height="13" uuid="bdd466b4-404d-46a7-88a6-de430f05fc1c"/>
+				<textFieldExpression><![CDATA[$F{courseClass}.startDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-3" style="data field (datetime)" x="329" y="1" width="100" height="14" uuid="ec77bdee-a60b-44ff-9f51-17c8353696a4"/>
-				<textFieldExpression><![CDATA[$F{endDateTime}]]></textFieldExpression>
+				<reportElement key="textField-3" style="data field (day)" x="337" y="1" width="108" height="14" uuid="ec77bdee-a60b-44ff-9f51-17c8353696a4"/>
+				<textFieldExpression><![CDATA[$F{courseClass}.endDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-7" style="data field" x="440" y="1" width="127" height="14" uuid="ac7d99c9-804e-44e1-93e7-79116426b4b7"/>
+				<reportElement key="textField-7" style="data field" x="445" y="1" width="156" height="14" uuid="ac7d99c9-804e-44e1-93e7-79116426b4b7"/>
 				<textFieldExpression><![CDATA[( ($F{room.site.name} != null) ? $F{room.site.name} : "Not set" ) + "/" + ( ($F{room.name} != null) ? $F{room.name} : "Not set" )]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-7" style="data field" x="164" y="2" width="67" height="13" uuid="2d35e7a7-fb6b-4521-834c-75f5aa9b8031"/>
+				<reportElement key="textField-7" style="data field" x="162" y="2" width="67" height="13" uuid="2d35e7a7-fb6b-4521-834c-75f5aa9b8031"/>
 				<textFieldExpression><![CDATA[$F{course.code} +"-"+  $F{code}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -188,20 +184,20 @@
 				<textFieldExpression><![CDATA[$F{course.name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-7" style="data field (numeric)" x="576" y="1" width="30" height="14" uuid="9aa2d046-2271-4b01-8c8c-d92e37a4de61"/>
+				<reportElement key="textField-7" style="data field (numeric)" x="604" y="1" width="30" height="14" uuid="9aa2d046-2271-4b01-8c8c-d92e37a4de61"/>
 				<textFieldExpression><![CDATA[$F{maximumPlaces}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-7" style="data field (numeric)" x="609" y="2" width="30" height="13" uuid="0b746f73-a11f-45db-aa31-7196484acd64"/>
+				<reportElement key="textField-7" style="data field (numeric)" x="637" y="2" width="30" height="13" uuid="0b746f73-a11f-45db-aa31-7196484acd64"/>
 				<textFieldExpression><![CDATA[$F{minimumPlaces}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-7" style="data field (numeric)" x="642" y="2" width="49" height="13" uuid="bed552bd-8b3b-401c-b462-039a8cf30442"/>
-				<textFieldExpression><![CDATA[$F{refunded_and_cancelled_enrolments_count}]]></textFieldExpression>
+				<reportElement key="textField-7" style="data field (numeric)" x="670" y="2" width="49" height="13" uuid="bed552bd-8b3b-401c-b462-039a8cf30442"/>
+				<textFieldExpression><![CDATA[$F{courseClass}.refundedAndCancelledEnrolments.size()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-7" style="data field (money)" x="691" y="2" width="72" height="13" uuid="9e63fc18-0b41-440a-b36e-a769f9c39419"/>
-				<textFieldExpression><![CDATA[$F{class_fee_total_income_refunded_and_cancelled_enrolments}]]></textFieldExpression>
+				<reportElement key="textField-7" style="data field (money)" x="720" y="2" width="56" height="13" uuid="9e63fc18-0b41-440a-b36e-a769f9c39419"/>
+				<textFieldExpression><![CDATA[$F{courseClass}.classTotalFeeIncomeExTaxForRefundedAndCancelledEnrolments]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

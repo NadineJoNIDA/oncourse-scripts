@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="18"/>
+	<property name="versionNumber" value="22"/>
 	<property name="keyCode" value="ish.onCourse.salesByCourse"/>
 	<property name="ish.oncourse.title" value="Sales By Course"/>
 	<property name="ish.oncourse.filePrefix" value="SalesByCourse"/>
@@ -32,7 +32,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -62,44 +63,42 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
-	<field name="courseClass.startDateTime" class="java.util.Date"/>
-	<field name="courseClass.endDateTime" class="java.util.Date"/>
-	<field name="invoiceLine.total_price" class="java.lang.Object"/>
+	<field name="invoiceLine.finalPriceToPayIncTax" class="java.lang.Object"/>
 	<field name="status" class="java.lang.Object"/>
 	<field name="courseClass.room.site.name" class="java.lang.String"/>
 	<field name="courseClass.code" class="java.lang.String"/>
 	<field name="courseClass.course.code" class="java.lang.String"/>
 	<field name="courseClass.course.name" class="java.lang.String"/>
-	<field name="courseClass.enrolments_count" class="java.lang.Integer"/>
+	<field name="courseClass.enrolmentsCount" class="java.lang.Integer"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<variable name="isStatusActive" class="java.lang.Boolean">
 		<variableExpression><![CDATA[(ish.common.types.EnrolmentStatus.STATUSES_LEGIT.contains((ish.common.types.EnrolmentStatus)$F{status}))]]></variableExpression>
 	</variable>
 	<variable name="groupEnrolCount" class="java.lang.Integer" resetType="Group" resetGroup="user" calculation="Count">
-		<variableExpression><![CDATA[($V{isStatusActive})?$F{courseClass.enrolments_count}:null]]></variableExpression>
+		<variableExpression><![CDATA[($V{isStatusActive})?$F{courseClass.enrolmentsCount}:null]]></variableExpression>
 	</variable>
 	<variable name="groupValue" class="java.math.BigDecimal" resetType="Group" resetGroup="user" calculation="Sum">
-		<variableExpression><![CDATA[($V{isStatusActive})?((ish.math.Money)$F{invoiceLine.total_price}).toBigDecimal():null]]></variableExpression>
+		<variableExpression><![CDATA[($V{isStatusActive})?((ish.math.Money)$F{invoiceLine.finalPriceToPayIncTax}).toBigDecimal():null]]></variableExpression>
 	</variable>
 	<variable name="sumGroupEnrolCount" class="java.lang.Integer" resetType="Group" resetGroup="site" calculation="Count">
-		<variableExpression><![CDATA[($V{isStatusActive})?$F{courseClass.enrolments_count}:null]]></variableExpression>
+		<variableExpression><![CDATA[($V{isStatusActive})?$F{courseClass.enrolmentsCount}:null]]></variableExpression>
 	</variable>
 	<variable name="sumGroupValue" class="java.math.BigDecimal" resetType="Group" resetGroup="site" calculation="Sum">
-		<variableExpression><![CDATA[($V{isStatusActive})?((ish.math.Money)$F{invoiceLine.total_price}).toBigDecimal():null]]></variableExpression>
+		<variableExpression><![CDATA[($V{isStatusActive})?((ish.math.Money)$F{invoiceLine.finalPriceToPayIncTax}).toBigDecimal():null]]></variableExpression>
 	</variable>
 	<variable name="sumEnrolCount" class="java.lang.Integer" calculation="Count">
-		<variableExpression><![CDATA[($V{isStatusActive})?$F{courseClass.enrolments_count}:null]]></variableExpression>
+		<variableExpression><![CDATA[($V{isStatusActive})?$F{courseClass.enrolmentsCount}:null]]></variableExpression>
 		<initialValueExpression><![CDATA[new java.lang.Integer("0")]]></initialValueExpression>
 	</variable>
 	<variable name="sumValue" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[($V{isStatusActive})?((ish.math.Money)$F{invoiceLine.total_price}).toBigDecimal():null]]></variableExpression>
+		<variableExpression><![CDATA[($V{isStatusActive})?((ish.math.Money)$F{invoiceLine.finalPriceToPayIncTax}).toBigDecimal():null]]></variableExpression>
 	</variable>
 	<group name="site">
 		<groupExpression><![CDATA[$F{courseClass.room.site.name}]]></groupExpression>
 		<groupHeader>
-			<band height="20" splitType="Stretch">
+			<band height="32" splitType="Stretch">
 				<rectangle>
-					<reportElement x="0" y="0" width="758" height="20" backcolor="#E6E7F0" uuid="8ce5f7b6-9d12-4e9d-bd86-34a6ecbedc24">
+					<reportElement x="0" y="12" width="758" height="20" backcolor="#E6E7F0" uuid="8ce5f7b6-9d12-4e9d-bd86-34a6ecbedc24">
 						<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 					</reportElement>
 					<graphicElement>
@@ -107,15 +106,15 @@
 					</graphicElement>
 				</rectangle>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-13" style="header 3" x="0" y="3" width="535" height="13" uuid="fa1e137f-75e2-47cd-8cf8-350816ea241a"/>
+					<reportElement key="textField-13" style="header 3" x="0" y="15" width="535" height="13" uuid="fa1e137f-75e2-47cd-8cf8-350816ea241a"/>
 					<textFieldExpression><![CDATA[$F{courseClass.room.site.name}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement key="staticText-1" style="header 3 (right)" x="535" y="3" width="116" height="13" uuid="797ce22c-19c5-4f0c-adf7-04ad4c33b115"/>
+					<reportElement key="staticText-1" style="header 3 (right)" x="535" y="15" width="116" height="13" uuid="797ce22c-19c5-4f0c-adf7-04ad4c33b115"/>
 					<text><![CDATA[No. of enrolments]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-2" style="header 3 (right)" x="651" y="3" width="100" height="13" uuid="688061e1-dc98-46ae-933b-fbd80208661f"/>
+					<reportElement key="staticText-2" style="header 3 (right)" x="651" y="15" width="100" height="13" uuid="688061e1-dc98-46ae-933b-fbd80208661f"/>
 					<text><![CDATA[Value]]></text>
 				</staticText>
 			</band>
@@ -142,11 +141,6 @@
 		<groupHeader>
 			<band height="20" splitType="Stretch">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				<rectangle>
-					<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="758" height="20" uuid="df9b9194-ae96-4afc-9745-ec09fecb9a52">
-						<property name="com.jaspersoft.studio.unit.x" value="mm"/>
-					</reportElement>
-				</rectangle>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-12" style="data field" x="134" y="1" width="401" height="14" uuid="81128b42-d602-4b5a-8be6-57d18afe65cd"/>
 					<textFieldExpression><![CDATA[$F{courseClass.course.name}]]></textFieldExpression>
@@ -170,16 +164,14 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="36" splitType="Stretch">
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-4" style="header 1" x="1" y="0" width="750" height="26" uuid="6360626b-cad6-4f6b-9811-385e4eccb2fd"/>
+				<reportElement key="textField-4" style="header 1" x="0" y="115" width="750" height="26" uuid="6360626b-cad6-4f6b-9811-385e4eccb2fd"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnFooter>
 		<band height="30">
 			<textField isBlankWhenNull="true">

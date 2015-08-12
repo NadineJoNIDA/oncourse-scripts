@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentInterface"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="27"/>
+	<property name="versionNumber" value="32"/>
 	<property name="keyCode" value="ish.onCourse.reconcile"/>
 	<property name="ish.oncourse.title" value="Reconcile report"/>
 	<property name="ish.oncourse.filePrefix" value="Reconcile report"/>
@@ -36,7 +36,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -73,7 +74,7 @@
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<field name="contact.firstName" class="java.lang.String"/>
 	<field name="contact.lastName" class="java.lang.String"/>
-	<field name="paymentType" class="java.lang.String"/>
+	<field name="typeOfPayment" class="java.lang.String"/>
 	<field name="amount" class="ish.math.Money"/>
 	<field name="createdOn" class="java.util.Date"/>
 	<field name="dateBanked" class="java.util.Date"/>
@@ -101,11 +102,11 @@
 					<text><![CDATA[Account]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-1" style="header 3" x="2" y="35" width="56" height="15" uuid="3ce06249-a9c4-488c-b04d-184086363f73"/>
+					<reportElement key="staticText-1" style="header 3" x="3" y="35" width="56" height="15" uuid="3ce06249-a9c4-488c-b04d-184086363f73"/>
 					<text><![CDATA[Type]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-7" style="header 3" x="181" y="35" width="115" height="15" uuid="0b197a4c-685c-4f05-ab2e-14e33b37fef0"/>
+					<reportElement key="staticText-7" style="header 3" x="181" y="35" width="127" height="15" uuid="0b197a4c-685c-4f05-ab2e-14e33b37fef0"/>
 					<text><![CDATA[Person first name]]></text>
 				</staticText>
 				<staticText>
@@ -113,11 +114,11 @@
 					<text><![CDATA[Date banked]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-9" style="header 3 (right)" x="456" y="35" width="80" height="15" uuid="52aac386-2166-4413-967f-f7b3673c7015"/>
+					<reportElement key="staticText-9" style="header 3 (right)" x="455" y="35" width="80" height="15" uuid="52aac386-2166-4413-967f-f7b3673c7015"/>
 					<text><![CDATA[Amount]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-8" style="header 3" x="301" y="35" width="115" height="15" uuid="831395e0-28f9-49a5-91c3-9816a846ef6b"/>
+					<reportElement key="staticText-8" style="header 3" x="308" y="35" width="132" height="15" uuid="831395e0-28f9-49a5-91c3-9816a846ef6b"/>
 					<text><![CDATA[Person last name]]></text>
 				</staticText>
 			</band>
@@ -125,11 +126,11 @@
 		<groupFooter>
 			<band height="19" splitType="Stretch">
 				<staticText>
-					<reportElement key="staticText-10" style="header 3 (right)" x="324" y="2" width="92" height="15" uuid="3689c986-5c25-4cf6-bc47-bde037ea489e"/>
+					<reportElement key="staticText-10" style="header 3 (right)" x="331" y="2" width="92" height="15" uuid="3689c986-5c25-4cf6-bc47-bde037ea489e"/>
 					<text><![CDATA[Reconciled]]></text>
 				</staticText>
 				<textField evaluationTime="Report" isBlankWhenNull="true">
-					<reportElement key="textField-7" style="header 3 (right)" x="454" y="2" width="82" height="15" uuid="9475298e-e7a7-4db1-861b-aebe928db739"/>
+					<reportElement key="textField-7" style="header 3 (right)" x="453" y="2" width="82" height="15" uuid="9475298e-e7a7-4db1-861b-aebe928db739"/>
 					<textFieldExpression><![CDATA[Money.valueOf($V{total})]]></textFieldExpression>
 				</textField>
 			</band>
@@ -139,16 +140,14 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="26" splitType="Stretch">
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-2" style="header 1" x="0" y="0" width="539" height="26" uuid="45d0a501-de99-488b-bcb9-8d43d8dd08b5"/>
+				<reportElement key="textField-2" style="header 1" x="0" y="115" width="539" height="26" uuid="45d0a501-de99-488b-bcb9-8d43d8dd08b5"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band splitType="Stretch"/>
 	</columnHeader>
@@ -161,23 +160,23 @@
 				</reportElement>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-4" style="data field" x="301" y="1" width="115" height="15" uuid="64e2b137-4aa3-4416-ae34-7b39868c4bad"/>
+				<reportElement key="textField-4" style="data field" x="308" y="1" width="132" height="15" uuid="64e2b137-4aa3-4416-ae34-7b39868c4bad"/>
 				<textFieldExpression><![CDATA[$F{contact.lastName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-1" style="data field" x="2" y="1" width="56" height="15" uuid="71de3afa-5ef6-4462-a335-be375bb5a576"/>
-				<textFieldExpression><![CDATA[$F{paymentType}]]></textFieldExpression>
+				<reportElement key="textField-1" style="data field" x="3" y="1" width="56" height="15" uuid="71de3afa-5ef6-4462-a335-be375bb5a576"/>
+				<textFieldExpression><![CDATA[$F{typeOfPayment}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement key="textField-2" style="data field" x="61" y="1" width="115" height="15" uuid="f281ee10-4dc9-4c4b-9575-e4433174fd79"/>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-2" style="data field (date)" x="61" y="1" width="115" height="15" uuid="f281ee10-4dc9-4c4b-9575-e4433174fd79"/>
 				<textFieldExpression><![CDATA[$F{dateBanked}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-5" style="data field (money)" x="456" y="1" width="80" height="15" uuid="f4e188dd-bb79-4fb7-8285-534c577d34fb"/>
+				<reportElement key="textField-5" style="data field (money)" x="455" y="1" width="80" height="15" uuid="f4e188dd-bb79-4fb7-8285-534c577d34fb"/>
 				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-3" style="data field" x="181" y="1" width="115" height="15" uuid="1eefe067-fa51-4065-b09f-6e18199f25a1"/>
+				<reportElement key="textField-3" style="data field" x="181" y="1" width="127" height="15" uuid="1eefe067-fa51-4065-b09f-6e18199f25a1"/>
 				<textFieldExpression><![CDATA[$F{contact.firstName}]]></textFieldExpression>
 			</textField>
 		</band>

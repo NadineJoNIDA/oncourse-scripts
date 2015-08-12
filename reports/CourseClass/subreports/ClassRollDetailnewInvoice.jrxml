@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="19"/>
+	<property name="versionNumber" value="21"/>
 	<property name="keyCode" value="ish.onCourse.roll.isVET.sub"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -22,7 +22,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -59,7 +60,6 @@
 	<field name="mobile" class="java.lang.String"/>
 	<field name="sex" class="java.lang.String"/>
 	<field name="image.present" class="java.io.InputStream"/>
-	<field name="session.courseClass.tutor_names" class="java.lang.String"/>
 	<field name="studentNo" class="java.lang.Long"/>
 	<field name="isSortable" class="java.lang.Boolean"/>
 	<sortField name="isSortable" order="Descending"/>

@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="5"/>
+	<property name="versionNumber" value="7"/>
 	<property name="keyCode" value="ish.oncourse.budgetSummary.invoiceLineSubreport"/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
 	<import value="ish.math.Money"/>
@@ -22,7 +22,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -52,15 +53,15 @@
 		</conditionalStyle>
 	</style>
 	<field name="title" class="java.lang.String"/>
-	<field name="total_price_ex_tax" class="ish.math.Money"/>
+	<field name="finalPriceToPayExTax" class="ish.math.Money"/>
 	<variable name="maximum_sub_sum" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[((Money)$F{total_price_ex_tax}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((Money)$F{finalPriceToPayExTax}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="budgeted_sub_sum" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[((Money)$F{total_price_ex_tax}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((Money)$F{finalPriceToPayExTax}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="actual_sub_sum" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[((Money)$F{total_price_ex_tax}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((Money)$F{finalPriceToPayExTax}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -93,19 +94,19 @@
 			</textField>
 			<textField>
 				<reportElement style="data field (money)" positionType="Float" x="439" y="0" width="115" height="14" uuid="989ace05-ada8-4d55-9233-a27155cf5cb8"/>
-				<textFieldExpression><![CDATA[$F{total_price_ex_tax}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{finalPriceToPayExTax}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="data field (money)" positionType="Float" x="667" y="0" width="115" height="14" uuid="15d0d6c5-e29a-4e9b-9d18-207f9213ddc7"/>
-				<textFieldExpression><![CDATA[$F{total_price_ex_tax}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{finalPriceToPayExTax}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="data field (money)" positionType="Float" x="554" y="0" width="114" height="14" uuid="54988b71-f14c-44ac-abd9-2c2b4badeabe"/>
-				<textFieldExpression><![CDATA[$F{total_price_ex_tax}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{finalPriceToPayExTax}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement style="data field (money)" positionType="Float" x="230" y="0" width="209" height="14" uuid="6b841c57-f1b2-45b1-b479-010a69c851ce"/>
-				<textFieldExpression><![CDATA[$F{total_price_ex_tax}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{finalPriceToPayExTax}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

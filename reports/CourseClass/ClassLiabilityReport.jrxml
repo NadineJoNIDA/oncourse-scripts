@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="7"/>
+	<property name="versionNumber" value="11"/>
 	<property name="keyCode" value="ish.onCourse.CourseClass.prepaidFeesLiability"/>
 	<property name="ish.oncourse.title" value="Prepaid fees liability"/>
 	<property name="ish.oncourse.filePrefix" value="ClassPrepaidFeesLiability"/>
@@ -28,7 +28,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -57,6 +58,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="courseClass" class="ish.oncourse.server.cayenne.CourseClass"/>
 	<field name="course.name" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
@@ -70,6 +72,35 @@
 	<variable name="classTotalSum" class="java.math.BigDecimal"/>
 	<variable name="liabilitySum" class="java.math.BigDecimal" calculation="Sum"/>
 	<variable name="totalSum" class="java.math.BigDecimal" calculation="Sum"/>
+	<group name="courseClass">
+		<groupExpression><![CDATA[$F{course.code}+"-"+$F{code}]]></groupExpression>
+		<groupHeader>
+			<band height="20" splitType="Stretch">
+				<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				<rectangle>
+					<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="539" height="20" uuid="01c25e2e-6843-4363-b0af-56e0972e4b50">
+						<property name="com.jaspersoft.studio.unit.x" value="mm"/>
+					</reportElement>
+				</rectangle>
+				<textField isBlankWhenNull="true">
+					<reportElement key="staticText-1" style="header 3" x="3" y="2" width="262" height="14" uuid="9ce2086b-c880-44fe-87fc-6db543076edb"/>
+					<textFieldExpression><![CDATA[$F{course.code}+"-"+$F{code}+" "+$F{course.name}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="staticText-1" style="header 3" x="269" y="2" width="102" height="14" uuid="1f338756-896d-4367-acbe-36cda1411493"/>
+					<textFieldExpression><![CDATA[$F{courseClass}.startDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="courseClass" isBlankWhenNull="true">
+					<reportElement key="staticText-1" style="header 3 (right)" x="375" y="2" width="75" height="14" uuid="b4c36afc-9a74-46f8-a037-4b98ddda044d"/>
+					<textFieldExpression><![CDATA[new Money($V{classLiabilitySum})]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="courseClass" isBlankWhenNull="true">
+					<reportElement key="staticText-2" style="header 3 (right)" x="456" y="2" width="78" height="14" uuid="b2ce653b-136c-4e5d-aae8-54c97ab55b5b"/>
+					<textFieldExpression><![CDATA[new Money($V{classTotalSum})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -100,11 +131,11 @@
 				<text><![CDATA[Class]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-2" style="header 3" x="274" y="4" width="81" height="13" uuid="2c996b86-8f62-4b7f-aeb1-0acf58a6b533"/>
+				<reportElement key="staticText-2" style="header 3" x="269" y="4" width="102" height="13" uuid="2c996b86-8f62-4b7f-aeb1-0acf58a6b533"/>
 				<text><![CDATA[Starts]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-2" style="header 3 (right)" x="371" y="4" width="75" height="13" uuid="ebb23edd-5bbb-4976-90fe-9ddecda0c159"/>
+				<reportElement key="staticText-2" style="header 3 (right)" x="375" y="4" width="75" height="13" uuid="ebb23edd-5bbb-4976-90fe-9ddecda0c159"/>
 				<text><![CDATA[Liability]]></text>
 			</staticText>
 			<staticText>

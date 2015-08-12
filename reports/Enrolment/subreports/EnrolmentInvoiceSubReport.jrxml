@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="12"/>
+	<property name="versionNumber" value="14"/>
 	<property name="keyCode" value="ish.onCourse.enrolmentInvoiceSubReport"/>
 	<property name="ish.oncourse.title" value="Enrolments"/>
 	<property name="ish.oncourse.filePrefix" value="Enrolments"/>
@@ -26,7 +26,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -55,10 +56,10 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="enrolment" class="ish.oncourse.server.cayenne.Enrolment"/>
 	<field name="student.contact.firstName" class="java.lang.String"/>
 	<field name="student.contact.lastName" class="java.lang.String"/>
 	<field name="invoiceLine.invoice.invoiceNumber" class="java.lang.Number"/>
-	<field name="invoiceLine.invoice.invoice_total_inc_property" class="java.lang.Number"/>
 	<field name="invoiceLine.invoice.contact.firstName" class="java.lang.String"/>
 	<field name="invoiceLine.invoice.contact.lastName" class="java.lang.String"/>
 	<field name="invoiceLine.invoice.contact.homePhone" class="java.lang.String"/>
@@ -67,19 +68,19 @@
 	<field name="invoiceLine.taxEach" class="java.lang.Number"/>
 	<field name="invoiceLine.priceEachExTax" class="java.lang.Number"/>
 	<field name="invoiceLine.discountEachExTax" class="java.lang.Number"/>
-	<field name="invoiceLine.total_price" class="ish.math.Money"/>
+	<field name="invoiceLine.finalPriceToPayIncTax" class="ish.math.Money"/>
 	<field name="courseClass.feeExGst" class="java.lang.Number"/>
 	<field name="courseClass.code" class="java.lang.String"/>
 	<field name="courseClass.course.code" class="java.lang.String"/>
 	<field name="invoiceLine.invoice.amountOwing" class="java.lang.Number"/>
 	<variable name="invoicetotal" class="java.lang.Number">
-		<variableExpression><![CDATA[$F{invoiceLine.invoice.invoice_total_inc_property}]]></variableExpression>
+		<variableExpression><![CDATA[$F{enrolment}.invoiceLine.invoice.totalIncTax]]></variableExpression>
 	</variable>
 	<variable name="BalanceOutstanding" class="java.lang.Number">
 		<variableExpression><![CDATA[$F{invoiceLine.invoice.amountOwing}]]></variableExpression>
 	</variable>
 	<variable name="sumInvoiceTotal" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[((ish.math.Money)$F{invoiceLine.total_price}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((ish.math.Money)$F{invoiceLine.finalPriceToPayIncTax}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="invoiceTaxTotal" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[((ish.math.Money)$F{invoiceLine.taxEach}).toBigDecimal()]]></variableExpression>

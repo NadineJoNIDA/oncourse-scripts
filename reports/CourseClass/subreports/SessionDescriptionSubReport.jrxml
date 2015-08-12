@@ -5,7 +5,7 @@
 	<property name="entity" value="Session"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="10"/>
+	<property name="versionNumber" value="17"/>
 	<property name="keyCode" value="ish.onCourse.enrolmentSessionsDescription"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -22,7 +22,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -51,8 +52,8 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="session" class="ish.oncourse.server.cayenne.Session"/>
 	<field name="startDatetime" class="java.util.Date"/>
-	<field name="endDatetime" class="java.util.Date"/>
 	<field name="room.name" class="java.lang.String"/>
 	<field name="room.site.name" class="java.lang.String"/>
 	<field name="room.site.drivingDirections" class="java.lang.String"/>
@@ -116,21 +117,21 @@
 				</reportElement>
 			</rectangle>
 			<elementGroup>
-				<textField pattern="EEEEE dd/MM/yyyy h.mm a" isBlankWhenNull="true">
-					<reportElement key="textField-1" style="data field" x="2" y="3" width="140" height="13" uuid="268dbf2f-ea42-4e7b-a77a-0c7cea850378"/>
-					<textFieldExpression><![CDATA[$F{startDatetime}]]></textFieldExpression>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField-1" style="data field (day)" x="2" y="3" width="98" height="13" uuid="268dbf2f-ea42-4e7b-a77a-0c7cea850378"/>
+					<textFieldExpression><![CDATA[$F{session}.startDatetime?.format("d MMM yyyy h:mma", $F{session}.timeZone)]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-2" style="data field" x="254" y="3" width="217" height="13" uuid="55953cc8-a0ca-4cb1-bb7a-18b1ed24c16f"/>
 					<textFieldExpression><![CDATA[( !($F{room.site.name}==null&&$F{room.name}==null) ? $F{room.site.name}+", "+$F{room.name} : "" )]]></textFieldExpression>
 				</textField>
 			</elementGroup>
-			<textField pattern="h.mm a" isBlankWhenNull="true">
-				<reportElement key="textField-3" style="data field" x="150" y="3" width="60" height="13" uuid="e59565a5-47fb-41f6-a8cd-8b703ab4e410"/>
-				<textFieldExpression><![CDATA[$F{endDatetime}]]></textFieldExpression>
+			<textField pattern="h:mma" isBlankWhenNull="true">
+				<reportElement key="textField-3" style="data field (datetime)" x="112" y="3" width="118" height="13" uuid="e59565a5-47fb-41f6-a8cd-8b703ab4e410"/>
+				<textFieldExpression><![CDATA[$F{session}.endDatetime?.format("d MMM yyyy h:mma", $F{session}.timeZone)]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement key="staticText-6" style="data field" x="142" y="3" width="8" height="13" uuid="c251e6ba-e408-4c59-adfd-c1d648d99eac"/>
+				<reportElement key="staticText-6" style="data field" x="102" y="3" width="8" height="13" uuid="c251e6ba-e408-4c59-adfd-c1d648d99eac"/>
 				<text><![CDATA[-]]></text>
 			</staticText>
 		</band>

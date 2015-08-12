@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClassTutor"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="26"/>
+	<property name="versionNumber" value="32"/>
 	<property name="keyCode" value="ish.onCourse.classTutorListReport"/>
 	<property name="ish.oncourse.description" value="To obtain an overview of classes scheduled for each tutor. This report also provides the total hours the tutor is scheduled to teach for each class, which can be used for payroll purposes.This report prints in Landscape format."/>
 	<property name="sortOn" value="tutor.contact.lastName"/>
@@ -25,7 +25,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -55,25 +56,23 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String" isForPrompting="false"/>
+	<field name="courseClassTutor" class="ish.oncourse.server.cayenne.CourseClassTutor"/>
 	<field name="courseClass.course.name" class="java.lang.String"/>
 	<field name="courseClass.uniqueCode" class="java.lang.String"/>
-	<field name="courseClass.startDateTime" class="java.util.Date"/>
-	<field name="courseClass.endDateTime" class="java.util.Date"/>
 	<field name="courseClass.room.site.name" class="java.lang.String"/>
 	<field name="sessionSummary" class="java.lang.String"/>
-	<field name="tutor.contact.full_name" class="java.lang.String"/>
 	<field name="tutor.contact.lastName" class="java.lang.String"/>
 	<field name="tutor.id" class="java.lang.Long"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<group name="tutorGroup">
 		<groupExpression><![CDATA[$F{tutor.id}]]></groupExpression>
 		<groupHeader>
-			<band height="26" splitType="Stretch">
+			<band height="22" splitType="Stretch">
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-13" style="header 2" x="0" y="5" width="776" height="20" uuid="248bc72a-7a56-417d-9137-98778109aa1c">
+					<reportElement key="textField-13" style="header 2" x="0" y="1" width="776" height="20" uuid="248bc72a-7a56-417d-9137-98778109aa1c">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					</reportElement>
-					<textFieldExpression><![CDATA[$F{tutor.contact.full_name}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClassTutor}.tutor.contact.fullName]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -85,20 +84,19 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="50" splitType="Stretch">
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-1" style="header 1" x="1" y="2" width="781" height="26" uuid="14d5982e-c377-41a5-950a-d4e4ddf3688a"/>
+				<reportElement key="textField-1" style="header 1" x="0" y="115" width="781" height="26" uuid="14d5982e-c377-41a5-950a-d4e4ddf3688a"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
-		<band height="30" splitType="Stretch">
+		<band height="38" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<rectangle>
-				<reportElement x="0" y="10" width="782" height="20" backcolor="#E6E7F0" uuid="8c67e938-5c56-4f18-9dc5-1b193c87ab08">
+				<reportElement x="0" y="18" width="782" height="20" backcolor="#E6E7F0" uuid="8c67e938-5c56-4f18-9dc5-1b193c87ab08">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<graphicElement>
@@ -106,27 +104,27 @@
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText-1" style="header 3" x="1" y="13" width="98" height="15" uuid="77445e88-ba47-462d-81b9-2b8bb977efde"/>
+				<reportElement key="staticText-1" style="header 3" x="1" y="21" width="98" height="15" uuid="77445e88-ba47-462d-81b9-2b8bb977efde"/>
 				<text><![CDATA[Code]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-4" style="header 3" x="335" y="13" width="96" height="15" uuid="a83682c4-d554-4788-b8d8-aa685c1ace1f"/>
+				<reportElement key="staticText-4" style="header 3" x="335" y="21" width="96" height="15" uuid="a83682c4-d554-4788-b8d8-aa685c1ace1f"/>
 				<text><![CDATA[Site]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-5" style="header 3 (right)" x="441" y="13" width="94" height="15" uuid="549e85bd-76cd-4445-8066-cc629185cfe7"/>
+				<reportElement key="staticText-5" style="header 3 (right)" x="435" y="21" width="94" height="15" uuid="549e85bd-76cd-4445-8066-cc629185cfe7"/>
 				<text><![CDATA[Sessions (hours)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-6" style="header 3" x="101" y="13" width="230" height="15" uuid="33e0e540-0566-42c9-8bf2-37749187a7cf"/>
+				<reportElement key="staticText-6" style="header 3" x="101" y="21" width="230" height="15" uuid="33e0e540-0566-42c9-8bf2-37749187a7cf"/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-5" style="header 3" x="557" y="13" width="103" height="15" uuid="5d810410-39e8-4f39-9515-d480bcdb4fcb"/>
+				<reportElement key="staticText-5" style="header 3" x="540" y="21" width="120" height="15" uuid="5d810410-39e8-4f39-9515-d480bcdb4fcb"/>
 				<text><![CDATA[Start Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-5" style="header 3" x="674" y="13" width="103" height="15" uuid="ca6809f6-5e6d-43cf-8207-10e5e384c200"/>
+				<reportElement key="staticText-5" style="header 3" x="660" y="21" width="120" height="15" uuid="ca6809f6-5e6d-43cf-8207-10e5e384c200"/>
 				<text><![CDATA[End Date]]></text>
 			</staticText>
 		</band>
@@ -147,20 +145,22 @@
 				<textFieldExpression><![CDATA[$F{courseClass.room.site.name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-10" style="data field (numeric)" x="441" y="2" width="94" height="14" uuid="6a403c9d-7a9d-493c-9a89-1613a735e415"/>
+				<reportElement key="textField-10" style="data field (numeric)" x="435" y="2" width="94" height="14" uuid="6a403c9d-7a9d-493c-9a89-1613a735e415"/>
 				<textFieldExpression><![CDATA[$F{sessionSummary}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-14" style="data field" x="101" y="2" width="230" height="14" uuid="a082dbf4-f3de-49ee-a57d-3bea41b736cc"/>
 				<textFieldExpression><![CDATA[$F{courseClass.course.name}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy h:mm a" isBlankWhenNull="false">
-				<reportElement key="textField-5" style="data field" positionType="FixRelativeToBottom" x="557" y="2" width="103" height="14" uuid="36bc6f60-29c4-4ab9-9d57-e307c8de1eb4"/>
-				<textFieldExpression><![CDATA[$F{courseClass.startDateTime}]]></textFieldExpression>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-5" style="data field (day)" positionType="FixRelativeToBottom" x="540" y="2" width="120" height="14" uuid="36bc6f60-29c4-4ab9-9d57-e307c8de1eb4"/>
+				<textFieldExpression><![CDATA[$F{courseClassTutor}.courseClass.startDateTime?.format("d MMM yyyy h:mma", $F{courseClassTutor}.courseClass.timeZone)]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy h:mm a" isBlankWhenNull="false">
-				<reportElement key="textField-5" style="data field" positionType="FixRelativeToBottom" x="674" y="2" width="103" height="14" uuid="18129170-bf37-4389-9e5a-f5d16f3b4c31"/>
-				<textFieldExpression><![CDATA[$F{courseClass.endDateTime}]]></textFieldExpression>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-5" style="data field (day)" positionType="FixRelativeToBottom" x="660" y="2" width="120" height="14" uuid="18129170-bf37-4389-9e5a-f5d16f3b4c31">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{courseClassTutor}.courseClass.endDateTime?.format("d MMM yyyy h:mma", $F{courseClassTutor}.courseClass.timeZone)]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

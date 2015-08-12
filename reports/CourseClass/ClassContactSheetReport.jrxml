@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="16"/>
+	<property name="versionNumber" value="20"/>
 	<property name="keyCode" value="ish.onCourse.classContactSheetReport"/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
 	<property name="ish.oncourse.description" value="To create a list of students enrolled and the phone numbers and email addresses for those students.This report prints in Portrait format."/>
@@ -24,7 +24,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -54,7 +55,7 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
-	<field name="fee_with_tax" class="java.lang.Object"/>
+	<field name="courseClass" class="java.lang.Object"/>
 	<field name="tax.description" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
@@ -62,9 +63,8 @@
 	<field name="isShownOnWeb" class="java.lang.Boolean"/>
 	<field name="minimumPlaces" class="java.lang.Number"/>
 	<field name="maximumPlaces" class="java.lang.Number"/>
-	<field name="deliveryModeString" class="java.lang.String"/>
 	<field name="isCancelled" class="java.lang.Boolean"/>
-	<field name="enrolments_count" class="java.lang.Integer"/>
+	<field name="enrolmentsCount" class="java.lang.Integer"/>
 	<field name="datasource.successAndQueuedEnrolments" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.enrolmentSubReport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="materials" class="java.lang.String"/>
@@ -72,7 +72,7 @@
 	<field name="webDescription" class="java.lang.String"/>
 	<field name="uniqueCode" class="java.lang.String"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<field name="tutor_names" class="java.lang.String"/>
+	<field name="tutorNames" class="java.lang.String"/>
 	<variable name="subRep" class="java.lang.String"/>
 	<group name="details">
 		<groupExpression><![CDATA[null]]></groupExpression>
@@ -84,7 +84,7 @@
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-7" style="data field" x="100" y="24" width="84" height="15" uuid="3124b894-8bcd-44ce-8fdb-a78bcafdaea7"/>
-					<textFieldExpression><![CDATA[( ($F{deliveryModeString} != null) ? $F{deliveryModeString} : "Not set" )]]></textFieldExpression>
+					<textFieldExpression><![CDATA[( ($F{courseClass}.deliveryMode != null) ? $F{courseClass}.deliveryMode.displayName : "Not set" )]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-8" style="Label" x="330" y="24" width="92" height="15" uuid="1bbdaeb6-2047-4494-871f-914f33f1317b"/>
@@ -92,7 +92,7 @@
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-8" style="data field" x="452" y="24" width="87" height="15" uuid="d6190796-6749-4551-a7ce-0932bfa7a01e"/>
-					<textFieldExpression><![CDATA[$F{fee_with_tax}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.feeIncGst]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-9" style="Label" x="330" y="54" width="92" height="15" uuid="8b8e337f-e140-4400-8378-ab3f2e646f2b"/>
@@ -124,7 +124,7 @@
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-12" style="data field" x="100" y="69" width="84" height="15" uuid="8127e66f-3c3c-4fa0-b400-1340a47f482e"/>
-					<textFieldExpression><![CDATA[$F{enrolments_count}.toString()]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{enrolmentsCount}.toString()]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-13" style="Label" x="330" y="69" width="92" height="15" uuid="dcd7ff90-4101-431b-9ae3-93076e0fc280"/>
@@ -148,7 +148,7 @@
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-15" style="data field" x="100" y="0" width="439" height="15" uuid="3f05ec9a-f33a-4d5c-a066-fe0e459adff3"/>
-					<textFieldExpression><![CDATA[$F{tutor_names}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{tutorNames}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>

@@ -5,7 +5,7 @@
 	<property name="entity" value="DiscountCourseClass"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="4"/>
+	<property name="versionNumber" value="11"/>
 	<property name="keyCode" value="ish.oncourse.discount.takeUpSummary.discountCourseClasses"/>
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
@@ -27,7 +27,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -56,28 +57,26 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="global.dateRange_from" class="java.util.Date"/>
+	<field name="global.dateRange_to" class="java.util.Date"/>
+	<field name="discountCourseClass" class="ish.oncourse.server.cayenne.DiscountCourseClass"/>
 	<field name="courseClass.course.code" class="java.lang.String"/>
 	<field name="courseClass.code" class="java.lang.String"/>
 	<field name="courseClass.course.name" class="java.lang.String"/>
-	<field name="courseClass.startDateTime" class="java.util.Date"/>
 	<field name="courseClass.feeExGst" class="ish.math.Money"/>
-	<field name="discountCourseClass" class="java.lang.Object"/>
-	<field name="from_to_discounted_enrolments" class="java.lang.Integer"/>
-	<field name="from_to_total_enrolments" class="java.lang.Integer"/>
-	<field name="from_to_discount_value" class="ish.math.Money"/>
 	<variable name="totalDiscounted" class="java.lang.Integer" resetType="Group" resetGroup="total" calculation="Sum">
-		<variableExpression><![CDATA[$F{from_to_discounted_enrolments}]]></variableExpression>
+		<variableExpression><![CDATA[$F{discountCourseClass}.getDiscountedEnrolments($F{global.dateRange_from}, $F{global.dateRange_to}).size()]]></variableExpression>
 	</variable>
 	<variable name="totalAll" class="java.lang.Integer" resetType="Group" resetGroup="total" calculation="Sum">
-		<variableExpression><![CDATA[($F{from_to_discounted_enrolments} > 0) ? $F{from_to_total_enrolments} : 0]]></variableExpression>
+		<variableExpression><![CDATA[($F{discountCourseClass}.getDiscountedEnrolments($F{global.dateRange_from}, $F{global.dateRange_to}).size() > 0) ? $F{discountCourseClass}.courseClass.getEnrolmentsWithinDateRange($F{global.dateRange_from}, $F{global.dateRange_to}).size() : 0]]></variableExpression>
 	</variable>
 	<variable name="totalDiscountValue" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{from_to_discount_value}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$F{discountCourseClass}.getTotalDiscountedValue($F{global.dateRange_from}, $F{global.dateRange_to}).floatValue()]]></variableExpression>
 	</variable>
 	<group name="total">
 		<groupExpression><![CDATA[null]]></groupExpression>
 		<groupFooter>
-			<band height="31" splitType="Stretch">
+			<band height="24" splitType="Stretch">
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-5" style="header 3 (right)" x="340" y="5" width="120" height="14" uuid="24d6d0f3-9f7e-4e37-8ab5-19bad0f1bf0c"/>
 					<textFieldExpression><![CDATA[$V{totalDiscounted} + "/" + $V{totalAll}]]></textFieldExpression>
@@ -132,19 +131,14 @@
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<printWhenExpression><![CDATA[$F{from_to_discounted_enrolments} > 0]]></printWhenExpression>
-			<rectangle>
-				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="539" height="20" uuid="4cb86842-0b76-46a7-8a04-0c07112d5549">
-					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
-				</reportElement>
-			</rectangle>
+			<printWhenExpression><![CDATA[$F{discountCourseClass}.getDiscountedEnrolments($F{global.dateRange_from}, $F{global.dateRange_to}).size() > 0]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-1" style="data field" x="0" y="2" width="170" height="14" uuid="9fa56ef5-a7c0-4eb1-b6d9-c5484ab40b9c"/>
 				<textFieldExpression><![CDATA[$F{courseClass.course.code} + "-" + $F{courseClass.code} + " " + $F{courseClass.course.name}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-2" style="data field (date)" x="175" y="2" width="100" height="13" uuid="d677ee56-55a1-41c4-ac8a-86c97a550298"/>
-				<textFieldExpression><![CDATA[$F{courseClass.startDateTime}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{discountCourseClass}.courseClass.startDateTime?.format("d MMM yyyy h:mma", $F{discountCourseClass}.courseClass.timeZone)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-4" style="data field (money)" x="280" y="2" width="55" height="14" uuid="22132885-7ce9-4524-a700-5b873e6b3d2b"/>
@@ -152,11 +146,11 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-5" style="data field (numeric)" x="340" y="2" width="120" height="14" uuid="84c616f4-7cf0-497f-a805-6422459eff9c"/>
-				<textFieldExpression><![CDATA[$F{from_to_discounted_enrolments} + "/" + $F{from_to_total_enrolments}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{discountCourseClass}.getDiscountedEnrolments($F{global.dateRange_from}, $F{global.dateRange_to}).size() + "/" + $F{discountCourseClass}.courseClass.getEnrolmentsWithinDateRange($F{global.dateRange_from}, $F{global.dateRange_to}).size()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-4" style="data field (money)" x="467" y="2" width="70" height="14" uuid="ef7f0c7a-b4c6-4e44-80f9-4868bfb53271"/>
-				<textFieldExpression><![CDATA[$F{from_to_discount_value}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{discountCourseClass}.getTotalDiscountedValue($F{global.dateRange_from}, $F{global.dateRange_to})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

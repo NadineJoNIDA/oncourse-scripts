@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="38"/>
+	<property name="versionNumber" value="41"/>
 	<property name="keyCode" value="ish.onCourse.studentListReport"/>
 	<property name="ish.oncourse.title" value="Student contact list"/>
 	<property name="ish.oncourse.filePrefix" value="student"/>
@@ -29,7 +29,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -77,57 +78,68 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement key="textField" style="header 1" x="0" y="115" width="762" height="26" uuid="27118755-26ce-4a57-9716-522e943d723c"/>
+				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
+			</textField>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="61" splitType="Stretch">
+		<band height="37" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="41" width="786" height="20" backcolor="#E6E7F0" uuid="f30e607a-1329-4a76-aa8c-977b1a2af3dc">
+				<reportElement x="0" y="17" width="786" height="20" backcolor="#E6E7F0" uuid="f30e607a-1329-4a76-aa8c-977b1a2af3dc">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<graphicElement>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement key="textField" style="header 1" x="0" y="0" width="762" height="26" uuid="27118755-26ce-4a57-9716-522e943d723c"/>
-				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
-			</textField>
 			<staticText>
-				<reportElement key="staticText-7" style="header 3" x="0" y="44" width="96" height="15" uuid="6cd96096-81a6-4228-bb3e-cbf6d0b93f91"/>
+				<reportElement key="staticText-7" style="header 3" x="3" y="19" width="96" height="17" uuid="6cd96096-81a6-4228-bb3e-cbf6d0b93f91">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
 				<text><![CDATA[First name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-8" style="header 3" x="96" y="44" width="82" height="15" uuid="1bf2cbb7-9c9a-4d4c-bd14-e4f4bfc6d3fa"/>
+				<reportElement key="staticText-8" style="header 3" x="99" y="19" width="82" height="17" uuid="1bf2cbb7-9c9a-4d4c-bd14-e4f4bfc6d3fa">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
 				<text><![CDATA[Last name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-9" style="header 3" x="178" y="44" width="71" height="15" uuid="6fb4005d-eb81-42a6-b887-e7d5992166a1"/>
+				<reportElement key="staticText-9" style="header 3" x="181" y="19" width="68" height="17" uuid="6fb4005d-eb81-42a6-b887-e7d5992166a1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
 				<text><![CDATA[Code]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-10" style="header 3" x="249" y="44" width="95" height="15" uuid="329071bb-9426-4ab8-8c19-81e81ce81fd9"/>
+				<reportElement key="staticText-10" style="header 3" x="249" y="19" width="95" height="17" uuid="329071bb-9426-4ab8-8c19-81e81ce81fd9"/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-11" style="header 3" x="423" y="44" width="79" height="15" uuid="0475f0b7-e26c-4798-a022-ce4311a6ea11"/>
+				<reportElement key="staticText-11" style="header 3" x="423" y="19" width="79" height="17" uuid="0475f0b7-e26c-4798-a022-ce4311a6ea11"/>
 				<text><![CDATA[Mobile phone]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-12" style="header 3" x="344" y="44" width="78" height="15" uuid="5e1bee75-727c-4921-945e-f94b920338c4"/>
+				<reportElement key="staticText-12" style="header 3" x="344" y="19" width="78" height="17" uuid="5e1bee75-727c-4921-945e-f94b920338c4"/>
 				<text><![CDATA[Suburb]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-13" style="header 3" x="640" y="44" width="130" height="15" uuid="13b9f04e-3eeb-4c4d-bcce-c263f6a0deb1"/>
+				<reportElement key="staticText-13" style="header 3" x="640" y="19" width="130" height="17" uuid="13b9f04e-3eeb-4c4d-bcce-c263f6a0deb1"/>
 				<text><![CDATA[Email]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-14" style="header 3" x="502" y="44" width="78" height="15" uuid="eec2684b-0c38-457f-ac9f-2ee5d0d07c82"/>
+				<reportElement key="staticText-14" style="header 3" x="502" y="19" width="78" height="17" uuid="eec2684b-0c38-457f-ac9f-2ee5d0d07c82"/>
 				<text><![CDATA[Home phone]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="header 3 (right)" x="581" y="44" width="49" height="17" uuid="8a3c4a25-8b50-4292-b55e-eccb9a11c80d"/>
+				<reportElement style="header 3 (right)" x="581" y="19" width="49" height="17" uuid="8a3c4a25-8b50-4292-b55e-eccb9a11c80d">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
 				<text><![CDATA[Post code]]></text>
 			</staticText>
 		</band>
@@ -144,11 +156,15 @@
 				</reportElement>
 			</rectangle>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-3" style="data field" x="0" y="1" width="96" height="16" uuid="3b015cef-e3ae-4a0b-ac5a-23b8437e63b6"/>
+				<reportElement key="textField-3" style="data field" x="3" y="1" width="96" height="16" uuid="3b015cef-e3ae-4a0b-ac5a-23b8437e63b6">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
 				<textFieldExpression><![CDATA[$F{student.contact.firstName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-4" style="data field" x="96" y="1" width="82" height="16" uuid="415e6710-27ef-491f-a2fc-f9021f13b8d5"/>
+				<reportElement key="textField-4" style="data field" x="99" y="1" width="82" height="16" uuid="415e6710-27ef-491f-a2fc-f9021f13b8d5">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
 				<textFieldExpression><![CDATA[$F{student.contact.lastName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -176,7 +192,10 @@
 				<textFieldExpression><![CDATA[$F{student.contact.postcode}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-17" style="data field" x="178" y="1" width="71" height="16" uuid="aaa4d4c9-31cc-4397-a0e0-90414c1cef22"/>
+				<reportElement key="textField-17" style="data field" x="181" y="1" width="68" height="16" uuid="aaa4d4c9-31cc-4397-a0e0-90414c1cef22">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
 				<textFieldExpression><![CDATA[$F{courseClass.course.code} + "-"+ $F{courseClass.code}]]></textFieldExpression>
 			</textField>
 		</band>

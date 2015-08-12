@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="30"/>
+	<property name="versionNumber" value="34"/>
 	<property name="keyCode" value="ish.onCourse.classInvoiceReport"/>
 	<property name="ish.oncourse.description" value=" Invaluable as a method of cross referencing incoming payments for a given Class. the report lists the names of all enrolling students, Invoice No, fee charged, fee paid and any outstanding balances.This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
@@ -26,7 +26,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -58,24 +59,23 @@
 	<parameter name="ReportName" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Class Invoice Report"]]></defaultValueExpression>
 	</parameter>
+	<field name="courseClass" class="ish.oncourse.server.cayenne.CourseClass"/>
 	<field name="tax.rate" class="java.math.BigDecimal"/>
-	<field name="startDateTime" class="java.util.Date"/>
-	<field name="endDateTime" class="java.util.Date"/>
 	<field name="feeExGst" class="java.lang.Object"/>
 	<field name="code" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
 	<field name="course.name" class="java.lang.String"/>
 	<field name="room.name" class="java.lang.String"/>
 	<field name="room.site.name" class="java.lang.String"/>
-	<field name="firstClassSessionRoom.name" class="java.lang.String"/>
-	<field name="firstClassSessionRoom.site.name" class="java.lang.String"/>
+	<field name="firstRoom.name" class="java.lang.String"/>
+	<field name="firstRoom.site.name" class="java.lang.String"/>
 	<field name="minimumPlaces" class="java.lang.Number"/>
 	<field name="maximumPlaces" class="java.lang.Number"/>
-	<field name="enrolments_count" class="java.lang.Integer"/>
+	<field name="enrolmentsCount" class="java.lang.Integer"/>
 	<field name="datasource.successAndQueuedEnrolments" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.enrolmentInvoiceSubReport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<field name="tutor_names" class="java.lang.String"/>
+	<field name="tutorNames" class="java.lang.String"/>
 	<field name="sessionsCount" class="java.lang.Integer"/>
 	<group name="details">
 		<groupExpression><![CDATA[null]]></groupExpression>
@@ -87,7 +87,7 @@
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-4" style="data field" x="36" y="0" width="99" height="15" uuid="727b0b92-3fe3-4e23-bb49-2f859f21497d"/>
-					<textFieldExpression><![CDATA[$F{startDateTime}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.startDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-8" style="Label" x="459" y="0" width="92" height="15" uuid="7dbed479-1ef4-43dd-bcba-9686759b24d3"/>
@@ -115,7 +115,7 @@
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-12" style="data field" x="551" y="15" width="84" height="15" uuid="1dc89acf-54da-4ac9-9e90-2cf4c99347a6"/>
-					<textFieldExpression><![CDATA[$F{enrolments_count}.toString()]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{enrolmentsCount}.toString()]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-15" style="Label" x="145" y="0" width="31" height="15" uuid="0ba9b9e2-0c23-47fc-b6ff-1a78db2db30a"/>
@@ -123,7 +123,7 @@
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-15" style="data field" x="176" y="0" width="80" height="15" uuid="32f0c545-7d1a-49bc-a5a9-225847af3d3e"/>
-					<textFieldExpression><![CDATA[$F{endDateTime}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.endDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-7" style="Label" x="0" y="15" width="36" height="15" uuid="0bdc6a84-df17-4a6d-8211-d41475b7bfb3"/>
@@ -144,16 +144,16 @@
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-11" style="data field" x="354" y="15" width="84" height="15" uuid="78306f05-862d-4f27-92aa-f71b8736e16e"/>
-					<textFieldExpression><![CDATA[($F{room.name} == null) ? ($F{firstClassSessionRoom.name} !=null) ? $F{firstClassSessionRoom.name} :"Not set" : $F{room.name}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{room.name} == null) ? ($F{firstRoom.name} !=null) ? $F{firstRoom.name} :"Not set" : $F{room.name}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-11" style="data field" x="36" y="15" width="220" height="15" uuid="384a7a55-3574-4568-85b8-9f5673534c55"/>
-					<textFieldExpression><![CDATA[($F{room.name} == null) ? ($F{firstClassSessionRoom.name} !=null) ? $F{firstClassSessionRoom.site.name} : "Not set" : $F{room.site.name}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{room.name} == null) ? ($F{firstRoom.name} !=null) ? $F{firstRoom.site.name} : "Not set" : $F{room.site.name}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-10" style="data field" x="50" y="53" width="714" height="32" uuid="105ee399-dd66-4280-86eb-c5abd0eb0f72"/>
 					<textElement verticalAlignment="Top"/>
-					<textFieldExpression><![CDATA[$F{tutor_names}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{tutorNames}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-7" style="data field" x="354" y="0" width="84" height="15" uuid="87e66258-1faa-49c9-8eab-96e04457ca05"/>

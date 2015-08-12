@@ -5,7 +5,7 @@
 	<property name="entity" value="Session"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="6"/>
+	<property name="versionNumber" value="19"/>
 	<property name="keyCode" value="ish.onCourse.sessionTutorPaySubreport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -22,7 +22,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -51,6 +52,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="session" class="ish.oncourse.server.cayenne.Session"/>
 	<field name="id" class="java.lang.Long"/>
 	<field name="startDatetime" class="java.util.Date"/>
 	<field name="endDatetime" class="java.util.Date"/>
@@ -77,69 +79,33 @@
 	<group name="SessionGroup">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
-			<band height="49" splitType="Stretch">
-				<rectangle>
-					<reportElement x="0" y="0" width="720" height="49" backcolor="#E6E7F0" uuid="32fe4bb1-6084-4e0d-ab91-dbcfe8c57e87">
-						<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+			<band height="25" splitType="Stretch">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<textField>
+					<reportElement style="header 2" x="0" y="0" width="190" height="20" uuid="adef2b1e-c354-4134-869e-fcc8084f458f"/>
+					<textFieldExpression><![CDATA[$F{session}.startDatetime?.format("EEEE d MMM yyyy h:mm a", $F{session}.timeZone)]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Label" x="190" y="0" width="130" height="17" uuid="6d094ecd-d6ea-4f90-a762-f6762f4c4407">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					</reportElement>
-					<graphicElement>
-						<pen lineWidth="0.0"/>
-					</graphicElement>
-				</rectangle>
-				<textField>
-					<reportElement style="header 3" x="25" y="0" width="15" height="20" uuid="26ccff1d-94cf-42ae-920e-e935afac2ade"/>
-					<textFieldExpression><![CDATA[$V{SessionNumber}+1+"."]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{SessionDuration}/60 + " hr "+(($V{SessionDuration}%60 > 0)?($V{SessionDuration}%60+" min "):(""))+" ("+$V{PayableDuration}/60+" hr "+(($V{PayableDuration}%60 > 0)?($V{PayableDuration}%60+" min "):(""))+"payable)"]]></textFieldExpression>
 				</textField>
-				<textField pattern="EEEE">
-					<reportElement style="header 3" x="40" y="0" width="60" height="20" uuid="adef2b1e-c354-4134-869e-fcc8084f458f"/>
-					<textFieldExpression><![CDATA[$F{startDatetime}]]></textFieldExpression>
-				</textField>
-				<textField pattern="dd/MM/yy">
-					<reportElement style="header 3" x="100" y="0" width="50" height="20" uuid="3edbe4bd-fd7b-4138-b1cc-41b606c7912f"/>
-					<textFieldExpression><![CDATA[$F{startDatetime}]]></textFieldExpression>
-				</textField>
-				<textField pattern="h.mm a">
-					<reportElement style="header 3" x="170" y="0" width="50" height="20" uuid="b6d4b108-5d98-4e65-8a55-ef7a243bbe94"/>
-					<textFieldExpression><![CDATA[$F{startDatetime}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="header 3" x="250" y="0" width="400" height="20" uuid="6d094ecd-d6ea-4f90-a762-f6762f4c4407"/>
-					<textFieldExpression><![CDATA[$V{SessionDuration}/60+" hr "+(($V{SessionDuration}%60 > 0)?($V{SessionDuration}%60+" min "):(""))+"duration / "+$V{PayableDuration}/60+" hr "+(($V{PayableDuration}%60 > 0)?($V{PayableDuration}%60+" min "):(""))+"payable time"]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement key="textField" style="header 3" x="0" y="20" width="110" height="25" uuid="cee88198-64d7-402f-925f-b4d7050c42d5"/>
-					<textFieldExpression><![CDATA["Tutor(s) assigned to session"]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement key="textField-1" style="header 3" x="120" y="20" width="110" height="25" uuid="b620761a-a386-4891-8f09-5b35ac2af22b"/>
-					<textFieldExpression><![CDATA["Payroll due"]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement key="textField-2" style="header 3" x="240" y="20" width="110" height="25" uuid="b1d32349-c890-41a7-a13f-be87f7e29cac"/>
-					<textFieldExpression><![CDATA["Role"]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement key="textField-3" style="header 3" x="360" y="20" width="50" height="25" uuid="cb6127e9-0a43-44b1-b4c6-90dbd5be607a"/>
-					<textFieldExpression><![CDATA["Override"]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement key="textField-4" style="header 3" x="410" y="20" width="120" height="25" uuid="ed4d8ba2-8e8b-42d9-8ce0-c2768731c4fb"/>
-					<textFieldExpression><![CDATA["Type"]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement key="textField-5" style="header 3 (right)" x="550" y="20" width="60" height="25" uuid="f7875602-8437-4f61-8371-6ded1702d944"/>
-					<textFieldExpression><![CDATA["Rate"]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement key="textField-2" style="header 3 (right)" x="650" y="20" width="60" height="25" uuid="2243a20b-ca48-4908-8f5a-7c375a362b47"/>
-					<textFieldExpression><![CDATA["Payable"]]></textFieldExpression>
-				</textField>
+				<subreport isUsingCache="true">
+					<reportElement key="subreport" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="420" y="0" width="366" height="22" uuid="176388f5-3175-4a09-a013-ea1111031f53">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<dataSourceExpression><![CDATA[$F{datasource.tutors}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$F{subreport.ish.onCourse.tutorTutorpaySubreport}]]></subreportExpression>
+				</subreport>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="20" splitType="Stretch">
 				<textField>
-					<reportElement key="textField-1" style="header 3 (right)" x="650" y="0" width="60" height="20" uuid="1eaf20f0-cb96-4292-aaea-92452aaea8cf"/>
+					<reportElement key="textField-1" style="header 3 (right)" x="550" y="0" width="60" height="20" uuid="1eaf20f0-cb96-4292-aaea-92452aaea8cf">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
 					<textFieldExpression><![CDATA[new ish.math.Money($V{totalPayableBySession})]]></textFieldExpression>
 				</textField>
 			</band>
@@ -158,31 +124,61 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
-			<elementGroup>
-				<subreport isUsingCache="true">
-					<reportElement key="subreport" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="0" width="110" height="20" uuid="b931a457-d1f6-43a5-ac41-d9c92a59482b"/>
-					<dataSourceExpression><![CDATA[$F{datasource.tutors}]]></dataSourceExpression>
-					<subreportExpression><![CDATA[$F{subreport.ish.onCourse.tutorTutorpaySubreport}]]></subreportExpression>
-				</subreport>
-			</elementGroup>
-			<elementGroup>
-				<subreport isUsingCache="true">
-					<reportElement key="subreport" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="120" y="0" width="410" height="20" uuid="583cb10a-7e8a-4e0c-a8c0-2f19594e06c6">
-						<printWhenExpression><![CDATA[new Boolean($F{datasource.sessionTutors}!=null)]]></printWhenExpression>
+		<band height="43" splitType="Stretch">
+			<elementGroup/>
+			<elementGroup/>
+			<subreport isUsingCache="true">
+				<reportElement key="subreport" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="22" width="786" height="20" uuid="583cb10a-7e8a-4e0c-a8c0-2f19594e06c6">
+					<printWhenExpression><![CDATA[new Boolean($F{datasource.sessionTutors}!=null)]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="sessionNumber">
+					<subreportParameterExpression><![CDATA[$V{SessionNumber}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="payableTime">
+					<subreportParameterExpression><![CDATA[$V{PayableDuration}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[$F{datasource.sessionTutors}]]></dataSourceExpression>
+				<returnValue subreportVariable="tutorAttendanceTotalPayable" toVariable="sessionTotalPayable" calculation="Sum"/>
+				<returnValue subreportVariable="tutorAttendanceTotalPayable" toVariable="totalPayableBySession" calculation="Sum"/>
+				<subreportExpression><![CDATA[$F{subreport.ish.onCourse.tutorAttendanceTutorPaySubreport}]]></subreportExpression>
+			</subreport>
+			<frame>
+				<reportElement x="0" y="0" width="620" height="20" uuid="ef761cac-a576-466f-900a-838c6b3fb51c">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<rectangle>
+					<reportElement x="0" y="0" width="620" height="20" backcolor="#E6E7F0" uuid="d8cbe689-0cd4-4fbc-949b-75645b298286">
+						<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 					</reportElement>
-					<subreportParameter name="sessionNumber">
-						<subreportParameterExpression><![CDATA[$V{SessionNumber}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter name="payableTime">
-						<subreportParameterExpression><![CDATA[$V{PayableDuration}]]></subreportParameterExpression>
-					</subreportParameter>
-					<dataSourceExpression><![CDATA[$F{datasource.sessionTutors}]]></dataSourceExpression>
-					<returnValue subreportVariable="tutorAttendanceTotalPayable" toVariable="sessionTotalPayable" calculation="Sum"/>
-					<returnValue subreportVariable="tutorAttendanceTotalPayable" toVariable="totalPayableBySession" calculation="Sum"/>
-					<subreportExpression><![CDATA[$F{subreport.ish.onCourse.tutorAttendanceTutorPaySubreport}]]></subreportExpression>
-				</subreport>
-			</elementGroup>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+				<textField>
+					<reportElement key="textField-2" style="header 3" x="140" y="0" width="110" height="20" uuid="8042079c-b9df-4da4-9b76-34ad79b69b5d"/>
+					<textFieldExpression><![CDATA["Role"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement key="textField-4" style="header 3" x="315" y="0" width="134" height="20" uuid="07fa04a3-3220-431a-8aaf-34f506c57594"/>
+					<textFieldExpression><![CDATA["Type"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement key="textField-1" style="header 3" x="4" y="0" width="132" height="20" uuid="a97391b4-23f1-4164-8887-7f3bed9fd864"/>
+					<textFieldExpression><![CDATA["Payroll due"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement key="textField-3" style="header 3" x="256" y="0" width="54" height="20" uuid="639cfd2b-e7a1-41d7-8313-44d924217db8"/>
+					<textFieldExpression><![CDATA["Override"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement key="textField-5" style="header 3 (right)" x="460" y="0" width="74" height="20" uuid="0b03fcb4-0240-4ee6-b1fa-9226c2ea287f"/>
+					<textFieldExpression><![CDATA["Rate"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement key="textField-2" style="header 3 (right)" x="540" y="0" width="70" height="20" uuid="0573d1b0-9a75-4e54-ba7f-231deba3bedf"/>
+					<textFieldExpression><![CDATA["Payable"]]></textFieldExpression>
+				</textField>
+			</frame>
 		</band>
 	</detail>
 	<columnFooter>

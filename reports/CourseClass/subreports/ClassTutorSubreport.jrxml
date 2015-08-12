@@ -2,10 +2,10 @@
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ClassTutorSubreport" language="groovy" pageWidth="125" pageHeight="842" columnWidth="125" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6de308bd-3eae-43bc-806d-35b424b48794">
 	<property name="name" value="Tutors-ish"/>
-	<property name="entity" value="Tutor"/>
+	<property name="entity" value="CourseClassTutor"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="23"/>
+	<property name="versionNumber" value="25"/>
 	<property name="keyCode" value="ish.onCourse.class.tutorsSubreport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -23,7 +23,8 @@
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -52,12 +53,13 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="courseClassTutor" class="ish.oncourse.server.cayenne.CourseClassTutor"/>
 	<field name="inPublicity" class="java.lang.Boolean"/>
-	<field name="tutor.contact.full_name" class="java.lang.String"/>
+	<field name="tutor.contact.firstName" class="java.lang.String"/>
 	<field name="tutor.contact.lastName" class="java.lang.String"/>
 	<sortField name="inPublicity" order="Descending"/>
-	<sortField name="tutor.contact.full_name"/>
 	<sortField name="tutor.contact.lastName"/>
+	<sortField name="tutor.contact.firstName"/>
 	<variable name="tutorNumber" class="java.math.BigDecimal" calculation="Count">
 		<variableExpression><![CDATA[$F{tutor.contact.lastName}]]></variableExpression>
 		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
@@ -78,7 +80,7 @@
 		<band height="14" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField-1" style="data field" x="0" y="1" width="125" height="13" uuid="676f3507-6ea4-4612-90a9-9ebd7da41bc9"/>
-				<textFieldExpression><![CDATA[$F{tutor.contact.full_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClassTutor}.tutor.contact.fullName]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

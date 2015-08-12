@@ -5,7 +5,7 @@
 	<property name="entity" value="Module"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="14"/>
+	<property name="versionNumber" value="18"/>
 	<property name="keyCode" value="ish.onCourse.courseClassSubReport"/>
 	<property name="ish.oncourse.title" value="Classes "/>
 	<property name="ish.oncourse.filePrefix" value="Course_details"/>
@@ -13,7 +13,7 @@
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
-		<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
+	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
 		<paragraph spacingAfter="8"/>
 	</style>
 	<style name="header 1" style="default" forecolor="#4F0018" vTextAlign="Middle" fontName="Open Sans Light" fontSize="18" pdfFontName="Open Sans Light"/>
@@ -24,9 +24,9 @@
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
-
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -59,7 +59,7 @@
 	<field name="startDateTime" class="java.util.Date"/>
 	<field name="endDateTime" class="java.util.Date"/>
 	<field name="feeExGst" class="java.lang.Object"/>
-	<field name="enrolments_count" class="java.lang.Integer"/>
+	<field name="enrolmentsCount" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -80,19 +80,19 @@
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText-1" style="header 3" x="0" y="25" width="97" height="15" uuid="0c958c09-f0dc-4ae7-803b-9ab46f43a5c9"/>
+				<reportElement key="staticText-1" style="header 3" x="0" y="25" width="90" height="15" uuid="0c958c09-f0dc-4ae7-803b-9ab46f43a5c9"/>
 				<text><![CDATA[Code]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-2" style="header 3" x="99" y="25" width="97" height="15" uuid="5e5de580-acc8-4794-a303-09a7fef98cf0"/>
+				<reportElement key="staticText-2" style="header 3" x="90" y="25" width="109" height="15" uuid="5e5de580-acc8-4794-a303-09a7fef98cf0"/>
 				<text><![CDATA[Start]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-3" style="header 3" x="198" y="25" width="97" height="15" uuid="cc69c14d-944c-4e73-9ade-cc1943cab08b"/>
+				<reportElement key="staticText-3" style="header 3" x="199" y="25" width="110" height="15" uuid="cc69c14d-944c-4e73-9ade-cc1943cab08b"/>
 				<text><![CDATA[End]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-4" style="header 3 (right)" x="297" y="25" width="97" height="15" uuid="e5209989-732d-4eb1-bef6-e02d8e82c3ca"/>
+				<reportElement key="staticText-4" style="header 3 (right)" x="309" y="25" width="97" height="15" uuid="e5209989-732d-4eb1-bef6-e02d8e82c3ca"/>
 				<text><![CDATA[Fee]]></text>
 			</staticText>
 			<staticText>
@@ -100,7 +100,7 @@
 				<text><![CDATA[Class Details ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-6" style="header 3 (right)" x="396" y="25" width="97" height="15" uuid="b5cbbc7c-66ad-4c59-8408-5507946ab47e"/>
+				<reportElement key="staticText-6" style="header 3 (right)" x="408" y="25" width="97" height="15" uuid="b5cbbc7c-66ad-4c59-8408-5507946ab47e"/>
 				<text><![CDATA[Enrolments]]></text>
 			</staticText>
 		</band>
@@ -115,25 +115,25 @@
 			</rectangle>
 			<elementGroup>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-1" style="data field" x="0" y="2" width="97" height="14" uuid="fc8e173e-cc04-4efe-a0de-51231317c59f"/>
+					<reportElement key="textField-1" style="data field" x="0" y="2" width="90" height="14" uuid="fc8e173e-cc04-4efe-a0de-51231317c59f"/>
 					<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 				</textField>
-				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement key="textField-2" style="data field (datetime)" x="99" y="2" width="97" height="13" uuid="df2e06bd-a399-4568-84c2-eef4cb1f0a3c"/>
+				<textField pattern="d MMM yyyy" isBlankWhenNull="true">
+					<reportElement key="textField-2" style="data field (day)" x="90" y="2" width="109" height="13" uuid="df2e06bd-a399-4568-84c2-eef4cb1f0a3c"/>
 					<textFieldExpression><![CDATA[$F{startDateTime}]]></textFieldExpression>
 				</textField>
-				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement key="textField-3" style="data field (datetime)" x="198" y="2" width="97" height="14" uuid="538ab644-c7fc-4e32-84c0-8fc806a13dff"/>
+				<textField pattern="d MMM yyyy" isBlankWhenNull="true">
+					<reportElement key="textField-3" style="data field (day)" x="199" y="2" width="110" height="14" uuid="538ab644-c7fc-4e32-84c0-8fc806a13dff"/>
 					<textFieldExpression><![CDATA[$F{endDateTime}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-4" style="data field (money)" x="297" y="2" width="97" height="14" uuid="119dd271-4241-4560-9ed9-6d1b5c36076e"/>
+					<reportElement key="textField-4" style="data field (money)" x="309" y="2" width="97" height="14" uuid="119dd271-4241-4560-9ed9-6d1b5c36076e"/>
 					<textFieldExpression><![CDATA[$F{feeExGst}]]></textFieldExpression>
 				</textField>
 			</elementGroup>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-5" style="data field (numeric)" x="396" y="2" width="97" height="14" uuid="c47b6444-7d06-4c1d-a6dc-68d26cc56038"/>
-				<textFieldExpression><![CDATA[$F{enrolments_count}]]></textFieldExpression>
+				<reportElement key="textField-5" style="data field (numeric)" x="408" y="2" width="97" height="14" uuid="c47b6444-7d06-4c1d-a6dc-68d26cc56038"/>
+				<textFieldExpression><![CDATA[$F{enrolmentsCount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

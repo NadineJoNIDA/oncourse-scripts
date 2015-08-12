@@ -5,12 +5,12 @@
 	<property name="entity" value="ClassCost"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="7"/>
+	<property name="versionNumber" value="16"/>
 	<property name="keyCode" value="ish.onCourse.classCostTutorPaySubreport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
-		<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
+	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
 		<paragraph spacingAfter="8"/>
 	</style>
 	<style name="header 1" style="default" forecolor="#4F0018" vTextAlign="Middle" fontName="Open Sans Light" fontSize="18" pdfFontName="Open Sans Light"/>
@@ -21,9 +21,9 @@
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
-
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -57,12 +57,11 @@
 	<parameter name="attendanceNumber" class="java.lang.Integer" isForPrompting="false"/>
 	<parameter name="tutorId" class="java.lang.Long" isForPrompting="false"/>
 	<parameter name="tutorRole" class="java.lang.String"/>
+	<field name="classCost" class="ish.oncourse.server.cayenne.ClassCost"/>
 	<field name="contact.tutor.id" class="java.lang.Long"/>
 	<field name="contact.firstName" class="java.lang.String"/>
 	<field name="contact.lastName" class="java.lang.String"/>
 	<field name="definedTutorRole.name" class="java.lang.String"/>
-	<field name="isAmountOverride" class="java.lang.Boolean"/>
-	<field name="perUnitAmountExTax" class="java.lang.Object"/>
 	<field name="repetitionType" class="java.lang.Object"/>
 	<field name="flowType" class="java.lang.Object"/>
 	<field name="courseClass.enrolments" class="java.util.List"/>
@@ -86,7 +85,7 @@
 		<variableExpression><![CDATA[(ish.common.types.ClassCostRepetitionType.PER_TIMETABLED_HOUR.equals($F{repetitionType}) || ish.common.types.ClassCostRepetitionType.PER_STUDENT_CONTACT_HOUR.equals($F{repetitionType}))]]></variableExpression>
 	</variable>
 	<variable name="payable" class="java.math.BigDecimal">
-		<variableExpression><![CDATA[((ish.math.Money)$F{perUnitAmountExTax}).multiply((($V{multiplyByEnrolments})?$F{courseClass.enrolments}.size():1)).multiply((($V{multiplyByTime})?($P{payableTime}/60.0):1)).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[((ish.math.Money)$F{classCost}.perUnitAmountExTax).multiply((($V{multiplyByEnrolments})?$F{courseClass.enrolments}.size():1)).multiply((($V{multiplyByTime})?($P{payableTime}/60.0):1)).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="classCostTotalPayable" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[($V{printPayLine} ? $V{payable} : new java.math.BigDecimal(0))]]></variableExpression>
@@ -97,42 +96,42 @@
 	<title>
 		<band splitType="Stretch"/>
 	</title>
-	<pageHeader>
-		<band splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band splitType="Stretch"/>
-	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<printWhenExpression><![CDATA[($V{printPayLine})]]></printWhenExpression>
 			<rectangle>
-				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="790" height="20" uuid="2626a9a9-4f35-47c8-8f5b-667637b44000">
+				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="620" height="20" uuid="2626a9a9-4f35-47c8-8f5b-667637b44000">
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 				</reportElement>
 			</rectangle>
 			<textField>
-				<reportElement style="data field" x="10" y="0" width="110" height="20" uuid="5e560e1a-3522-4429-a4dd-fe930ac32c27"/>
-				<textFieldExpression><![CDATA[$F{contact.lastName}+", "+$F{contact.firstName}]]></textFieldExpression>
+				<reportElement style="data field" x="4" y="0" width="132" height="20" uuid="5e560e1a-3522-4429-a4dd-fe930ac32c27"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{contact.firstName}+", "+$F{contact.lastName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="data field" x="130" y="0" width="110" height="20" uuid="2adb72bd-fd6f-4e42-9f65-1800b6a51653"/>
+				<reportElement style="data field" x="140" y="0" width="110" height="20" uuid="2adb72bd-fd6f-4e42-9f65-1800b6a51653"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{definedTutorRole.name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="data field" x="250" y="0" width="40" height="20" uuid="893209ef-2338-4ba7-817e-97985edfe258"/>
-				<textFieldExpression><![CDATA[(($F{isAmountOverride})?("Yes"):("No"))]]></textFieldExpression>
+				<reportElement style="data field" x="256" y="0" width="54" height="20" uuid="893209ef-2338-4ba7-817e-97985edfe258"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[(($F{classCost}.amountOverride)?("Yes"):("No"))]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="data field" x="300" y="0" width="120" height="20" uuid="dd852f2b-1d87-4206-88a3-0e7bf6bf3ef8"/>
+				<reportElement style="data field" x="315" y="0" width="134" height="20" uuid="dd852f2b-1d87-4206-88a3-0e7bf6bf3ef8"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{repetitionType}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="data field (money)" x="440" y="0" width="60" height="20" uuid="f90c7e55-c851-4f8d-a5d1-93d207263446"/>
-				<textFieldExpression><![CDATA[(ish.math.Money)$F{perUnitAmountExTax}]]></textFieldExpression>
+				<reportElement style="data field (money)" x="460" y="0" width="74" height="20" uuid="f90c7e55-c851-4f8d-a5d1-93d207263446"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[(ish.math.Money)$F{classCost}.perUnitAmountExTax]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="data field (money)" x="540" y="0" width="60" height="20" uuid="3b211ae0-2abc-437b-a902-55fda6b35ced"/>
+				<reportElement style="data field (money)" x="540" y="0" width="70" height="20" uuid="3b211ae0-2abc-437b-a902-55fda6b35ced"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new ish.math.Money($V{payable})]]></textFieldExpression>
 			</textField>
 		</band>

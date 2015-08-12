@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="24"/>
+	<property name="versionNumber" value="26"/>
 	<property name="keyCode" value="ish.onCourse.enrolmentConfirmation"/>
 	<property name="ish.oncourse.title" value="Enrolment Confirmation"/>
 	<property name="ish.oncourse.filePrefix" value="enrolmentConfirmation"/>
@@ -28,7 +28,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -77,14 +78,14 @@
 	<group name="courseDetail">
 		<groupExpression><![CDATA[null]]></groupExpression>
 		<groupHeader>
-			<band height="40" splitType="Stretch">
+			<band height="47" splitType="Stretch">
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement key="textField-37" style="data field" positionType="Float" x="0" y="21" width="540" height="13" uuid="4f4b6bdb-19c7-4e4c-af7f-14924a901ed7"/>
+					<reportElement key="textField-37" style="data field" positionType="Float" x="0" y="31" width="540" height="13" uuid="4f4b6bdb-19c7-4e4c-af7f-14924a901ed7"/>
 					<textElement markup="html"/>
 					<textFieldExpression><![CDATA[Textile.processToJasperHtml($F{courseClass.course.webDescription})]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement key="staticText-37" style="header 2" positionType="Float" x="0" y="1" width="540" height="22" uuid="e7384726-bd07-492f-8cf0-18c2f48e584e"/>
+					<reportElement key="staticText-37" style="header 2" positionType="Float" x="0" y="11" width="540" height="22" uuid="e7384726-bd07-492f-8cf0-18c2f48e584e"/>
 					<text><![CDATA[Course Details]]></text>
 				</staticText>
 			</band>
@@ -136,34 +137,32 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="135" splitType="Stretch">
+		<band height="225" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement key="staticText-34" style="header 1" positionType="Float" x="0" y="80" width="540" height="25" uuid="f694dd7c-06e7-4aac-b109-d3c0628dca28"/>
+				<reportElement key="staticText-34" style="header 1" positionType="Float" x="-1" y="173" width="540" height="25" uuid="f694dd7c-06e7-4aac-b109-d3c0628dca28"/>
 				<text><![CDATA[Enrolment confirmation]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-24" style="data field" positionType="Float" x="55" y="21" width="376" height="13" uuid="97b1805f-0962-4f31-9392-f612ec0bc4e6"/>
+				<reportElement key="textField-24" style="data field" positionType="Float" x="54" y="114" width="376" height="13" uuid="97b1805f-0962-4f31-9392-f612ec0bc4e6"/>
 				<textFieldExpression><![CDATA[$F{student.contact.lastName}+", "+$F{student.contact.firstName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-32" style="data field" positionType="Float" x="55" y="35" width="376" height="13" uuid="f615f62f-a031-415c-9663-cc33071b048a"/>
+				<reportElement key="textField-32" style="data field" positionType="Float" x="54" y="128" width="376" height="13" uuid="f615f62f-a031-415c-9663-cc33071b048a"/>
 				<textFieldExpression><![CDATA[$F{student.contact.street}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-34" style="data field" positionType="Float" x="55" y="49" width="376" height="13" uuid="db0d1558-6a4c-4da3-a3b1-0c44b5ecb332"/>
+				<reportElement key="textField-34" style="data field" positionType="Float" x="54" y="142" width="376" height="13" uuid="db0d1558-6a4c-4da3-a3b1-0c44b5ecb332"/>
 				<textFieldExpression><![CDATA[(($F{student.contact.suburb}!=null)?($F{student.contact.suburb}+", "):"")+
 (($F{student.contact.state}!=null)?($F{student.contact.state}+", "):"")+
 (($F{student.contact.postcode}!=null)?($F{student.contact.postcode}):"")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
-				<reportElement key="textField-2" style="header 1" x="0" y="106" width="540" height="25" uuid="a0ed806a-e19b-425c-b223-82536449a18e"/>
+				<reportElement key="textField-2" style="header 1" x="-1" y="199" width="540" height="25" uuid="a0ed806a-e19b-425c-b223-82536449a18e"/>
 				<textFieldExpression><![CDATA[$F{courseClass.course.name}+" ("+$F{courseClass.uniqueCode}+")"]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band splitType="Stretch"/>
 	</columnHeader>

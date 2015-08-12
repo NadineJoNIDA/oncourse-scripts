@@ -5,7 +5,7 @@
 	<property name="entity" value="AccountTransaction"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="39"/>
+	<property name="versionNumber" value="52"/>
 	<property name="keyCode" value="ish.onCourse.accountTransactionDetailReport"/>
 	<property name="ish.oncourse.title" value="Transactions"/>
 	<property name="ish.oncourse.filePrefix" value="transaction"/>
@@ -15,6 +15,7 @@
 	<property name="sortOn" value="account.accountCode;transactionDate"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
+	<import value="ish.common.types.*"/>
 	<import value="ish.math.Money"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
 	<import value="javax.swing.text.DateFormatter"/>
@@ -30,7 +31,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -61,36 +63,32 @@
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
 	<parameter name="dFormat" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["dd/MM/yyyy"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["d MMM yyyy"]]></defaultValueExpression>
 	</parameter>
 	<field name="global.dateRange_from" class="java.util.Date"/>
 	<field name="global.dateRange_to" class="java.util.Date"/>
-	<field name="tableNameForPrint" class="java.lang.String"/>
-	<field name="invoiceNumberIfInvoice" class="java.lang.String"/>
-	<field name="nameForPrint" class="java.lang.String"/>
+	<field name="accountTransaction" class="java.lang.Object"/>
 	<field name="account.accountCode" class="java.lang.String"/>
-	<field name="transactionDate" class="java.util.Date"/>
 	<field name="amount" class="java.lang.Object"/>
-	<field name="account.typeAsString" class="java.lang.String"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<field name="account.description" class="java.lang.String"/>
 	<variable name="TOTAL_AT_GROUP" class="java.math.BigDecimal" resetType="Group" resetGroup="Account" calculation="Sum">
 		<variableExpression><![CDATA[((ish.math.Money)$F{amount}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="source" class="java.lang.String">
-		<variableExpression><![CDATA[$F{tableNameForPrint} + ($F{tableNameForPrint}.equals(new String("Invoice"))?" "+ $F{invoiceNumberIfInvoice} +", " + $F{nameForPrint}:", " + $F{nameForPrint})]]></variableExpression>
+		<variableExpression><![CDATA[$F{accountTransaction}.tableName?.displayName?.replace(" line", "") + (AccountTransactionType.INVOICE_LINE.equals($F{accountTransaction}.tableName) ? " " + $F{accountTransaction}.relatedInvoiceLine?.invoice?.invoiceNumber +", " + $F{accountTransaction}.printTitle : ", " + $F{accountTransaction}.printTitle)]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_DEBIT" class="java.math.BigDecimal" resetType="Group" resetGroup="Account" incrementType="Group" incrementGroup="Account" calculation="Sum">
-		<variableExpression><![CDATA[($F{account.typeAsString}.equalsIgnoreCase("asset") || $F{account.typeAsString}.equalsIgnoreCase("expense") || $F{account.typeAsString}.equalsIgnoreCase("cos")) ? $V{TOTAL_AT_GROUP} : new BigDecimal("0")]]></variableExpression>
+		<variableExpression><![CDATA[(AccountType.ASSET.equals($F{accountTransaction}.account.type) || AccountType.EXPENSE.equals($F{accountTransaction}.account.type) || AccountType.COS.equals($F{accountTransaction}.account.type)) ? $V{TOTAL_AT_GROUP} : new BigDecimal("0")]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_CREDIT" class="java.math.BigDecimal" resetType="Group" resetGroup="Account" incrementType="Group" incrementGroup="Account" calculation="Sum">
-		<variableExpression><![CDATA[($F{account.typeAsString}.equalsIgnoreCase("equity") || $F{account.typeAsString}.equalsIgnoreCase("liability") || $F{account.typeAsString}.equalsIgnoreCase("income")) ? $V{TOTAL_AT_GROUP} : new BigDecimal("0")]]></variableExpression>
+		<variableExpression><![CDATA[(AccountType.EQUITY.equals($F{accountTransaction}.account.type) || AccountType.LIABILITY.equals($F{accountTransaction}.account.type) || AccountType.INCOME.equals($F{accountTransaction}.account.type)) ? $V{TOTAL_AT_GROUP} : new BigDecimal("0")]]></variableExpression>
 	</variable>
 	<variable name="SUBTOTAL_DEBIT" class="java.math.BigDecimal" resetType="Group" resetGroup="Account" calculation="Sum">
-		<variableExpression><![CDATA[($F{account.typeAsString}.equalsIgnoreCase("asset") || $F{account.typeAsString}.equalsIgnoreCase("expense") || $F{account.typeAsString}.equalsIgnoreCase("cos")) ? (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? BigDecimal.ZERO : ((ish.math.Money)$F{amount}).toBigDecimal()) : (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? ((ish.math.Money)$F{amount}).negate().toBigDecimal() : BigDecimal.ZERO)]]></variableExpression>
+		<variableExpression><![CDATA[(AccountType.ASSET.equals($F{accountTransaction}.account.type) || AccountType.EXPENSE.equals($F{accountTransaction}.account.type) || AccountType.COS.equals($F{accountTransaction}.account.type)) ? (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? BigDecimal.ZERO : ((ish.math.Money)$F{amount}).toBigDecimal()) : (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? ((ish.math.Money)$F{amount}).negate().toBigDecimal() : BigDecimal.ZERO)]]></variableExpression>
 	</variable>
 	<variable name="SUBTOTAL_CREDIT" class="java.math.BigDecimal" resetType="Group" resetGroup="Account" calculation="Sum">
-		<variableExpression><![CDATA[($F{account.typeAsString}.equalsIgnoreCase("equity") || $F{account.typeAsString}.equalsIgnoreCase("liability") || $F{account.typeAsString}.equalsIgnoreCase("income")) ? (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? BigDecimal.ZERO : ((ish.math.Money)$F{amount}).toBigDecimal()) : (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? ((ish.math.Money)$F{amount}).negate().toBigDecimal() : BigDecimal.ZERO)]]></variableExpression>
+		<variableExpression><![CDATA[(AccountType.EQUITY.equals($F{accountTransaction}.account.type) || AccountType.LIABILITY.equals($F{accountTransaction}.account.type) || AccountType.INCOME.equals($F{accountTransaction}.account.type)) ? (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? BigDecimal.ZERO : ((ish.math.Money)$F{amount}).toBigDecimal()) : (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? ((ish.math.Money)$F{amount}).negate().toBigDecimal() : BigDecimal.ZERO)]]></variableExpression>
 	</variable>
 	<group name="Account" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{account.accountCode}]]></groupExpression>
@@ -102,7 +100,7 @@
 				</textField>
 				<textField isBlankWhenNull="false">
 					<reportElement key="textField-20" style="header 2" x="185" y="2" width="79" height="17" uuid="383dfd84-1487-41cf-a733-9d199cd62137"/>
-					<textFieldExpression><![CDATA["("+ $F{account.typeAsString}+")"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["("+ $F{accountTransaction}.account.type.displayName+")"]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -111,12 +109,12 @@
 				<textField evaluationTime="Group" evaluationGroup="Account" pattern="###0.00;(###0.00)" isBlankWhenNull="true">
 					<reportElement key="textField-16" style="header 2" x="238" y="29" width="60" height="18" uuid="e4bfd760-4c03-4a4e-92f7-f22a967c33bf"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[($F{account.typeAsString}.equalsIgnoreCase("asset") || $F{account.typeAsString}.equalsIgnoreCase("expense") || $F{account.typeAsString}.equalsIgnoreCase("cos")) ? $V{TOTAL_AT_GROUP} : ""]]></textFieldExpression>
+					<textFieldExpression><![CDATA[(AccountType.ASSET.equals($F{accountTransaction}.account.type) || AccountType.EXPENSE.equals($F{accountTransaction}.account.type) || AccountType.COS.equals($F{accountTransaction}.account.type)) ? $V{TOTAL_AT_GROUP} : ""]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Account" pattern="###0.00;(###0.00)" isBlankWhenNull="true">
 					<reportElement key="textField-21" style="header 2" x="302" y="29" width="60" height="18" uuid="94cf1246-3c51-49fb-8436-b9da0cfc3cf0"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[($F{account.typeAsString}.equalsIgnoreCase("equity") || $F{account.typeAsString}.equalsIgnoreCase("liability") || $F{account.typeAsString}.equalsIgnoreCase("income")) ? $V{TOTAL_AT_GROUP} : ""]]></textFieldExpression>
+					<textFieldExpression><![CDATA[(AccountType.EQUITY.equals($F{accountTransaction}.account.type) || AccountType.LIABILITY.equals($F{accountTransaction}.account.type) || AccountType.INCOME.equals($F{accountTransaction}.account.type)) ? $V{TOTAL_AT_GROUP} : ""]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Account" pattern="###0.00;(###0.00)" isBlankWhenNull="true">
 					<reportElement key="textField-21" style="header 3 (right)" x="302" y="8" width="60" height="15" uuid="f84323f3-b031-4f56-beb5-2a37c3b064c1"/>
@@ -142,43 +140,45 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement key="textField" style="header 1" x="0" y="115" width="539" height="26" uuid="96394ae5-8933-46df-9a60-8ac2465e7a1c"/>
+				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
+			</textField>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="81" splitType="Stretch">
+		<band height="58" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="61" width="538" height="20" backcolor="#E6E7F0" uuid="d0d3d25a-2257-4b52-8722-0ffce4715b0a">
+				<reportElement x="0" y="38" width="539" height="20" backcolor="#E6E7F0" uuid="d0d3d25a-2257-4b52-8722-0ffce4715b0a">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<graphicElement>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement key="textField" style="header 1" x="0" y="0" width="539" height="26" uuid="96394ae5-8933-46df-9a60-8ac2465e7a1c"/>
-				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
-			</textField>
 			<staticText>
-				<reportElement key="staticText-10" style="header 3" x="238" y="64" width="60" height="15" uuid="eda8641f-b87e-4072-a760-58bdb6e34684"/>
+				<reportElement key="staticText-10" style="header 3 (right)" x="238" y="41" width="60" height="15" uuid="eda8641f-b87e-4072-a760-58bdb6e34684"/>
 				<text><![CDATA[Debit]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-11" style="header 3" x="367" y="64" width="172" height="15" uuid="8a175179-d317-4b0f-afb1-85b02a07eca1"/>
+				<reportElement key="staticText-11" style="header 3" x="367" y="41" width="172" height="15" uuid="8a175179-d317-4b0f-afb1-85b02a07eca1"/>
 				<text><![CDATA[Source]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-12" style="header 3" x="302" y="64" width="60" height="15" uuid="e635531f-a663-4f0c-b248-3ae6d264ac46"/>
+				<reportElement key="staticText-12" style="header 3 (right)" x="302" y="41" width="60" height="15" uuid="e635531f-a663-4f0c-b248-3ae6d264ac46"/>
 				<text><![CDATA[Credit]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-2" style="Label" x="0" y="40" width="71" height="14" uuid="b0077d53-a16d-408b-8db4-13b0b8e6a5c3">
+				<reportElement key="staticText-2" style="Label" x="0" y="17" width="60" height="14" uuid="b0077d53-a16d-408b-8db4-13b0b8e6a5c3">
 					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1) && $F{global.dateRange_from} != null && $F{global.dateRange_to} != null]]></printWhenExpression>
 				</reportElement>
 				<text><![CDATA[Date range]]></text>
 			</staticText>
 			<textField evaluationTime="Report" isBlankWhenNull="false">
-				<reportElement key="textField-5" style="data field" x="71" y="40" width="468" height="14" uuid="fd329903-d0eb-4647-9efa-7952a18f80c6">
+				<reportElement key="textField-5" style="data field" x="60" y="17" width="479" height="14" uuid="fd329903-d0eb-4647-9efa-7952a18f80c6">
 					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1) && $F{global.dateRange_from} != null && $F{global.dateRange_to} != null]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[(new DateFormatter(new SimpleDateFormat($P{dFormat})).valueToString($F{global.dateRange_from}))+
@@ -197,25 +197,21 @@
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 				</reportElement>
 			</rectangle>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement key="textField-3" style="data field" x="0" y="0" width="101" height="15" uuid="67ff0e7a-2b5e-4537-972a-cb71b0d8ec63"/>
-				<textFieldExpression><![CDATA[$F{transactionDate}]]></textFieldExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-3" style="data field (datetime)" x="0" y="0" width="183" height="15" uuid="67ff0e7a-2b5e-4537-972a-cb71b0d8ec63"/>
+				<textFieldExpression><![CDATA[$F{accountTransaction}.transactionDate]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;(###0.00)" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="238" y="0" width="60" height="15" uuid="0ff8b2ab-5193-49a4-aa65-d7b23dde3c75"/>
-				<textFieldExpression><![CDATA[($F{account.typeAsString}.equalsIgnoreCase("asset") || $F{account.typeAsString}.equalsIgnoreCase("expense") || $F{account.typeAsString}.equalsIgnoreCase("cos")) ? (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? "-" : ((ish.math.Money)$F{amount}).toBigDecimal()) : (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? ((ish.math.Money)$F{amount}).negate().toBigDecimal() : "-")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[(AccountType.ASSET.equals($F{accountTransaction}.account.type) || AccountType.EXPENSE.equals($F{accountTransaction}.account.type) || AccountType.COS.equals($F{accountTransaction}.account.type)) ? (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? "-" : ((ish.math.Money)$F{amount}).toBigDecimal()) : (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? ((ish.math.Money)$F{amount}).negate().toBigDecimal() : "-")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-17" style="data field" x="367" y="0" width="172" height="15" uuid="4030291c-1724-49a6-a5ea-bf1a189fb28b"/>
 				<textFieldExpression><![CDATA[$V{source}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;(###0.00)" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-21" style="data field (money)" x="302" y="0" width="60" height="15" uuid="275564d4-2239-451f-a9b3-b6bf42dbe235"/>
-				<textFieldExpression><![CDATA[($F{account.typeAsString}.equalsIgnoreCase("equity") || $F{account.typeAsString}.equalsIgnoreCase("liability") || $F{account.typeAsString}.equalsIgnoreCase("income")) ? (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? "-" : ((ish.math.Money)$F{amount}).toBigDecimal()) : (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? ((ish.math.Money)$F{amount}).negate().toBigDecimal() : "-")]]></textFieldExpression>
-			</textField>
-			<textField pattern="h.mm a" isBlankWhenNull="false">
-				<reportElement key="textField-22" style="data field" x="106" y="0" width="66" height="15" uuid="d1d777e0-7e58-428b-862f-df04f8bc2fbb"/>
-				<textFieldExpression><![CDATA[$F{transactionDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[(AccountType.EQUITY.equals($F{accountTransaction}.account.type) || AccountType.LIABILITY.equals($F{accountTransaction}.account.type) || AccountType.INCOME.equals($F{accountTransaction}.account.type)) ? (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? "-" : ((ish.math.Money)$F{amount}).toBigDecimal()) : (Money.ZERO.isGreaterThan((ish.math.Money)$F{amount}) ? ((ish.math.Money)$F{amount}).negate().toBigDecimal() : "-")]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

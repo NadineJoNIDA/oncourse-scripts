@@ -5,7 +5,7 @@
 	<property name="entity" value="Outcome"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="9"/>
+	<property name="versionNumber" value="11"/>
 	<property name="keyCode" value="ish.onCourse.certificate.transcript.subreport"/>
 	<property name="ish.oncourse.title" value="Outcomes"/>
 	<property name="ish.oncourse.filePrefix" value="Outcomes"/>
@@ -13,7 +13,7 @@
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
-		<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
+	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
 		<paragraph spacingAfter="8"/>
 	</style>
 	<style name="header 1" style="default" forecolor="#4F0018" vTextAlign="Middle" fontName="Open Sans Light" fontSize="18" pdfFontName="Open Sans Light"/>
@@ -24,9 +24,9 @@
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
-
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -55,9 +55,9 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="outcome" class="java.lang.Object"/>
 	<field name="code" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
-	<field name="status_for_print" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -91,14 +91,14 @@
 				<reportElement key="textField-1" style="data field" stretchType="RelativeToTallestObject" x="0" y="0" width="97" height="26" isPrintWhenDetailOverflows="true" uuid="b4f28956-0bbd-4124-a028-852e2db17801"/>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-2" style="data field" stretchType="RelativeToTallestObject" x="99" y="0" width="238" height="26" isPrintWhenDetailOverflows="true" uuid="dfc81ccc-4909-47a8-838b-a0974b3d0b73"/>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-5" style="data field" stretchType="RelativeToTallestObject" x="346" y="0" width="147" height="26" isPrintWhenDetailOverflows="true" uuid="cb11f815-76d5-4146-b3e5-ac21fae34dc6"/>
 				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA[$F{status_for_print}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{outcome}.status?.displayName]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

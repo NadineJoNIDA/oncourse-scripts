@@ -5,7 +5,7 @@
 	<property name="entity" value="Outcome"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="19"/>
+	<property name="versionNumber" value="22"/>
 	<property name="keyCode" value="ish.onCourse.classFunding"/>
 	<property name="ish.oncourse.description" value="To keep track of delivery of funded program Student Contact Hours over a particular time period. This report shows a summary of each qualification and the hours delivered against each of the national funding types. This report prints in Portrait format."/>
 	<property name="sortOn" value="enrolment.courseClass.course.qualification.nationalCode;fundingSource"/>
@@ -25,7 +25,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -55,7 +56,7 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String" isForPrompting="false"/>
-	<field name="fundingSource_for_print" class="java.lang.String"/>
+	<field name="outcome" class="java.lang.Object"/>
 	<field name="enrolment.courseClass.course.qualification.nationalCode" class="java.lang.String"/>
 	<field name="enrolment.courseClass.course.qualification.title" class="java.lang.String"/>
 	<field name="enrolment.courseClass.course.qualification.level" class="java.lang.String"/>
@@ -112,7 +113,7 @@
 		</groupFooter>
 	</group>
 	<group name="funding">
-		<groupExpression><![CDATA[$F{fundingSource_for_print}]]></groupExpression>
+		<groupExpression><![CDATA[$F{outcome}.fundingSource?.displayName]]></groupExpression>
 		<groupHeader>
 			<band height="20" splitType="Stretch">
 				<rectangle>
@@ -122,7 +123,7 @@
 				</rectangle>
 				<textField isBlankWhenNull="false">
 					<reportElement key="textField-9" style="data field" x="1" y="1" width="396" height="16" uuid="a25f5aa8-32e1-479c-8b0f-d4f5c49d3cd2"/>
-					<textFieldExpression><![CDATA[$F{fundingSource_for_print}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{outcome}.fundingSource?.displayName]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="funding" isBlankWhenNull="false">
 					<reportElement key="textField-10" style="data field (numeric)" x="405" y="1" width="105" height="16" uuid="31f7e238-aec3-4e77-bd54-4663305a16de"/>
@@ -138,16 +139,14 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="42" splitType="Stretch">
+		<band height="150" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-1" style="header 1" x="1" y="7" width="538" height="26" uuid="ecc0a7c2-fd0d-490a-9448-015026171685"/>
+				<reportElement key="textField-1" style="header 1" x="0" y="115" width="538" height="26" uuid="ecc0a7c2-fd0d-490a-9448-015026171685"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="mm"/>
@@ -177,7 +176,7 @@
 		<band splitType="Stretch">
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-15" style="data field" x="2" y="-12" width="100" height="0" uuid="40effb05-fe70-450f-bc44-8d55c6df3194"/>
-				<textFieldExpression><![CDATA[$F{fundingSource_for_print}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{outcome}.fundingSource?.displayName]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-16" style="data field (numeric)" x="361" y="-12" width="72" height="0" uuid="2ff66887-7705-45a7-9059-6a255c7ad7f8"/>

@@ -5,7 +5,7 @@
 	<property name="entity" value="PrintableAttendance"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="19"/>
+	<property name="versionNumber" value="21"/>
 	<property name="keyCode" value="ish.onCourse.rollAge"/>
 	<property name="ish.oncourse.title" value="Enrolments"/>
 	<property name="ish.oncourse.filePrefix" value="CourseClass_enrolements"/>
@@ -234,6 +234,7 @@ phone]]></text>
 								<bottomPen lineWidth="0.0"/>
 								<rightPen lineWidth="0.0"/>
 							</box>
+							<textElement textAlignment="Center"/>
 							<textFieldExpression><![CDATA[$V{isPresent} == null ? "" : $V{isPresent}.booleanValue() ? "Y" : "N"]]></textFieldExpression>
 						</textField>
 					</cellContents>

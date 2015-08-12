@@ -5,9 +5,10 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="17"/>
+	<property name="versionNumber" value="21"/>
 	<property name="keyCode" value="ish.onCourse.assessmentOutcomeReport"/>
 	<property name="ish.oncourse.description" value="For use by the College Tutor to mark the assessment outcomes for each student studying a VET class. As well as enabling the Tutor to sign and date the entries prior to sending back to College Administrators for entering onto onCourse. This report prints in Landscape format."/>
+	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
@@ -23,7 +24,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -55,9 +57,8 @@
 	<parameter name="ReportName" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Assessment Outcome Record"]]></defaultValueExpression>
 	</parameter>
-	<field name="tutor_names" class="java.lang.String"/>
-	<field name="startDateTime" class="java.util.Date"/>
-	<field name="endDateTime" class="java.util.Date"/>
+	<field name="courseClass" class="ish.oncourse.server.cayenne.CourseClass"/>
+	<field name="tutorNames" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
 	<field name="course.name" class="java.lang.String"/>
@@ -72,9 +73,9 @@
 					<reportElement key="staticText-17" style="Label" x="0" y="5" width="72" height="15" uuid="40ca39a5-40d9-419f-bc7e-3ba80360ec7d"/>
 					<text><![CDATA[Starts]]></text>
 				</staticText>
-				<textField pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="true">
-					<reportElement key="textField-16" style="data field" x="72" y="5" width="302" height="15" uuid="595d9019-d57f-4f5a-b9a8-a1f0a752740f"/>
-					<textFieldExpression><![CDATA[$F{startDateTime}]]></textFieldExpression>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField-16" style="data field (datetime)" x="72" y="5" width="302" height="15" uuid="595d9019-d57f-4f5a-b9a8-a1f0a752740f"/>
+					<textFieldExpression><![CDATA[$F{courseClass}.startDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-17" style="Label" x="0" y="20" width="72" height="15" uuid="c80cea60-5d1f-4d2b-81d1-0f13af418b2a"/>
@@ -82,7 +83,7 @@
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-16" style="data field" x="72" y="20" width="692" height="15" uuid="f360ca97-a6bf-401c-8b47-2b2ddcd2111c"/>
-					<textFieldExpression><![CDATA[$F{tutor_names}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{tutorNames}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-17" style="Label" x="0" y="35" width="72" height="15" uuid="4ca4d3c9-f665-405e-b2c8-a47e419d4036"/>
@@ -96,9 +97,9 @@
 					<reportElement key="staticText-17" style="Label" x="374" y="5" width="51" height="15" uuid="a73ba822-df5e-4ff2-a282-26e826dfab64"/>
 					<text><![CDATA[Ends]]></text>
 				</staticText>
-				<textField pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="true">
-					<reportElement key="textField-16" style="data field" x="425" y="5" width="339" height="15" uuid="f6c130c6-6e49-47c7-8e5b-21607b0de4d9"/>
-					<textFieldExpression><![CDATA[$F{endDateTime}]]></textFieldExpression>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField-16" style="data field (datetime)" x="425" y="5" width="339" height="15" uuid="f6c130c6-6e49-47c7-8e5b-21607b0de4d9"/>
+					<textFieldExpression><![CDATA[$F{courseClass}.endDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>

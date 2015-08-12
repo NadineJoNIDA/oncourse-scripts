@@ -5,7 +5,7 @@
 	<property name="entity" value="Room"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="40"/>
+	<property name="versionNumber" value="44"/>
 	<property name="keyCode" value="ish.onCourse.roomDetailsReport"/>
 	<property name="ish.oncourse.description" value="A report that allows users to print the details of all sessions that are scheduled for a particular room, for a particular date range.This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
@@ -31,7 +31,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -98,7 +99,7 @@
 					<textFieldExpression><![CDATA[$F{site.street}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-9" style="data field" x="100" y="32" width="326" height="15" uuid="b6701051-e6cd-43c5-b733-9101c8332708"/>
+					<reportElement key="textField-9" style="data field" x="100" y="31" width="326" height="15" uuid="b6701051-e6cd-43c5-b733-9101c8332708"/>
 					<textFieldExpression><![CDATA[($F{site.suburb} ?: "") + " " + ($F{site.state} ?: "") + " " + ($F{site.postcode} ?: "")]]></textFieldExpression>
 				</textField>
 			</band>
@@ -116,7 +117,7 @@
 					<reportElement key="staticText-3" style="Label" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15" uuid="688dded8-a5d7-45c6-b007-443e470cc989"/>
 					<text><![CDATA[Directions]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement key="textField-16" style="data field" stretchType="RelativeToBandHeight" x="100" y="0" width="686" height="15" uuid="bbd1ca57-b664-4a1c-ad46-3fb0a0e9539f"/>
 					<textFieldExpression><![CDATA[$F{directions}]]></textFieldExpression>
 				</textField>
@@ -135,7 +136,7 @@
 					<reportElement key="staticText-4" style="Label" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15" uuid="00ba7d0a-0e47-43f4-8ebd-0f269495f44e"/>
 					<text><![CDATA[Facilities]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement key="textField-17" style="data field" stretchType="RelativeToBandHeight" x="100" y="0" width="686" height="15" uuid="c5ae6159-7183-47f8-889b-52bd294af1c5"/>
 					<textFieldExpression><![CDATA[$F{facilities}]]></textFieldExpression>
 				</textField>
@@ -148,9 +149,9 @@
 	<group name="sessions">
 		<groupExpression><![CDATA[null]]></groupExpression>
 		<groupFooter>
-			<band height="44" splitType="Stretch">
+			<band height="26" splitType="Stretch">
 				<subreport isUsingCache="true">
-					<reportElement key="subreport-2" style="Footer" mode="Transparent" x="1" y="19" width="785" height="20" isRemoveLineWhenBlank="true" uuid="61b3970f-132d-420c-a3e5-10b18e648f6e">
+					<reportElement key="subreport-2" style="Footer" mode="Transparent" x="1" y="2" width="785" height="20" isRemoveLineWhenBlank="true" uuid="61b3970f-132d-420c-a3e5-10b18e648f6e">
 						<printWhenExpression><![CDATA[new Boolean($F{datasource.unavailableRuleRelations|sortOn=rule.startDateTime}!=null)]]></printWhenExpression>
 					</reportElement>
 					<dataSourceExpression><![CDATA[$F{datasource.unavailableRuleRelations|sortOn=rule.startDateTime}]]></dataSourceExpression>
@@ -177,7 +178,7 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="38" splitType="Stretch">
+		<band height="23" splitType="Stretch">
 			<subreport isUsingCache="true">
 				<reportElement key="subreport-1" style="Footer" mode="Transparent" x="1" y="3" width="785" height="20" isRemoveLineWhenBlank="true" uuid="9ec59e77-f6fa-402e-9f7f-de8fedea1dde">
 					<printWhenExpression><![CDATA[new Boolean($F{datasource.sessions|sortOn=startDatetime}!=null)]]></printWhenExpression>

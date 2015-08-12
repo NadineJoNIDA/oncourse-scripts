@@ -5,7 +5,7 @@
 	<property name="entity" value="Qualification"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="15"/>
+	<property name="versionNumber" value="17"/>
 	<property name="keyCode" value="ish.onCourse.qualificationListReport"/>
 	<property name="ish.oncourse.title" value="Qualifications List"/>
 	<property name="ish.oncourse.filePrefix" value="QualificationsList"/>
@@ -26,7 +26,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -65,16 +66,13 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="49" splitType="Stretch">
+		<band height="152" splitType="Stretch">
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-2" style="header 1" x="0" y="0" width="529" height="26" uuid="8a393af5-a89d-4b25-b434-13d7b5f8fcbb"/>
+				<reportElement key="textField-2" style="header 1" x="0" y="115" width="529" height="26" uuid="8a393af5-a89d-4b25-b434-13d7b5f8fcbb"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="21" splitType="Stretch">
 			<rectangle>

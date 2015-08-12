@@ -5,16 +5,16 @@
 	<property name="entity" value="Certificate"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="41"/>
+	<property name="versionNumber" value="44"/>
 	<property name="keyCode" value="ish.onCourse.certificate.attainment"/>
 	<property name="ish.oncourse.title" value="Certificate"/>
 	<property name="ish.oncourse.filePrefix" value="certificate"/>
 	<property name="ish.oncourse.description" value="onCourse includes AQF recommended templates for full Qualification Certificates, Statements of Attainment and transcripts. Certificates can only be generated from units that are recorded as part of onCourse enrolments."/>
 	<property name="ish.oncourse.pdfFileName" value="Certificate.pdf"/>
 	<import value="net.sf.jasperreports.engine.*"/>
-	<import value="net.sf.jasperreports.engine.data.*"/>
-	<import value="java.util.*"/>
 	<import value="ish.common.types.QualificationType"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
 	<import value="org.apache.commons.lang3.time.DateUtils"/>
 	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
 		<paragraph spacingAfter="8"/>
@@ -28,7 +28,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -59,7 +60,7 @@
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
 	<field name="certificate" class="java.lang.Object"/>
-	<field name="datasource.successful_outcomes" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="datasource.successfulOutcomes" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.certificate.attainment.subreport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="image.logo-nrt" class="java.io.InputStream"/>
 	<field name="image.logo-VETAB" class="java.io.InputStream"/>
@@ -67,7 +68,7 @@
 	<field name="pref.avetmiss.certificate.signatory.name" class="java.lang.String"/>
 	<field name="pref.avetmiss.collegename" class="java.lang.Object"/>
 	<field name="pref.avetmiss.identifier" class="java.lang.Object"/>
-	<filterExpression><![CDATA[!($F{certificate}.isQualification && ![QualificationType.SKILLSET_TYPE, QualificationType.SKILLSET_LOCAL_TYPE].contains($F{certificate}.qualification.type))]]></filterExpression>
+	<filterExpression><![CDATA[!($F{certificate}.completeQualification && ![QualificationType.SKILLSET_TYPE, QualificationType.SKILLSET_LOCAL_TYPE].contains($F{certificate}.qualification.type))]]></filterExpression>
 	<group name="images">
 		<groupExpression><![CDATA[]]></groupExpression>
 		<groupHeader>
@@ -154,7 +155,7 @@
 		<band height="29" splitType="Stretch">
 			<subreport isUsingCache="true">
 				<reportElement key="subreport-2" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" mode="Transparent" x="0" y="0" width="517" height="29" isRemoveLineWhenBlank="true" uuid="25521124-94f8-44ca-8c00-feed9fbca499"/>
-				<dataSourceExpression><![CDATA[$F{datasource.successful_outcomes}]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[$F{datasource.successfulOutcomes}]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$F{subreport.ish.onCourse.certificate.attainment.subreport}]]></subreportExpression>
 			</subreport>
 		</band>
@@ -178,8 +179,8 @@
 				<reportElement style="Label" x="316" y="43" width="66" height="13" uuid="243c673b-2927-4735-b1b9-f6ea6904adcd"/>
 				<text><![CDATA[Awarded]]></text>
 			</staticText>
-			<textField evaluationTime="Report" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement key="textField" style="data field" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="382" y="43" width="71" height="13" uuid="5251f7bc-2053-4bdf-af6e-86c9ff8068fa"/>
+			<textField evaluationTime="Report" pattern="d MMM yyyy" isBlankWhenNull="false">
+				<reportElement key="textField" style="data field (date)" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="382" y="43" width="71" height="13" uuid="5251f7bc-2053-4bdf-af6e-86c9ff8068fa"/>
 				<textFieldExpression><![CDATA[$F{certificate}.awardedOn]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -188,8 +189,8 @@
 				</reportElement>
 				<text><![CDATA[Issued]]></text>
 			</staticText>
-			<textField evaluationTime="Report" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement key="textField" style="data field" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="382" y="56" width="71" height="13" uuid="171e5841-a649-4ef5-ac7c-0e0b7a056367">
+			<textField evaluationTime="Report" pattern="d MMM yyyy" isBlankWhenNull="false">
+				<reportElement key="textField" style="data field (date)" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="382" y="56" width="71" height="13" uuid="171e5841-a649-4ef5-ac7c-0e0b7a056367">
 					<printWhenExpression><![CDATA[$F{certificate}.issuedOn != null]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{certificate}.issuedOn]]></textFieldExpression>
@@ -215,8 +216,8 @@
 				</textElement>
 				<text><![CDATA[Printed]]></text>
 			</staticText>
-			<textField isBlankWhenNull="false">
-				<reportElement key="textField-17" style="data field" x="382" y="82" width="71" height="13" uuid="bda137df-9e73-4f92-93df-2fcfc65f36fe"/>
+			<textField pattern="d MMM yyyy" isBlankWhenNull="false">
+				<reportElement key="textField-17" style="data field (date)" x="382" y="82" width="71" height="13" uuid="bda137df-9e73-4f92-93df-2fcfc65f36fe"/>
 				<textElement textAlignment="Left">
 					<font size="8"/>
 				</textElement>

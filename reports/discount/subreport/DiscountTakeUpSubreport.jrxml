@@ -5,7 +5,7 @@
 	<property name="entity" value="DiscountCourseClass"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="5"/>
+	<property name="versionNumber" value="11"/>
 	<property name="keyCode" value="ish.oncourse.discount.takeUp.discountCourseClasses"/>
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
@@ -27,7 +27,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -56,22 +57,19 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="global.dateRange_from" class="java.util.Date"/>
+	<field name="global.dateRange_to" class="java.util.Date"/>
+	<field name="discountCourseClass" class="ish.oncourse.server.cayenne.DiscountCourseClass"/>
 	<field name="courseClass.course.code" class="java.lang.String"/>
 	<field name="courseClass.code" class="java.lang.String"/>
 	<field name="courseClass.course.name" class="java.lang.String"/>
 	<field name="courseClass.room.site.name" class="java.lang.String"/>
-	<field name="courseClass.startDateTime" class="java.util.Date"/>
 	<field name="courseClass.feeExGst" class="ish.math.Money"/>
-	<field name="discountCourseClass" class="java.lang.Object"/>
-	<field name="from_to_discounted_enrolments" class="java.lang.Integer"/>
-	<field name="from_to_total_enrolments" class="java.lang.Integer"/>
-	<field name="from_to_discount_value" class="ish.math.Money"/>
-	<field name="discounted_invoice_lines" class="java.util.List"/>
-	<field name="datasource.discounted_invoice_lines" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.oncourse.discount.takeUp.discountedInvoiceLines" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="datasource.this" class="ish.oncourse.server.print.ReportDataSource"/>
 	<detail>
 		<band height="75" splitType="Stretch">
-			<printWhenExpression><![CDATA[$F{discounted_invoice_lines}.size() > 0]]></printWhenExpression>
+			<printWhenExpression><![CDATA[$F{discountCourseClass}.getDiscountedInvoiceLines($F{global.dateRange_from}, $F{global.dateRange_to}).size() > 0]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement style="header 2" x="10" y="0" width="519" height="18" uuid="3ba60fdf-7f96-49d1-bbf7-34847028f688"/>
 				<textFieldExpression><![CDATA[$F{courseClass.course.code} + "-" + $F{courseClass.code} + " " + $F{courseClass.course.name}]]></textFieldExpression>
@@ -80,9 +78,9 @@
 				<reportElement style="Label" x="10" y="23" width="36" height="15" uuid="16185eb9-7f43-4df4-b5b7-1ad0f52e2411"/>
 				<text><![CDATA[Starts]]></text>
 			</staticText>
-			<textField pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="true">
-				<reportElement style="data field" x="46" y="23" width="114" height="15" uuid="94069ae3-3123-4cf2-89c7-6da04835861e"/>
-				<textFieldExpression><![CDATA[$F{courseClass.startDateTime}]]></textFieldExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement style="data field (day)" x="46" y="23" width="114" height="15" uuid="94069ae3-3123-4cf2-89c7-6da04835861e"/>
+				<textFieldExpression><![CDATA[$F{discountCourseClass}.courseClass.startDateTime?.format("d MMM yyyy h:mma", $F{discountCourseClass}.courseClass.timeZone)]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Label" x="163" y="23" width="25" height="15" uuid="1636739b-313e-4913-bc7f-7a81fd4f2351"/>
@@ -103,7 +101,7 @@
 			<elementGroup>
 				<subreport isUsingCache="true">
 					<reportElement x="0" y="48" width="539" height="20" uuid="72266c0e-183a-47df-ac76-2f385d3ff32c"/>
-					<dataSourceExpression><![CDATA[$F{datasource.discounted_invoice_lines}]]></dataSourceExpression>
+					<dataSourceExpression><![CDATA[$F{datasource.this}.buildChildDataSource($F{discountCourseClass}.getDiscountedInvoiceLines($F{global.dateRange_from}, $F{global.dateRange_to}))]]></dataSourceExpression>
 					<subreportExpression><![CDATA[$F{subreport.ish.oncourse.discount.takeUp.discountedInvoiceLines}]]></subreportExpression>
 				</subreport>
 			</elementGroup>

@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="7"/>
+	<property name="versionNumber" value="10"/>
 	<property name="keyCode" value="ish.onCourse.enrolmentSummarySubreport"/>
 	<property name="ish.oncourse.title" value="Enrolment Summary by State - subreport"/>
 	<property name="ish.oncourse.filePrefix" value="EnrolmentReport"/>
@@ -28,7 +28,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -64,25 +65,23 @@
 	<field name="course.name" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
-	<field name="startDateTime" class="java.util.Date"/>
 	<field name="endDateTime" class="java.util.Date"/>
-	<field name="enrolments_count" class="java.lang.Integer"/>
+	<field name="enrolmentsCount" class="java.lang.Integer"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<field name="suppressClassDetail" class="java.lang.Boolean"/>
-	<field name="male_enrolments_count" class="java.lang.Integer"/>
+	<field name="maleEnrolmentsCount" class="java.lang.Integer"/>
 	<field name="isCancelled" class="java.lang.Boolean"/>
 	<sortField name="room.site.state"/>
 	<variable name="stateClasses" class="java.lang.Integer" resetType="Group" resetGroup="state" calculation="Sum">
 		<variableExpression><![CDATA[$F{isCancelled} == false ? 1 : 0]]></variableExpression>
 	</variable>
 	<variable name="stateMale" class="java.lang.Integer" resetType="Group" resetGroup="state" calculation="Sum">
-		<variableExpression><![CDATA[$F{male_enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{maleEnrolmentsCount}]]></variableExpression>
 	</variable>
 	<variable name="stateFemale" class="java.lang.Integer" resetType="Group" resetGroup="state" calculation="Sum">
-		<variableExpression><![CDATA[($F{enrolments_count} - $F{male_enrolments_count})]]></variableExpression>
+		<variableExpression><![CDATA[($F{enrolmentsCount} - $F{maleEnrolmentsCount})]]></variableExpression>
 	</variable>
 	<variable name="stateTotalAttendees" class="java.lang.Integer" resetType="Group" resetGroup="state" calculation="Sum">
-		<variableExpression><![CDATA[$F{enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{enrolmentsCount}]]></variableExpression>
 	</variable>
 	<variable name="stateCancelled" class="java.lang.Integer" resetType="Group" resetGroup="state" calculation="Sum">
 		<variableExpression><![CDATA[$F{isCancelled} == false ? 0 : 1]]></variableExpression>
@@ -94,13 +93,13 @@
 		<variableExpression><![CDATA[$F{isCancelled} == false ? 1 : 0]]></variableExpression>
 	</variable>
 	<variable name="totalMale" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{male_enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{maleEnrolmentsCount}]]></variableExpression>
 	</variable>
 	<variable name="totalFemale" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[($F{enrolments_count} - $F{male_enrolments_count})]]></variableExpression>
+		<variableExpression><![CDATA[($F{enrolmentsCount} - $F{maleEnrolmentsCount})]]></variableExpression>
 	</variable>
 	<variable name="grandTotalAttendees" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{enrolments_count}]]></variableExpression>
+		<variableExpression><![CDATA[$F{enrolmentsCount}]]></variableExpression>
 	</variable>
 	<group name="state">
 		<groupExpression><![CDATA[$F{room.site.state}]]></groupExpression>
@@ -193,7 +192,6 @@
 	</columnHeader>
 	<detail>
 		<band splitType="Stretch">
-			<printWhenExpression><![CDATA[new Boolean($F{suppressClassDetail}==null||$F{suppressClassDetail}.equals(Boolean.FALSE))]]></printWhenExpression>
 		</band>
 	</detail>
 	<columnFooter>

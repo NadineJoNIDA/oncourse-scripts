@@ -14,7 +14,7 @@
 	<property name="entity" value="Session"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="22"/>
+	<property name="versionNumber" value="26"/>
 	<property name="keyCode" value="ish.onCourse.ClassSessionReportPlanning"/>
 	<property name="ish.oncourse.description" value="This report is for venue planning purposes, to show all the sessions of the selected classes printed in date order. This can be useful for one class, or a group of classes sharing a venue or tutor. This report prints in Landscape format."/>
 	<import value="net.sf.jasperreports.engine.*"/>
@@ -33,7 +33,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -75,21 +76,19 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dFormat" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["dd/MM/yyyy"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["d MMM yyyy"]]></defaultValueExpression>
 	</parameter>
 	<field name="global.dateRange_from" class="java.util.Date"/>
 	<field name="global.dateRange_to" class="java.util.Date"/>
+	<field name="session" class="ish.oncourse.server.cayenne.Session"/>
 	<field name="room.name" class="java.lang.String"/>
 	<field name="room.site.name" class="java.lang.String"/>
 	<field name="courseClass.course.code" class="java.lang.String"/>
 	<field name="courseClass.course.name" class="java.lang.String"/>
 	<field name="datasource.tutorRoles" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.class.tutorsSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
-	<field name="courseClass.startDateTime" class="java.util.Date"/>
-	<field name="courseClass.endDateTime" class="java.util.Date"/>
-	<field name="courseClass.enrolments_count" class="java.lang.Integer"/>
+	<field name="courseClass.enrolmentsCount" class="java.lang.Integer"/>
 	<field name="startDatetime" class="java.util.Date"/>
-	<field name="endDatetime" class="java.util.Date"/>
 	<field name="payAdjustment" class="java.lang.Integer"/>
 	<field name="courseClass.sessionRepeatInterval" class="java.lang.Integer"/>
 	<field name="courseClass.code" class="java.lang.String"/>
@@ -100,15 +99,15 @@
 	<sortField name="courseClass.course.name"/>
 	<variable name="tutorNumber" class="java.math.BigDecimal"/>
 	<group name="date">
-		<groupExpression><![CDATA[new java.text.SimpleDateFormat("D").format($F{startDatetime})]]></groupExpression>
+		<groupExpression><![CDATA[$F{session}.startDatetime?.format("D", $F{session}.timeZone)]]></groupExpression>
 		<groupHeader>
 			<band height="21">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				<textField pattern="EEEEE dd MMMMM yyyy">
+				<textField>
 					<reportElement style="header 2" x="0" y="0" width="221" height="20" uuid="70705c40-dd0a-4be7-a9e8-7674e73c1958">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					</reportElement>
-					<textFieldExpression><![CDATA[$F{startDatetime}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{session}.startDatetime?.format("EEEEE dd MMMMM yyyy", $F{session}.timeZone)]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -174,17 +173,17 @@
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 				</reportElement>
 			</rectangle>
-			<textField pattern="h.mm a" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement style="data field" x="2" y="0" width="54" height="15" uuid="5e3ff567-ebb9-428d-8978-83d891e1a110">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{startDatetime}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{session}.startDatetime?.format("h.mm a", $F{session}.timeZone)]]></textFieldExpression>
 			</textField>
-			<textField pattern="h.mm a" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement style="data field" x="56" y="0" width="53" height="15" uuid="0b98b73c-979a-4a82-af4b-25788457ed0e"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{endDatetime}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{session}.endDatetime?.format("h.mm a", $F{session}.timeZone)]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="data field" x="109" y="0" width="226" height="15" uuid="15e16662-5655-4fbc-97e9-6b185691a101"/>
@@ -200,7 +199,7 @@
 			<textField isBlankWhenNull="true">
 				<reportElement style="data field (numeric)" x="574" y="0" width="36" height="15" uuid="4e057eab-94c0-4d25-9eb3-059aca590e71"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{courseClass.enrolments_count}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass.enrolmentsCount}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="data field" x="620" y="0" width="166" height="15" uuid="509d2b93-8082-46b3-8595-7dd59c29c009">

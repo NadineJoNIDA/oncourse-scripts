@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="6"/>
+	<property name="versionNumber" value="8"/>
 	<property name="keyCode" value="ish.onCourse.classPromotionalEnrolments"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -24,7 +24,8 @@
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -58,7 +59,7 @@
 	<field name="id" class="java.lang.Long"/>
 	<field name="invoiceLine.discountEachExTax" class="java.lang.Object"/>
 	<field name="courseClass.course.code" class="java.lang.String"/>
-	<field name="courseClass.fee_with_tax" class="java.lang.Object"/>
+	<field name="courseClass.feeIncGst" class="java.lang.Object"/>
 	<variable name="totalEnrolments" class="java.math.BigDecimal" calculation="Count">
 		<variableExpression><![CDATA[$F{id}]]></variableExpression>
 	</variable>
@@ -72,7 +73,7 @@
 		<variableExpression><![CDATA[new Float(((Money)$F{invoiceLine.discountEachExTax}).floatValue())]]></variableExpression>
 	</variable>
 	<variable name="fullFee" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[new Float(((Money)$F{courseClass.fee_with_tax}).floatValue())]]></variableExpression>
+		<variableExpression><![CDATA[new Float(((Money)$F{courseClass.feeIncGst}).floatValue())]]></variableExpression>
 	</variable>
 	<group name="enrolments">
 		<groupExpression><![CDATA[null]]></groupExpression>

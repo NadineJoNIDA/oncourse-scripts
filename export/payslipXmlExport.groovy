@@ -71,12 +71,13 @@ xml.data() {
 							}
 						}
 					}
-
-					tutor() {
-						dateStarted(c.tutor.dateStarted)
-						dateFinished(c.tutor.dateFinished)
-						resume(c.tutor.resume)
-						payrollRef(c.tutor.payrollRef)
+					if (c.tutor) {
+						tutor() {
+							dateStarted(c.tutor.dateStarted)
+							dateFinished(c.tutor.dateFinished)
+							resume(c.tutor.resume)
+							payrollRef(c.tutor.payrollRef)
+						}
 					}
 				}
 			}

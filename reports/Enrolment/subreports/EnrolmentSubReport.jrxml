@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="14"/>
+	<property name="versionNumber" value="17"/>
 	<property name="keyCode" value="ish.onCourse.enrolmentSubReport"/>
 	<property name="ish.oncourse.title" value="Enrolment"/>
 	<property name="ish.oncourse.filePrefix" value="Enrolment"/>
@@ -25,7 +25,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -63,7 +64,7 @@
 	<parameter name="printRoom" class="java.lang.Boolean" isForPrompting="false">
 		<defaultValueExpression><![CDATA[new Boolean(false)]]></defaultValueExpression>
 	</parameter>
-	<field name="student.contact.full_name" class="java.lang.String"/>
+	<field name="enrolment" class="ish.oncourse.server.cayenne.Enrolment"/>
 	<field name="student.contact.lastName" class="java.lang.String"/>
 	<field name="student.contact.firstName" class="java.lang.String"/>
 	<field name="student.contact.email" class="java.lang.String"/>
@@ -103,7 +104,7 @@
 				<text><![CDATA[Email]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-10" style="header 3 (right)" x="130" y="28" width="216" height="15" uuid="67c7a137-678f-4e5b-b874-53144ed38590"/>
+				<reportElement key="staticText-10" style="header 3" x="130" y="28" width="216" height="15" uuid="67c7a137-678f-4e5b-b874-53144ed38590"/>
 				<text><![CDATA[Contact phones]]></text>
 			</staticText>
 		</band>
@@ -117,14 +118,14 @@
 			</rectangle>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-2" style="data field" x="0" y="2" width="130" height="13" uuid="0ace0762-6eed-4061-b7fd-d8def30538ef"/>
-				<textFieldExpression><![CDATA[$F{student.contact.full_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{enrolment}.student.contact.fullName]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-7" style="data field" x="351" y="2" width="163" height="13" uuid="f84efe3d-f6c4-4661-ad38-e429a503d40b"/>
 				<textFieldExpression><![CDATA[$F{student.contact.email}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-8" style="data field (numeric)" x="130" y="2" width="216" height="13" uuid="c8157754-f552-4e86-bbba-e75700da47c3"/>
+				<reportElement key="textField-8" style="data field" x="130" y="2" width="216" height="13" uuid="c8157754-f552-4e86-bbba-e75700da47c3"/>
 				<textFieldExpression><![CDATA[$F{student.contact.phones}]]></textFieldExpression>
 			</textField>
 		</band>

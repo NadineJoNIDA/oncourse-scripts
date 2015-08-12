@@ -5,10 +5,9 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="34"/>
+	<property name="versionNumber" value="37"/>
 	<property name="keyCode" value="ish.onCourse.classHours"/>
 	<property name="ish.oncourse.description" value="A summary of the classroom, nominal and reportable hours for each class, for use in the administration of VET / AVETMISS courses.This report prints in Portrait format."/>
-	<property name="sortOn" value="firstSubjectTag"/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -25,7 +24,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -57,19 +57,20 @@
 	<parameter name="ReportName" class="java.lang.String" isForPrompting="false"/>
 	<field name="reportableHours" class="java.math.BigDecimal"/>
 	<field name="firstSubjectTag" class="java.lang.String"/>
-	<field name="nominalHoursProp" class="java.math.BigDecimal"/>
-	<field name="studentContactHoursProp" class="java.math.BigDecimal"/>
-	<field name="classroomHoursProp" class="java.math.BigDecimal"/>
+	<field name="nominalHours" class="java.math.BigDecimal"/>
+	<field name="studentContactHours" class="java.math.BigDecimal"/>
+	<field name="classroomHours" class="java.math.BigDecimal"/>
 	<field name="uniqueCode" class="java.lang.String"/>
 	<field name="course.name" class="java.lang.String"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<field name="enrolments_count" class="java.lang.Integer"/>
+	<field name="enrolmentsCount" class="java.lang.Integer"/>
+	<sortField name="firstSubjectTag"/>
 	<variable name="contactHoursSubtotal" class="java.math.BigDecimal" resetType="Group" resetGroup="subjects" calculation="Sum">
-		<variableExpression><![CDATA[$F{studentContactHoursProp}]]></variableExpression>
+		<variableExpression><![CDATA[$F{studentContactHours}]]></variableExpression>
 		<initialValueExpression><![CDATA[new BigDecimal("0")]]></initialValueExpression>
 	</variable>
 	<variable name="contactHoursTotal" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{studentContactHoursProp}]]></variableExpression>
+		<variableExpression><![CDATA[$F{studentContactHours}]]></variableExpression>
 		<initialValueExpression><![CDATA[new BigDecimal("0")]]></initialValueExpression>
 	</variable>
 	<group name="subjects" keepTogether="true">
@@ -102,16 +103,14 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="31" splitType="Stretch">
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-1" style="header 1" x="1" y="2" width="539" height="26" uuid="a764fa09-1d1f-42e0-b23d-a8d28ea4c389"/>
+				<reportElement key="textField-1" style="header 1" x="0" y="115" width="539" height="26" uuid="a764fa09-1d1f-42e0-b23d-a8d28ea4c389"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="40" splitType="Stretch">
 			<rectangle>
@@ -180,12 +179,12 @@
 			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement key="textField-18" style="data field" x="308" y="2" width="51" height="14" uuid="6e89defc-1b14-4189-bb7c-49da76ce165d"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{classroomHoursProp}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{classroomHours}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement key="textField-19" style="data field" x="360" y="2" width="57" height="14" uuid="d8764074-352f-4c7a-a0a3-cf2d1f11bcd7"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{nominalHoursProp}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nominalHours}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement key="textField-20" style="data field" x="418" y="2" width="57" height="14" uuid="c5fc474c-5f5f-46ad-a7b9-f5b5328a9518"/>
@@ -195,18 +194,15 @@
 			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement key="textField-21" style="data field" x="476" y="2" width="56" height="14" uuid="c4769ca6-ac18-42de-b442-07086ecb1c69"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{studentContactHoursProp}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{studentContactHours}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-19" style="data field" x="252" y="2" width="55" height="14" uuid="4c93f074-5b77-4755-b886-d75717b9e957"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{enrolments_count}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{enrolmentsCount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="29" splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<textField evaluationTime="Page" isBlankWhenNull="false">

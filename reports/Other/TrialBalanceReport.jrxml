@@ -5,7 +5,7 @@
 	<property name="entity" value="Account"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="12"/>
+	<property name="versionNumber" value="17"/>
 	<property name="keyCode" value="ish.onCourse.trialBalance"/>
 	<property name="ish.oncourse.title" value="Trial Balance"/>
 	<property name="ish.oncourse.filePrefix" value="trialBalance"/>
@@ -36,7 +36,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -67,69 +68,66 @@
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
 	<parameter name="dFormat" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["dd/MM/yyyy"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["d MMM yyyy"]]></defaultValueExpression>
 	</parameter>
+	<field name="account" class="ish.oncourse.server.cayenne.Account"/>
 	<field name="global.dateRange_from" class="java.util.Date"/>
 	<field name="global.dateRange_to" class="java.util.Date"/>
 	<field name="accountCode" class="java.lang.String"/>
-	<field name="typeAsString" class="java.lang.String"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<field name="description" class="java.lang.String"/>
-	<field name="accountOpeningDebit" class="ish.math.Money"/>
-	<field name="accountOpeningCredit" class="ish.math.Money"/>
-	<field name="accountClosingDebit" class="ish.math.Money"/>
-	<field name="accountClosingCredit" class="ish.math.Money"/>
-	<field name="accountCurrentDebit" class="ish.math.Money"/>
-	<field name="accountCurrentCredit" class="ish.math.Money"/>
 	<variable name="TOTAL_OPENING_DEBIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{accountOpeningDebit} != null ? $F{accountOpeningDebit}.toBigDecimal() : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.dateRange_from})?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_OPENING_CREDIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{accountOpeningCredit} != null ? $F{accountOpeningCredit}.toBigDecimal() : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.dateRange_from})?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_CURRENT_DEBIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{accountCurrentDebit} != null ? $F{accountCurrentDebit}.toBigDecimal() : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.debit ? $F{account}.getMovements($F{global.dateRange_from}, $F{global.dateRange_to}).toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_CURRENT_CREDIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{accountCurrentCredit} != null ? $F{accountCurrentCredit}.toBigDecimal() : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.credit ? $F{account}.getMovements($F{global.dateRange_from}, $F{global.dateRange_to}) ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_CLOSING_DEBIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{accountClosingDebit} != null ? $F{accountClosingDebit}.toBigDecimal() : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.dateRange_to})?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_CLOSING_CREDIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{accountClosingCredit} != null ? $F{accountClosingCredit}.toBigDecimal() : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.dateRange_to})?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement key="textField" style="header 1" x="0" y="115" width="786" height="26" uuid="018470d9-3b35-4ca9-8204-24d44c5a82c9"/>
+				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
+			</textField>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="96" splitType="Stretch">
+		<band height="70" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<rectangle>
-				<reportElement x="270" y="67" width="459" height="29" backcolor="#E6E7F0" uuid="32463180-0285-422e-9267-cac2743d82f2">
+				<reportElement x="270" y="41" width="459" height="29" backcolor="#E6E7F0" uuid="32463180-0285-422e-9267-cac2743d82f2">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<graphicElement>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement key="textField" style="header 1" x="0" y="0" width="786" height="26" uuid="018470d9-3b35-4ca9-8204-24d44c5a82c9"/>
-				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
-			</textField>
 			<staticText>
-				<reportElement key="staticText-10" style="header 3 (right)" x="270" y="80" width="52" height="15" uuid="68df1506-5629-4964-8d49-18354f4c6177"/>
+				<reportElement key="staticText-10" style="header 3 (right)" x="270" y="54" width="52" height="15" uuid="68df1506-5629-4964-8d49-18354f4c6177"/>
 				<text><![CDATA[Debit]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-12" style="header 3 (right)" x="323" y="80" width="77" height="15" uuid="46f91419-17dc-4314-9d8d-6f26ce3128c3"/>
+				<reportElement key="staticText-12" style="header 3 (right)" x="323" y="54" width="77" height="15" uuid="46f91419-17dc-4314-9d8d-6f26ce3128c3"/>
 				<text><![CDATA[Credit]]></text>
 			</staticText>
 			<textField evaluationTime="Report" isBlankWhenNull="false">
-				<reportElement key="textField-5" style="data field" x="1" y="41" width="740" height="14" uuid="dea62875-e87d-416e-87b3-86a783ec7630">
+				<reportElement key="textField-5" style="data field (date)" x="1" y="15" width="740" height="14" uuid="dea62875-e87d-416e-87b3-86a783ec7630">
 					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA["From " + (new DateFormatter(new SimpleDateFormat($P{dFormat})).valueToString($F{global.dateRange_from}))+
@@ -137,33 +135,33 @@
 				<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
 			</textField>
 			<staticText>
-				<reportElement key="staticText-10" style="header 3 (right)" x="404" y="80" width="80" height="15" uuid="fa78c01e-9e7e-4ebb-aa1b-337dfb16207f"/>
+				<reportElement key="staticText-10" style="header 3 (right)" x="404" y="54" width="80" height="15" uuid="fa78c01e-9e7e-4ebb-aa1b-337dfb16207f"/>
 				<text><![CDATA[Debit]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-12" style="header 3 (right)" x="484" y="80" width="77" height="15" uuid="68139d19-3145-4e63-b224-7bd9e0102b59"/>
+				<reportElement key="staticText-12" style="header 3 (right)" x="484" y="54" width="77" height="15" uuid="68139d19-3145-4e63-b224-7bd9e0102b59"/>
 				<text><![CDATA[Credit]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-10" style="header 3 (right)" x="565" y="80" width="80" height="15" uuid="b0239f47-b684-4012-89bc-f41012cb7d78"/>
+				<reportElement key="staticText-10" style="header 3 (right)" x="565" y="54" width="80" height="15" uuid="b0239f47-b684-4012-89bc-f41012cb7d78"/>
 				<text><![CDATA[Debit]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-12" style="header 3 (right)" x="645" y="80" width="77" height="15" uuid="9650e4ad-4b01-4856-9919-058a8a00df7a"/>
+				<reportElement key="staticText-12" style="header 3 (right)" x="645" y="54" width="77" height="15" uuid="9650e4ad-4b01-4856-9919-058a8a00df7a"/>
 				<text><![CDATA[Credit]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-10" style="header 3" x="290" y="66" width="112" height="15" uuid="fcf4398e-221b-44f2-96e2-ca98d6722e82"/>
+				<reportElement key="staticText-10" style="header 3" x="290" y="40" width="112" height="15" uuid="fcf4398e-221b-44f2-96e2-ca98d6722e82"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Opening Balance]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-10" style="header 3" x="450" y="67" width="114" height="15" uuid="153dd755-c98e-442a-8002-e5684027100c"/>
+				<reportElement key="staticText-10" style="header 3" x="450" y="41" width="114" height="15" uuid="153dd755-c98e-442a-8002-e5684027100c"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Movements]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-10" style="header 3" x="610" y="67" width="112" height="15" uuid="6d35db11-d552-4a8a-85ec-19374ade605a"/>
+				<reportElement key="staticText-10" style="header 3" x="610" y="41" width="112" height="15" uuid="6d35db11-d552-4a8a-85ec-19374ade605a"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Closing Balance]]></text>
 			</staticText>
@@ -174,69 +172,69 @@
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Prevent">
-			<printWhenExpression><![CDATA[($F{accountOpeningDebit} != null && !Money.ZERO.equals($F{accountOpeningDebit})) || ($F{accountOpeningCredit} != null && !Money.ZERO.equals($F{accountOpeningCredit})) || ($F{accountCurrentDebit} != null && !Money.ZERO.equals($F{accountCurrentDebit})) || ($F{accountCurrentCredit} != null && !Money.ZERO.equals($F{accountCurrentCredit})) || ($F{accountClosingDebit} != null && !Money.ZERO.equals($F{accountClosingDebit})) || ($F{accountClosingCredit} != null && !Money.ZERO.equals($F{accountClosingCredit}))]]></printWhenExpression>
+			<printWhenExpression><![CDATA[$F{account}.getBalance($F{global.dateRange_from}) != Money.ZERO || $F{account}.getMovements($F{global.dateRange_from}, $F{global.dateRange_to}) != Money.ZERO || $F{account}.getBalance($F{global.dateRange_to}) != Money.ZERO]]></printWhenExpression>
 			<rectangle>
 				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="730" height="20" uuid="f49197f9-a28e-459d-82a6-fc8111d777e3">
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 				</reportElement>
 			</rectangle>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field" x="1" y="1" width="176" height="15" uuid="f4c733d5-8517-4742-9f7e-a36a4b0e79e3"/>
 				<textFieldExpression><![CDATA[$F{accountCode}+" "+$F{description}]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field" x="177" y="1" width="61" height="15" uuid="c88316f7-41dc-49e1-8f00-9ac85b693b25"/>
-				<textFieldExpression><![CDATA[$F{typeAsString}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.type?.displayName]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="243" y="1" width="80" height="15" uuid="c4010ebb-d3a0-412d-95a4-db9a00c1b55f"/>
-				<textFieldExpression><![CDATA[$F{accountOpeningDebit}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.dateRange_from}) : null]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="323" y="1" width="77" height="15" uuid="cd425c5f-3e93-4442-bb06-4a7a50db5106"/>
-				<textFieldExpression><![CDATA[$F{accountOpeningCredit}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.dateRange_from}) : null]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="484" y="1" width="77" height="15" uuid="f2c491ea-a0a0-4a49-a04e-d31acd659a87"/>
-				<textFieldExpression><![CDATA[$F{accountCurrentCredit}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.credit ? $F{account}.getMovements($F{global.dateRange_from}, $F{global.dateRange_to}) : null]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="565" y="1" width="80" height="15" uuid="4d533d43-2e1d-4b60-8209-bcdf13d2f356"/>
-				<textFieldExpression><![CDATA[$F{accountClosingDebit}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.dateRange_to}) : null]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="645" y="1" width="77" height="15" uuid="1a7d6271-a314-4f2e-9dc0-291b88cf1506"/>
-				<textFieldExpression><![CDATA[$F{accountClosingCredit}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.dateRange_to}) : null]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="404" y="1" width="80" height="15" uuid="625e84c0-20fd-4d12-9941-f75f929463dd"/>
-				<textFieldExpression><![CDATA[$F{accountCurrentDebit}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.debit ? $F{account}.getMovements($F{global.dateRange_from}, $F{global.dateRange_to}) : null]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
 		<band height="31" splitType="Stretch">
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="header 3 (right)" x="243" y="11" width="80" height="15" uuid="c80e629d-68fd-4f68-a0ae-cb463c9dfe1f"/>
 				<textFieldExpression><![CDATA[new Money($V{TOTAL_OPENING_DEBIT}).toString()]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-21" style="header 3 (right)" x="323" y="11" width="77" height="15" uuid="d085bd80-66b3-4a76-b943-8f5d53c84fc2"/>
 				<textFieldExpression><![CDATA[new Money($V{TOTAL_OPENING_CREDIT}).toString()]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="header 3 (right)" x="404" y="11" width="80" height="15" uuid="eaf64cee-b4b7-4132-adf5-aefffdc56c46"/>
 				<textFieldExpression><![CDATA[new Money($V{TOTAL_CURRENT_DEBIT}).toString()]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-21" style="header 3 (right)" x="484" y="11" width="77" height="15" uuid="093baa4a-73a5-49ef-88af-4d093dc5a279"/>
 				<textFieldExpression><![CDATA[new Money($V{TOTAL_CURRENT_CREDIT}).toString()]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="header 3 (right)" x="565" y="11" width="80" height="15" uuid="c107767b-b66d-471f-9a7d-9c23b849fc55"/>
 				<textFieldExpression><![CDATA[new Money($V{TOTAL_CLOSING_DEBIT}).toString()]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-21" style="header 3 (right)" x="645" y="11" width="77" height="15" uuid="727138b6-d0a1-42ee-a9fa-5901a1ca42f8"/>
 				<textFieldExpression><![CDATA[new Money($V{TOTAL_CLOSING_CREDIT}).toString()]]></textFieldExpression>
 			</textField>

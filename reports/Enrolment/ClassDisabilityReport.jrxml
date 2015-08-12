@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="28"/>
+	<property name="versionNumber" value="35"/>
 	<property name="keyCode" value="ish.onCourse.classDisabilityReport"/>
 	<property name="ish.oncourse.description" value="Used as a reference for any special needs such as wheelchair access, dietary requirements and provides an indicator as to whether the student and or tutor has been contacted to confirm or follow up this information. This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
@@ -24,7 +24,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -54,19 +55,17 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
+	<field name="enrolment" class="ish.oncourse.server.cayenne.Enrolment"/>
 	<field name="courseClass.uniqueCode" class="java.lang.String"/>
 	<field name="courseClass.course.name" class="java.lang.String"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<field name="courseClass.startDateTime" class="java.util.Date"/>
 	<field name="courseClass.room.name" class="java.lang.String"/>
 	<field name="courseClass.room.site.name" class="java.lang.String"/>
-	<field name="courseClass.tutorNames" class="java.util.List"/>
-	<field name="student.contact.full_name" class="java.lang.String"/>
+	<field name="courseClass.tutorNames" class="java.lang.String"/>
 	<field name="student.specialNeeds" class="java.lang.String"/>
 	<field name="student.contact.isMale" class="java.lang.Boolean"/>
 	<field name="student.contact.email" class="java.lang.String"/>
 	<field name="student.contact.phones" class="java.lang.String"/>
-	<field name="student.disabilityType_for_print" class="java.lang.String"/>
 	<variable name="subRep" class="java.lang.String"/>
 	<variable name="tutorNumber" class="java.math.BigDecimal"/>
 	<group name="cclass" isStartNewPage="true">
@@ -82,7 +81,7 @@
 					</graphicElement>
 				</rectangle>
 				<staticText>
-					<reportElement key="staticText-1" style="header 3" x="1" y="133" width="130" height="15" uuid="baaab4e8-0f9b-472b-904e-9e37f1bddbd1"/>
+					<reportElement key="staticText-1" style="header 3" x="2" y="131" width="130" height="15" uuid="baaab4e8-0f9b-472b-904e-9e37f1bddbd1"/>
 					<text><![CDATA[Name]]></text>
 				</staticText>
 				<textField isBlankWhenNull="false">
@@ -97,9 +96,9 @@
 					<reportElement key="textField-16" style="data field" x="100" y="37" width="686" height="15" uuid="0c083f79-78b0-48b8-a337-7611fcd8cbe8"/>
 					<textFieldExpression><![CDATA[($F{courseClass.room.name} == null) ? "Not set" : ($F{courseClass.room.site.name}+" in "+$F{courseClass.room.name})]]></textFieldExpression>
 				</textField>
-				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<textField pattern="d MMM yyyy" isBlankWhenNull="true">
 					<reportElement key="textField-17" style="data field" x="100" y="57" width="686" height="15" uuid="8f7b54d2-f919-4cb9-9daa-8907a7a7abeb"/>
-					<textFieldExpression><![CDATA[$F{courseClass.startDateTime}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{enrolment}.courseClass.startDateTime?.format("E d MMM YYYY h:mma", $F{enrolment}.courseClass.timeZone)]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-2" style="Label" x="0" y="57" width="91" height="15" uuid="1bedaba2-f29d-4522-bceb-85b9cfd1df19"/>
@@ -110,23 +109,25 @@
 					<text><![CDATA[Tutor]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-2" style="header 3" x="130" y="133" width="50" height="15" uuid="3c32e879-9f36-426f-8461-3bff830fbe2d"/>
+					<reportElement key="staticText-2" style="header 3" x="131" y="131" width="49" height="15" uuid="3c32e879-9f36-426f-8461-3bff830fbe2d">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
 					<text><![CDATA[Sex]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-3" style="header 3" x="180" y="133" width="190" height="15" uuid="60441550-8869-4f39-b2a6-9febb45e3e1d"/>
+					<reportElement key="staticText-3" style="header 3" x="180" y="131" width="190" height="15" uuid="60441550-8869-4f39-b2a6-9febb45e3e1d"/>
 					<text><![CDATA[Special need or disability]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-4" style="header 3" x="370" y="133" width="240" height="15" uuid="a06be89b-711a-4895-9e14-5b583c0e259f"/>
+					<reportElement key="staticText-4" style="header 3" x="370" y="131" width="240" height="15" uuid="a06be89b-711a-4895-9e14-5b583c0e259f"/>
 					<text><![CDATA[Phones]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-5" style="header 3" x="610" y="133" width="89" height="15" uuid="c48b747f-762d-4889-868c-a65d39cbbcda"/>
+					<reportElement key="staticText-5" style="header 3" x="610" y="131" width="89" height="15" uuid="c48b747f-762d-4889-868c-a65d39cbbcda"/>
 					<text><![CDATA[Student contacted]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-6" style="header 3" x="700" y="133" width="85" height="15" uuid="0ac357d2-21a0-44d8-a346-f1507e49f298"/>
+					<reportElement key="staticText-6" style="header 3" x="700" y="131" width="85" height="15" uuid="0ac357d2-21a0-44d8-a346-f1507e49f298"/>
 					<text><![CDATA[Tutor contacted]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
@@ -159,19 +160,21 @@
 				</reportElement>
 			</rectangle>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-2" style="data field" x="1" y="0" width="130" height="15" uuid="eba9cb14-015d-4050-b6bd-64d2aa36aaab"/>
-				<textFieldExpression><![CDATA[$F{student.contact.full_name}]]></textFieldExpression>
+				<reportElement key="textField-2" style="data field" x="2" y="0" width="130" height="15" uuid="eba9cb14-015d-4050-b6bd-64d2aa36aaab"/>
+				<textFieldExpression><![CDATA[$F{enrolment}.student.contact.fullName]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-9" style="data field" x="130" y="0" width="50" height="15" uuid="ea75924f-b121-4ac0-ba66-7acb9695386b"/>
+				<reportElement key="textField-9" style="data field" x="131" y="0" width="49" height="15" uuid="ea75924f-b121-4ac0-ba66-7acb9695386b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<textFieldExpression><![CDATA[$F{student.contact.isMale} == null ? "Not set" :
 				(Boolean.TRUE.equals($F{student.contact.isMale})?"Male":"Female")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-10" style="data field" x="180" y="0" width="190" height="15" uuid="842c778f-e223-4c6e-812a-becc58eeb795"/>
 				<textFieldExpression><![CDATA[(($F{student.specialNeeds} != null)? ($F{student.specialNeeds}):"")
-                     + (($F{student.disabilityType_for_print} != null && !"none".equals($F{student.disabilityType_for_print}) && !"not stated".equals($F{student.disabilityType_for_print}))?
-                    ((($F{student.specialNeeds} != null && $F{student.specialNeeds}.length() > 0)?", ":"") + $F{student.disabilityType_for_print}):"")]]></textFieldExpression>
+                     + (($F{enrolment}.student.disabilityType != null && !"none".equals($F{enrolment}.student.disabilityType?.displayName) && !"not stated".equals($F{enrolment}.student.disabilityType?.displayName))?
+                    ((($F{student.specialNeeds} != null && $F{student.specialNeeds}.length() > 0)?", ":"") + $F{enrolment}.student.disabilityType?.displayName):"")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-8" style="data field" x="370" y="0" width="240" height="15" uuid="462ab58f-9bb8-4b4f-8cda-740a822b7d16"/>

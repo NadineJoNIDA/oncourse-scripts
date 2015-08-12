@@ -5,15 +5,15 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="6"/>
+	<property name="versionNumber" value="14"/>
 	<property name="keyCode" value="ish.oncourse.classTutorPayReport"/>
 	<property name="ish.oncourse.description" value="To obtain a detailed print out of tutor&apos;s pay by class. The report layout is modelled on the budget tab in the class window. This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="org.apache.cayenne.ExtendedEnumeration"/>
-	<import value="ish.common.types.ClassCostFlowType"/>
 	<import value="ish.math.Money"/>
+	<import value="ish.common.types.ClassCostFlowType"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
 	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
 		<paragraph spacingAfter="8"/>
@@ -27,7 +27,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -70,17 +71,25 @@
 	<group name="CourseClassGroup">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
-			<band height="36" splitType="Stretch">
+			<band height="38" splitType="Stretch">
 				<textField>
-					<reportElement key="textField-2" style="header 1" x="0" y="3" width="780" height="30" uuid="6c985419-c7ac-4150-a346-710cbf7845eb"/>
-					<textFieldExpression><![CDATA[$F{course.code}+"-"+$F{code}+" "+$F{course.name}+" ("+$F{sessions}.size()+" sessions / "+$F{enrolments}.size()+" enrolments)"]]></textFieldExpression>
+					<reportElement key="textField-2" style="header 1" x="0" y="3" width="500" height="30" uuid="6c985419-c7ac-4150-a346-710cbf7845eb"/>
+					<textFieldExpression><![CDATA[$F{course.code}+"-"+$F{code}+" "+$F{course.name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement key="textField-2" style="Label" x="500" y="12" width="120" height="14" uuid="4a923209-ac49-4682-912c-e068e669fdbc">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{sessions}.size()+" sessions / "+$F{enrolments}.size()+" enrolments"]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="20" splitType="Stretch">
 				<textField>
-					<reportElement key="textField-1" style="data field" x="570" y="0" width="206" height="20" uuid="2bd0e1f4-c326-4214-a5a6-7f79bcda284e"/>
+					<reportElement key="textField-1" style="header 3 (right)" x="410" y="0" width="200" height="20" uuid="2bd0e1f4-c326-4214-a5a6-7f79bcda284e"/>
 					<textFieldExpression><![CDATA["Total Class Payroll  " + new ish.math.Money($V{totalPayable})]]></textFieldExpression>
 				</textField>
 			</band>
@@ -90,16 +99,14 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="28" splitType="Stretch">
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-1" style="header 1" x="0" y="0" width="780" height="26" uuid="5cb0dc8a-6e85-442f-95f1-8dd3d2ac6e21"/>
+				<reportElement key="textField-1" style="header 1" x="0" y="115" width="785" height="26" uuid="5cb0dc8a-6e85-442f-95f1-8dd3d2ac6e21"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<detail>
 		<band height="40" splitType="Stretch">
 			<elementGroup>

@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="17"/>
+	<property name="versionNumber" value="22"/>
 	<property name="keyCode" value="ish.onCourse.TrainingPlanReport"/>
 	<property name="ish.oncourse.title" value="Training Plan Report"/>
 	<property name="ish.oncourse.filePrefix" value="TrainingPlanReport"/>
@@ -28,7 +28,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -60,19 +61,17 @@
 	<parameter name="ReportName" class="java.lang.String" isForPrompting="false"/>
 	<field name="subreport.ish.onCourse.trainingPlanSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="subreport.ish.onCourse.trainingPlanDeliverySubreport" class="net.sf.jasperreports.engine.JasperReport"/>
-	<field name="datasource.unique_session_modules" class="net.sf.jasperreports.engine.JRDataSource"/>
-	<field name="datasource.session_modules|sortOn=module.nationalCode" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="datasource.uniqueSessionModules" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="datasource.sessionModules|sortOn=module.nationalCode" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="courseClass" class="java.lang.Object"/>
 	<field name="course.name" class="java.lang.String"/>
 	<field name="course.code" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
 	<field name="startDateTime" class="java.util.Date"/>
-	<field name="endDateTime" class="java.util.Date"/>
 	<field name="expectedHours" class="java.math.BigDecimal"/>
 	<field name="reportableHours" class="java.math.BigDecimal"/>
-	<field name="classroomHoursProp" class="java.math.BigDecimal"/>
-	<field name="deliveryModeString" class="java.lang.String"/>
-	<field name="tutor_names" class="java.lang.String"/>
-	<field name="enrolments_count_string" class="java.lang.String"/>
+	<field name="classroomHours" class="java.math.BigDecimal"/>
+	<field name="tutorNames" class="java.lang.String"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<field name="course.qualification.nationalCode" class="java.lang.String"/>
 	<field name="course.qualification.level" class="java.lang.String"/>
@@ -95,13 +94,13 @@
 				<reportElement key="staticText-1" style="Label" x="2" y="66" width="36" height="15" uuid="74999a4a-9512-4989-8812-3300d2e8442b"/>
 				<text><![CDATA[Starts]]></text>
 			</staticText>
-			<textField pattern="" isBlankWhenNull="true">
-				<reportElement key="textField-17" style="data field (datetime)" x="78" y="66" width="86" height="15" uuid="30dac368-8573-408a-b2a2-8e25747eb4c7"/>
-				<textFieldExpression><![CDATA[$F{startDateTime}]]></textFieldExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-17" style="data field" x="78" y="66" width="86" height="15" uuid="30dac368-8573-408a-b2a2-8e25747eb4c7"/>
+				<textFieldExpression><![CDATA[$F{courseClass}.startDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
-				<reportElement key="textField-17" style="data field (datetime)" x="200" y="66" width="84" height="15" uuid="aa4b5359-c36d-480b-9674-13f6d95472aa"/>
-				<textFieldExpression><![CDATA[$F{startDateTime}]]></textFieldExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-17" style="data field" x="200" y="66" width="84" height="15" uuid="aa4b5359-c36d-480b-9674-13f6d95472aa"/>
+				<textFieldExpression><![CDATA[$F{courseClass}.endDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-1" style="Label" x="164" y="66" width="36" height="15" uuid="a741f3c6-80c6-4364-8b57-bab3b59d79d0"/>
@@ -109,7 +108,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-17" style="data field" x="78" y="81" width="242" height="15" uuid="59bdd40a-d24a-44fd-b3e8-6cff1fcdd383"/>
-				<textFieldExpression><![CDATA[$F{deliveryModeString}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.deliveryMode?.displayName]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-1" style="Label" x="2" y="81" width="76" height="15" uuid="e5e842ea-ccbc-4d64-96f9-ea056d0d4492"/>
@@ -117,7 +116,7 @@
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-17" style="data field" stretchType="RelativeToTallestObject" x="78" y="96" width="242" height="15" uuid="96fced37-dddb-4e14-9adb-4f59cb2e0588"/>
-				<textFieldExpression><![CDATA[$F{tutor_names}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tutorNames}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-1" style="Label" x="2" y="96" width="36" height="15" uuid="e7858e1c-4c37-4bcc-88c8-e7b9b031828a"/>
@@ -125,7 +124,7 @@
 			</staticText>
 			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement key="textField-17" style="data field (numeric)" x="427" y="66" width="72" height="15" uuid="3765b5c3-49e6-43a8-a5f6-3692741ec97a"/>
-				<textFieldExpression><![CDATA[$F{classroomHoursProp}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{classroomHours}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-1" style="Label" x="333" y="66" width="92" height="15" uuid="af24d876-f901-4fb9-bf82-adee2a3b6012"/>
@@ -141,7 +140,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-17" style="data field (numeric)" x="427" y="81" width="72" height="15" uuid="d3000569-6add-452b-87fa-83065dc6f87f"/>
-				<textFieldExpression><![CDATA[$F{enrolments_count_string}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{courseClass}.successAndQueuedEnrolments.size()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-1" style="Label" x="333" y="81" width="92" height="15" uuid="8fdb1c08-ae28-4d4a-94b6-a9a8cf9ec54f"/>
@@ -171,12 +170,12 @@
 			</break>
 			<subreport>
 				<reportElement key="subreport-2" style="header 1" x="1" y="0" width="785" height="15" uuid="69a2d20c-3491-40ec-82cb-cad0cf421e98"/>
-				<dataSourceExpression><![CDATA[$F{datasource.unique_session_modules}]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[$F{datasource.uniqueSessionModules}]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$F{subreport.ish.onCourse.trainingPlanSubreport}]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement key="subreport-3" style="header 1" positionType="Float" x="0" y="20" width="786" height="15" uuid="5e3e3d6e-eb93-45a4-94ce-f476266cd855"/>
-				<dataSourceExpression><![CDATA[$F{datasource.session_modules|sortOn=module.nationalCode}]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[$F{datasource.sessionModules|sortOn=module.nationalCode}]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$F{subreport.ish.onCourse.trainingPlanDeliverySubreport}]]></subreportExpression>
 			</subreport>
 		</band>

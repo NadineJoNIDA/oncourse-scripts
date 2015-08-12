@@ -5,7 +5,7 @@
 	<property name="entity" value="CorporatePass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="11"/>
+	<property name="versionNumber" value="15"/>
 	<property name="keyCode" value="ish.onCourse.corporatePassDetailsReport"/>
 	<property name="ish.oncourse.title" value="CorporatePass Details"/>
 	<property name="ish.oncourse.filePrefix" value="corporatePass"/>
@@ -28,7 +28,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -60,53 +61,48 @@
 	<parameter name="ReportName" class="java.lang.String"/>
 	<field name="subreport.ish.onCourse.corporatePassInvoiceSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<field name="datasource.invoice_lines|sortOn=invoice.invoiceNumber" class="net.sf.jasperreports.engine.JRDataSource"/>
-	<field name="contact.full_name" class="java.lang.String"/>
+	<field name="datasource.invoiceLines|sortOn=invoice.invoiceNumber" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="corporatePass" class="ish.oncourse.server.cayenne.CorporatePass"/>
 	<field name="password" class="java.lang.String"/>
 	<field name="expiryDate" class="java.util.Date"/>
-	<field name="total_amount" class="ish.math.Money"/>
-	<field name="total_amount_owing" class="ish.math.Money"/>
-	<field name="limited_to_classes" class="java.lang.String"/>
 	<field name="id" class="java.lang.Long"/>
 	<group name="CorporatePass" isStartNewPage="true">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
-			<band height="132">
+			<band height="116">
 				<staticText>
-					<reportElement key="staticText-8" style="Label" x="1" y="68" width="46" height="15" uuid="11a2e139-4d93-41d4-9e30-330bf8fa0657"/>
+					<reportElement key="staticText-8" style="Label" x="1" y="42" width="46" height="15" uuid="11a2e139-4d93-41d4-9e30-330bf8fa0657"/>
 					<text><![CDATA[Code]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-8" style="Label" x="1" y="53" width="46" height="15" uuid="cbf9d7cc-86a0-4fab-9672-426c54165848"/>
+					<reportElement key="staticText-8" style="Label" x="1" y="27" width="46" height="15" uuid="cbf9d7cc-86a0-4fab-9672-426c54165848"/>
 					<text><![CDATA[Expires]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-4" style="header 2" x="1" y="32" width="209" height="19" uuid="ab541a83-8a50-4c12-af2d-2b3371ee94ca"/>
-					<textFieldExpression><![CDATA[$F{contact.full_name}]]></textFieldExpression>
+					<reportElement key="textField-4" style="header 2" x="1" y="6" width="209" height="19" uuid="ab541a83-8a50-4c12-af2d-2b3371ee94ca"/>
+					<textFieldExpression><![CDATA[$F{corporatePass}.contact.fullName]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-3" style="data field" x="93" y="53" width="111" height="15" uuid="3274a1a3-ba9f-479b-a82b-2366982edaa5"/>
+					<reportElement key="textField-3" style="data field (date)" x="93" y="27" width="111" height="15" uuid="3274a1a3-ba9f-479b-a82b-2366982edaa5"/>
 					<textFieldExpression><![CDATA[$F{expiryDate}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-3" style="data field" x="93" y="68" width="111" height="15" uuid="ee37a643-9011-44e3-97f2-6fde8ee3d42e"/>
+					<reportElement key="textField-3" style="data field" x="93" y="42" width="111" height="15" uuid="ee37a643-9011-44e3-97f2-6fde8ee3d42e"/>
 					<textFieldExpression><![CDATA[$F{password}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement key="staticText-8" style="Label" x="1" y="83" width="92" height="15" uuid="4f484cf6-14c2-4261-84fa-a9520558aee0"/>
+					<reportElement key="staticText-8" style="Label" x="1" y="57" width="92" height="15" uuid="4f484cf6-14c2-4261-84fa-a9520558aee0"/>
+					<textElement verticalAlignment="Top"/>
 					<text><![CDATA[Limited to classes]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-3" style="data field" x="93" y="83" width="415" height="15" uuid="369b60d7-58a6-4230-a575-de7589ad1090"/>
-					<textFieldExpression><![CDATA[$F{limited_to_classes}]]></textFieldExpression>
+					<reportElement key="textField-3" style="data field" x="93" y="57" width="446" height="33" uuid="369b60d7-58a6-4230-a575-de7589ad1090"/>
+					<textElement verticalAlignment="Top"/>
+					<textFieldExpression><![CDATA[$F{corporatePass}.linkedClassesList]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement key="staticText-8" style="header 2" x="1" y="105" width="223" height="21" uuid="b07b22c8-df8e-4456-9240-ad1730f09685"/>
+					<reportElement key="staticText-8" style="header 2" x="1" y="90" width="223" height="21" uuid="b07b22c8-df8e-4456-9240-ad1730f09685"/>
 					<text><![CDATA[Usage history]]></text>
-				</staticText>
-				<staticText>
-					<reportElement key="staticText-8" style="header 1" x="0" y="0" width="539" height="31" uuid="6dbc82b7-10c8-446f-b791-46ec78c62eb9"/>
-					<text><![CDATA[CorporatePass]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
@@ -118,7 +114,15 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement key="staticText-8" style="header 1" x="0" y="115" width="539" height="26" uuid="6dbc82b7-10c8-446f-b791-46ec78c62eb9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[CorporatePass]]></text>
+			</staticText>
+		</band>
 	</title>
 	<pageHeader>
 		<band splitType="Stretch"/>
@@ -130,7 +134,7 @@
 		<band height="18" splitType="Stretch">
 			<subreport isUsingCache="true">
 				<reportElement key="subreport-2" style="data field" x="0" y="0" width="539" height="18" uuid="405dd66c-b9f4-43ea-b91a-a6d51aa71c74"/>
-				<dataSourceExpression><![CDATA[$F{datasource.invoice_lines|sortOn=invoice.invoiceNumber}]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[$F{datasource.invoiceLines|sortOn=invoice.invoiceNumber}]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$F{subreport.ish.onCourse.corporatePassInvoiceSubreport}]]></subreportExpression>
 			</subreport>
 		</band>

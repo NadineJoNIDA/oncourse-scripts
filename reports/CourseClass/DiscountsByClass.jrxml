@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="30"/>
+	<property name="versionNumber" value="35"/>
 	<property name="keyCode" value="ish.onCourse.discountsByClass"/>
 	<property name="ish.oncourse.description" value="List of all discounts for a given Class and their take up value.This report prints in Portrait format."/>
 	<property name="sortOn" value="course.code;code"/>
@@ -27,7 +27,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -57,6 +58,7 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
+	<field name="courseClass" class="ish.oncourse.server.cayenne.CourseClass"/>
 	<field name="course.code" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
 	<field name="course.name" class="java.lang.String"/>
@@ -64,27 +66,15 @@
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<field name="room.name" class="java.lang.String"/>
 	<field name="room.site.name" class="java.lang.String"/>
-	<field name="datasource.discounted_invoicelines_for_enrolment" class="net.sf.jasperreports.engine.JRDataSource"/>
-	<field name="is_empty_discounted_invoicelines_for_enrolment_count" class="java.lang.Boolean"/>
+	<field name="datasource.discountedInvoiceLinesForEnrolments" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.discountsByClassSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
-	<field name="startDateTime" class="java.util.Date"/>
-	<field name="full_fee_enrolments_count" class="java.lang.Integer"/>
-	<field name="full_fee_enrolments_fees_sum" class="ish.math.Money"/>
-	<field name="manual_discount_enrolments_count" class="java.lang.Integer"/>
-	<field name="manual_discount_enrolments_fees_sum" class="ish.math.Money"/>
-	<field name="manual_discount_enrolments_discount_sum" class="ish.math.Money"/>
+	<field name="fullFeeEnrolmentsFeesSum" class="ish.math.Money"/>
 	<field name="uniqueCode" class="java.lang.String"/>
 	<variable name="discountSum" class="java.math.BigDecimal"/>
 	<group name="detail">
 		<groupExpression><![CDATA[$F{uniqueCode}]]></groupExpression>
 		<groupHeader>
 			<band height="138" splitType="Stretch">
-				<rectangle>
-					<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="78" width="528" height="20" uuid="08f5ec6d-1d63-4d8e-85af-bdaa47170af6">
-						<property name="com.jaspersoft.studio.unit.x" value="mm"/>
-						<property name="com.jaspersoft.studio.unit.width" value="mm"/>
-					</reportElement>
-				</rectangle>
 				<rectangle>
 					<reportElement x="0" y="58" width="528" height="20" backcolor="#E6E7F0" uuid="60d00be0-e99f-4886-9a34-063122b5cde9">
 						<property name="com.jaspersoft.studio.unit.height" value="mm"/>
@@ -118,12 +108,12 @@
 					<textFieldExpression><![CDATA[$F{feeExGst}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement style="data field" x="36" y="37" width="125" height="14" uuid="f0695ff9-4250-4202-95aa-a44a73d354ba"/>
-					<textFieldExpression><![CDATA[$F{startDateTime}]]></textFieldExpression>
+					<reportElement style="data field (day)" x="36" y="37" width="125" height="14" uuid="f0695ff9-4250-4202-95aa-a44a73d354ba"/>
+					<textFieldExpression><![CDATA[$F{courseClass}.startDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 				</textField>
 				<subreport isUsingCache="true">
 					<reportElement key="subreport" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="117" width="534" height="15" uuid="1880613a-72cc-4b01-bed5-9d152ed7bfd6"/>
-					<dataSourceExpression><![CDATA[$F{datasource.discounted_invoicelines_for_enrolment}]]></dataSourceExpression>
+					<dataSourceExpression><![CDATA[$F{datasource.discountedInvoiceLinesForEnrolments}]]></dataSourceExpression>
 					<subreportExpression><![CDATA[$F{subreport.ish.onCourse.discountsByClassSubreport}]]></subreportExpression>
 				</subreport>
 				<staticText>
@@ -148,7 +138,7 @@
 				</staticText>
 				<textField evaluationTime="Group" evaluationGroup="detail">
 					<reportElement key="textField-3" style="data field (numeric)" x="206" y="81" width="115" height="13" uuid="610d3972-9b0c-40ff-b5a6-5a01b3108081"/>
-					<textFieldExpression><![CDATA[$F{full_fee_enrolments_count}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.fullFeeEnrolments.size()]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-37" style="data field (money)" positionType="Float" x="417" y="81" width="95" height="14" uuid="9236037c-20aa-4d35-9db3-66f1561a8f5b"/>
@@ -156,19 +146,19 @@
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-37" style="data field (money)" positionType="Float" x="321" y="81" width="96" height="14" uuid="04af363d-6c0c-425b-b1d0-9a3b7e5faa55"/>
-					<textFieldExpression><![CDATA[$F{full_fee_enrolments_fees_sum}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{fullFeeEnrolmentsFeesSum}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-37" style="data field (money)" positionType="Float" x="417" y="100" width="95" height="14" uuid="f995167b-53ff-4710-9350-70191f61dd09"/>
-					<textFieldExpression><![CDATA[$F{manual_discount_enrolments_discount_sum}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.manuallyDiscountedEnrolmentsDiscountSum]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="detail">
 					<reportElement key="textField-3" style="data field (numeric)" x="206" y="100" width="115" height="13" uuid="8ac914ab-7e5d-461c-9e70-8a1562d57997"/>
-					<textFieldExpression><![CDATA[$F{manual_discount_enrolments_count}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.manuallyDiscountedEnrolments.size()]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-37" style="data field (money)" positionType="Float" x="321" y="100" width="96" height="14" uuid="017f3a8c-2999-4aa0-8a15-65fdef4a9acb"/>
-					<textFieldExpression><![CDATA[$F{manual_discount_enrolments_fees_sum}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.manuallyDiscountedEnrolmentsFeesSum]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-37" style="data field" x="1" y="100" width="205" height="13" uuid="a7b7d217-4a70-4a4d-afcd-638099f2c304"/>
@@ -178,18 +168,18 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="19" splitType="Stretch">
-				<printWhenExpression><![CDATA[$F{is_empty_discounted_invoicelines_for_enrolment_count}]]></printWhenExpression>
+				<printWhenExpression><![CDATA[$F{courseClass}.discountedInvoiceLinesForEnrolments.empty]]></printWhenExpression>
 				<staticText>
 					<reportElement key="staticText-10" style="header 3 (right)" x="157" y="1" width="95" height="14" uuid="f64b6736-8790-44a2-91d8-2b28bf735ad2"/>
 					<text><![CDATA[Total ]]></text>
 				</staticText>
 				<textField evaluationTime="Group" evaluationGroup="detail">
 					<reportElement key="textField-37" style="data field (money)" positionType="Float" x="417" y="1" width="95" height="14" uuid="5bf888b0-a500-4193-8677-e9d5f9f8aea9"/>
-					<textFieldExpression><![CDATA[$F{manual_discount_enrolments_discount_sum}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{courseClass}.manuallyDiscountedEnrolmentsDiscountSum]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-37" style="data field (money)" positionType="Float" x="321" y="1" width="96" height="14" uuid="a700df7e-cc1e-4206-993a-1621b58588d3"/>
-					<textFieldExpression><![CDATA[$F{full_fee_enrolments_fees_sum}.add($F{manual_discount_enrolments_fees_sum})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{fullFeeEnrolmentsFeesSum}.add($F{courseClass}.manuallyDiscountedEnrolmentsFeesSum)]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>

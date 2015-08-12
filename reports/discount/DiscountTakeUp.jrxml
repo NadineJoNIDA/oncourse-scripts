@@ -5,7 +5,7 @@
 	<property name="entity" value="Discount"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="8"/>
+	<property name="versionNumber" value="14"/>
 	<property name="keyCode" value="ish.oncourse.discount.takeUp"/>
 	<property name="ish.oncourse.description" value="This report can be working incorrectly with invoice lines which apply more than 1 discounts and one (or more) of these discounts has been changed. It prints in Portrait format."/>
 	<property name="ish.oncourse.pdfFileName" value="DiscountTakeUp_report.pdf"/>
@@ -30,7 +30,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -62,6 +63,7 @@
 	<parameter name="ReportName" class="java.lang.String"/>
 	<field name="global.dateRange_from" class="java.util.Date"/>
 	<field name="global.dateRange_to" class="java.util.Date"/>
+	<field name="discount" class="ish.oncourse.server.cayenne.Discount"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
 	<field name="discountDollar" class="ish.math.Money"/>
@@ -69,51 +71,48 @@
 	<field name="validFrom" class="java.util.Date"/>
 	<field name="validTo" class="java.util.Date"/>
 	<field name="discountCourseClasses" class="java.lang.Object"/>
-	<field name="from_to_all_discounted_enrolments" class="java.lang.Integer"/>
-	<field name="from_to_total_DiscountExTax" class="ish.math.Money"/>
-	<field name="from_to_total_DiscountIncTax" class="ish.math.Money"/>
 	<field name="datasource.discountCourseClasses" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.oncourse.discount.takeUp.discountCourseClasses" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<variable name="enrolmentsCount" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{from_to_all_discounted_enrolments}]]></variableExpression>
+		<variableExpression><![CDATA[$F{discount}.getDiscountedEnrolments($F{global.dateRange_from}, $F{global.dateRange_to}).size()]]></variableExpression>
 	</variable>
 	<variable name="totalDiscountExTax" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{from_to_total_DiscountExTax}.toFloat()]]></variableExpression>
+		<variableExpression><![CDATA[$F{discount}.getTotalDiscountExTax($F{global.dateRange_from}, $F{global.dateRange_to}).toFloat()]]></variableExpression>
 	</variable>
 	<variable name="totalDiscountIncTax" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{from_to_total_DiscountIncTax}.toFloat()]]></variableExpression>
+		<variableExpression><![CDATA[$F{discount}.getTotalDiscountIncTax($F{global.dateRange_from}, $F{global.dateRange_to}).toFloat()]]></variableExpression>
 	</variable>
 	<group name="total">
 		<groupExpression><![CDATA[null]]></groupExpression>
 		<groupFooter>
-			<band height="52" splitType="Stretch">
+			<band height="47" splitType="Stretch">
 				<staticText>
-					<reportElement style="header 3 (right)" x="100" y="12" width="70" height="15" uuid="4b637665-274a-4e32-867c-68d8985b12e1"/>
+					<reportElement style="header 3 (right)" x="100" y="7" width="70" height="15" uuid="4b637665-274a-4e32-867c-68d8985b12e1"/>
 					<text><![CDATA[Enrolments]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="header 3 (right)" x="190" y="12" width="100" height="15" uuid="c4cb09df-8714-4456-b653-16856799bed8"/>
+					<reportElement style="header 3 (right)" x="190" y="7" width="100" height="15" uuid="c4cb09df-8714-4456-b653-16856799bed8"/>
 					<text><![CDATA[Discount ex tax]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="header 3 (right)" x="290" y="12" width="100" height="15" uuid="58eed103-4660-493f-862b-33eac5598a08"/>
+					<reportElement style="header 3 (right)" x="290" y="7" width="100" height="15" uuid="58eed103-4660-493f-862b-33eac5598a08"/>
 					<text><![CDATA[Discount total]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="header 3 (right)" x="21" y="32" width="70" height="15" uuid="1bebed5f-b9b4-49d1-bfa2-f1dfadbd102f"/>
+					<reportElement style="header 3 (right)" x="21" y="27" width="70" height="15" uuid="1bebed5f-b9b4-49d1-bfa2-f1dfadbd102f"/>
 					<text><![CDATA[Report Total]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement style="data field (numeric)" x="100" y="32" width="70" height="15" uuid="26392f37-b5b4-4272-90a8-7fa840fb27f1"/>
+					<reportElement style="data field (numeric)" x="100" y="27" width="70" height="15" uuid="26392f37-b5b4-4272-90a8-7fa840fb27f1"/>
 					<textFieldExpression><![CDATA[$V{enrolmentsCount}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement style="data field (money)" x="190" y="32" width="100" height="15" uuid="14f07e8f-bbc1-40ce-90af-91b39e718273"/>
+					<reportElement style="data field (money)" x="190" y="27" width="100" height="15" uuid="14f07e8f-bbc1-40ce-90af-91b39e718273"/>
 					<textFieldExpression><![CDATA[Money.valueOf($V{totalDiscountExTax})]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement style="data field (money)" x="290" y="32" width="100" height="15" uuid="22d0b198-28d2-46f4-b7c8-2e1cf9214c1f"/>
+					<reportElement style="data field (money)" x="290" y="27" width="100" height="15" uuid="22d0b198-28d2-46f4-b7c8-2e1cf9214c1f"/>
 					<textFieldExpression><![CDATA[Money.valueOf($V{totalDiscountIncTax})]]></textFieldExpression>
 				</textField>
 			</band>
@@ -123,29 +122,28 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="65" splitType="Stretch">
+		<band height="169" splitType="Stretch">
 			<textField>
-				<reportElement style="header 1" x="0" y="0" width="539" height="30" uuid="5289efde-558d-421e-8e35-a05187c92959"/>
+				<reportElement style="header 1" x="0" y="115" width="539" height="26" uuid="5289efde-558d-421e-8e35-a05187c92959">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Label" x="0" y="40" width="52" height="15" uuid="d51e7430-ca98-4dc4-900e-00150956481d"/>
+				<reportElement style="Label" x="0" y="146" width="52" height="15" uuid="d51e7430-ca98-4dc4-900e-00150956481d"/>
 				<text><![CDATA[Date range]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="data field" x="52" y="40" width="487" height="15" uuid="19a586f2-fdf5-4170-9b61-9bac521b3ebd"/>
-				<textFieldExpression><![CDATA[($F{global.dateRange_from} ? "From : " + $F{global.dateRange_from}.format("dd/MM/yyyy") : "") + ( $F{global.dateRange_to} ? "    To : " + $F{global.dateRange_to}.format("dd/MM/yyyy") : "")]]></textFieldExpression>
+				<reportElement style="data field (date)" x="52" y="146" width="487" height="15" uuid="19a586f2-fdf5-4170-9b61-9bac521b3ebd"/>
+				<textFieldExpression><![CDATA[($F{global.dateRange_from} ? "From : " + $F{global.dateRange_from}.format("d MMM yyyy") : "") + ( $F{global.dateRange_to} ? "    To : " + $F{global.dateRange_to}.format("d MMM yyyy") : "")]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="101" splitType="Stretch">
+		<band height="96" splitType="Stretch">
 			<textField>
 				<reportElement style="header 2" x="0" y="2" width="539" height="25" uuid="4540a29b-235a-4a70-b33f-74324113bacc"/>
 				<textFieldExpression><![CDATA[$F{name} + ($F{code} ? " (" + $F{code} + ")" : "")]]></textFieldExpression>
@@ -164,8 +162,8 @@
 				</reportElement>
 				<text><![CDATA[Valid from]]></text>
 			</staticText>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement key="textField" style="data field" x="52" y="40" width="123" height="13" uuid="254410bd-f30b-4616-84f8-5c602a700ab6"/>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" style="data field (date)" x="52" y="40" width="123" height="13" uuid="254410bd-f30b-4616-84f8-5c602a700ab6"/>
 				<textFieldExpression><![CDATA[$F{validFrom}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -174,13 +172,13 @@
 				</reportElement>
 				<text><![CDATA[Valid to]]></text>
 			</staticText>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement key="textField" style="data field" x="52" y="53" width="123" height="13" uuid="535e6a40-446c-4067-a04d-7505f72991e4"/>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" style="data field (date)" x="52" y="53" width="123" height="13" uuid="535e6a40-446c-4067-a04d-7505f72991e4"/>
 				<textFieldExpression><![CDATA[$F{validTo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField" style="data field" x="174" y="27" width="213" height="13" uuid="fa5f4b13-ce90-4ffc-8b99-e00a962266e3"/>
-				<textFieldExpression><![CDATA[String.format("%d classes, %d enrolments", $F{discountCourseClasses}.size(), $F{from_to_all_discounted_enrolments})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[String.format("%d classes, %d enrolments", $F{discountCourseClasses}.size(), $F{discount}.getDiscountedEnrolments($F{global.dateRange_from}, $F{global.dateRange_to}).size())]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Label" x="174" y="40" width="103" height="13" uuid="5aed099e-06c7-4c0d-985d-28c601d42163"/>
@@ -188,7 +186,7 @@
 			</staticText>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField" style="data field" x="277" y="40" width="110" height="13" uuid="52d2155d-04f9-41e1-89d3-13c068d794dc"/>
-				<textFieldExpression><![CDATA[$F{from_to_total_DiscountExTax}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{discount}.getTotalDiscountExTax($F{global.dateRange_from}, $F{global.dateRange_to})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Label" x="174" y="53" width="103" height="13" uuid="ddb933c4-d169-4b0e-bda6-18e6dadf8d13"/>
@@ -196,11 +194,11 @@
 			</staticText>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField" style="data field" x="277" y="53" width="110" height="13" uuid="79b78c59-23cb-4b1d-ac3e-93a07bcd53da"/>
-				<textFieldExpression><![CDATA[$F{from_to_total_DiscountIncTax}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{discount}.getTotalDiscountExTax($F{global.dateRange_from}, $F{global.dateRange_to})]]></textFieldExpression>
 			</textField>
 			<elementGroup>
 				<subreport isUsingCache="true">
-					<reportElement key="subreport" x="0" y="80" width="539" height="20" uuid="64f1f99a-3090-4caa-aa3f-3bcc44ea4223"/>
+					<reportElement key="subreport" x="0" y="74" width="539" height="20" uuid="64f1f99a-3090-4caa-aa3f-3bcc44ea4223"/>
 					<dataSourceExpression><![CDATA[$F{datasource.discountCourseClasses}]]></dataSourceExpression>
 					<subreportExpression><![CDATA[$F{subreport.ish.oncourse.discount.takeUp.discountCourseClasses}]]></subreportExpression>
 				</subreport>

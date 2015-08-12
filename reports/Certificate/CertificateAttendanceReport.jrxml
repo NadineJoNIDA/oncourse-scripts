@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="15"/>
+	<property name="versionNumber" value="17"/>
 	<property name="keyCode" value="ish.oncourse.nonVetCertificate"/>
 	<property name="ish.oncourse.title" value="AttendanceCertificate"/>
 	<property name="ish.oncourse.filePrefix" value="AttendanceCertificate"/>
@@ -26,7 +26,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -66,7 +67,7 @@
 	<field name="pref.avetmiss.address.postcode" class="java.lang.String"/>
 	<field name="pref.avetmiss.identifier" class="java.lang.String"/>
 	<field name="courseClass.course.name" class="java.lang.String"/>
-	<field name="courseClass.classroomHoursProp" class="java.math.BigDecimal"/>
+	<field name="courseClass.classroomHours" class="java.math.BigDecimal"/>
 	<field name="pref.avetmiss.certificate.signatory.name" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -112,7 +113,7 @@
 			<textField pattern="###0.00" isBlankWhenNull="false">
 				<reportElement key="textField-3" style="Footer" x="0" y="285" width="540" height="16" uuid="ec98a9de-46fe-4dd7-99ea-23090e5750db"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA["Duration: "+$F{courseClass.classroomHoursProp}+" hours"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Duration: "+$F{courseClass.classroomHours}+" hours"]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

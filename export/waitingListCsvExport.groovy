@@ -17,6 +17,6 @@ records.each { WaitingList wl ->
 			"Mobile phone" : wl.student.contact.mobilePhone,
 			"Home phone"   : wl.student.contact.homePhone,
 			"Work phone"   : wl.student.contact.workPhone,
-			"Birth date"   : wl.student.contact.birthDate
+			"Birth date"   : wl.student.contact.birthDate?.format("yyyy-MM-dd")
 	]
 }

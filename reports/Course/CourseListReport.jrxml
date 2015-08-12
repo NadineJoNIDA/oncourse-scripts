@@ -5,7 +5,7 @@
 	<property name="entity" value="Course"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="17"/>
+	<property name="versionNumber" value="20"/>
 	<property name="keyCode" value="ish.onCourse.courseListReport"/>
 	<property name="ish.oncourse.title" value="Course List"/>
 	<property name="ish.oncourse.filePrefix" value="CourseList"/>
@@ -27,7 +27,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -59,27 +60,25 @@
 	<parameter name="ReportName" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="code" class="java.lang.String"/>
-	<field name="current_classes_count" class="java.lang.Integer"/>
+	<field name="currentClassesCount" class="java.lang.Integer"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="40" splitType="Stretch">
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-2" style="header 1" x="0" y="0" width="535" height="26" uuid="467227b2-bf2a-49f0-8046-28e8623357ff"/>
+				<reportElement key="textField-2" style="header 1" x="0" y="115" width="535" height="26" uuid="467227b2-bf2a-49f0-8046-28e8623357ff"/>
 				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
-		<band height="20" splitType="Stretch">
+		<band height="34" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 			<rectangle>
-				<reportElement x="0" y="0" width="535" height="20" backcolor="#E6E7F0" uuid="6cf3e48e-145a-4228-9cd3-0b7a89cc8a8a">
+				<reportElement x="0" y="14" width="535" height="20" backcolor="#E6E7F0" uuid="6cf3e48e-145a-4228-9cd3-0b7a89cc8a8a">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<graphicElement>
@@ -87,15 +86,15 @@
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText-5" style="header 3" x="2" y="2" width="268" height="15" uuid="3abb5676-4ab9-4bf8-a81f-f2e4d259fadc"/>
+				<reportElement key="staticText-5" style="header 3" x="2" y="16" width="268" height="15" uuid="3abb5676-4ab9-4bf8-a81f-f2e4d259fadc"/>
 				<text><![CDATA[Course name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-6" style="header 3" x="274" y="2" width="119" height="15" uuid="406564e5-019b-490e-9c85-786f60775d97"/>
+				<reportElement key="staticText-6" style="header 3" x="274" y="16" width="119" height="15" uuid="406564e5-019b-490e-9c85-786f60775d97"/>
 				<text><![CDATA[Code]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-7" style="header 3 (right)" x="398" y="3" width="125" height="15" uuid="d600a826-263d-48d9-9506-53012c98e885"/>
+				<reportElement key="staticText-7" style="header 3 (right)" x="398" y="17" width="125" height="15" uuid="d600a826-263d-48d9-9506-53012c98e885"/>
 				<text><![CDATA[Classes scheduled]]></text>
 			</staticText>
 		</band>
@@ -117,7 +116,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-5" style="data field (numeric)" x="398" y="0" width="125" height="15" uuid="549f330c-9eb3-4d2a-a10d-c0001d411fc1"/>
-				<textFieldExpression><![CDATA[$F{current_classes_count}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{currentClassesCount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -5,7 +5,7 @@
 	<property name="entity" value="WaitingList"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="13"/>
+	<property name="versionNumber" value="18"/>
 	<property name="keyCode" value="ish.onCourse.waitingListListReport"/>
 	<property name="ish.oncourse.title" value="WaitingList"/>
 	<property name="ish.oncourse.filePrefix" value="waitingList"/>
@@ -27,9 +27,9 @@
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
-
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -60,40 +60,43 @@
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<field name="student.contact.full_name" class="java.lang.String"/>
+	<field name="waitingList" class="ish.oncourse.server.cayenne.WaitingList"/>
 	<field name="course.name" class="java.lang.String"/>
-	<field name="sites_name_concatenated" class="java.lang.String"/>
+	<field name="siteNames" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="115" splitType="Stretch"/>
+		<band height="141" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement key="textField" style="header 1" x="0" y="115" width="538" height="26" uuid="426cbb2e-b4d1-4408-8884-e176719f59fc"/>
+				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
+			</textField>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="60" splitType="Stretch">
+		<band height="34" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<rectangle>
-				<reportElement x="0" y="40" width="537" height="20" backcolor="#E6E7F0" uuid="daaff7b5-d87c-43c3-b380-ba6e7426d844">
+				<reportElement x="0" y="14" width="539" height="20" backcolor="#E6E7F0" uuid="daaff7b5-d87c-43c3-b380-ba6e7426d844">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<graphicElement>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement key="textField" style="header 1" x="0" y="0" width="538" height="26" uuid="426cbb2e-b4d1-4408-8884-e176719f59fc"/>
-				<textFieldExpression><![CDATA[$P{ReportName}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
-			</textField>
 			<staticText>
-				<reportElement key="staticText-7" style="header 3" x="3" y="43" width="111" height="15" uuid="53cf5974-294b-48ec-8c58-0dd1db11d151"/>
+				<reportElement key="staticText-7" style="header 3" x="3" y="17" width="111" height="15" uuid="53cf5974-294b-48ec-8c58-0dd1db11d151"/>
 				<text><![CDATA[Course]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-8" style="header 3" x="119" y="43" width="111" height="15" uuid="d9a39149-250e-4c21-85f6-682568412a4e"/>
+				<reportElement key="staticText-8" style="header 3" x="119" y="17" width="111" height="15" uuid="d9a39149-250e-4c21-85f6-682568412a4e"/>
 				<text><![CDATA[Student]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-9" style="header 3" x="237" y="43" width="278" height="15" uuid="f76bed45-1994-436c-ae09-2444b99d676e"/>
+				<reportElement key="staticText-9" style="header 3" x="237" y="17" width="278" height="15" uuid="f76bed45-1994-436c-ae09-2444b99d676e"/>
 				<text><![CDATA[Sites]]></text>
 			</staticText>
 		</band>
@@ -110,7 +113,7 @@
 			</rectangle>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-3" style="data field" x="119" y="0" width="111" height="15" uuid="a708362e-67cb-42e3-ab4d-22e231af9e12"/>
-				<textFieldExpression><![CDATA[$F{student.contact.full_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{waitingList}.student.contact.fullName]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-4" style="data field" x="3" y="0" width="111" height="15" uuid="38990328-d590-4d4f-bb65-ab6baf27e710"/>
@@ -118,7 +121,7 @@
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-5" style="data field" x="237" y="0" width="278" height="15" uuid="e10ba707-496e-43d2-8394-2318bb26fcf5"/>
-				<textFieldExpression><![CDATA[$F{sites_name_concatenated}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{siteNames}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

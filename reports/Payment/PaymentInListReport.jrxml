@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentIn"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="21"/>
+	<property name="versionNumber" value="30"/>
 	<property name="keyCode" value="ish.onCourse.paymentInListReport"/>
 	<property name="ish.oncourse.description" value="A detailed report displaying transactions made to and from each general ledger account over a specified period of time.This report prints in Portrait format."/>
 	<property name="ish.oncourse.additionalProperty" value="classRange"/>
@@ -34,7 +34,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -64,16 +65,11 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String" isForPrompting="false"/>
-	<field name="amount" class="java.lang.Object"/>
-	<field name="dateBanked" class="java.util.Date"/>
-	<field name="payer.firstName" class="java.lang.String"/>
-	<field name="payer.lastName" class="java.lang.String"/>
-	<field name="source" class="java.lang.Object"/>
+	<field name="paymentIn" class="java.lang.Object"/>
 	<field name="createdOn" class="java.util.Date"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<field name="type" class="java.lang.Object"/>
 	<variable name="amountTotal" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[((ish.math.Money)$F{amount}).toBigDecimal()]]></variableExpression>
+		<variableExpression><![CDATA[$F{paymentIn}.amount.toBigDecimal()]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -104,11 +100,11 @@
 				<text><![CDATA[Amount]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-2" style="header 3" x="0" y="2" width="70" height="15" uuid="dcca4f05-127a-4047-97de-7e5cafd9cd79"/>
+				<reportElement key="staticText-2" style="header 3" x="2" y="2" width="70" height="15" uuid="dcca4f05-127a-4047-97de-7e5cafd9cd79"/>
 				<text><![CDATA[Type]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-3" style="header 3" x="70" y="2" width="147" height="15" uuid="423d68e2-68b3-451d-8e96-ae2ab2c7c561"/>
+				<reportElement key="staticText-3" style="header 3" x="72" y="2" width="147" height="15" uuid="423d68e2-68b3-451d-8e96-ae2ab2c7c561"/>
 				<text><![CDATA[Payer name]]></text>
 			</staticText>
 			<staticText>
@@ -129,39 +125,39 @@
 				</reportElement>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-6" style="data field" x="0" y="0" width="70" height="15" uuid="7b6fc504-62a1-43ba-9591-0d03e16c27e8"/>
-				<textFieldExpression><![CDATA[((ish.common.types.PaymentType)$F{type}).getDisplayName()]]></textFieldExpression>
+				<reportElement key="textField-6" style="data field" x="2" y="0" width="70" height="15" uuid="7b6fc504-62a1-43ba-9591-0d03e16c27e8"/>
+				<textFieldExpression><![CDATA[$F{paymentIn}.paymentMethod.name]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-7" style="data field" x="70" y="0" width="147" height="15" uuid="beffc037-6b5e-4aba-ace4-286cbfc9c869"/>
-				<textFieldExpression><![CDATA[$F{payer.lastName}+", "+$F{payer.firstName}]]></textFieldExpression>
+				<reportElement key="textField-7" style="data field" x="72" y="0" width="147" height="15" uuid="beffc037-6b5e-4aba-ace4-286cbfc9c869"/>
+				<textFieldExpression><![CDATA[$F{paymentIn}.payer.firstName + " " + $F{paymentIn}.payer.lastName]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-8" style="data field (money)" x="222" y="0" width="73" height="15" uuid="57063186-ecb8-4d83-84b8-635495cfc574"/>
-				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{paymentIn}.amount]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-9" style="data field" x="472" y="0" width="57" height="15" uuid="a462ffe4-af2c-468f-85f2-d21a1598e22e"/>
-				<textFieldExpression><![CDATA[(((ish.common.types.PaymentSource)$F{source}).equals(ish.common.types.PaymentSource.SOURCE_WEB))
-				?"Web": ((((ish.common.types.PaymentSource)$F{source}).equals(ish.common.types.PaymentSource.SOURCE_ONCOURSE))
-				?"Office":"Not Set"
-				)]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{paymentIn}.source]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy h.mm a" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField-10" style="data field (date)" x="310" y="0" width="155" height="15" uuid="903415e7-6510-46a2-a4c5-e1b10fa7d754"/>
-				<textFieldExpression><![CDATA[$F{dateBanked}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{paymentIn}.dateBanked]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
 		<band height="32" splitType="Stretch">
 			<staticText>
-				<reportElement key="staticText-10" style="header 3 (right)" x="107" y="8" width="110" height="15" uuid="b49cb588-9774-4558-b0fb-5f987d035a7f"/>
+				<reportElement key="staticText-10" style="header 3 (right)" x="107" y="3" width="110" height="15" uuid="b49cb588-9774-4558-b0fb-5f987d035a7f"/>
 				<text><![CDATA[Total ]]></text>
 			</staticText>
 			<textField>
-				<reportElement key="textField-37" style="header 3 (right)" positionType="Float" x="222" y="9" width="73" height="14" uuid="ea2ac267-4904-471e-b609-9aef196401ae"/>
-				<textFieldExpression><![CDATA[new ish.math.Money($V{amountTotal})]]></textFieldExpression>
+				<reportElement key="textField-37" style="data field (money)" positionType="Float" x="222" y="3" width="73" height="15" uuid="ea2ac267-4904-471e-b609-9aef196401ae"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{amountTotal}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>

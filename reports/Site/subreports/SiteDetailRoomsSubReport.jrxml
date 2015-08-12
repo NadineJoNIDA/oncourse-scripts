@@ -5,7 +5,7 @@
 	<property name="entity" value="Room"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="8"/>
+	<property name="versionNumber" value="11"/>
 	<property name="keyCode" value="ish.onCourse.siteDetailRoomsSubReport"/>
 	<property name="ish.oncourse.title" value="Rooms"/>
 	<property name="ish.oncourse.filePrefix" value="Rooms"/>
@@ -24,9 +24,9 @@
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
-
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -69,21 +69,21 @@
 	<columnHeader>
 		<band height="40" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="24" width="240" height="16" backcolor="#E6E7F0" uuid="b5133967-085e-47eb-a306-a3e6f2b8baa3"/>
+				<reportElement x="0" y="21" width="260" height="19" backcolor="#E6E7F0" uuid="b5133967-085e-47eb-a306-a3e6f2b8baa3"/>
 				<graphicElement>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText-2" style="header 3" x="0" y="24" width="143" height="15" uuid="42fcbae4-8f3c-42fb-8ffc-0a8a2d67b791"/>
+				<reportElement key="staticText-2" style="header 3" x="3" y="23" width="164" height="15" uuid="42fcbae4-8f3c-42fb-8ffc-0a8a2d67b791"/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-3" style="header 3 (right)" x="149" y="24" width="85" height="15" uuid="a104b84e-a072-473e-b072-f721937b4fa0"/>
+				<reportElement key="staticText-3" style="header 3 (right)" x="171" y="23" width="85" height="15" uuid="a104b84e-a072-473e-b072-f721937b4fa0"/>
 				<text><![CDATA[Seated Capacity]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-5" style="header 2" x="0" y="0" width="160" height="20" uuid="feedbf75-64f0-4358-9607-5ab4f686f82c"/>
+				<reportElement key="staticText-5" style="header 2" x="1" y="0" width="160" height="20" uuid="feedbf75-64f0-4358-9607-5ab4f686f82c"/>
 				<text><![CDATA[Rooms]]></text>
 			</staticText>
 		</band>
@@ -91,16 +91,16 @@
 	<detail>
 		<band height="18" splitType="Stretch">
 			<rectangle>
-				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="1" y="0" width="239" height="18" uuid="ef6f03cb-e82a-40da-bd6d-406f98896fed">
+				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="1" y="-2" width="259" height="20" uuid="ef6f03cb-e82a-40da-bd6d-406f98896fed">
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
 				</reportElement>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-2" style="data field" x="0" y="0" width="143" height="13" uuid="d1c17a31-a139-4c0a-89b5-0bdf7c464879"/>
+				<reportElement key="textField-2" style="data field" x="3" y="0" width="164" height="13" uuid="d1c17a31-a139-4c0a-89b5-0bdf7c464879"/>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-3" style="data field (numeric)" x="149" y="0" width="85" height="14" uuid="0ae2f662-443a-4c37-b4fc-f06341b8200e"/>
+				<reportElement key="textField-3" style="data field (numeric)" x="171" y="0" width="85" height="14" uuid="0ae2f662-443a-4c37-b4fc-f06341b8200e"/>
 				<textFieldExpression><![CDATA[(($F{seatedCapacity} == null) ? "Not set" : $F{seatedCapacity}.toString())]]></textFieldExpression>
 			</textField>
 		</band>

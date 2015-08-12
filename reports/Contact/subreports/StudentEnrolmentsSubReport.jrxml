@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="11"/>
+	<property name="versionNumber" value="14"/>
 	<property name="keyCode" value="ish.onCourse.studentEnrolmentsSubReport"/>
 	<property name="ish.oncourse.title" value="Enrolments"/>
 	<property name="ish.oncourse.filePrefix" value="Student_details"/>
@@ -25,7 +25,8 @@
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
-	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mm:ssa"/>
+	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
+	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
 	<style name="data field (date)" style="data field" pattern="d MMM yyyy"/>
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
@@ -54,10 +55,10 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="enrolment" class="java.lang.Object"/>
 	<field name="courseClass.course.name" class="java.lang.String"/>
 	<field name="courseClass.code" class="java.lang.String"/>
 	<field name="courseClass.course.code" class="java.lang.String"/>
-	<field name="createdOn_as_string" class="java.lang.String"/>
 	<field name="invoiceLine.priceEachExTax" class="java.lang.Object"/>
 	<field name="invoiceLine.discountEachExTax" class="java.lang.Object"/>
 	<field name="invoiceLine.taxEach" class="java.lang.Object"/>
@@ -89,7 +90,7 @@
 				<text><![CDATA[Course name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-3" style="header 3" x="238" y="28" width="84" height="15" uuid="2702a61e-d1de-4da9-b669-07a2b56588ef"/>
+				<reportElement key="staticText-3" style="header 3" x="234" y="28" width="93" height="15" uuid="2702a61e-d1de-4da9-b669-07a2b56588ef"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Enrolment date]]></text>
 			</staticText>
@@ -130,8 +131,8 @@
 				<textFieldExpression><![CDATA[$F{courseClass.course.name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-3" style="data field" x="238" y="0" width="84" height="14" uuid="6566f337-ddc6-4716-a294-ba52265be691"/>
-				<textFieldExpression><![CDATA[$F{createdOn_as_string}]]></textFieldExpression>
+				<reportElement key="textField-3" style="data field (date)" x="234" y="0" width="93" height="14" uuid="6566f337-ddc6-4716-a294-ba52265be691"/>
+				<textFieldExpression><![CDATA[$F{enrolment}.createdOn]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-4" style="data field (money)" x="327" y="0" width="58" height="14" uuid="5469093b-75c4-4374-890a-3324bf6c66a4"/>

@@ -6,7 +6,7 @@ records.each { Qualification q ->
 			"createdOn"         : q.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
 			"isAccreditedCourse": q.type?.displayName,
 			"level"             : q.level,
-			"nominalHours"      : q.nominalHours,
+			"nominalHours"      : q.nominalHours?.format("0.00"),
 			"reviewDate"        : q.reviewDate?.format("yyyy-MM-dd"),
 			"anzsco"            : q.anzsco,
 			"fieldOfEducation"  : q.fieldOfEducation,

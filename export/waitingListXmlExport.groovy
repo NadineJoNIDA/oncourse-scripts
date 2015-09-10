@@ -35,7 +35,7 @@ xml.data() {
 			isVET(co.isVET)
 			name(co.name)
 			printedBrochureDescription(co.printedBrochureDescription)
-			reportableHours(co.reportableHours)
+			reportableHours(co.reportableHours?.format("0.00"))
 			webDescription(co.webDescription)
 			co.tags.each { Tag t ->
 				tags << t

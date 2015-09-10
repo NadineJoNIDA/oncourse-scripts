@@ -19,7 +19,7 @@ xml.data() {
 			isVET(co.isVET)
 			name(co.name)
 			printedBrochureDescription(co.printedBrochureDescription)
-			reportableHours(co.reportableHours)
+			reportableHours(co.reportableHours?.format("0.00"))
 			webDescription(co.webDescription)
 			classes.each { cc ->
 				courseClass(id: cc.id) {

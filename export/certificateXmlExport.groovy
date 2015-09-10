@@ -44,17 +44,18 @@ xml.data() {
 				yearSchoolCompleted(c.student.yearSchoolCompleted)
 			}
 			certs.each { Certificate cert ->
-				certificate(id: cert.id)
-				modifiedOn(cert.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-				createdOn(cert.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-				fullQualification(cert.isQualification)
-				printed(cert.printedOn?.format("yyyy-MM-dd"))
-				firstName(cert.studentFirstName)
-				lastName(cert.studentLastName)
-				nationalCode(cert.qualification?.nationalCode)
-				cert.certificateOutcomes.each { CertificateOutcome co ->
-					if (co.outcome.module) {
-						module(nationalCode: co.outcome.module.nationalCode)
+				certificate(id: cert.id) {
+					modifiedOn(cert.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					createdOn(cert.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					fullQualification(cert.isQualification)
+					printed(cert.printedOn?.format("yyyy-MM-dd"))
+					firstName(cert.studentFirstName)
+					lastName(cert.studentLastName)
+					nationalCode(cert.qualification?.nationalCode)
+					cert.certificateOutcomes.each { CertificateOutcome co ->
+						if (co.outcome.module) {
+							module(nationalCode: co.outcome.module.nationalCode)
+						}
 					}
 				}
 			}

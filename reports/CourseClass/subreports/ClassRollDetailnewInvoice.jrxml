@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="21"/>
+	<property name="versionNumber" value="24"/>
 	<property name="keyCode" value="ish.onCourse.roll.isVET.sub"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -28,7 +28,7 @@
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
 	<style name="subHead box" style="default" backcolor="#E6E7F0"/>
-	<style name="crosstab" mode="Opaque" backcolor="#EDE6DA">
+	<style name="crosstab" mode="Opaque" backcolor="#F7F2E9">
 		<box>
 			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#A3A3A3"/>
 			<leftPen lineWidth="0.2" lineStyle="Solid" lineColor="#A3A3A3"/>
@@ -40,7 +40,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<style name="alternateRow" mode="Opaque" forecolor="rgba(255, 255, 255, 0.0)" backcolor="#FAF7F0">
+	<style name="alternateRow" mode="Opaque" forecolor="rgba(255, 255, 255, 0.0)" backcolor="#F7F2E9">
 		<box>
 			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 			<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -98,13 +98,11 @@
 							<text><![CDATA[Student number]]></text>
 						</staticText>
 						<staticText>
-							<reportElement key="staticText-1" style="header 3 (right)" x="203" y="43" width="57" height="15" uuid="8c32bb98-bba9-4375-bd45-ef4582ddedba"/>
+							<reportElement key="staticText-1" style="header 3 (right)" x="203" y="43" width="67" height="15" uuid="8c32bb98-bba9-4375-bd45-ef4582ddedba"/>
 							<text><![CDATA[Phone No]]></text>
 						</staticText>
 						<staticText>
-							<reportElement key="staticText-6" style="header 3" x="264" y="43" width="56" height="15" uuid="9d111818-c32a-48d2-9cd8-691da6bda8c6">
-								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-							</reportElement>
+							<reportElement key="staticText-6" style="header 3" x="277" y="43" width="53" height="15" uuid="9d111818-c32a-48d2-9cd8-691da6bda8c6"/>
 							<text><![CDATA[ID sighted]]></text>
 						</staticText>
 					</cellContents>
@@ -141,14 +139,14 @@
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="contactNo" width="58">
+				<rowGroup name="contactNo" width="68">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{mobile}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents mode="Opaque" style="crosstab">
 							<textField isBlankWhenNull="false">
-								<reportElement key="textField-1" style="data field (numeric)" x="2" y="3" width="56" height="13" uuid="5002565c-d330-451d-bd68-525d36ede249"/>
+								<reportElement key="textField-1" style="data field (numeric)" x="2" y="3" width="66" height="13" uuid="5002565c-d330-451d-bd68-525d36ede249"/>
 								<textFieldExpression><![CDATA[$V{contactNo} == null ? "" :$V{contactNo}]]></textFieldExpression>
 							</textField>
 						</cellContents>

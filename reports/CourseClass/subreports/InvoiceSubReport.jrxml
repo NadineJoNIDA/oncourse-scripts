@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="9"/>
+	<property name="versionNumber" value="10"/>
 	<property name="keyCode" value="ish.onCourse.invoiceSubReport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -30,7 +30,7 @@
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
 	<style name="subHead box" style="default" backcolor="#E6E7F0"/>
-	<style name="crosstab" mode="Opaque" backcolor="#EDE6DA">
+	<style name="crosstab" mode="Opaque" backcolor="#F7F2E9">
 		<box>
 			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#A3A3A3"/>
 			<leftPen lineWidth="0.2" lineStyle="Solid" lineColor="#A3A3A3"/>
@@ -42,7 +42,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<style name="alternateRow" mode="Opaque" forecolor="rgba(255, 255, 255, 0.0)" backcolor="#FAF7F0">
+	<style name="alternateRow" mode="Opaque" forecolor="rgba(255, 255, 255, 0.0)" backcolor="#F7F2E9">
 		<box>
 			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 			<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

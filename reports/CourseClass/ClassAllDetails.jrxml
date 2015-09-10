@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="35"/>
+	<property name="versionNumber" value="36"/>
 	<property name="keyCode" value="ish.onCourse.classAllDetails"/>
 	<property name="ish.oncourse.description" value="Detailed report of all information for a given class, including delivery mode, minimum and maximum places, enrolment numbers, fees and discounts, session details, course description, tutor information and directions for getting to the campus. This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
@@ -31,7 +31,7 @@
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
 	<style name="subHead box" style="default" backcolor="#E6E7F0"/>
-	<style name="crosstab" mode="Opaque" backcolor="#EDE6DA">
+	<style name="crosstab" mode="Opaque" backcolor="#F7F2E9">
 		<box>
 			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#A3A3A3"/>
 			<leftPen lineWidth="0.2" lineStyle="Solid" lineColor="#A3A3A3"/>
@@ -43,7 +43,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<style name="alternateRow" mode="Opaque" forecolor="rgba(255, 255, 255, 0.0)" backcolor="#FAF7F0">
+	<style name="alternateRow" mode="Opaque" forecolor="rgba(255, 255, 255, 0.0)" backcolor="#F7F2E9">
 		<box>
 			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 			<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

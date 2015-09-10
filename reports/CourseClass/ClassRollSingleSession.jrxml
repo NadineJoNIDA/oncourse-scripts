@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="21"/>
+	<property name="versionNumber" value="25"/>
 	<property name="keyCode" value="ish.onCourse.ClassRollSingleSession"/>
 	<property name="ish.oncourse.description" value="To be used for classes where the tutors need to return a student-signed copy of the class roll back to the college administration office after each week or session.This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
@@ -30,7 +30,7 @@
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
 	<style name="subHead box" style="default" backcolor="#E6E7F0"/>
-	<style name="crosstab" mode="Opaque" backcolor="#EDE6DA">
+	<style name="crosstab" mode="Opaque" backcolor="#F7F2E9">
 		<box>
 			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#A3A3A3"/>
 			<leftPen lineWidth="0.2" lineStyle="Solid" lineColor="#A3A3A3"/>
@@ -42,7 +42,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<style name="alternateRow" mode="Opaque" forecolor="rgba(255, 255, 255, 0.0)" backcolor="#FAF7F0">
+	<style name="alternateRow" mode="Opaque" forecolor="rgba(255, 255, 255, 0.0)" backcolor="#F7F2E9">
 		<box>
 			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 			<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -99,49 +99,49 @@
 	<pageHeader>
 		<band height="134" splitType="Stretch">
 			<staticText>
-				<reportElement key="staticText-17" style="Label" x="22" y="58" width="59" height="15" uuid="ebece2b8-1870-4b89-87cc-d8bec6ae5b46"/>
+				<reportElement key="staticText-17" style="Label" x="30" y="58" width="59" height="15" uuid="ebece2b8-1870-4b89-87cc-d8bec6ae5b46"/>
 				<text><![CDATA[Location]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-16" style="data field" x="100" y="58" width="377" height="15" uuid="aa3c3a65-19a7-4c6c-a1fe-6e305f37c714"/>
+				<reportElement key="textField-16" style="data field" x="108" y="58" width="377" height="15" uuid="aa3c3a65-19a7-4c6c-a1fe-6e305f37c714"/>
 				<textFieldExpression><![CDATA[($F{room.name} == null) ? "Not set" : ($F{room.site.name}+" in "+$F{room.name})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement key="staticText-15" style="Label" x="22" y="112" width="79" height="15" uuid="dc129b33-db90-40f5-987c-cce8c67d863e"/>
+				<reportElement key="staticText-15" style="Label" x="30" y="112" width="79" height="15" uuid="dc129b33-db90-40f5-987c-cce8c67d863e"/>
 				<text><![CDATA[Tutor Surname]]></text>
 			</staticText>
 			<subreport isUsingCache="true">
-				<reportElement key="subreport-3" style="Footer" x="101" y="113" width="278" height="15" uuid="2cf8fa9a-8d15-4f7f-ad05-b61f80f3c5ae"/>
+				<reportElement key="subreport-3" style="Footer" x="109" y="113" width="278" height="15" uuid="2cf8fa9a-8d15-4f7f-ad05-b61f80f3c5ae"/>
 				<dataSourceExpression><![CDATA[$F{datasource.tutorRoles}]]></dataSourceExpression>
 				<returnValue subreportVariable="tutorNumber" toVariable="tutorNumber"/>
 				<subreportExpression><![CDATA[$F{subreport.ish.onCourse.classRollTutors}]]></subreportExpression>
 			</subreport>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="data field" x="100" y="39" width="177" height="13" uuid="a903f033-d800-4a13-b5b8-a7a8cac771e2"/>
+				<reportElement key="textField" style="data field" x="108" y="39" width="177" height="13" uuid="a903f033-d800-4a13-b5b8-a7a8cac771e2"/>
 				<textFieldExpression><![CDATA[$F{course.code}+"-"+$F{code}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement key="staticText-20" style="Label" x="22" y="39" width="64" height="13" uuid="81f292e3-79e2-483e-885d-f48df6c0ba92"/>
+				<reportElement key="staticText-20" style="Label" x="30" y="39" width="64" height="13" uuid="81f292e3-79e2-483e-885d-f48df6c0ba92"/>
 				<text><![CDATA[Course Code]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="data field" x="100" y="77" width="101" height="16" uuid="64e02cdc-f7ab-407a-86ec-1dde9c4e476f"/>
+				<reportElement key="textField" style="data field" x="108" y="77" width="101" height="16" uuid="64e02cdc-f7ab-407a-86ec-1dde9c4e476f"/>
 				<textFieldExpression><![CDATA[$F{sessionsCount}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement key="staticText-21" style="Label" x="22" y="77" width="59" height="16" uuid="e5ac306c-70f0-477e-b863-8ae1c74c9568"/>
+				<reportElement key="staticText-21" style="Label" x="30" y="77" width="59" height="16" uuid="e5ac306c-70f0-477e-b863-8ae1c74c9568"/>
 				<text><![CDATA[Sessions count]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-22" style="Label" x="22" y="96" width="74" height="13" uuid="2b5a1d7c-34b0-4872-a7a8-776ef85d5628"/>
+				<reportElement key="staticText-22" style="Label" x="30" y="96" width="74" height="13" uuid="2b5a1d7c-34b0-4872-a7a8-776ef85d5628"/>
 				<text><![CDATA[Starting date]]></text>
 			</staticText>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="data field (day)" x="100" y="96" width="130" height="13" uuid="992e708e-b515-48b6-8da1-e480f55acfe6"/>
+				<reportElement key="textField" style="data field (day)" x="108" y="96" width="130" height="13" uuid="992e708e-b515-48b6-8da1-e480f55acfe6"/>
 				<textFieldExpression><![CDATA[$F{courseClass}.startDateTime?.format("d MMM yyyy h:mma", $F{courseClass}.timeZone)]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement key="staticText-17" style="header 1" x="2" y="2" width="258" height="27" uuid="3aed7a92-c9dc-404b-9490-1311dcf5c55e"/>
+				<reportElement key="staticText-17" style="header 1" x="30" y="2" width="258" height="27" uuid="3aed7a92-c9dc-404b-9490-1311dcf5c55e"/>
 				<text><![CDATA[Class Roll - Single Session]]></text>
 			</staticText>
 		</band>
@@ -158,11 +158,11 @@ each session by the tutor
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-24" style="Label" x="281" y="20" width="30" height="14" uuid="c24fded2-7bbb-4ab3-a6d4-edb6b073a871"/>
+				<reportElement key="staticText-24" style="Label" x="281" y="16" width="30" height="14" uuid="c24fded2-7bbb-4ab3-a6d4-edb6b073a871"/>
 				<text><![CDATA[Term]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-25" style="Label" x="281" y="40" width="30" height="14" uuid="0f57d973-4854-4442-bf75-ea10e3657c49">
+				<reportElement key="staticText-25" style="Label" x="281" y="38" width="30" height="14" uuid="0f57d973-4854-4442-bf75-ea10e3657c49">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -173,35 +173,50 @@ each session by the tutor
 				<text><![CDATA[Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-27" style="Label" x="281" y="80" width="119" height="14" uuid="e1e7528e-b3a6-4f6e-b5d7-64074a6e3da1">
+				<reportElement key="staticText-27" style="Label" x="281" y="82" width="119" height="14" uuid="e1e7528e-b3a6-4f6e-b5d7-64074a6e3da1">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<text><![CDATA[Number attending session]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-28" style="Label" x="281" y="100" width="69" height="14" uuid="a5d485eb-f003-4642-be28-8f997343cf0a">
+				<reportElement key="staticText-28" style="Label" x="281" y="104" width="69" height="14" uuid="a5d485eb-f003-4642-be28-8f997343cf0a">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<text><![CDATA[Tutor Signature Signature:]]></text>
 			</staticText>
 			<line>
-				<reportElement key="line-1" style="Footer" x="311" y="30" width="169" height="1" uuid="a9878438-c216-4972-9dee-b1a2ef45e61d"/>
+				<reportElement key="line-1" style="Footer" x="311" y="26" width="169" height="1" uuid="a9878438-c216-4972-9dee-b1a2ef45e61d"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
 			</line>
 			<line>
-				<reportElement key="line-6" style="Footer" x="311" y="50" width="169" height="1" uuid="544b8d26-d715-48d3-8e2d-68ec2dd4cd76">
+				<reportElement key="line-6" style="Footer" x="311" y="48" width="169" height="1" uuid="544b8d26-d715-48d3-8e2d-68ec2dd4cd76">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
 			</line>
 			<line>
 				<reportElement key="line-7" style="Footer" x="311" y="70" width="169" height="1" uuid="cfbdcbee-ec46-42ae-a3e4-55736d3013cc"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
 			</line>
 			<line>
-				<reportElement key="line-8" style="Footer" x="350" y="110" width="130" height="1" uuid="ddf7b60e-5973-462d-9a1d-74f32b1a8db4"/>
+				<reportElement key="line-8" style="Footer" x="350" y="114" width="130" height="1" uuid="ddf7b60e-5973-462d-9a1d-74f32b1a8db4"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
 			</line>
 			<line>
-				<reportElement key="line-9" style="Footer" x="400" y="90" width="80" height="1" uuid="c17b9add-3f01-47fa-9fff-6d6d16e964e3"/>
+				<reportElement key="line-9" style="Footer" x="400" y="92" width="80" height="1" uuid="c17b9add-3f01-47fa-9fff-6d6d16e964e3"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
 			</line>
 		</band>
 	</detail>

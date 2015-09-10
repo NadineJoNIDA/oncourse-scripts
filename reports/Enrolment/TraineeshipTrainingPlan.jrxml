@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="20"/>
+	<property name="versionNumber" value="21"/>
 	<property name="keyCode" value="ish.onCourse.traineeTrainingPlanReport"/>
 	<property name="ish.oncourse.title" value="Traineeship Training Plan"/>
 	<property name="ish.oncourse.filePrefix" value="TraineeshipTrainingPlan"/>
@@ -33,7 +33,7 @@
 	<style name="Footer" style="default" forecolor="#737373" fontSize="8"/>
 	<style name="Footer strong" style="Footer" fontName="Open Sans Semibold" pdfFontName="Open Sans Semibold"/>
 	<style name="subHead box" style="default" backcolor="#E6E7F0"/>
-	<style name="crosstab" mode="Opaque" backcolor="#EDE6DA">
+	<style name="crosstab" mode="Opaque" backcolor="#F7F2E9">
 		<box>
 			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#A3A3A3"/>
 			<leftPen lineWidth="0.2" lineStyle="Solid" lineColor="#A3A3A3"/>
@@ -45,7 +45,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<style name="alternateRow" mode="Opaque" forecolor="rgba(255, 255, 255, 0.0)" backcolor="#FAF7F0">
+	<style name="alternateRow" mode="Opaque" forecolor="rgba(255, 255, 255, 0.0)" backcolor="#F7F2E9">
 		<box>
 			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 			<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -186,9 +186,15 @@ in it.]]></text>
 				</staticText>
 				<line>
 					<reportElement key="line-1" style="Footer" x="55" y="72" width="280" height="1" uuid="3b9bc608-fb2b-40bb-9fbd-2d52de81ce14"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
 				</line>
 				<line>
 					<reportElement key="line-2" style="Footer" x="396" y="72" width="102" height="1" uuid="6792d5ce-2b7f-444d-995e-a124833e8da0"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
 				</line>
 				<staticText>
 					<reportElement key="staticText-27" style="Label" x="0" y="92" width="66" height="15" uuid="b062cac4-4ef3-4486-ad34-dbcede5f2f7e"/>
@@ -208,9 +214,15 @@ in it.]]></text>
 				</staticText>
 				<line>
 					<reportElement key="line-3" style="Footer" x="55" y="145" width="280" height="1" uuid="ca2bb444-9f22-483d-95b7-17a798c0c9da"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
 				</line>
 				<line>
 					<reportElement key="line-4" style="Footer" x="396" y="145" width="102" height="1" uuid="c86d5e04-f0b9-41ea-95fa-5405a6a50fa5"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
 				</line>
 				<staticText>
 					<reportElement key="staticText-31" style="Label" x="0" y="165" width="65" height="15" uuid="79338cbf-d840-4bf6-a972-dbaebda849bb"/>
@@ -231,9 +243,15 @@ provided them with a copy.]]></text>
 				</staticText>
 				<line>
 					<reportElement key="line-5" style="Footer" x="55" y="232" width="280" height="1" uuid="f385825d-e0ff-4c56-a326-0381fd00c2e7"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
 				</line>
 				<line direction="BottomUp">
 					<reportElement key="line-6" style="Footer" x="396" y="232" width="104" height="1" uuid="3e578b6d-d14e-48ad-b7d9-717dc20d290d"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
 				</line>
 			</band>
 		</groupFooter>

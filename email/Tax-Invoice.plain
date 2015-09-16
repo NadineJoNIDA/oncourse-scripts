@@ -8,7 +8,7 @@ o-------------------o
 <% } %>
 o-------------------o
 
-Invoice created on: ${invoice.createdOn.format("d/M/yy")}
+Invoice created on: ${invoice.invoiceDate.format("d/M/yy")}
 Invoice due on: ${invoice.dateDue.format("d/M/yy")}
 Invoice number: ${invoice.invoiceNumber}
 <% if (invoice.customerReference) { %>

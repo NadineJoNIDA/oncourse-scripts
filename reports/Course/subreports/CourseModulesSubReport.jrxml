@@ -5,7 +5,7 @@
 	<property name="entity" value="Module"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="16"/>
+	<property name="versionNumber" value="17"/>
 	<property name="keyCode" value="ish.onCourse.courseModules"/>
 	<property name="ish.oncourse.title" value="Modules "/>
 	<property name="ish.oncourse.filePrefix" value="Course_moduless"/>
@@ -56,10 +56,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<field name="title" class="java.lang.String"/>
-	<field name="nationalCode" class="java.lang.String"/>
-	<field name="fieldOfEducation" class="java.lang.String"/>
-	<field name="nominalHours" class="java.math.BigDecimal"/>
+	<field name="module" class="ish.oncourse.server.cayenne.Module"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -92,7 +89,7 @@
 				<text><![CDATA[Nominal Hours]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-4" style="header 3" x="383" y="22" width="130" height="15" uuid="50ea745c-c0a3-46c9-9d67-02382bab158c"/>
+				<reportElement key="staticText-4" style="header 3" x="400" y="22" width="130" height="15" uuid="50ea745c-c0a3-46c9-9d67-02382bab158c"/>
 				<text><![CDATA[National Code]]></text>
 			</staticText>
 			<staticText>
@@ -111,19 +108,19 @@
 			<elementGroup>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-1" style="data field" x="0" y="1" width="185" height="14" uuid="4c77436a-5ad4-4f41-b24b-62dfd5d91fb5"/>
-					<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{module}.title]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-2" style="data field" x="190" y="1" width="86" height="13" uuid="c6f95b5a-444b-44a8-ba91-7b8ad72575c3"/>
-					<textFieldExpression><![CDATA[$F{fieldOfEducation}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{module}.fieldOfEducation]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-3" style="data field (numeric)" x="281" y="1" width="97" height="14" uuid="e4c4f8c9-e5b8-44a8-b277-2b50c1bd0888"/>
-					<textFieldExpression><![CDATA[($F{nominalHours} == null) ? "Not set" : $F{nominalHours}.toString()]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{module}.nominalHours ?: "Not set"]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-4" style="data field" x="383" y="1" width="130" height="14" uuid="02e6f088-8546-4857-b9d2-f643e2a7c0c1"/>
-					<textFieldExpression><![CDATA[$F{nationalCode}]]></textFieldExpression>
+					<reportElement key="textField-4" style="data field" x="400" y="1" width="130" height="14" uuid="02e6f088-8546-4857-b9d2-f643e2a7c0c1"/>
+					<textFieldExpression><![CDATA[$F{module}.nationalCode]]></textFieldExpression>
 				</textField>
 			</elementGroup>
 		</band>

@@ -5,7 +5,7 @@
 	<property name="entity" value="Course"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="52"/>
+	<property name="versionNumber" value="53"/>
 	<property name="keyCode" value="ish.onCourse.courseDetailsReport"/>
 	<property name="ish.oncourse.title" value="Course Details"/>
 	<property name="ish.oncourse.filePrefix" value="courseDetails"/>
@@ -60,20 +60,11 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
-	<field name="name" class="java.lang.String"/>
-	<field name="code" class="java.lang.String"/>
-	<field name="reportableHours" class="java.math.BigDecimal"/>
-	<field name="qualification" class="java.lang.Object"/>
-	<field name="qualification.title" class="java.lang.String"/>
-	<field name="isShownOnWeb" class="java.lang.Boolean"/>
-	<field name="isVET" class="java.lang.Boolean"/>
-	<field name="fieldOfEducation" class="java.lang.String"/>
+	<field name="course" class="ish.oncourse.server.cayenne.Course"/>
 	<field name="datasource.courseClasses" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.courseClassSubReport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="datasource.modules" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.courseModules" class="net.sf.jasperreports.engine.JasperReport"/>
-	<field name="webDescription" class="java.lang.String"/>
-	<field name="printedBrochureDescription" class="java.lang.String"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<variable name="subRep" class="java.lang.String"/>
 	<background>
@@ -90,7 +81,7 @@
 			</staticText>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-2" style="header 1" x="0" y="25" width="539" height="27" uuid="2f41b91a-d00d-43ea-ba59-790a5b62461b"/>
-				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{course}.name]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-6" style="Label" x="0" y="58" width="70" height="15" uuid="0e2b386c-4511-46a1-86d0-63fc666fc3b6"/>
@@ -102,11 +93,11 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-4" style="data field" x="100" y="58" width="119" height="15" uuid="568bd84f-3361-4e4f-ba4c-66132186d33b"/>
-				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{course}.code]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-5" style="data field" x="100" y="74" width="123" height="15" uuid="904a7035-a04d-4060-b0fc-32c6e3191d3d"/>
-				<textFieldExpression><![CDATA[($F{fieldOfEducation} == null) ? "Not set" : $F{fieldOfEducation}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{course}.fieldOfEducation ?: "Not set"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-8" style="Label" x="311" y="58" width="92" height="15" uuid="0b9bb06a-2e29-4968-8fb5-5dfb0b199958"/>
@@ -114,7 +105,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-7" style="data field" x="433" y="58" width="84" height="15" uuid="0a9eb36b-0dd3-4bf0-835b-94380a40142a"/>
-				<textFieldExpression><![CDATA[( $F{isShownOnWeb}.booleanValue() ? "yes" : "no" )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $F{course}.isShownOnWeb ? "yes" : "no" )]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-9" style="Label" x="311" y="74" width="92" height="15" uuid="db6cf108-e7e4-4791-b96e-1b9bc195f4c9"/>
@@ -122,12 +113,12 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-8" style="data field" x="433" y="74" width="84" height="15" uuid="704869e3-4033-4049-afea-a6125678de25"/>
-				<textFieldExpression><![CDATA[( $F{isVET}.booleanValue() ? "yes" : "no" )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $F{course}.isVET ? "yes" : "no" )]]></textFieldExpression>
 			</textField>
 			<frame>
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="90" width="517" height="30" isRemoveLineWhenBlank="true" uuid="0815df56-4973-41ca-a1c0-02662bdd3439">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
-					<printWhenExpression><![CDATA[$F{qualification} != null]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{course}.qualification != null]]></printWhenExpression>
 				</reportElement>
 				<staticText>
 					<reportElement key="staticText-10" style="Label" x="0" y="0" width="100" height="15" uuid="8ec35a01-d42e-4b35-a124-9c69a092e548"/>
@@ -135,7 +126,7 @@
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-9" style="data field" x="100" y="0" width="417" height="15" uuid="6fb61313-15d6-4b49-b649-9656116e01b5"/>
-					<textFieldExpression><![CDATA[$F{qualification.title}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{course}.qualification.title]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-11" style="Label" x="0" y="15" width="100" height="15" uuid="ed54bd43-34ea-4024-a5ce-487631e41cd5">
@@ -147,7 +138,7 @@
 					<reportElement key="textField-10" style="data field" x="100" y="15" width="417" height="15" uuid="486c1827-4456-4317-8fef-1bea4ee8044a">
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					</reportElement>
-					<textFieldExpression><![CDATA[$F{reportableHours}?.toString()]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{course}.reportableHours ?: "Not set"]]></textFieldExpression>
 				</textField>
 			</frame>
 			<frame>
@@ -158,7 +149,7 @@
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement key="textField-16" style="data field" x="100" y="0" width="439" height="15" uuid="71b6b855-dcc2-46a6-93ee-9f10c7525a13"/>
-					<textFieldExpression><![CDATA[$F{printedBrochureDescription}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{course}.printedBrochureDescription]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
@@ -177,7 +168,7 @@
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement key="textField-17" style="data field" x="100" y="0" width="439" height="15" uuid="7c1e4378-a502-4421-81ff-5a0cc1cb1e07"/>
 					<textElement verticalAlignment="Top" markup="html"/>
-					<textFieldExpression><![CDATA[Textile.processToJasperHtml($F{webDescription})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[Textile.processToJasperHtml($F{course}.webDescription)]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

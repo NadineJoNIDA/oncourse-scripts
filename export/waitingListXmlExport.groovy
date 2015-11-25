@@ -8,8 +8,8 @@ def tags = []
 xml.data() {
 	records.each { WaitingList wl ->
 		waitingList(id: wl.id) {
-			modifiedOn(wl.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(wl.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(wl.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(wl.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			studentCount(wl.studentCount)
 			notes(wl.notes)
 			courses << wl.course
@@ -25,8 +25,8 @@ xml.data() {
 
 	courses.unique().each { Course co ->
 		course(id: co.id) {
-			modifiedOn(co.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(co.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(co.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(co.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowWaitingLists(co.allowWaitingLists)
 			code(co.code)
 			currentlyOffered(co.currentlyOffered)
@@ -46,8 +46,8 @@ xml.data() {
 
 	sites.unique().each { Site s ->
 		site(id: s.id) {
-			modifiedOn(s.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(s.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(s.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(s.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			drivingDirections(s.drivingDirections)
 			isAdministrationCentre(s.isAdministrationCentre)
 			latitude(s.latitude?.toBigDecimal().setScale(8).toPlainString())
@@ -63,8 +63,8 @@ xml.data() {
 
 	contacts.unique().each { Contact c ->
 		contact(id: c.id) {
-			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowEmail(c.allowEmail)
 			allowPost(c.allowPost)
 			allowSms(c.allowSms)
@@ -112,8 +112,8 @@ xml.data() {
 
 	tags.unique().each { Tag t ->
 		tag(id: t.id) {
-			modifiedOn(t?.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(t?.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(t?.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(t?.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			name(t?.name)
 			shortName(t?.shortName)
 			isWebVisible(t?.isWebVisible)

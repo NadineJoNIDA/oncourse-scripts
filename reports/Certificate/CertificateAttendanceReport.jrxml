@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="20"/>
+	<property name="versionNumber" value="21"/>
 	<property name="keyCode" value="ish.oncourse.nonVetCertificate"/>
 	<property name="ish.oncourse.title" value="AttendanceCertificate"/>
 	<property name="ish.oncourse.filePrefix" value="AttendanceCertificate"/>
@@ -120,24 +120,6 @@
 	<columnFooter>
 		<band splitType="Stretch"/>
 	</columnFooter>
-	<lastPageFooter>
-		<band height="250" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<line>
-				<reportElement key="line-1" style="Footer" positionType="FixRelativeToBottom" x="315" y="5" width="202" height="1" uuid="36a86cfa-41d8-4beb-ae15-ba76bf0230dc"/>
-				<graphicElement>
-					<pen lineWidth="0.5"/>
-				</graphicElement>
-			</line>
-			<textField>
-				<reportElement style="Footer" x="316" y="5" width="201" height="25" uuid="b6b1d505-85da-4353-8c51-05548c7c36bb"/>
-				<textElement verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pref.avetmiss.certificate.signatory.name} == null ? "Principal":$F{pref.avetmiss.certificate.signatory.name}]]></textFieldExpression>
-			</textField>
-		</band>
-	</lastPageFooter>
 	<summary>
 		<band splitType="Stretch"/>
 	</summary>

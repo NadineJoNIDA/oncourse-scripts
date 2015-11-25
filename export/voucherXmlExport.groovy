@@ -5,8 +5,8 @@ def voucherProducts = []
 xml.data() {
 	records.each { Voucher v ->
 		voucher(id: v.id) {
-			modifiedOn(v.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(v.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(v.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(v.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			code(v.code)
 			expiryDate(v.expiryDate?.format("yyyy-MM-dd"))
 			redemptionValue(v.redemptionValue?.toPlainString())
@@ -18,8 +18,8 @@ xml.data() {
 
 	voucherProducts.unique().each { VoucherProduct vp ->
 		voucherProduct(id: vp.id) {
-			modifiedOn(vp.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(vp.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(vp.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(vp.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			sku(vp.sku)
 			name(vp.name)
 			priceExTax(vp.priceExTax?.toPlainString())

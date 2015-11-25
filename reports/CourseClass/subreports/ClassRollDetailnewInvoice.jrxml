@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="24"/>
+	<property name="versionNumber" value="26"/>
 	<property name="keyCode" value="ish.onCourse.roll.isVET.sub"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -98,11 +98,13 @@
 							<text><![CDATA[Student number]]></text>
 						</staticText>
 						<staticText>
-							<reportElement key="staticText-1" style="header 3 (right)" x="203" y="43" width="67" height="15" uuid="8c32bb98-bba9-4375-bd45-ef4582ddedba"/>
+							<reportElement key="staticText-1" style="header 3 (right)" x="203" y="43" width="92" height="15" uuid="8c32bb98-bba9-4375-bd45-ef4582ddedba">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							</reportElement>
 							<text><![CDATA[Phone No]]></text>
 						</staticText>
 						<staticText>
-							<reportElement key="staticText-6" style="header 3" x="277" y="43" width="53" height="15" uuid="9d111818-c32a-48d2-9cd8-691da6bda8c6"/>
+							<reportElement key="staticText-6" style="header 3" x="300" y="43" width="53" height="15" uuid="9d111818-c32a-48d2-9cd8-691da6bda8c6"/>
 							<text><![CDATA[ID sighted]]></text>
 						</staticText>
 					</cellContents>
@@ -139,14 +141,14 @@
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="contactNo" width="68">
+				<rowGroup name="contactNo" width="98">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{mobile}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents mode="Opaque" style="crosstab">
 							<textField isBlankWhenNull="false">
-								<reportElement key="textField-1" style="data field (numeric)" x="2" y="3" width="66" height="13" uuid="5002565c-d330-451d-bd68-525d36ede249"/>
+								<reportElement key="textField-1" style="data field (numeric)" x="2" y="3" width="91" height="13" uuid="5002565c-d330-451d-bd68-525d36ede249"/>
 								<textFieldExpression><![CDATA[$V{contactNo} == null ? "" :$V{contactNo}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -155,7 +157,7 @@
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="invoiceNo" width="60">
+				<rowGroup name="invoiceNo" width="53">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{invoiceNo}]]></bucketExpression>
 					</bucket>
@@ -166,7 +168,7 @@
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<columnGroup name="sessionDate" height="59">
+				<columnGroup name="sessionDate" height="58">
 					<bucket class="java.util.Date">
 						<bucketExpression><![CDATA[$F{sessionDate}]]></bucketExpression>
 					</bucket>

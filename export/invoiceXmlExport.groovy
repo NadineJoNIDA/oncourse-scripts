@@ -5,8 +5,8 @@ def map = records.groupBy { Invoice i -> i.contact }
 xml.data() {
 	map.each { Contact c, List<Invoice> invoices ->
 		contact(id: c.id) {
-			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowEmail(c.allowEmail)
 			allowPost(c.allowPost)
 			allowSms(c.allowSms)
@@ -48,8 +48,8 @@ xml.data() {
 
 			invoices.each { Invoice i ->
 				invoice(id: i.id) {
-					modifiedOn(i.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-					createdOn(i.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					modifiedOn(i.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+					createdOn(i.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					amountOwing(i.amountOwing?.toPlainString())
 					billToAddress(i.billToAddress)
 					dateDue(i.dateDue?.format("yyyy-MM-dd"))
@@ -68,8 +68,8 @@ xml.data() {
 
 					i.invoiceLines.each { InvoiceLine il ->
 						invoiceLine(id: il.id) {
-							modifiedOn(il.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-							createdOn(il.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+							modifiedOn(il.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+							createdOn(il.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 							price() {
 								amount(il.priceTotalIncTax?.toPlainString())
 								taxAmount(il.totalTax?.toPlainString())

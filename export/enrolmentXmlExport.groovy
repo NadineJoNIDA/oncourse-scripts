@@ -8,8 +8,8 @@ def contacts = records.collect { Enrolment e -> e.student.contact }
 xml.data() {
 	courseClasses.each { Course co, List<CourseClass> classes ->
 		course(id: co.id) {
-			modifiedOn(co.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(co.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(co.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(co.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowWaitingLists(co.allowWaitingLists)
 			code(co.code)
 			currentlyOffered(co.currentlyOffered)
@@ -23,11 +23,11 @@ xml.data() {
 			webDescription(co.webDescription)
 			classes.each { cc ->
 				courseClass(id: cc.id) {
-					modifiedOn(cc.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-					createdOn(cc.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					modifiedOn(cc.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+					createdOn(cc.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					code(cc.code)
 					deliveryMode(cc.deliveryMode?.displayName)
-					endDateTime(cc.endDateTime?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					endDateTime(cc.endDateTime?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					price() {
 						amount(cc.feeIncGst?.toPlainString())
 						taxAmount(cc.feeGST?.toPlainString())
@@ -63,14 +63,14 @@ xml.data() {
 					minimumPlaces(cc.minimumPlaces)
 					budgetedPlaces(cc.budgetedPlaces)
 					notes(cc.notes)
-					startDateTime(cc.startDateTime?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					startDateTime(cc.startDateTime?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					webDescription(cc.webDescription)
 					accountCode(cc.incomeAccount?.accountCode)
 
 					classEnrolments.get(cc).each { Enrolment e ->
 						enrolment(id: e.id) {
-							modifiedOn(e.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-							createdOn(e.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+							modifiedOn(e.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+							createdOn(e.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 							source(e.source?.displayName)
 							status(e.status?.displayName)
 							vetClientID(e.vetClientID)
@@ -81,10 +81,10 @@ xml.data() {
 							e.outcomes.each { Outcome o ->
 								if (o.module) {
 									outcome(id: o.id) {
-										modifiedOn(o.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-										createdOn(o.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-										startDate(o.startDate?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-										endDate(o.endDate?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+										modifiedOn(o.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+										createdOn(o.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+										startDate(o.startDate?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+										endDate(o.endDate?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 										status(o.status?.displayName)
 										module(nationalCode: o.module?.nationalCode)
 									}
@@ -99,8 +99,8 @@ xml.data() {
 
 	contacts.unique().each { Contact c ->
 		contact(id: c.id) {
-			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowEmail(c.allowEmail)
 			allowPost(c.allowPost)
 			allowSms(c.allowSms)

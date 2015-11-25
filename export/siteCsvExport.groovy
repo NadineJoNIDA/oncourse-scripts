@@ -8,7 +8,7 @@ records.each { Site s ->
 			'state'                   : s.state,
 			'street'                  : s.street,
 			'suburb'                  : s.suburb,
-			'created on'              : s.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
-			'modified on'             : s.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ")
+			'created on'              : s.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
+			'modified on'             : s.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX")
 	]
 }

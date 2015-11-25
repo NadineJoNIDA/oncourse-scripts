@@ -5,8 +5,8 @@ def contactCertificates = records.groupBy { Certificate cert -> cert.student.con
 xml.data() {
 	contactCertificates.each { Contact c, List<Certificate> certs ->
 		contact(id: c.id) {
-			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowEmail(c.allowEmail)
 			allowPost(c.allowPost)
 			allowSms(c.allowSms)
@@ -45,8 +45,8 @@ xml.data() {
 			}
 			certs.each { Certificate cert ->
 				certificate(id: cert.id) {
-					modifiedOn(cert.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-					createdOn(cert.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					modifiedOn(cert.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+					createdOn(cert.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					fullQualification(cert.isQualification)
 					printed(cert.printedOn?.format("yyyy-MM-dd"))
 					firstName(cert.studentFirstName)

@@ -4,7 +4,7 @@ def run(args) {
 
     waitingLists.each() { waitingList ->
         def courseClasses = waitingList.course.courseClasses.findAll() { courseClass ->
-            courseClass.isActive && courseClass.isShownOnWeb && courseClass.successAndQueuedEnrolments.size() < courseClass.maximumPlaces && (courseClass.isDistantLearningCourse || new Date() < courseClass.endDateTime)
+            courseClass.isActive && courseClass.isShownOnWeb && courseClass.successAndQueuedEnrolments.size() < courseClass.maximumPlaces && (courseClass.isDistantLearningCourse || new Date() < courseClass.startDateTime)
         }
         
         if (courseClasses.size() > 0) {

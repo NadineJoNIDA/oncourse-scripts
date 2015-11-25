@@ -5,8 +5,8 @@ def courseClasses = records.groupBy { CourseClass cc -> cc.course }
 xml.data() {
 	courseClasses.each { Course co, List<CourseClass> classes ->
 		course(id: co.id) {
-			modifiedOn(co.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(co.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(co.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(co.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowWaitingLists(co.allowWaitingLists)
 			code(co.code)
 			currentlyOffered(co.currentlyOffered)
@@ -20,11 +20,11 @@ xml.data() {
 			webDescription(co.webDescription)
 			classes.each { cc ->
 				courseClass(id: cc.id) {
-					modifiedOn(cc.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-					createdOn(cc.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					modifiedOn(cc.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+					createdOn(cc.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					code(cc.code)
 					deliveryMode(cc.deliveryMode?.displayName)
-					endDateTime(cc.endDateTime?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					endDateTime(cc.endDateTime?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					price() {
 						amount(cc.feeIncGst?.toPlainString())
 						taxAmount(cc.feeGST?.toPlainString())
@@ -60,14 +60,14 @@ xml.data() {
 					minimumPlaces(cc.minimumPlaces)
 					budgetedPlaces(cc.budgetedPlaces)
 					notes(cc.notes)
-					startDateTime(cc.startDateTime?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					startDateTime(cc.startDateTime?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					webDescription(cc.webDescription)
 					accountCode(cc.incomeAccount?.accountCode)
 
 					cc.enrolments.each { Enrolment e ->
 						enrolment(id: e.id) {
-							modifiedOn(e.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-							createdOn(e.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+							modifiedOn(e.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+							createdOn(e.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 							source(e.source?.displayName)
 							status(e.status?.displayName)
 							vetClientID(e.vetClientID)
@@ -77,10 +77,10 @@ xml.data() {
 							}
 							e.outcomes.each { Outcome o ->
 								outcome(id: o.id) {
-									modifiedOn(o.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-									createdOn(o.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-									startDate(o.startDate?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-									endDate(o.endDate?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+									modifiedOn(o.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+									createdOn(o.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+									startDate(o.startDate?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+									endDate(o.endDate?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 									status(o.status?.displayName)
 									module(nationalCode: o.module?.nationalCode)
 								}
@@ -90,10 +90,10 @@ xml.data() {
 
 					cc.sessions.each { Session s ->
 						session(id: s.id) {
-							modifiedOn(s.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-							createdOn(s.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-							start(s.startDatetime?.format("yyyy-MM-dd'T'HH:mm:ssZ", s.timeZone))
-							end(s.endDatetime?.format("yyyy-MM-dd'T'HH:mm:ssZ", s.timeZone))
+							modifiedOn(s.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+							createdOn(s.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+							start(s.startDatetime?.format("yyyy-MM-dd'T'HH:mm:ssXXX", s.timeZone))
+							end(s.endDatetime?.format("yyyy-MM-dd'T'HH:mm:ssXXX", s.timeZone))
 							s.tutors.each { Tutor tr ->
 								tutor(id: tr.id) {
 									firstName(tr.contact.firstName)

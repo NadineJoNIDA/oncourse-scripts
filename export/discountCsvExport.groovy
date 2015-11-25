@@ -2,8 +2,8 @@ records.each { Discount d ->
 	csv << [
 			"name"                     : d.name,
 			"code"                     : d.code,
-			"modifiedOn"               : d.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
-			"createdOn"                : d.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
+			"modifiedOn"               : d.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
+			"createdOn"                : d.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
 			"canBeCombined"            : d.combinationType,
 			"discountPercent"          : d.discountPercent,
 			"discountMax"              : d.discountMax?.toPlainString(),

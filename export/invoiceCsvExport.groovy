@@ -1,7 +1,7 @@
 records.each { Invoice i ->
 	csv << [
-			"modifiedOn"      : i.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
-			"createdOn"       : i.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
+			"modifiedOn"      : i.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
+			"createdOn"       : i.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
 			"contactLastName" : i.contact.lastName,
 			"contactFirstName": i.contact.firstName,
 			"total"           : i.total?.toPlainString(),

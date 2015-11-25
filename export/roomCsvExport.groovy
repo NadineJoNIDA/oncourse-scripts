@@ -5,8 +5,8 @@ records.each { Room r ->
 			'directions'                   : r.directions,
 			'facilities'                   : r.facilities,
 			'notes'                        : r.notes,
-			'created on'                   : r.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
-			'modified on'                  : r.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
+			'created on'                   : r.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
+			'modified on'                  : r.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
 			'siteName'                     : r.site.name,
 			'site is administration centre': r.site.isAdministrationCentre,
 			'site Latitude'                : r.site.latitude,
@@ -15,7 +15,7 @@ records.each { Room r ->
 			'site State'                   : r.site.state,
 			'site Street'                  : r.site.street,
 			'site Suburb'                  : r.site.suburb,
-			'site Created on'              : r.site.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
-			'site Modified on'             : r.site.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ")
+			'site Created on'              : r.site.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
+			'site Modified on'             : r.site.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX")
 	]
 }

@@ -5,8 +5,8 @@ def map = records.groupBy { PaymentOut po -> po.payee }
 xml.data() {
 	map.each { Contact c, List<PaymentOut> payments ->
 		contact(id: c.id) {
-			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowEmail(c.allowEmail)
 			allowPost(c.allowPost)
 			allowSms(c.allowSms)
@@ -48,12 +48,12 @@ xml.data() {
 
 			payments.each { PaymentOut po ->
 				paymentOut(id: po.id) {
-					modifiedOn(po.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-					createdOn(po.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					modifiedOn(po.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+					createdOn(po.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					amount(po.amount?.toPlainString())
 					creditCardExpiry(po.creditCardExpiry)
 					creditCardType(po.creditCardType?.displayName)
-					dateBanked(po.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					dateBanked(po.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					privateNotes(po.privateNotes)
 					reconciled(po.reconciled)
 					status(po.status.displayName)

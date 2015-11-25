@@ -11,8 +11,8 @@ def courseClasses = classEnrolments.keySet().groupBy { CourseClass cc -> cc.cour
 xml.data() {
 	records.each { Contact c ->
 		contact(id: c.id) {
-			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowEmail(c.allowEmail)
 			allowPost(c.allowPost)
 			allowSms(c.allowSms)
@@ -52,8 +52,8 @@ xml.data() {
 
 					c.student.enrolments.each { Enrolment e ->
 						enrolment(id: e.id) {
-							modifiedOn(e.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-							createdOn(e.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+							modifiedOn(e.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+							createdOn(e.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 							source(e.source?.displayName)
 							status(e.status?.displayName)
 							vetClientID(e.vetClientID)
@@ -61,10 +61,10 @@ xml.data() {
 							e.outcomes.each { Outcome o ->
 								if (o.module) {
 									outcome(id: o.id) {
-										modifiedOn(o.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-										createdOn(o.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-										startDate(o.startDate?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-										endDate(o.endDate?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+										modifiedOn(o.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+										createdOn(o.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+										startDate(o.startDate?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+										endDate(o.endDate?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 										status(o.status?.displayName)
 										module(nationalCode: o.module?.nationalCode)
 									}
@@ -90,8 +90,8 @@ xml.data() {
 
 	courseClasses.each { Course co, List<CourseClass> classes ->
 		course(id: co.id) {
-			modifiedOn(co.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(co.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(co.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(co.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowWaitingLists(co.allowWaitingLists)
 			code(co.code)
 			currentlyOffered(co.currentlyOffered)
@@ -105,11 +105,11 @@ xml.data() {
 			webDescription(co.webDescription)
 			classes.each { cc ->
 				courseClass(id: cc.id) {
-					modifiedOn(cc.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-					createdOn(cc.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					modifiedOn(cc.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+					createdOn(cc.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					code(cc.code)
 					deliveryMode(cc.deliveryMode?.displayName)
-					endDateTime(cc.endDateTime?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					endDateTime(cc.endDateTime?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					price {
 						amount(cc.feeIncGst?.toPlainString())
 						taxAmount(cc.feeGST?.toPlainString())
@@ -145,7 +145,7 @@ xml.data() {
 					minimumPlaces(cc.minimumPlaces)
 					budgetedPlaces(cc.budgetedPlaces)
 					notes(cc.notes)
-					startDateTime(cc.startDateTime?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					startDateTime(cc.startDateTime?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					webDescription(cc.webDescription)
 					accountCode(cc.incomeAccount?.accountCode)
 				}
@@ -155,8 +155,8 @@ xml.data() {
 
 	invoices.each { Invoice i ->
 		invoice(id: i.id) {
-			modifiedOn(i.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(i.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(i.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(i.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			amountOwing(i.amountOwing?.toPlainString())
 			billToAddress(i.billToAddress)
 			dateDue(i.dateDue?.format("yyyy-MM-dd"))
@@ -175,8 +175,8 @@ xml.data() {
 			contact(id: i.contact.id)
 			i.invoiceLines.each { InvoiceLine il ->
 				invoiceLine(id: il.id) {
-					modifiedOn(il.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-					createdOn(il.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					modifiedOn(il.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+					createdOn(il.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					price() {
 						amount(il.priceTotalIncTax?.toPlainString())
 						taxAmount(il.totalTax?.toPlainString())
@@ -201,12 +201,12 @@ xml.data() {
 
 	paymentIns.each { PaymentIn pi ->
 		paymentIn(id: pi.id) {
-			modifiedOn(pi.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(pi.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(pi.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(pi.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			amount(pi.amount?.toPlainString())
 			creditCardExpiry(pi.creditCardExpiry)
 			creditCardType(pi.creditCardType?.displayName)
-			dateBanked(pi.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			dateBanked(pi.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			gatewayReference(pi.gatewayReference)
 			gatewayResponse(pi.gatewayResponse)
 			privateNotes(pi.privateNotes)
@@ -220,12 +220,12 @@ xml.data() {
 
 	paymentOuts.each { PaymentOut po ->
 		paymentOut(id: po.id) {
-			modifiedOn(po.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(po.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(po.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(po.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			amount(po.amount?.toPlainString())
 			creditCardExpiry(po.creditCardExpiry)
 			creditCardType(po.creditCardType?.displayName)
-			dateBanked(po.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			dateBanked(po.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			privateNotes(po.privateNotes)
 			reconciled(po.reconciled)
 			status(po.status?.displayName)

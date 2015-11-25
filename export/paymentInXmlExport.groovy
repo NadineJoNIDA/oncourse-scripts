@@ -5,8 +5,8 @@ def map = records.groupBy { PaymentIn pi -> pi.payer }
 xml.data() {
 	map.each { Contact c, List<PaymentIn> payments ->
 		contact(id: c.id) {
-			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(c.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(c.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowEmail(c.allowEmail)
 			allowPost(c.allowPost)
 			allowSms(c.allowSms)
@@ -48,12 +48,12 @@ xml.data() {
 
 			payments.each { PaymentIn pi ->
 				paymentIn(id: pi.id) {
-					modifiedOn(pi.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-					createdOn(pi.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					modifiedOn(pi.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+					createdOn(pi.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					amount(pi.amount?.toPlainString())
 					creditCardExpiry(pi.creditCardExpiry)
 					creditCardType(pi.creditCardType?.displayName)
-					dateBanked(pi.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					dateBanked(pi.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					gatewayReference(pi.gatewayReference)
 					gatewayResponse(pi.gatewayResponse)
 					privateNotes(pi.privateNotes)

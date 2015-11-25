@@ -1,7 +1,7 @@
 records.collectMany { Payslip p -> p.paylines }.each { pl ->
 	csv << [
-			"created on"       : pl.payslip.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
-			"modified on"      : pl.payslip.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
+			"created on"       : pl.payslip.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
+			"modified on"      : pl.payslip.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
 			"status"           : pl.payslip.status.displayName,
 			"budgeted quantity": pl.budgetedQuantity,
 			"budgeted value"   : pl.budgetedValue?.toPlainString(),

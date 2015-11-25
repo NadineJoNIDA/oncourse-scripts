@@ -3,8 +3,8 @@ xml.mkp.xmlDeclaration(version: "1.0", encoding: "utf-8")
 xml.data() {
 	records.each { Discount d ->
 		discount(id: d.id) {
-			modifiedOn(d.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(d.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(d.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(d.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			code(d.code)
 			canBeCombined(d.combinationType)
 			if (DiscountType.PERCENT.equals(d.discountType)) {

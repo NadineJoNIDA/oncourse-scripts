@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="31"/>
+	<property name="versionNumber" value="36"/>
 	<property name="keyCode" value="ish.onCourse.classSignReport"/>
 	<property name="ish.oncourse.description" value="Report that can be printed off and used as a sign or label on door of Training Room.This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
@@ -82,11 +82,11 @@
 	<detail>
 		<band height="412" splitType="Prevent">
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-4" style="header 3" stretchType="RelativeToBandHeight" x="0" y="0" width="539" height="105" uuid="cdb10832-0103-4040-982b-3b0498bf2b4f">
+				<reportElement key="textField-4" style="header 3" stretchType="RelativeToBandHeight" x="10" y="27" width="520" height="140" uuid="cdb10832-0103-4040-982b-3b0498bf2b4f">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Bottom">
-					<font size="36" isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="30" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{course.name}]]></textFieldExpression>
 			</textField>

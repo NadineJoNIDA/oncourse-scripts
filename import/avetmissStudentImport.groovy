@@ -235,7 +235,8 @@ def import80(String data, Map<String, Student> importedStudents, ObjectContext c
 
 		// ------------------
 		// address suburb or town or locality p4
-		aStudent.contact.suburb = line.readString(50)
+		String suburb = line.readString(50)
+		aStudent.contact.suburb = "NOT PROVIDED".equalsIgnoreCase(suburb) ? null : suburb
 
 		// ------------------
 		// end of line
@@ -287,10 +288,16 @@ def import85(String data, Map<String, Student> importedStudents, ObjectContext c
 
 		// address street number
 		String streetNumber = line.readString(15)
+		if ("NOT SPECIFIED".equalsIgnoreCase(streetNumber)) {
+			streetNumber = null
+		}
 
 		// ------------------
 		// address street name
 		String streetName = line.readString(70)
+		if ("NOT SPECIFIED".equalsIgnoreCase(streetName)) {
+			streetName = null
+		}
 
 		// postal delivery box
 		line.readString(22)
@@ -300,7 +307,8 @@ def import85(String data, Map<String, Student> importedStudents, ObjectContext c
 
 		// ------------------
 		// address suburb or town or locality p4
-		aStudent.contact.suburb = line.readString(50)
+		String suburb = line.readString(50)
+		aStudent.contact.suburb = "NOT PROVIDED".equalsIgnoreCase(suburb) ? null : suburb
 
 		// ------------------
 		// postcode p71

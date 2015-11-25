@@ -3,8 +3,8 @@ xml.mkp.xmlDeclaration(version: "1.0", encoding: "utf-8")
 xml.data() {
 	records.each { Course co ->
 		course(id: co.id) {
-			modifiedOn(co.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-			createdOn(co.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+			modifiedOn(co.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+			createdOn(co.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			allowWaitingLists(co.allowWaitingLists)
 			code(co.code)
 			currentlyOffered(co.currentlyOffered)
@@ -21,11 +21,11 @@ xml.data() {
 			}
 			co.courseClasses.each { CourseClass cc ->
 				courseClass(id: cc.id) {
-					modifiedOn(cc.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
-					createdOn(cc.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					modifiedOn(cc.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+					createdOn(cc.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					code(cc.code)
 					deliveryMode(cc.deliveryMode?.displayName)
-					endDateTime(cc.endDateTime?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					endDateTime(cc.endDateTime?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					price() {
 						amount(cc.feeIncGst?.toPlainString())
 						taxAmount(cc.feeGST?.toPlainString())
@@ -61,7 +61,7 @@ xml.data() {
 					minimumPlaces(cc.minimumPlaces)
 					budgetedPlaces(cc.budgetedPlaces)
 					notes(cc.notes)
-					startDateTime(cc.startDateTime?.format("yyyy-MM-dd'T'HH:mm:ssZ"))
+					startDateTime(cc.startDateTime?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 					webDescription(cc.webDescription)
 					accountCode(cc.incomeAccount?.accountCode)
 				}

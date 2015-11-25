@@ -2,7 +2,7 @@ records.each { WaitingList wl ->
 	csv << [
 			"Course code"  : wl.course.code,
 			"Course name"  : wl.course.name,
-			"created"      : wl.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssZ"),
+			"created"      : wl.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
 			"Student count": wl.studentCount,
 			"Notes"        : wl.notes,
 			"Student notes": wl.studentNotes,

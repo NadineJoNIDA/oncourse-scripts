@@ -1,9 +1,10 @@
 records.each { Contact c ->
 	csv << [
-			"title"                          : c.honorific,
+			"title"                          : c.title,
 			"lastName"                       : c.lastName,
 			"firstName"                      : c.firstName,
 			"middleName"                     : c.middleName,
+			"honorific"						 : c.honorific,
 			"gender"                         : c.isMale ? "M" : (c.isMale == null) ? "" : "F",
 			"birthDate"                      : c.birthDate?.format("yyyy-MM-dd"),
 			"company"                        : c.isCompany,
@@ -33,7 +34,7 @@ records.each { Contact c ->
 			"usi"                            : c.student?.usi,
 			"usiStatus"                      : c.student?.usiStatus,
 			"chessn"                         : c.student?.chessn,
-			"countryOfBirth"                 : c.student?.countryOfBirth,
+			"countryOfBirth"                 : c.student?.countryOfBirth?.name,
 			"townOfBirth"                    : c.student?.townOfBirth,
 			"studentIndigenousStatus"        : c.student?.indigenousStatus?.displayName,
 			"languageSpokenAtHome"           : c.student?.language,

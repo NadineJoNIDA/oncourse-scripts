@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="85"/>
+	<property name="versionNumber" value="86"/>
 	<property name="keyCode" value="ish.onCourse.invoiceReport"/>
 	<property name="ish.oncourse.title" value="Invoice line list"/>
 	<property name="ish.oncourse.filePrefix" value="invoice line"/>
@@ -209,23 +209,9 @@
 					</textElement>
 					<textFieldExpression><![CDATA["Payment details ---- Tear along the line"]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false">
-					<reportElement key="textField-18" style="data field" x="0" y="13" width="284" height="15" uuid="5dbfdde8-9b2d-4f81-b5fa-974bfd67b96a"/>
-					<textFieldExpression><![CDATA["Endorse payment to "+$F{pref.college.name}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement key="textField-19" style="data field" positionType="Float" x="0" y="28" width="284" height="15" uuid="ee99f8b9-82fb-446c-82a8-4e7ed17f5c4e"/>
-					<textFieldExpression><![CDATA["and return this section to"]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false">
-					<reportElement key="textField-20" style="data field" positionType="Float" x="0" y="44" width="284" height="15" uuid="5c6ccb18-3eb4-4c9c-abb5-38e733dab625"/>
-					<textFieldExpression><![CDATA[(($F{pref.avetmiss.address.line1}==null)?"":$F{pref.avetmiss.address.line1})+" "+
-(($F{pref.avetmiss.address.suburb}==null) ? "" : ($F{pref.avetmiss.address.suburb}+" "))+
-(($F{pref.avetmiss.address.state}==null) ? "" : ($F{pref.avetmiss.address.state}+" "))+
-(($F{pref.avetmiss.address.postcode}==null) ? "" : ($F{pref.avetmiss.address.postcode}))]]></textFieldExpression>
-				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement key="textField-21" style="data field" positionType="Float" x="0" y="60" width="284" height="15" uuid="39892f8b-dbc2-4906-a848-244d0acbee3d"/>
+					<reportElement key="textField-21" style="data field" positionType="Float" x="0" y="13" width="300" height="67" uuid="39892f8b-dbc2-4906-a848-244d0acbee3d"/>
+					<textElement verticalAlignment="Top"/>
 					<textFieldExpression><![CDATA[$F{pref.college.paymentInfo}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="false">
@@ -448,10 +434,6 @@
 			<textField evaluationTime="Page" isBlankWhenNull="false">
 				<reportElement key="pageNumberFooter" style="Footer strong" x="0" y="0" width="300" height="15" uuid="1106d334-b156-4af7-a64d-a75ba7206e2c"/>
 				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report" isBlankWhenNull="false">
-				<reportElement key="totalPageCountFooter" style="Footer" x="0" y="11" width="300" height="13" uuid="d3e402c5-a433-4f08-90db-5c66216e08f3"/>
-				<textFieldExpression><![CDATA[$V{REPORT_COUNT} + " record" + ($V{REPORT_COUNT}>1 ? "s" : "") + " on " + $V{PAGE_NUMBER} + " page" + ($V{PAGE_NUMBER}>1 ? "s" : "") + " (printed " + new Date().format("E d MMM yyyy h:mma") + ")"]]></textFieldExpression>
 			</textField>
 			<image scaleImage="RetainShape" hAlign="Right" isUsingCache="true" onErrorType="Blank">
 				<reportElement key="oncourseLogo" style="Footer" x="472" y="17" width="67" height="7" uuid="2863530e-11e5-4c1e-8296-ae64db1a9926"/>

@@ -16,7 +16,7 @@ Location:${enrolment.courseClass.displayableLocation}
 
 Please visit ${Preferences.get("web.url")}/class/${enrolment.courseClass.course.code}-${enrolment.courseClass.code} to confirm the class details, directions and course requirements.
 
-<% if (enrolment.courseClass.course.isVET == true) { %> 
+<% if (enrolment.courseClass.course.modules.size() > 0) { %> 
 You have enrolled in a Nationally Recognised Training course. We are required to collect some additional information from you as part of the enrolment process. 
 
 Please visit ${Preferences.getPortalCensusUrl(enrolment.student)} to complete these questions.

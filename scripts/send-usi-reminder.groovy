@@ -6,7 +6,7 @@ def run(args) {
 
   def exp = Enrolment.CREATED_ON.gt(monthBefore)
         .andExp(Enrolment.STATUS.eq(EnrolmentStatus.SUCCESS))
-        .andExp(Enrolment.COURSE_CLASS.dot(CourseClass.COURSE).dot(Course.IS_VET).eq(true))
+        .andExp(Enrolment.COURSE_CLASS.dot(CourseClass.COURSE).dot(Course.COURSE_MODULES).ne(null))
         .andExp(Enrolment.STUDENT.dot(Student.USI).eq(null))
         .andExp(Enrolment.COURSE_CLASS.dot(CourseClass.END_DATE_TIME).eq(null).orExp(Enrolment.COURSE_CLASS.dot(CourseClass.END_DATE_TIME).gt(usiRequiredDate)));
 

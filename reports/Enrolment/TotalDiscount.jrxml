@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="26"/>
+	<property name="versionNumber" value="28"/>
 	<property name="keyCode" value="ish.onCourse.totalDiscounts"/>
 	<property name="ish.oncourse.description" value="To confirm uptake and cost of discounts across a selection of classes.This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
@@ -187,7 +187,7 @@
 					<cellContents mode="Opaque" style="crosstab">
 						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 							<reportElement key="textField" style="data field" positionType="Float" stretchType="RelativeToTallestObject" x="6" y="1" width="50" height="14" uuid="026e422d-8b28-4c13-9c66-7fe2d43a0db2">
-								<printWhenExpression><![CDATA[$V{classExpectedIncome}.compareTo(BigDecimal.ZERO) > 0 && $V{discountValue}.compareTo(BigDecimal.ZERO) > 0 && $V{discountValue}.multiply(new BigDecimal(100.0)).divide($V{classExpectedIncome}, 2, RoundingMode.HALF_UP).compareTo(BigDecimal.TEN) <= 0]]></printWhenExpression>
+								<printWhenExpression><![CDATA[$V{classExpectedIncome}.compareTo(BigDecimal.ZERO) > 0 && $V{discountValue}.multiply(new BigDecimal(100.0)).divide($V{classExpectedIncome}, 2, RoundingMode.HALF_UP).compareTo(BigDecimal.TEN) <= 0]]></printWhenExpression>
 							</reportElement>
 							<box>
 								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -200,7 +200,7 @@
 						</textField>
 						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 							<reportElement key="textField" style="data field" positionType="Float" stretchType="RelativeToTallestObject" x="6" y="15" width="50" height="12" forecolor="#404040" uuid="42033943-32e8-482a-9cde-95e9cd4b9c4f">
-								<printWhenExpression><![CDATA[$V{classExpectedIncome}.compareTo(BigDecimal.ZERO) > 0 && $V{discountValue}.compareTo(BigDecimal.ZERO) > 0 && $V{discountValue}.multiply(new BigDecimal(100.0)).divide($V{classExpectedIncome}, 2, RoundingMode.HALF_UP).compareTo(BigDecimal.TEN) <= 0]]></printWhenExpression>
+								<printWhenExpression><![CDATA[$V{classExpectedIncome}.compareTo(BigDecimal.ZERO) > 0 && $V{discountValue}.multiply(new BigDecimal(100.0)).divide($V{classExpectedIncome}, 2, RoundingMode.HALF_UP).compareTo(BigDecimal.TEN) <= 0]]></printWhenExpression>
 							</reportElement>
 							<box>
 								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

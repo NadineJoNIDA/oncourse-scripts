@@ -6,7 +6,6 @@ xml.data() {
 			modifiedOn(d.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			createdOn(d.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
 			code(d.code)
-			canBeCombined(d.combinationType)
 			if (DiscountType.PERCENT.equals(d.discountType)) {
 				discountPercent(d.discountPercent)
 				discountMax(d.discountMax?.toPlainString())

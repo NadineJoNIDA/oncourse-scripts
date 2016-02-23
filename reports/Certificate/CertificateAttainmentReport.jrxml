@@ -5,14 +5,14 @@
 	<property name="entity" value="Certificate"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="51"/>
+	<property name="versionNumber" value="54"/>
 	<property name="keyCode" value="ish.onCourse.certificate.attainment"/>
 	<property name="ish.oncourse.title" value="Certificate"/>
 	<property name="ish.oncourse.filePrefix" value="certificate"/>
 	<property name="ish.oncourse.description" value="onCourse includes AQF recommended templates for full Qualification Certificates, Statements of Attainment and transcripts. Certificates can only be generated from units that are recorded as part of onCourse enrolments."/>
 	<property name="ish.oncourse.pdfFileName" value="Certificate.pdf"/>
-	<import value="ish.common.types.QualificationType"/>
 	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="ish.common.types.QualificationType"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
 	<import value="org.apache.commons.lang3.time.DateUtils"/>
@@ -68,18 +68,28 @@
 	<field name="pref.avetmiss.certificate.signatory.name" class="java.lang.String"/>
 	<field name="pref.avetmiss.collegename" class="java.lang.Object"/>
 	<field name="pref.avetmiss.identifier" class="java.lang.Object"/>
-	<filterExpression><![CDATA[!$F{certificate}.completeQualification || [QualificationType.SKILLSET_TYPE, QualificationType.SKILLSET_LOCAL_TYPE].contains($F{certificate}.qualification.type)]]></filterExpression>
+	<filterExpression><![CDATA[!$F{certificate}.completeQualification]]></filterExpression>
 	<group name="images">
 		<groupExpression><![CDATA[]]></groupExpression>
 		<groupHeader>
 			<band splitType="Stretch"/>
 		</groupHeader>
 		<groupFooter>
-			<band height="50" splitType="Stretch">
+			<band height="93" splitType="Stretch">
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement key="textField-11" style="header 2" positionType="Float" x="0" y="10" width="517" height="23" uuid="80afd90a-c7ba-4ca9-ac9e-a5cc64d2602a"/>
+					<reportElement key="textField-10" style="Footer" x="0" y="9" width="517" height="26" uuid="ee3ce8c3-9efb-4307-8103-87af1568329d"/>
 					<textElement textAlignment="Center"/>
-					<textFieldExpression><![CDATA[$F{certificate}.publicNotes]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{certificate}.qualification.nationalCode ? "These competencies form part of the" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement key="textField-11" style="header 2" positionType="Float" x="0" y="40" width="517" height="23" uuid="80afd90a-c7ba-4ca9-ac9e-a5cc64d2602a"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{certificate}.qualification.nationalCode ? [$F{certificate}.qualification.nationalCode, $F{certificate}.qualification.level, $F{certificate}.qualification.title].findAll().join(" ") : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement key="textField-11" style="header 2" positionType="Float" x="0" y="64" width="517" height="23" uuid="80afd90a-c7ba-4ca9-ac9e-a5cc64d2602a"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{certificate}.publicNotes ?: ""]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -91,7 +101,7 @@
 		<band height="85" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="215" splitType="Stretch">
+		<band height="168" splitType="Stretch">
 			<staticText>
 				<reportElement key="staticText-5" style="header 2" x="0" y="37" width="517" height="22" uuid="4f087f98-5b9b-4895-b9e6-98b89eb51692"/>
 				<textElement textAlignment="Center"/>
@@ -114,24 +124,19 @@
 				<textFieldExpression><![CDATA[[$F{certificate}.student.contact.firstName, $F{certificate}.student.contact.middleName, $F{certificate}.student.contact.lastName].findAll().join(" ")]]></textFieldExpression>
 			</textField>
 			<staticText>
+				<reportElement key="staticText-8" style="Footer" x="0" y="154" width="517" height="12" uuid="391be343-bc0b-4526-96c2-19281acc05bd">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue()==1)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[has attained]]></text>
+			</staticText>
+			<staticText>
 				<reportElement key="staticText-6" style="Footer" x="0" y="108" width="517" height="12" uuid="f48b8231-b552-419d-849c-4033ed14ee6f">
 					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue()==1)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[This is a statement that]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
-				<reportElement key="textField-10" style="Footer" x="0" y="152" width="517" height="26" uuid="ee3ce8c3-9efb-4307-8103-87af1568329d"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA["Has attained"]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-11" style="header 2" positionType="Float" x="0" y="183" width="517" height="23" uuid="80afd90a-c7ba-4ca9-ac9e-a5cc64d2602a">
-					<printWhenExpression><![CDATA[$F{certificate}.completeQualification]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{certificate}.qualification.nationalCode ? [$F{certificate}.qualification.nationalCode, $F{certificate}.qualification.level, $F{certificate}.qualification.title].findAll().join(" ") : ""]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>

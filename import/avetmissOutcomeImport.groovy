@@ -5,9 +5,18 @@ avetmiss85=Choose the AVETMISS-85 file to import...
 avetmiss120=Choose the AVETMISS-120 file to import...
 )*/
 
+
+import ish.common.types.AvetmissStudentEnglishProficiency
+import ish.common.types.AvetmissStudentIndigenousStatus
+import ish.common.types.AvetmissStudentLabourStatus
+import ish.common.types.AvetmissStudentSchoolLevel
+import ish.oncourse.server.cayenne.*
 import ish.util.EnumUtil
+import ish.validation.ValidationUtil
 import org.apache.cayenne.ObjectContext
 import org.apache.cayenne.exp.Expression
+import org.apache.cayenne.query.ObjectSelect
+import org.apache.cayenne.query.SelectQuery
 import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -17,10 +26,12 @@ logger = LogManager.getLogger(getClass())
 
 import120(new String(avetmiss120), new String(avetmiss60), new String(avetmiss80), new String(avetmiss85), context)
 
+context.commitChanges()
+
 def import120(String nat120, String nat60, String nat80, String nat85, ObjectContext context) {
 	def List<String> validationResult = []
 	def Map<String, Student> newStudents = [:]
-	def lineNumber = 0
+	def lineNumber = 1
 	nat120.eachLine { rawLine ->
 		def line = new InputLine(rawLine)
 
@@ -50,7 +61,7 @@ def import120(String nat120, String nat60, String nat80, String nat85, ObjectCon
 			student = importStudent(studentNumber, nat80, nat85, context)
 
 			if (student == null) {
-				validationResult.add("AVETMISS-120: record at line " + (lineNumber + 1) + " doesn't contain valid student number")
+				validationResult.add("AVETMISS-120: record at line " + lineNumber + " doesn't contain valid student number")
 				return null
 			} else {
 				newStudents.put(studentNumber, student)
@@ -67,6 +78,7 @@ def import120(String nat120, String nat60, String nat80, String nat85, ObjectCon
 
 		if (module) {
 			outcome.module = module
+			priorLearning.title = module.title
 		} else {
 			importModule(moduleId, nat60, priorLearning)
 		}
@@ -86,13 +98,23 @@ def import120(String nat120, String nat60, String nat80, String nat85, ObjectCon
 		outcome.fundingSource = ClassFundingSource.values().find { value -> value.avetmissCode.equals(fundingSource) }
 
 		priorLearning.outcomeIdTrainingOrg = outcomeId
-	}
 
-	if (!validationResult.isEmpty()) {
-		throw new RuntimeException(validationResult.join("\n"))
-	}
+		if (!validationResult.isEmpty()) {
+			logger.error(String.format("Student number: %s, students: %s, validation: %s", studentNumber, newStudents.keySet(), validationResult.join("\n")));
+			throw new RuntimeException(validationResult.join("\n"))
+		}
+		if ((newStudents.size() % 10) == 0) {
+			try {
+				context.commitChanges()
+				newStudents.clear()
+			} catch (Exception e) {
+				logger.error(String.format("Student number: %s, students: %s", studentNumber, newStudents.keySet()), e);
+				throw e;
+			}
+		}
 
-	context.commitChanges()
+		lineNumber = lineNumber + 1
+	}
 }
 
 def importModule(String moduleId, String nat60, PriorLearning priorLearning) {
@@ -104,6 +126,8 @@ def importModule(String moduleId, String nat60, PriorLearning priorLearning) {
 	if (nat60Line) {
 		priorLearning.externalRef = moduleId
 		priorLearning.title = nat60Line.readString(100)
+	} else {
+		throw new RuntimeException("AVETMISS-60: can't find module code " + moduleId + " which was found in the 120 file.")
 	}
 }
 
@@ -376,7 +400,7 @@ def import85(String rawLine, Student student) {
 	line.readString(22)
 
 	student.contact.street = [building, unit, streetNumber, streetName]
-			.findAll { s -> StringUtils.trimToNull(s) != null}.join(", ")
+			.findAll { s -> StringUtils.trimToNull(s) != null }.join(", ")
 
 	// ------------------
 	// address suburb or town or locality p4
@@ -398,6 +422,18 @@ def import85(String rawLine, Student student) {
 	student.contact.homePhone = line.readString(20)
 	student.contact.workPhone = line.readString(20)
 	student.contact.mobilePhone = line.readString(20)
+
+	def email = StringUtils.trimToNull(line.readString(80));
+	if (email) {
+		email = email.replaceFirst("\\.\$", "").replace(",", ".").replace("..", ".")
+		if (ValidationUtil.isValidEmailAddress(email)) {
+			student.contact.email = email;
+		} else {
+			logger.error(String.format("Wrong email format for %s: %s", student.studentNumber, email))
+		}
+	}
+
+
 	student.contact.email = line.readString(80)
 }
 
@@ -482,3 +518,4 @@ class InputLine {
 		return Date.parse("ddMMyyyy", value)
 	}
 }
+

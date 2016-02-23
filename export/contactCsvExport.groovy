@@ -37,7 +37,7 @@ records.each { Contact c ->
 			"countryOfBirth"                 : c.student?.countryOfBirth?.name,
 			"townOfBirth"                    : c.student?.townOfBirth,
 			"studentIndigenousStatus"        : c.student?.indigenousStatus?.displayName,
-			"languageSpokenAtHome"           : c.student?.language,
+			"languageSpokenAtHome"           : c.student?.language?.name,
 			"studentEnglishProficiency"      : c.student?.englishProficiency?.displayName,
 			"studentHighestSchoolLevel"      : c.student?.highestSchoolLevel?.displayName,
 			"studentYearSchoolCompleted"     : c.student?.yearSchoolCompleted,

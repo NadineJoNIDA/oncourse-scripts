@@ -30,14 +30,14 @@ xml.data() {
 						taxAmount(cc.feeGST?.toPlainString())
 						taxName(cc.tax?.taxCode ?: "unknown")
 					}
-					cc.discountCourseClasses.collect { DiscountCourseClass dcc -> dcc.discount }.each { Discount d ->
+					cc.discountCourseClasses.each { DiscountCourseClass dcc  ->
 						price() {
 							def taxRate = cc.tax ? cc.tax.rate : new BigDecimal(0)
-							amount(DiscountUtils.getDiscountedFee(Arrays.asList(d), cc.feeIncGst, taxRate).toPlainString())
-							taxAmount(DiscountUtils.getDiscountedFee(Arrays.asList(d), cc.feeIncGst, taxRate).multiply(taxRate))
+							amount(DiscountUtils.getDiscountedFee(dcc, cc.feeIncGst, taxRate).toPlainString())
+							taxAmount(DiscountUtils.getDiscountedFee(dcc, cc.feeIncGst, taxRate).multiply(taxRate))
 							taxName(cc.tax?.taxCode ?: "unknown")
-							discountAmount(DiscountUtils.discountValue(Arrays.asList(d), cc.feeIncGst, taxRate).toPlainString())
-							discountName(d.name)
+							discountAmount(DiscountUtils.discountValue(dcc, cc.feeIncGst, taxRate).toPlainString())
+							discountName(dcc.discount.name)
 						}
 					}
 					cost {

@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="86"/>
+	<property name="versionNumber" value="87"/>
 	<property name="keyCode" value="ish.onCourse.invoiceReport"/>
 	<property name="ish.oncourse.title" value="Invoice line list"/>
 	<property name="ish.oncourse.filePrefix" value="invoice line"/>
@@ -57,6 +57,10 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<subDataset name="invoiceDueDateDataSet">
+		<field name="dueDate" class="java.util.Date"/>
+		<field name="unpaidAmount" class="ish.math.Money"/>
+	</subDataset>
 	<parameter name="ReportName" class="java.lang.String"/>
 	<field name="title" class="java.lang.String"/>
 	<field name="invoiceLine" class="ish.oncourse.server.cayenne.InvoiceLine"/>
@@ -85,8 +89,7 @@
 	<field name="quantity" class="java.math.BigDecimal"/>
 	<field name="finalPriceToPayIncTax" class="ish.math.Money"/>
 	<field name="invoice.contact.title" class="java.lang.String"/>
-	<field name="datasource.invoice.invoiceDueDates" class="net.sf.jasperreports.engine.JRDataSource"/>
-	<field name="subreport.ish.onCourse.invoice.paymentPlan" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="datasource.invoice.unpaidInvoiceDueDates" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<sortField name="account.type" order="Descending"/>
 	<sortField name="description"/>
 	<variable name="invoiceLineTaxTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="details" calculation="Sum">
@@ -298,13 +301,39 @@
 				</line>
 			</band>
 			<band height="40" splitType="Stretch">
-				<elementGroup>
-					<subreport isUsingCache="true">
-						<reportElement key="subreport" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="0" width="539" height="40" uuid="65ccfaf0-cb8e-4ab2-9779-d579e6f72655"/>
-						<dataSourceExpression><![CDATA[$F{datasource.invoice.invoiceDueDates}]]></dataSourceExpression>
-						<subreportExpression><![CDATA[$F{subreport.ish.onCourse.invoice.paymentPlan}]]></subreportExpression>
-					</subreport>
-				</elementGroup>
+				<staticText>
+					<reportElement key="staticText-1" style="header 3 (right)" x="347" y="5" width="104" height="15"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Payment due date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-1" style="header 3 (right)" x="454" y="5" width="85" height="15"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Amount Payable]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement x="0" y="20" width="539" height="15"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="invoiceDueDateDataSet">
+							<dataSourceExpression><![CDATA[$F{datasource.invoice.unpaidInvoiceDueDates}]]></dataSourceExpression>
+						</datasetRun>
+						<jr:listContents height="15" width="539">
+							<frame>
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="539" height="15"/>
+								<textField pattern="d MMMM yyyy" isBlankWhenNull="true">
+									<reportElement key="textField-1" style="data field (datetime)" x="347" y="0" width="104" height="15"/>
+									<textElement textAlignment="Right"/>
+									<textFieldExpression><![CDATA[$F{dueDate}]]></textFieldExpression>
+								</textField>
+								<textField isBlankWhenNull="true">
+									<reportElement key="textField-2" style="data field (money)" x="454" y="0" width="85" height="15"/>
+									<textElement textAlignment="Right"/>
+									<textFieldExpression><![CDATA[$F{unpaidAmount}]]></textFieldExpression>
+								</textField>
+							</frame>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
 			</band>
 		</groupFooter>
 	</group>

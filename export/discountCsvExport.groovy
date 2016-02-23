@@ -4,7 +4,6 @@ records.each { Discount d ->
 			"code"                     : d.code,
 			"modifiedOn"               : d.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
 			"createdOn"                : d.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
-			"canBeCombined"            : d.combinationType,
 			"discountPercent"          : d.discountPercent,
 			"discountMax"              : d.discountMax?.toPlainString(),
 			"discountMin"              : d.discountMin?.toPlainString(),

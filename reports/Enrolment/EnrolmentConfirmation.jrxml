@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="27"/>
+	<property name="versionNumber" value="29"/>
 	<property name="keyCode" value="ish.onCourse.enrolmentConfirmation"/>
 	<property name="ish.oncourse.title" value="Enrolment Confirmation"/>
 	<property name="ish.oncourse.filePrefix" value="enrolmentConfirmation"/>
@@ -158,7 +158,7 @@
 (($F{student.contact.postcode}!=null)?($F{student.contact.postcode}):"")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
-				<reportElement key="textField-2" style="header 1" x="-1" y="199" width="540" height="25" uuid="a0ed806a-e19b-425c-b223-82536449a18e"/>
+				<reportElement key="textField-2" style="header 1" positionType="Float" x="-1" y="199" width="540" height="25" uuid="a0ed806a-e19b-425c-b223-82536449a18e"/>
 				<textFieldExpression><![CDATA[$F{courseClass.course.name}+" ("+$F{courseClass.uniqueCode}+")"]]></textFieldExpression>
 			</textField>
 		</band>

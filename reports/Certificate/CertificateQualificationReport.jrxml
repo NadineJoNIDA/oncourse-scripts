@@ -5,13 +5,13 @@
 	<property name="entity" value="Certificate"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="46"/>
+	<property name="versionNumber" value="47"/>
 	<property name="keyCode" value="ish.onCourse.certificate"/>
 	<property name="ish.oncourse.title" value="Qualification"/>
 	<property name="ish.oncourse.filePrefix" value="qualification"/>
 	<property name="ish.oncourse.description" value="onCourse includes AQF recommended templates for full Qualification Certificates, Statements of Attainment and transcripts. Certificates can only be generated from units that are recorded as part of onCourse enrolments.This report prints in Portrait format."/>
 	<property name="ish.oncourse.pdfFileName" value="Qualification.pdf"/>
-	<property name="ish.oncourse.reports.following" value="ish.onCourse.certificate.attainment;ish.onCourse.certificate.transcript"/>
+	<property name="ish.oncourse.reports.following" value="ish.onCourse.certificate.attainment;ish.onCourse.certificate.skillset;ish.onCourse.certificate.transcript"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="ish.common.types.QualificationType"/>
 	<import value="java.util.*"/>

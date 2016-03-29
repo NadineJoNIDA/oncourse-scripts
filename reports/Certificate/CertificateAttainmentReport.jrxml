@@ -5,7 +5,7 @@
 	<property name="entity" value="Certificate"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="54"/>
+	<property name="versionNumber" value="55"/>
 	<property name="keyCode" value="ish.onCourse.certificate.attainment"/>
 	<property name="ish.oncourse.title" value="Certificate"/>
 	<property name="ish.oncourse.filePrefix" value="certificate"/>
@@ -77,12 +77,16 @@
 		<groupFooter>
 			<band height="93" splitType="Stretch">
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement key="textField-10" style="Footer" x="0" y="9" width="517" height="26" uuid="ee3ce8c3-9efb-4307-8103-87af1568329d"/>
+					<reportElement key="textField-10" style="Footer" x="0" y="9" width="517" height="26">
+						<printWhenExpression><![CDATA[![QualificationType.SKILLSET_TYPE, QualificationType.SKILLSET_LOCAL_TYPE].contains($F{certificate}.qualification.type)]]></printWhenExpression>
+					</reportElement>
 					<textElement textAlignment="Center"/>
 					<textFieldExpression><![CDATA[$F{certificate}.qualification.nationalCode ? "These competencies form part of the" : ""]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement key="textField-11" style="header 2" positionType="Float" x="0" y="40" width="517" height="23" uuid="80afd90a-c7ba-4ca9-ac9e-a5cc64d2602a"/>
+					<reportElement key="textField-11" style="header 2" positionType="Float" x="0" y="40" width="517" height="23">
+						<printWhenExpression><![CDATA[![QualificationType.SKILLSET_TYPE, QualificationType.SKILLSET_LOCAL_TYPE].contains($F{certificate}.qualification.type)]]></printWhenExpression>
+					</reportElement>
 					<textElement textAlignment="Center"/>
 					<textFieldExpression><![CDATA[$F{certificate}.qualification.nationalCode ? [$F{certificate}.qualification.nationalCode, $F{certificate}.qualification.level, $F{certificate}.qualification.title].findAll().join(" ") : ""]]></textFieldExpression>
 				</textField>

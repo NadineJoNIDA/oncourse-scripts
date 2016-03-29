@@ -35,7 +35,7 @@ o-------------------o
 <% if (invoice.invoiceDueDates.size() > 0) { %>
 Payment due date
 -----------------
-<% invoice.invoiceDueDates.sort{ it.dueDate }.each { %>${it.dueDate.format("d MMMM yyyy")} - ${it.amount}
+<% invoice.unpaidInvoiceDueDates.sort{ it.dueDate }.each { %>${it.dueDate.format("d MMMM yyyy")} - ${it.unpaidAmount}
 <% } %>
 <% } %>
 ${render("Footer")}

@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="87"/>
+	<property name="versionNumber" value="89"/>
 	<property name="keyCode" value="ish.onCourse.invoiceReport"/>
 	<property name="ish.oncourse.title" value="Invoice line list"/>
 	<property name="ish.oncourse.filePrefix" value="invoice line"/>
@@ -57,7 +57,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<subDataset name="invoiceDueDateDataSet">
+	<subDataset name="invoiceDueDateDataSet" uuid="e6257fab-ae2b-4677-9278-f69a1bcfbf0e">
 		<field name="dueDate" class="java.util.Date"/>
 		<field name="unpaidAmount" class="ish.math.Money"/>
 	</subDataset>
@@ -302,31 +302,31 @@
 			</band>
 			<band height="40" splitType="Stretch">
 				<staticText>
-					<reportElement key="staticText-1" style="header 3 (right)" x="347" y="5" width="104" height="15"/>
+					<reportElement key="staticText-1" style="header 3 (right)" x="347" y="5" width="104" height="15" uuid="46588bb8-5c03-4950-ac04-a168190fa6d7"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Payment due date]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-1" style="header 3 (right)" x="454" y="5" width="85" height="15"/>
+					<reportElement key="staticText-1" style="header 3 (right)" x="454" y="5" width="85" height="15" uuid="4b4af405-d810-4110-99e6-531dda19732b"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Amount Payable]]></text>
 				</staticText>
 				<componentElement>
-					<reportElement x="0" y="20" width="539" height="15"/>
+					<reportElement x="0" y="20" width="539" height="15" uuid="9b1d689f-64a3-465f-be6e-653b7292077f"/>
 					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
-						<datasetRun subDataset="invoiceDueDateDataSet">
+						<datasetRun subDataset="invoiceDueDateDataSet" uuid="1d109b31-2dc2-4652-9b81-3e22a3fa00ad">
 							<dataSourceExpression><![CDATA[$F{datasource.invoice.unpaidInvoiceDueDates}]]></dataSourceExpression>
 						</datasetRun>
 						<jr:listContents height="15" width="539">
 							<frame>
-								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="539" height="15"/>
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="539" height="15" uuid="a9df4f66-6e8f-4b29-af79-031dcda7114a"/>
 								<textField pattern="d MMMM yyyy" isBlankWhenNull="true">
-									<reportElement key="textField-1" style="data field (datetime)" x="347" y="0" width="104" height="15"/>
+									<reportElement key="textField-1" style="data field (datetime)" x="347" y="0" width="104" height="15" uuid="5145739e-a62d-4ad5-8095-86ff96c5cbec"/>
 									<textElement textAlignment="Right"/>
 									<textFieldExpression><![CDATA[$F{dueDate}]]></textFieldExpression>
 								</textField>
 								<textField isBlankWhenNull="true">
-									<reportElement key="textField-2" style="data field (money)" x="454" y="0" width="85" height="15"/>
+									<reportElement key="textField-2" style="data field (money)" x="454" y="0" width="85" height="15" uuid="872d908c-f653-4fe0-9875-886e0fe3bfb4"/>
 									<textElement textAlignment="Right"/>
 									<textFieldExpression><![CDATA[$F{unpaidAmount}]]></textFieldExpression>
 								</textField>
@@ -418,7 +418,7 @@
 		<band height="44" splitType="Stretch">
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField" style="data field" x="0" y="3" width="284" height="14" uuid="d1681704-2a6d-4d30-9d3e-f177d8372d41"/>
-				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{quantity} > 1 ? $F{quantity}.toInteger() + "x " + $F{title} : $F{title}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-2" style="data field (money)" x="357" y="3" width="58" height="14" uuid="d5634542-c063-4009-b438-7b4aa736acff">

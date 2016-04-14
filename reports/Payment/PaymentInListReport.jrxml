@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentInListReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" whenResourceMissingType="Empty" uuid="954ce827-245b-4f77-9341-f5529d5209a4">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentInListReport" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="786" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" whenResourceMissingType="Empty" uuid="954ce827-245b-4f77-9341-f5529d5209a4">
 	<property name="name" value="PaymentIn"/>
 	<property name="entity" value="PaymentIn"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="31"/>
+	<property name="versionNumber" value="37"/>
 	<property name="keyCode" value="ish.onCourse.paymentInListReport"/>
 	<property name="ish.oncourse.description" value="A detailed report displaying transactions made to and from each general ledger account over a specified period of time.This report prints in Portrait format."/>
 	<property name="ish.oncourse.additionalProperty" value="classRange"/>
@@ -88,7 +88,7 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="539" height="20" backcolor="#E6E7F0" uuid="864c8a6d-6f9c-4def-861d-f37fab58642f">
+				<reportElement x="0" y="0" width="785" height="20" backcolor="#E6E7F0" uuid="864c8a6d-6f9c-4def-861d-f37fab58642f">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<graphicElement>
@@ -96,64 +96,93 @@
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText-1" style="header 3 (right)" x="222" y="2" width="73" height="15" uuid="175b228a-be62-4d7c-92b5-e4a3ab488428"/>
+				<reportElement key="staticText-1" style="header 3 (right)" x="410" y="2" width="67" height="15" uuid="175b228a-be62-4d7c-92b5-e4a3ab488428"/>
 				<text><![CDATA[Amount]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-2" style="header 3" x="2" y="2" width="70" height="15" uuid="dcca4f05-127a-4047-97de-7e5cafd9cd79"/>
+				<reportElement key="staticText-2" style="header 3" x="105" y="2" width="70" height="15" uuid="dcca4f05-127a-4047-97de-7e5cafd9cd79"/>
 				<text><![CDATA[Type]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-3" style="header 3" x="72" y="2" width="147" height="15" uuid="423d68e2-68b3-451d-8e96-ae2ab2c7c561"/>
+				<reportElement key="staticText-3" style="header 3" x="175" y="2" width="155" height="15" uuid="423d68e2-68b3-451d-8e96-ae2ab2c7c561"/>
 				<text><![CDATA[Payer name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-4" style="header 3" x="310" y="2" width="155" height="15" uuid="7e01a3ab-67d6-47bf-b76d-398f648b0751"/>
+				<reportElement key="staticText-4" style="header 3" x="490" y="2" width="100" height="15" uuid="7e01a3ab-67d6-47bf-b76d-398f648b0751"/>
 				<text><![CDATA[Banked]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-5" style="header 3" x="472" y="2" width="57" height="15" uuid="84d6b579-eb3d-48c5-b100-8c25ce005c8b"/>
+				<reportElement key="staticText-5" style="header 3" x="720" y="2" width="63" height="15" uuid="84d6b579-eb3d-48c5-b100-8c25ce005c8b"/>
 				<text><![CDATA[Source]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-3" style="header 3" x="330" y="2" width="80" height="15" uuid="9bd73f57-4b0c-44a0-9489-fc83900eb26e"/>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-3" style="header 3" x="590" y="2" width="130" height="15" uuid="7c2627cd-0d38-4902-a403-224e7c49731c"/>
+				<text><![CDATA[Account]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-3" style="header 3" x="5" y="2" width="100" height="15" uuid="7e4a2c27-c3d5-4c22-afea-5485e5310604">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Created]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<rectangle>
-				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="539" height="20" uuid="9830d623-d96c-449f-94f1-17a93e5d1d1b">
+				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="785" height="20" uuid="9830d623-d96c-449f-94f1-17a93e5d1d1b">
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-6" style="data field" x="2" y="0" width="70" height="15" uuid="7b6fc504-62a1-43ba-9591-0d03e16c27e8"/>
+				<reportElement key="textField-6" style="data field" x="105" y="0" width="70" height="15" uuid="7b6fc504-62a1-43ba-9591-0d03e16c27e8"/>
 				<textFieldExpression><![CDATA[$F{paymentIn}.paymentMethod.name]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-7" style="data field" x="72" y="0" width="147" height="15" uuid="beffc037-6b5e-4aba-ace4-286cbfc9c869"/>
+				<reportElement key="textField-7" style="data field" x="175" y="0" width="155" height="15" uuid="beffc037-6b5e-4aba-ace4-286cbfc9c869"/>
 				<textFieldExpression><![CDATA[$F{paymentIn}.payer.firstName + " " + $F{paymentIn}.payer.lastName]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-8" style="data field (money)" x="222" y="0" width="73" height="15" uuid="57063186-ecb8-4d83-84b8-635495cfc574"/>
+				<reportElement key="textField-8" style="data field (money)" x="410" y="0" width="67" height="15" uuid="57063186-ecb8-4d83-84b8-635495cfc574"/>
 				<textFieldExpression><![CDATA[$F{paymentIn}.amount]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-9" style="data field" x="472" y="0" width="57" height="15" uuid="a462ffe4-af2c-468f-85f2-d21a1598e22e"/>
+				<reportElement key="textField-9" style="data field" x="720" y="0" width="63" height="15" uuid="a462ffe4-af2c-468f-85f2-d21a1598e22e"/>
 				<textFieldExpression><![CDATA[$F{paymentIn}.source]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement key="textField-10" style="data field (date)" x="310" y="0" width="155" height="15" uuid="903415e7-6510-46a2-a4c5-e1b10fa7d754"/>
+			<textField pattern="d MMM yyyy" isBlankWhenNull="true">
+				<reportElement key="textField-10" style="data field (date)" x="490" y="0" width="100" height="15" uuid="903415e7-6510-46a2-a4c5-e1b10fa7d754"/>
 				<textFieldExpression><![CDATA[$F{paymentIn}.dateBanked]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-6" style="data field" x="330" y="0" width="80" height="15" uuid="666e229e-340f-41be-8399-a9695eca1e13"/>
+				<textFieldExpression><![CDATA[$F{paymentIn}.status]]></textFieldExpression>
+			</textField>
+			<textField pattern="d MMM yyyy" isBlankWhenNull="true">
+				<reportElement key="textField-6" style="data field" x="5" y="0" width="100" height="15" uuid="d4063da6-c254-4bb9-8119-42696877eb71">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{paymentIn}.createdOn]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-6" style="data field" x="590" y="0" width="130" height="15" uuid="71f5783b-ef71-42a4-b95c-76a6bdb806fb"/>
+				<textFieldExpression><![CDATA[$F{paymentIn}.account.description]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
 		<band height="32" splitType="Stretch">
 			<staticText>
-				<reportElement key="staticText-10" style="header 3 (right)" x="107" y="3" width="110" height="15" uuid="b49cb588-9774-4558-b0fb-5f987d035a7f"/>
+				<reportElement key="staticText-10" style="header 3 (right)" x="360" y="3" width="38" height="15" uuid="b49cb588-9774-4558-b0fb-5f987d035a7f"/>
 				<text><![CDATA[Total ]]></text>
 			</staticText>
 			<textField>
-				<reportElement key="textField-37" style="data field (money)" positionType="Float" x="222" y="3" width="73" height="15" uuid="ea2ac267-4904-471e-b609-9aef196401ae"/>
+				<reportElement key="textField-37" style="data field (money)" positionType="Float" x="410" y="3" width="67" height="15" uuid="ea2ac267-4904-471e-b609-9aef196401ae"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>

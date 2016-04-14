@@ -7,15 +7,19 @@ def run(args) {
 
     allCertificates.each { c ->
         def eLsit = c.student.enrolments.findAll { e ->
-            c.qualification.objectId == e.courseClass.course?.qualification?.objectId &&
+            c.qualification?.objectId == e.courseClass.course?.qualification?.objectId &&
                     EnrolmentStatus.STATUSES_LEGIT.contains(e.status) &&
                     e.documents.find { d -> d.name == "${e.courseClass.uniqueCode}_${c.student.contact.lastName}_${c.student.contact.firstName}_Certificate.pdf" } == null
         }
 
         if (eLsit.size() > 0) {
-            def printData = report {
+
+			def bg = c.isQualification ? (QualificationType.SKILLSET_TYPE == c.qualification.type ? 'vet_skillset_background.pdf' :'vet_qualification_background.pdf') :  'vet_soa_background.pdf'
+
+			def printData = report {
                 keycode "ish.onCourse.certificate"
                 records Arrays.asList(c)
+				background bg
             }
 
             eLsit.each { e ->
@@ -23,7 +27,7 @@ def run(args) {
                     action "create"
                     content printData
                     name "${e.courseClass.uniqueCode}_${c.student.contact.lastName}_${c.student.contact.firstName}_Certificate.pdf"
-                    mimeType "image/pdf"
+                    mimeType "application/pdf"
                     permission AttachmentInfoVisibility.STUDENTS
                     attach e
                 }

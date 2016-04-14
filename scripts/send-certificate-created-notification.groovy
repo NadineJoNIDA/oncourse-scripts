@@ -15,6 +15,7 @@ def run(args) {
         //Uncomment the line below to create attendance certificates for enrolments with attendance over 80%
         //def enrolmentsOver80 = cc.successAndQueuedEnrolments.findAll { e -> e.attendancePercent >= 80 }
 
+		//change 'cc.successAndQueuedEnrolments' to 'enrolmentsOver80' if you uncommented line before
         cc.successAndQueuedEnrolments.each { e ->
             def printData = report {
                 keycode "ish.oncourse.nonVetCertificate"
@@ -26,14 +27,14 @@ def run(args) {
                 action "create"
                 content printData
                 name "${cc.uniqueCode}_${e.student.contact.lastName}_${e.student.contact.firstName}_Certificate_Attendance.pdf"
-                mimeType "image/pdf"
+                mimeType "application/pdf"
                 permission AttachmentInfoVisibility.STUDENTS
                 attach e
             }
 
             email {
                 template "Certificate available"
-                bindings enrolment: e
+                bindings enrolment: e, certificate: docData
                 to e.student.contact
             }
         }

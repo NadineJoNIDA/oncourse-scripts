@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2016-03-03T13:03:01 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReconciliationSummaryReport" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="c2fe86e7-5c4a-4b51-a042-9ca3326f5905">
-	<property name="name" value="Reconciliation Summary Report"/>
+	<property name="name" value="Cash Movements Summary Report"/>
 	<property name="entity" value="PaymentInterface"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="2"/>
+	<property name="versionNumber" value="7"/>
 	<property name="keyCode" value="ish.onCourse.reconciliationSummary"/>
-	<property name="ish.oncourse.title" value="Reconcile report"/>
-	<property name="ish.oncourse.filePrefix" value="Reconcile report"/>
+	<property name="ish.oncourse.title" value="Cash Movements Summary Report"/>
+	<property name="ish.oncourse.filePrefix" value="Cash Movements Summary Report"/>
 	<property name="ish.oncourse.description" value="To reconcile payments in and out with banking deposits.This report prints in Portrait format."/>
-	<property name="ish.oncourse.pdfFileName" value="Reconcile report.pdf"/>
+	<property name="ish.oncourse.pdfFileName" value="Cash Movements Summary Report.pdf"/>
 	<property name="ish.oncourse.additionalProperty" value="classRange"/>
 	<property name="ish.oncourse.additionalProperty.displayLabel1" value="from"/>
 	<property name="ish.oncourse.additionalProperty.displayLabel2" value="to"/>
@@ -124,22 +123,17 @@
 	<group name="account">
 		<groupExpression><![CDATA[$F{account}?.accountCode + " - " + $F{account}?.description]]></groupExpression>
 		<groupHeader>
-			<band height="50" splitType="Stretch">
+			<band height="66" splitType="Stretch">
 				<textField isBlankWhenNull="true">
-					<reportElement style="header 3" x="10" y="1" width="220" height="18" uuid="c878056a-0fd7-4514-81e2-9ac539ec5dc2"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
+					<reportElement style="header 2" x="10" y="1" width="220" height="18" uuid="c878056a-0fd7-4514-81e2-9ac539ec5dc2"/>
 					<textFieldExpression><![CDATA[$F{account}?.accountCode + " - " + $F{account}?.description]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="account" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="header 3 (right)" x="320" y="1" width="70" height="18" uuid="9d1aca95-158f-4cdb-8487-dcc7c2edf17f"/>
-					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{totalByAccount}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement style="data field" x="10" y="21" width="50" height="15" forecolor="#737373" uuid="d98ce41d-5199-451c-a658-910362acaba2"/>
-					<textElement textAlignment="Center"/>
+					<reportElement style="Label" x="10" y="21" width="50" height="15" uuid="d98ce41d-5199-451c-a658-910362acaba2"/>
 					<text><![CDATA[Reconciled]]></text>
 				</staticText>
 				<textField evaluationTime="Group" evaluationGroup="account" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
@@ -147,44 +141,41 @@
 					<textFieldExpression><![CDATA[$V{reconciledByAccount}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement style="data field" x="210" y="21" width="60" height="15" forecolor="#737373" uuid="bbc83657-9ffb-4aff-bf63-2d72e4b5794b"/>
-					<textElement textAlignment="Center"/>
+					<reportElement style="Label" x="210" y="21" width="60" height="15" uuid="bbc83657-9ffb-4aff-bf63-2d72e4b5794b"/>
 					<text><![CDATA[Unreconciled]]></text>
 				</staticText>
 				<textField evaluationTime="Group" evaluationGroup="account" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="data field (money)" x="320" y="21" width="70" height="15" uuid="7d257a65-3f04-4aca-8216-57bd8470288a"/>
 					<textFieldExpression><![CDATA[$V{unreconciledByAccount}]]></textFieldExpression>
 				</textField>
+				<rectangle>
+					<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="46" width="400" height="20" backcolor="#E6E7F0" uuid="bd9bc273-f281-4bc9-9a75-12ccaa9d755a"/>
+				</rectangle>
+				<staticText>
+					<reportElement style="data field" x="260" y="47" width="50" height="15" uuid="4bd958b7-8a3d-405d-9d29-45e34d04477f"/>
+					<text><![CDATA[Reconciled]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="data field (numeric)" x="320" y="47" width="70" height="15" uuid="9c4d51e2-9ea3-4a64-ac19-c32787ce4283"/>
+					<text><![CDATA[Amount]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 	</group>
 	<group name="dateBanked">
 		<groupExpression><![CDATA[$F{dateBanked}.format("d MMMM y")]]></groupExpression>
 		<groupHeader>
-			<band height="40" splitType="Stretch">
-				<rectangle>
-					<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="400" height="20" backcolor="#DCDCDC" uuid="5efa5f67-c33e-485c-a757-0bd4dc4d9faf"/>
-				</rectangle>
-				<staticText>
-					<reportElement style="data field" x="260" y="1" width="50" height="15" uuid="21127e1d-f031-489c-91a3-b31bdcbd383d"/>
-					<textElement textAlignment="Center"/>
-					<text><![CDATA[Reconciled]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="data field (numeric)" x="320" y="1" width="70" height="15" uuid="1a30cb79-c754-4332-943f-3066b13fc1cc"/>
-					<text><![CDATA[Amount]]></text>
-				</staticText>
+			<band height="21" splitType="Stretch">
 				<textField isBlankWhenNull="true">
-					<reportElement style="header 2" x="10" y="21" width="220" height="18" uuid="cb68ac42-8efa-4718-9450-c6b5e69aec1f"/>
+					<reportElement style="header 2" x="10" y="1" width="220" height="18" uuid="cb68ac42-8efa-4718-9450-c6b5e69aec1f"/>
 					<textFieldExpression><![CDATA["Banked " + $F{dateBanked}.format("d MMMM y")]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="dateBanked" isBlankWhenNull="true">
-					<reportElement style="data field" x="270" y="21" width="30" height="15" uuid="bcc65c72-aa20-49e9-9fe9-5e54815d1c4f"/>
-					<textElement textAlignment="Center"/>
+					<reportElement style="header 2" x="270" y="1" width="30" height="18" uuid="bcc65c72-aa20-49e9-9fe9-5e54815d1c4f"/>
 					<textFieldExpression><![CDATA[$V{absoluteTotalByDate} == $V{absoluteReconciledByDate} ? "[ x ]" : $V{absoluteReconciledByDate} > 0f ? "[ - ]" : "[    ]"]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="dateBanked" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
-					<reportElement style="header 2" x="320" y="21" width="70" height="18" uuid="afb33500-a9c5-4176-9d29-3532f27538ac"/>
+					<reportElement style="header 2" x="320" y="1" width="70" height="18" uuid="afb33500-a9c5-4176-9d29-3532f27538ac"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{totalByDate}]]></textFieldExpression>
 				</textField>
@@ -197,21 +188,17 @@
 	<group name="paymentMethod">
 		<groupExpression><![CDATA[$F{paymentMethod}.name + ((PaymentType.CREDIT_CARD.equals($F{paymentMethod}.type) && $F{creditCardType} != null) ? " - " + $F{creditCardType}.displayName : "")]]></groupExpression>
 		<groupHeader>
-			<band height="25" splitType="Stretch">
+			<band height="19" splitType="Stretch">
 				<textField isBlankWhenNull="true">
-					<reportElement style="data field" x="10" y="6" width="220" height="15" uuid="669e2dfc-8e0d-43fd-96f4-7d2e14b26812"/>
+					<reportElement style="header 3" x="10" y="2" width="220" height="15" uuid="669e2dfc-8e0d-43fd-96f4-7d2e14b26812"/>
 					<textFieldExpression><![CDATA[$F{paymentMethod}.name + ((PaymentType.CREDIT_CARD.equals($F{paymentMethod}.type) && $F{creditCardType} != null) ? " - " + $F{creditCardType}.displayName : "")]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="paymentMethod" isBlankWhenNull="true">
-					<reportElement style="data field" x="270" y="6" width="30" height="15" uuid="edd6f246-4c16-4c04-863b-a8348c4e0b23"/>
-					<textElement textAlignment="Center"/>
+					<reportElement style="header 3" x="270" y="2" width="30" height="15" uuid="edd6f246-4c16-4c04-863b-a8348c4e0b23"/>
 					<textFieldExpression><![CDATA[$V{absoluteTotalByType} == $V{absoluteReconciledByType} ? "[ x ]" : $V{absoluteReconciledByType} > 0f ? "[ - ]" : "[    ]"]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="paymentMethod" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
-					<reportElement style="data field (money)" x="320" y="6" width="70" height="15" uuid="2bbbed1e-be30-4a56-aa3f-a280b3acd6c5"/>
-					<textElement>
-						<font isBold="true"/>
-					</textElement>
+					<reportElement style="header 3 (right)" x="320" y="2" width="70" height="15" uuid="2bbbed1e-be30-4a56-aa3f-a280b3acd6c5"/>
 					<textFieldExpression><![CDATA[$V{totalByType}]]></textFieldExpression>
 				</textField>
 			</band>
@@ -221,7 +208,7 @@
 		<band height="140" splitType="Stretch">
 			<staticText>
 				<reportElement style="header 1" x="5" y="100" width="534" height="25" uuid="1e6e74e3-b6c3-4712-a7c6-e5887f276a3d"/>
-				<text><![CDATA[Reconciliation Report]]></text>
+				<text><![CDATA[Cash Movements Summary Report]]></text>
 			</staticText>
 		</band>
 	</title>

@@ -5,7 +5,7 @@
     <property name="entity" value="Certificate"/>
     <property name="isSubreport" value="true"/>
     <property name="isVisible" value="false"/>
-    <property name="versionNumber" value="1"/>
+    <property name="versionNumber" value="2"/>
     <property name="keyCode" value="ish.onCourse.certificate.skillset"/>
     <property name="ish.oncourse.title" value="Certificate"/>
     <property name="ish.oncourse.filePrefix" value="certificate"/>
@@ -111,7 +111,7 @@
                 <textElement textAlignment="Center">
                     <font size="16"/>
                 </textElement>
-                <textFieldExpression><![CDATA[[$F{certificate}.student.contact.firstName, $F{certificate}.student.contact.middleName, $F{certificate}.student.contact.lastName].findAll().join(" ")]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{certificate}.student.contact.fullName]]></textFieldExpression>
             </textField>
             <staticText>
                 <reportElement key="staticText-8" style="Footer" x="0" y="154" width="517" height="12">

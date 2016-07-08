@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentInterface"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="12"/>
+	<property name="versionNumber" value="14"/>
 	<property name="keyCode" value="ish.onCourse.reconciliationDetail"/>
 	<property name="ish.oncourse.title" value="Cash Movements Detail Report"/>
 	<property name="ish.oncourse.filePrefix" value="Cash Movements Detail Report"/>
@@ -75,7 +75,7 @@
 	<field name="amount" class="ish.math.Money"/>
 	<field name="paymentMethod" class="ish.oncourse.server.cayenne.PaymentMethod"/>
 	<field name="creditCardType" class="ish.common.types.CreditCardType"/>
-	<field name="dateBanked" class="java.util.Date"/>
+	<field name="dateBanked" class="java.time.LocalDate"/>
 	<field name="account" class="java.lang.Object"/>
 	<field name="paymentType" class="java.lang.String"/>
 	<field name="createdOn" class="java.util.Date"/>
@@ -244,8 +244,18 @@
 					<rightPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{reconciled} ? "x" : ""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="280" y="9" width="4" height="4">
+					<printWhenExpression><![CDATA[$F{reconciled}]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="284" y="3" width="6" height="10">
+					<printWhenExpression><![CDATA[$F{reconciled}]]></printWhenExpression>
+				</reportElement>
+			</line>
 			<textField isBlankWhenNull="true">
 				<reportElement style="data field (money)" x="320" y="0" width="70" height="15" uuid="8d77552d-6a3e-4e42-84f9-62610222e5cd"/>
 				<textFieldExpression><![CDATA[$V{amount}]]></textFieldExpression>

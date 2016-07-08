@@ -23,7 +23,7 @@ def run(args) {
                 background "certificate_attendance_backgound.pdf"
             }
 
-            def docData = document {
+            document {
                 action "create"
                 content printData
                 name "${cc.uniqueCode}_${e.student.contact.lastName}_${e.student.contact.firstName}_Certificate_Attendance.pdf"
@@ -34,7 +34,7 @@ def run(args) {
 
             email {
                 template "Certificate available"
-                bindings enrolment: e, certificate: docData
+                bindings enrolment: e
                 to e.student.contact
             }
         }

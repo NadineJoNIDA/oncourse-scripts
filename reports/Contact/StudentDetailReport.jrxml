@@ -5,7 +5,7 @@
 	<property name="entity" value="Contact"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="26"/>
+	<property name="versionNumber" value="27"/>
 	<property name="keyCode" value="ish.onCourse.studentDetailsReport"/>
 	<property name="ish.oncourse.title" value="Student Details"/>
 	<property name="ish.oncourse.filePrefix" value="studentDetails"/>
@@ -335,7 +335,7 @@
 		<band height="32" splitType="Stretch">
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-1" style="header 1" x="0" y="4" width="535" height="26" uuid="05e42319-bbbc-4e84-8744-583161e6a37d"/>
-				<textFieldExpression><![CDATA[[$F{contact}.firstName, $F{contact}.lastName].join(" ")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{contact}.getName(true)]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

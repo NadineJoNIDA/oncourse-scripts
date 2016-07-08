@@ -5,7 +5,7 @@
 	<property name="entity" value="TutorAttendance"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="9"/>
+	<property name="versionNumber" value="10"/>
 	<property name="keyCode" value="ish.onCourse.tutorAttendanceTutorPaySubreport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -55,8 +55,6 @@
 	<parameter name="sessionNumber" class="java.lang.Integer" isForPrompting="false"/>
 	<parameter name="payableTime" class="java.lang.Long" isForPrompting="false"/>
 	<field name="id" class="java.lang.Long"/>
-	<field name="courseClassTutor.tutor.contact.firstName" class="java.lang.String"/>
-	<field name="courseClassTutor.tutor.contact.lastName" class="java.lang.String"/>
 	<field name="courseClassTutor.tutor.id" class="java.lang.Long"/>
 	<field name="courseClassTutor.definedTutorRole.name" class="java.lang.String"/>
 	<field name="datasource.session.courseClass.costs" class="net.sf.jasperreports.engine.JRDataSource"/>

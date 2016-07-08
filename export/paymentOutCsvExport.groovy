@@ -7,7 +7,7 @@ records.each { PaymentOut po ->
 			"modifiedOn"      : po.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
 			"createdOn"       : po.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
 			"amount"          : po.amount?.toPlainString(),
-			"dateBanked"      : po.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
+			"dateBanked"      : po.dateBanked?.format("yyyy-MM-dd"),
 			"reconciled"      : po.reconciled,
 			"status"          : po.status.displayName,
 			"type"            : po.paymentMethod.name,

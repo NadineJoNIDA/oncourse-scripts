@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="89"/>
+	<property name="versionNumber" value="92"/>
 	<property name="keyCode" value="ish.onCourse.invoiceReport"/>
 	<property name="ish.oncourse.title" value="Invoice line list"/>
 	<property name="ish.oncourse.filePrefix" value="invoice line"/>
@@ -67,7 +67,6 @@
 	<field name="invoice.billToAddress" class="java.lang.String"/>
 	<field name="invoice.invoiceNumber" class="java.lang.Long"/>
 	<field name="image.logo" class="java.io.InputStream"/>
-	<field name="invoice.invoiceDate" class="java.util.Date"/>
 	<field name="invoice.publicNotes" class="java.lang.String"/>
 	<field name="invoice.contact.isCompany" class="java.lang.Boolean"/>
 	<field name="invoice.dateDue" class="java.util.Date"/>
@@ -114,83 +113,85 @@
 	<group name="details" isStartNewPage="true">
 		<groupExpression><![CDATA[$F{invoice.invoiceNumber}]]></groupExpression>
 		<groupHeader>
-			<band height="136" splitType="Prevent">
+			<band height="148" splitType="Prevent">
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="details" isBlankWhenNull="true">
-					<reportElement key="textField" style="data field" stretchType="RelativeToBandHeight" x="55" y="14" width="250" height="57" uuid="3b67b45e-0fa8-4610-838f-e2f0da5faaa6">
+					<reportElement key="textField" style="data field" stretchType="RelativeToBandHeight" x="55" y="27" width="250" height="55" uuid="3b67b45e-0fa8-4610-838f-e2f0da5faaa6">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					</reportElement>
 					<textElement verticalAlignment="Top"/>
 					<textFieldExpression><![CDATA[$F{invoice.billToAddress}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="details" isBlankWhenNull="false">
-					<reportElement key="textField-3" style="data field" x="403" y="19" width="136" height="28" uuid="d1b72d14-7eeb-4d96-97c3-bd767ebdefd2"/>
+					<reportElement key="textField-3" style="data field" x="403" y="27" width="136" height="38" uuid="d1b72d14-7eeb-4d96-97c3-bd767ebdefd2"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[String.valueOf($F{invoiceLine}.invoice.invoiceNumber) + "\n"+$F{invoiceLine}.invoice.printHeading]]></textFieldExpression>
 					<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="details" isBlankWhenNull="false">
-					<reportElement key="textField-4" style="data field" x="55" y="0" width="250" height="14" uuid="c3d3c2eb-6b4c-45b1-9a07-b7c1f23b530d"/>
+					<reportElement key="textField-4" style="data field" x="55" y="-1" width="335" height="28" uuid="c3d3c2eb-6b4c-45b1-9a07-b7c1f23b530d">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
 					<textFieldExpression><![CDATA[$F{invoice.contact.title}==null?$F{invoiceLine}.invoice.contact.fullName : $F{invoice.contact.title} + " " + $F{invoiceLine}.invoice.contact.fullName]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="details" isBlankWhenNull="false">
-					<reportElement key="textField" style="data field (date)" x="377" y="1" width="162" height="18" uuid="64e3d79c-040e-47ee-a8e1-2ad840db84d3"/>
+					<reportElement key="textField" style="data field (date)" x="390" y="1" width="149" height="26" uuid="64e3d79c-040e-47ee-a8e1-2ad840db84d3"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[$F{invoice.invoiceDate}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{invoiceLine}.invoice.invoiceDate.format("dd MMM yyyy")]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="details" isBlankWhenNull="false">
-					<reportElement key="textField-5" style="header 1" stretchType="RelativeToTallestObject" x="0" y="68" width="538" height="28" uuid="422fef20-096d-4fb6-a15f-6aeef21f48fb"/>
+					<reportElement key="textField-5" style="header 1" stretchType="RelativeToTallestObject" x="0" y="80" width="538" height="28" uuid="422fef20-096d-4fb6-a15f-6aeef21f48fb"/>
 					<textFieldExpression><![CDATA[$F{invoiceLine}.invoice.printHeading]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement key="line-2" x="0" y="113" width="539" height="1" forecolor="#9C9595" uuid="d5943755-704a-4e9c-85fc-9321af8861e7"/>
+					<reportElement key="line-2" x="0" y="125" width="539" height="1" forecolor="#9C9595" uuid="d5943755-704a-4e9c-85fc-9321af8861e7"/>
 					<graphicElement fill="Solid">
 						<pen lineWidth="0.5" lineStyle="Solid" lineColor="#9E9898"/>
 					</graphicElement>
 				</line>
 				<staticText>
-					<reportElement key="staticText-2" style="header 3" x="0" y="117" width="284" height="15" uuid="9a331887-ee22-4e21-8c3a-01031196d42b"/>
+					<reportElement key="staticText-2" style="header 3" x="0" y="129" width="284" height="15" uuid="9a331887-ee22-4e21-8c3a-01031196d42b"/>
 					<text><![CDATA[Title]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-3" style="header 3" x="294" y="117" width="59" height="15" uuid="af338247-0dcd-4ca2-9fe0-86be7501d3b2"/>
+					<reportElement key="staticText-3" style="header 3" x="294" y="129" width="59" height="15" uuid="af338247-0dcd-4ca2-9fe0-86be7501d3b2"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Price each]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-4" style="header 3" x="357" y="117" width="57" height="15" uuid="907c4822-7a26-47ba-9ab4-b82eb18cf31d"/>
+					<reportElement key="staticText-4" style="header 3" x="357" y="129" width="57" height="15" uuid="907c4822-7a26-47ba-9ab4-b82eb18cf31d"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Discount]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-5" style="header 3" x="418" y="117" width="49" height="15" uuid="791d19b6-2669-4e91-84e2-6d9b5de6981a"/>
+					<reportElement key="staticText-5" style="header 3" x="418" y="129" width="49" height="15" uuid="791d19b6-2669-4e91-84e2-6d9b5de6981a"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Tax]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="staticText-6" style="header 3" x="473" y="117" width="65" height="15" uuid="ce9dadfb-30c0-4009-8c35-2301e4f50725"/>
+					<reportElement key="staticText-6" style="header 3" x="473" y="129" width="65" height="15" uuid="ce9dadfb-30c0-4009-8c35-2301e4f50725"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Total]]></text>
 				</staticText>
 				<line>
-					<reportElement key="line-4" x="471" y="114" width="1" height="20" forecolor="#9C9595" uuid="d21fe3e5-99a3-472f-8047-60f49d51927a"/>
+					<reportElement key="line-4" x="471" y="126" width="1" height="20" forecolor="#9C9595" uuid="d21fe3e5-99a3-472f-8047-60f49d51927a"/>
 					<graphicElement fill="Solid">
 						<pen lineWidth="0.5" lineStyle="Solid" lineColor="#9E9898"/>
 					</graphicElement>
 				</line>
 				<line>
-					<reportElement key="line-1" x="0" y="135" width="539" height="1" forecolor="#9C9595" uuid="205aee8a-d561-4029-b80a-8eefdf9b1b59"/>
+					<reportElement key="line-1" x="0" y="147" width="539" height="1" forecolor="#9C9595" uuid="205aee8a-d561-4029-b80a-8eefdf9b1b59"/>
 					<graphicElement fill="Solid">
 						<pen lineWidth="0.5" lineStyle="Solid" lineColor="#9E9898"/>
 					</graphicElement>
 				</line>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="details" isBlankWhenNull="true">
-					<reportElement key="textField-16" style="data field" stretchType="RelativeToTallestObject" x="0" y="97" width="538" height="15" uuid="656e338a-e985-44e1-9365-033ffe68780c">
+					<reportElement key="textField-16" style="data field" stretchType="RelativeToTallestObject" x="0" y="109" width="538" height="15" uuid="656e338a-e985-44e1-9365-033ffe68780c">
 						<printWhenExpression><![CDATA[new Boolean($F{invoice.publicNotes}!=null && $F{invoice.publicNotes}.trim().length() > 0d)]]></printWhenExpression>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{invoice.publicNotes}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-22" style="data field" x="350" y="47" width="189" height="15" uuid="e7cf51cd-dc87-4017-980b-137f74c093ab"/>
+					<reportElement key="textField-22" style="data field" x="350" y="65" width="189" height="15" uuid="e7cf51cd-dc87-4017-980b-137f74c093ab"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$F{invoice.customerReference}==null ? "" : ("Reference : " + $F{invoice.customerReference})]]></textFieldExpression>
 				</textField>

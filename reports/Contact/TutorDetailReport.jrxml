@@ -5,7 +5,7 @@
 	<property name="entity" value="Contact"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="33"/>
+	<property name="versionNumber" value="34"/>
 	<property name="keyCode" value="ish.onCourse.tutorDetailsReport"/>
 	<property name="ish.oncourse.title" value="Tutor Details"/>
 	<property name="ish.oncourse.filePrefix" value="tutorDetails"/>
@@ -58,12 +58,6 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
-	<field name="firstName" class="java.lang.String">
-		<fieldDescription><![CDATA[Student first name]]></fieldDescription>
-	</field>
-	<field name="lastName" class="java.lang.String">
-		<fieldDescription><![CDATA[Student last name]]></fieldDescription>
-	</field>
 	<field name="contact" class="ish.oncourse.server.cayenne.Contact"/>
 	<field name="street" class="java.lang.String"/>
 	<field name="suburb" class="java.lang.String"/>
@@ -257,7 +251,7 @@
 			<printWhenExpression><![CDATA[new Boolean($F{tutor}!=null)]]></printWhenExpression>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-1" style="header 1" x="0" y="4" width="368" height="26" uuid="c12b4850-93fc-4afb-bd3b-3f85ae082981"/>
-				<textFieldExpression><![CDATA[$F{lastName} +", "+$F{firstName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{contact}.name]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

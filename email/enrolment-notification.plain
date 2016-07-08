@@ -23,7 +23,7 @@ USI: ${enrolment.student.usi}
 <% } %><% if (enrolment.student.specialNeeds) { %>
 Special needs: ${enrolment.student.specialNeeds}
 <% } %>
-Fee Paid: ${enrolment.invoiceLine.priceEachExTax.add(enrolment.invoiceLine.taxEach)} GST ${enrolment.invoiceLine.taxEach.isZero() ? 'free' : 'inc'} 
+Fee Paid: ${enrolment.invoiceLine.discountedPriceTotalIncTax} GST ${enrolment.invoiceLine.taxEach.isZero() ? 'free' : 'inc'} 
 
 
 ${render("Footer")}

@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentInterface"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="7"/>
+	<property name="versionNumber" value="8"/>
 	<property name="keyCode" value="ish.onCourse.reconciliationSummary"/>
 	<property name="ish.oncourse.title" value="Cash Movements Summary Report"/>
 	<property name="ish.oncourse.filePrefix" value="Cash Movements Summary Report"/>
@@ -73,7 +73,7 @@
 	<field name="amount" class="ish.math.Money"/>
 	<field name="paymentMethod" class="ish.oncourse.server.cayenne.PaymentMethod"/>
 	<field name="creditCardType" class="ish.common.types.CreditCardType"/>
-	<field name="dateBanked" class="java.util.Date"/>
+	<field name="dateBanked" class="java.time.LocalDate"/>
 	<field name="account" class="java.lang.Object"/>
 	<field name="paymentType" class="java.lang.String"/>
 	<field name="createdOn" class="java.util.Date"/>

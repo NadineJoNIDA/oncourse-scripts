@@ -5,7 +5,7 @@
 	<property name="entity" value="Outcome"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="16"/>
+	<property name="versionNumber" value="18"/>
 	<property name="keyCode" value="ish.onCourse.traineeshipTrainingPlanModulesSubReport"/>
 	<property name="ish.oncourse.title" value="UnitOfCompetencySubReport"/>
 	<property name="ish.oncourse.filePrefix" value="traineeshipTrainingPlanModulesSubReport"/>
@@ -97,7 +97,7 @@
 				<text><![CDATA[Hours]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-9" style="header 3" x="180" y="28" width="164" height="15" uuid="f42cd156-6cb9-4867-b5ce-0d9ab914f6a8"/>
+				<reportElement key="staticText-9" style="header 3" x="190" y="28" width="154" height="15" uuid="f42cd156-6cb9-4867-b5ce-0d9ab914f6a8"/>
 				<text><![CDATA[Delivery Mode]]></text>
 			</staticText>
 			<staticText>
@@ -118,7 +118,7 @@
 				</reportElement>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-2" style="header 2" stretchType="RelativeToTallestObject" x="0" y="1" width="510" height="18" isPrintWhenDetailOverflows="true" uuid="dfc52a9a-7f27-43c2-9409-7fbebdfcc76f"/>
+				<reportElement key="textField-2" style="data field" stretchType="RelativeToTallestObject" x="0" y="1" width="510" height="18" isPrintWhenDetailOverflows="true" uuid="dfc52a9a-7f27-43c2-9409-7fbebdfcc76f"/>
 				<textFieldExpression><![CDATA[((($F{module.nationalCode}!=null)&&!($F{module.nationalCode}.equals("")))?($F{module.nationalCode}+"  "):"")+$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
@@ -140,14 +140,8 @@
 				<textFieldExpression><![CDATA[$F{reportableHours}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-7" style="data field" x="180" y="20" width="164" height="14" uuid="a204592f-7283-4788-a4b3-5da8210927cb"/>
-				<textFieldExpression><![CDATA[(
-((((ish.common.types.DeliveryMode)$F{deliveryMode}).getDatabaseValue()==0)?("Not set"):"")+
-((((ish.common.types.DeliveryMode)$F{deliveryMode}).getDatabaseValue()==1)?("Classroom based"):"")+
-((((ish.common.types.DeliveryMode)$F{deliveryMode}).getDatabaseValue()==2)?("Electronic based"):"")+
-((((ish.common.types.DeliveryMode)$F{deliveryMode}).getDatabaseValue()==3)?("Employment based"):"")+
-((((ish.common.types.DeliveryMode)$F{deliveryMode}).getDatabaseValue()==4)?("Other delivery (eg. correspondence)"):"")+
-((((ish.common.types.DeliveryMode)$F{deliveryMode}).getDatabaseValue()==9)?("N/A (eg. RPL, credit transfer)"):""))]]></textFieldExpression>
+				<reportElement key="textField-7" style="data field" x="190" y="20" width="154" height="14" uuid="a204592f-7283-4788-a4b3-5da8210927cb"/>
+				<textFieldExpression><![CDATA[$F{deliveryMode}.getDisplayName()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

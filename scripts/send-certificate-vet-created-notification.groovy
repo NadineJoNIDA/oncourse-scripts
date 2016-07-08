@@ -7,7 +7,7 @@ def run(args) {
 
     allCertificates.each { c ->
         def eLsit = c.student.enrolments.findAll { e ->
-            c.qualification?.objectId == e.courseClass.course?.qualification?.objectId &&
+             e.outcomes.contains(c.certificateOutcomes[0].outcome) &&
                     EnrolmentStatus.STATUSES_LEGIT.contains(e.status) &&
                     e.documents.find { d -> d.name == "${e.courseClass.uniqueCode}_${c.student.contact.lastName}_${c.student.contact.firstName}_Certificate.pdf" } == null
         }
@@ -39,6 +39,9 @@ def run(args) {
                 }
 
                 c.setPrintedOn(currentDate)
+                if (c.issuedOn == null) {
+                    c.setIssuedOn(currentDate);
+                }
                 args.context.commitChanges()
 
             }

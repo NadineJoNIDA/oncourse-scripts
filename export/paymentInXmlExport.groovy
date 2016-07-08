@@ -53,7 +53,7 @@ xml.data() {
 					amount(pi.amount?.toPlainString())
 					creditCardExpiry(pi.creditCardExpiry)
 					creditCardType(pi.creditCardType?.displayName)
-					dateBanked(pi.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+					dateBanked(pi.dateBanked?.format("yyyy-MM-dd"))
 					gatewayReference(pi.gatewayReference)
 					gatewayResponse(pi.gatewayResponse)
 					privateNotes(pi.privateNotes)

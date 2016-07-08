@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="21"/>
+	<property name="versionNumber" value="22"/>
 	<property name="keyCode" value="ish.oncourse.nonVetCertificate"/>
 	<property name="ish.oncourse.title" value="AttendanceCertificate"/>
 	<property name="ish.oncourse.filePrefix" value="AttendanceCertificate"/>
@@ -57,9 +57,7 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
-	<field name="student.contact.firstName" class="java.lang.String"/>
-	<field name="student.contact.middleName" class="java.lang.String"/>
-	<field name="student.contact.lastName" class="java.lang.String"/>
+	<field name="enrolment" class="ish.oncourse.server.cayenne.Enrolment"/>
 	<field name="pref.avetmiss.collegename" class="java.lang.String"/>
 	<field name="pref.avetmiss.address.line1" class="java.lang.String"/>
 	<field name="pref.avetmiss.address.suburb" class="java.lang.String"/>
@@ -91,7 +89,7 @@
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-1" style="header 1" x="0" y="157" width="540" height="52" uuid="665fcbc9-1bc1-4c6b-af09-97b610a87bf3"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[[$F{student.contact.firstName}, $F{student.contact.middleName}, $F{student.contact.lastName}].findAll().join(" ")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{enrolment}.student.contact.fullName]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-2" style="Footer" x="0" y="222" width="540" height="16" uuid="9a87d2ee-56dd-4026-bf4a-0525e61dc163"/>

@@ -7,7 +7,7 @@ records.each { PaymentIn pi ->
 			"modifiedOn"      : pi.modifiedOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
 			"createdOn"       : pi.createdOn?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
 			"amount"          : pi.amount?.toPlainString(),
-			"dateBanked"      : pi.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssXXX"),
+			"dateBanked"      : pi.dateBanked?.format("yyyy-MM-dd"),
 			"reconciled"      : pi.reconciled,
 			"source"          : pi.source.displayName,
 			"status"          : pi.status.displayName,

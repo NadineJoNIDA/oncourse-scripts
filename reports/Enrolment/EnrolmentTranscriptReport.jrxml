@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="19"/>
+	<property name="versionNumber" value="20"/>
 	<property name="keyCode" value="ish.onCourse.academicTranscriptReport"/>
 	<property name="ish.oncourse.title" value="Academic Transcript"/>
 	<property name="ish.oncourse.filePrefix" value="academicTranscript"/>
@@ -220,7 +220,7 @@
 		<band height="32" splitType="Stretch">
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-1" style="header 1" x="0" y="1" width="534" height="26" uuid="004018a2-62de-437a-9dda-146584ee5173"/>
-				<textFieldExpression><![CDATA[$F{student.contact.firstName}+" "+$F{student.contact.lastName}+" Academic Transcript"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{enrolment}.student.contact.getName(true) + " Academic Transcript"]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

@@ -5,7 +5,7 @@
 	<property name="entity" value="Contact"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="20"/>
+	<property name="versionNumber" value="21"/>
 	<property name="keyCode" value="ish.onCourse.studentTranscriptReport"/>
 	<property name="ish.oncourse.title" value="Student Transcript"/>
 	<property name="ish.oncourse.filePrefix" value="studentTranscript"/>
@@ -64,6 +64,7 @@
 	<field name="lastName" class="java.lang.String">
 		<fieldDescription><![CDATA[Student last name]]></fieldDescription>
 	</field>
+	<field name="contact" class="java.lang.Object"/>
 	<field name="student.countryOfBirth.name" class="java.lang.String"/>
 	<field name="email" class="java.lang.String"/>
 	<field name="fax" class="java.lang.String"/>
@@ -218,7 +219,7 @@
 		<band height="32" splitType="Stretch">
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-1" style="header 1" x="0" y="6" width="534" height="26" uuid="004018a2-62de-437a-9dda-146584ee5173"/>
-				<textFieldExpression><![CDATA[$F{firstName}+" "+$F{lastName}+" Transcript"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{contact}.getName(true) + " Transcript"]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

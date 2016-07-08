@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="21"/>
+	<property name="versionNumber" value="22"/>
 	<property name="keyCode" value="ish.onCourse.traineeTrainingPlanReport"/>
 	<property name="ish.oncourse.title" value="Traineeship Training Plan"/>
 	<property name="ish.oncourse.filePrefix" value="TraineeshipTrainingPlan"/>
@@ -117,7 +117,7 @@
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-8" style="data field" x="95" y="9" width="400" height="15" uuid="6ceebd42-4203-4a87-906e-81fa58d0500b"/>
-					<textFieldExpression><![CDATA[$F{student.contact.lastName}+", "+$F{student.contact.firstName}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{enrolment}.student.contact.name]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-5" style="Label" x="0" y="9" width="85" height="15" uuid="fea53124-1c75-4b72-ba06-acd32aedc8d0"/>

@@ -51,7 +51,7 @@ records.each { Contact c ->
 			"citizenship"                    : c.student?.citizenship,
 			"tfn"                            : c.tfn,
 			"studentIsOverseasClient"        : c.student?.isOverseasClient,
-			"countryOfResidency"             : c.student?.countryOfResidency,
+			"countryOfResidency"             : c.student?.countryOfResidency?.name,
 			"passportNumber"                 : c.student?.passportNumber,
 			"visaType"                       : c.student?.visaType,
 			"visaNumber"                     : c.student?.visaNumber,

@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="29"/>
+	<property name="versionNumber" value="30"/>
 	<property name="keyCode" value="ish.onCourse.enrolmentConfirmation"/>
 	<property name="ish.oncourse.title" value="Enrolment Confirmation"/>
 	<property name="ish.oncourse.filePrefix" value="enrolmentConfirmation"/>
@@ -60,6 +60,7 @@
 	</style>
 	<subDataset name="SubDataset1" uuid="1f2824e8-31a0-4deb-93cb-c6e6396d9f63"/>
 	<parameter name="ReportName" class="java.lang.String"/>
+	<field name="enrolment" class="ish.oncourse.server.cayenne.Enrolment"/>
 	<field name="courseClass.course.name" class="java.lang.String"/>
 	<field name="subreport.ish.onCourse.enrolmentConfirmationSessions" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="student.contact.firstName" class="java.lang.String"/>
@@ -145,7 +146,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-24" style="data field" positionType="Float" x="54" y="114" width="376" height="13" uuid="97b1805f-0962-4f31-9392-f612ec0bc4e6"/>
-				<textFieldExpression><![CDATA[$F{student.contact.lastName}+", "+$F{student.contact.firstName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{enrolment}.student.contact.name]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-32" style="data field" positionType="Float" x="54" y="128" width="376" height="13" uuid="f615f62f-a031-415c-9663-cc33071b048a"/>

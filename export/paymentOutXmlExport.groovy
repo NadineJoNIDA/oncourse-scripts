@@ -53,7 +53,7 @@ xml.data() {
 					amount(po.amount?.toPlainString())
 					creditCardExpiry(po.creditCardExpiry)
 					creditCardType(po.creditCardType?.displayName)
-					dateBanked(po.dateBanked?.format("yyyy-MM-dd'T'HH:mm:ssXXX"))
+					dateBanked(po.dateBanked?.format("yyyy-MM-dd"))
 					privateNotes(po.privateNotes)
 					reconciled(po.reconciled)
 					status(po.status.displayName)

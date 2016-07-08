@@ -5,7 +5,7 @@
 	<property name="entity" value="ContactRelation"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="7"/>
+	<property name="versionNumber" value="8"/>
 	<property name="keyCode" value="ish.onCourse.traineeshipTrainingPlanEmployerSubReport"/>
 	<property name="ish.oncourse.title" value="EmployerSubReport"/>
 	<property name="ish.oncourse.filePrefix" value="traineeshipTrainingPlanEmployerSubReport"/>
@@ -24,7 +24,6 @@
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
 	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
-
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
 	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
 	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
@@ -56,6 +55,7 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
+	<field name="contactRelation" class="ish.oncourse.server.cayenne.ContactRelation"/>
 	<field name="fromContact.lastName" class="java.lang.String"/>
 	<field name="fromContact.firstName" class="java.lang.String"/>
 	<field name="fromContact.street" class="java.lang.String"/>
@@ -116,7 +116,7 @@
 			</staticText>
 			<textField pattern="dd/MM/yy" isBlankWhenNull="true">
 				<reportElement key="textField-4" style="data field" stretchType="RelativeToTallestObject" x="95" y="2" width="400" height="15" isPrintWhenDetailOverflows="true" uuid="2cf660e3-0788-416d-8b4c-9aa776cb640a"/>
-				<textFieldExpression><![CDATA[(($F{fromContact.firstName}!=null)?($F{fromContact.firstName}+" "):"")+$F{fromContact.lastName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{contactRelation}.fromContact.getName(true)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-6" style="data field" x="95" y="18" width="400" height="15" uuid="080959ab-4128-4aa4-bbb8-e79fb0205b97"/>

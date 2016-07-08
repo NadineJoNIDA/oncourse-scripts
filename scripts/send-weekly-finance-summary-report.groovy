@@ -1,15 +1,25 @@
+import org.apache.commons.lang3.time.DateUtils
+
 def run(args) {
     def context = args.context
-    def accounts = ObjectSelect.query(Account).select(context)
+    def accounts = ObjectSelect.query(Account)
+            .orderBy(Account.ACCOUNT_CODE.ascs())
+            .select(context)
 
-    //this ordering needs to do not in ObjectSelect. It helps to avoid changes after updating Cayenne to 4.0.M2
-    Ordering.orderList(accounts, Account.ACCOUNT_CODE.ascs())
+    //If you want to change date period use one of the sections below:
 
-
+    //set period in number of days (e.g. for the last 7 days)
     def endDate = Calendar.getInstance().getTime()
     endDate.set(hourOfDay: 0, minute: 0, second: 0)
-
     def startDate = endDate - 7
+
+    
+//    set period in calendar months (e.g. for the last month)
+    
+//    def endDate = Calendar.getInstance().getTime()
+//    endDate.set(dayOfMonth: 1,hourOfDay: 0, minute: 0, second: 0)
+//    println endDate
+//    def startDate = DateUtils.addMonths(endDate, -1)
 
     smtp {
         from preference.email.from

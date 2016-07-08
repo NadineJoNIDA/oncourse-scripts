@@ -3,9 +3,12 @@ avetmiss80=Choose the AVETMISS-80 file to import...
 avetmiss85=Choose the AVETMISS-85 file to import...
 )*/
 
+
+import ish.oncourse.server.cayenne.Language
 import ish.util.EnumUtil
 import org.apache.cayenne.ObjectContext
 import org.apache.cayenne.exp.Expression
+import org.apache.cayenne.query.ObjectSelect
 import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -154,11 +157,14 @@ def import80(String data, Map<String, Student> importedStudents, ObjectContext c
 		// (Aust Bureau of Stats: 1267.0)
 		Integer absCode = line.readInteger(4)
 
-		SelectQuery<Language> query = SelectQuery.query(Language)
-		query.setQualifier(Language.ABS_CODE.eq(String.valueOf(absCode)))
-		List<Language> languageList = context.select(query)
+		ObjectSelect<Language> query = ObjectSelect.query(Language)
+		query = query.where(Language.ABS_CODE.eq(String.valueOf(absCode)))
+		if (Integer.valueOf(1201).equals(absCode)) {
+			query = query.and(Language.NAME.likeIgnoreCase('English'))
+		}
+		List<Language> languageList = query.select(context)
 
-		if (languageList.size() == 1) {
+		if (languageList.size() > 0) {
 			aStudent.setLanguage(languageList.get(0))
 		}
 

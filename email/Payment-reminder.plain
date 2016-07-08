@@ -1,0 +1,11 @@
+${render("Header")}
+
+Dear John Smith,
+
+Your invoice ${invoice.invoiceNumber} from Byron Community College is ${((new Date() - invoice.dateDue) == -7) ? 'due' : ((new Date() - invoice.dateDue) == 0) ? 'due today' : ('now ' + (new Date() - invoice.dateDue) + ' days overdue')}. The total amount remaining on the invoice is ${invoice.amountOwing} of which ${invoice.invoiceDueDates.size() > 0 ? invoice.invoiceDueDates.findAll { it.dueDate.compareTo(invoice.dateDue) <= 0 }*.amount.inject { a, b -> a.add(b)}.subtract(invoice.amountPaid) : invoice.amountOwing} is payable now.
+
+If you wish to pay by credit card or view the invoice visit ${invoice.contact.getPortalLink(invoice, 30)}
+
+If you need to speak about this payment or use another payment method, please contact us on the number below.
+
+${render("Footer")}

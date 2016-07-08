@@ -5,12 +5,14 @@
 	<property name="entity" value="StatementLinePrintableObject"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="23"/>
+	<property name="versionNumber" value="25"/>
 	<property name="keyCode" value="ish.onCourse.statementLineListReport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="ish.math.Money"/>
 	<import value="ish.common.types.PaymentStatus"/>
+	<import value="ish.oncourse.cayenne.FinancialItem"/>
+	<import value="ish.util.PaymentMethodUtil"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
 	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
 		<paragraph spacingAfter="8"/>
@@ -56,11 +58,14 @@
 	</style>
 	<field name="global.dateRange_from" class="java.util.Date"/>
 	<field name="global.dateRange_to" class="java.util.Date"/>
-	<field name="date" class="java.util.Date"/>
+	<field name="date" class="java.time.LocalDate"/>
 	<field name="description" class="java.lang.String"/>
 	<field name="amount" class="ish.math.Money"/>
 	<field name="total" class="ish.math.Money"/>
 	<field name="status" class="java.lang.String"/>
+	<field name="paymentStatus" class="ish.common.types.PaymentStatus"/>
+	<field name="paymentType" class="ish.common.types.PaymentType"/>
+	<field name="financialItemType" class="java.lang.Object"/>
 	<sortField name="date"/>
 	<variable name="firstBalance" class="ish.math.Money" resetType="Column" calculation="First">
 		<variableExpression><![CDATA[$F{total}.subtract(($F{description}.startsWith("PaymentIn") ? (PaymentStatus.STATUSES_FAILED.contains($F{status}) ? $F{amount}.negate() : Money.ZERO) : $F{amount}))]]></variableExpression>
@@ -68,6 +73,7 @@
 	<variable name="totalBalance" class="ish.math.Money">
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
+	<filterExpression><![CDATA[((PaymentStatus.SUCCESS.equals($F{paymentStatus}) && !PaymentMethodUtil.SYSTEM_TYPES.contains($F{paymentType}))|| FinancialItem.FinancialItemType.INVOICE.equals($F{financialItemType}))]]></filterExpression>
 	<pageHeader>
 		<band height="22">
 			<textField evaluationTime="Report" pattern="dd MMMMM yyyy" isBlankWhenNull="true">
@@ -123,9 +129,9 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<printWhenExpression><![CDATA[!$F{amount}.isZero()]]></printWhenExpression>
-			<textField pattern="d MMM yyyy" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement key="textField" style="data field (date)" x="0" y="3" width="99" height="14" uuid="96f399a8-fd03-4464-bc9f-5d9a84987bcf"/>
-				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{date}.format("d MMM yyyy")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-2" style="data field" x="107" y="3" width="282" height="14" uuid="d6f69aef-a2d0-4b7d-95d2-81ffe467660c"/>

@@ -268,11 +268,14 @@ def import80(String rawLine, Contact contact, Student student, ObjectContext con
 	// (Aust Bureau of Stats: 1267.0)
 	Integer absCode = line.readInteger(4)
 
-	SelectQuery<Language> query = SelectQuery.query(Language)
-	query.setQualifier(Language.ABS_CODE.eq(String.valueOf(absCode)))
-	List<Language> languageList = context.select(query)
+	ObjectSelect<Language> query = ObjectSelect.query(Language)
+	query = query.where(Language.ABS_CODE.eq(String.valueOf(absCode)))
+	if (Integer.valueOf(1201).equals(absCode)) {
+		query = query.and(Language.NAME.likeIgnoreCase('English'))
+	}
+	List<Language> languageList = query.select(context)
 
-	if (languageList.size() == 1) {
+	if (languageList.size() > 0) {
 		student.setLanguage(languageList.get(0))
 	}
 

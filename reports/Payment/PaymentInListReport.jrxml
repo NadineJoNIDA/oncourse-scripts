@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentIn"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="37"/>
+	<property name="versionNumber" value="40"/>
 	<property name="keyCode" value="ish.onCourse.paymentInListReport"/>
 	<property name="ish.oncourse.description" value="A detailed report displaying transactions made to and from each general ledger account over a specified period of time.This report prints in Portrait format."/>
 	<property name="ish.oncourse.additionalProperty" value="classRange"/>
@@ -71,6 +71,23 @@
 	<variable name="amountTotal" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{paymentIn}.amount.toBigDecimal()]]></variableExpression>
 	</variable>
+	<group name="fake group">
+		<groupFooter>
+			<band height="22">
+				<staticText>
+					<reportElement key="staticText-10" style="header 3 (right)" x="360" y="3" width="38" height="15" uuid="b49cb588-9774-4558-b0fb-5f987d035a7f"/>
+					<text><![CDATA[Total ]]></text>
+				</staticText>
+				<textField>
+					<reportElement key="textField-37" style="data field (money)" positionType="Float" x="410" y="3" width="67" height="15" uuid="ea2ac267-4904-471e-b609-9aef196401ae"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{amountTotal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -145,7 +162,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-7" style="data field" x="175" y="0" width="155" height="15" uuid="beffc037-6b5e-4aba-ace4-286cbfc9c869"/>
-				<textFieldExpression><![CDATA[$F{paymentIn}.payer.firstName + " " + $F{paymentIn}.payer.lastName]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{paymentIn}.payer.getName(true)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-8" style="data field (money)" x="410" y="0" width="67" height="15" uuid="57063186-ecb8-4d83-84b8-635495cfc574"/>
@@ -175,21 +192,6 @@
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="32" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText-10" style="header 3 (right)" x="360" y="3" width="38" height="15" uuid="b49cb588-9774-4558-b0fb-5f987d035a7f"/>
-				<text><![CDATA[Total ]]></text>
-			</staticText>
-			<textField>
-				<reportElement key="textField-37" style="data field (money)" positionType="Float" x="410" y="3" width="67" height="15" uuid="ea2ac267-4904-471e-b609-9aef196401ae"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{amountTotal}]]></textFieldExpression>
-			</textField>
-		</band>
-	</columnFooter>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<textField evaluationTime="Page" isBlankWhenNull="false">

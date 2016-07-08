@@ -5,7 +5,7 @@
 	<property name="entity" value="PayLine"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="15"/>
+	<property name="versionNumber" value="16"/>
 	<property name="keyCode" value="ish.onCourse.payslipReport"/>
 	<property name="ish.oncourse.title" value="Payslip Report"/>
 	<property name="ish.oncourse.filePrefix" value="PayslipReport"/>
@@ -73,7 +73,7 @@
 				</textField>
 				<textField>
 					<reportElement key="textField-1" style="header 2" x="90" y="15" width="407" height="20" uuid="895453de-50aa-4f33-bf41-86f3a7973163"/>
-					<textFieldExpression><![CDATA[[[$F{payLine}.payslip.contact.firstName, $F{payLine}.payslip.contact.lastName].join(" "), $F{payLine}.payslip.contact.tutor.payrollRef].findAll().join(" - ")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[[$F{payLine}.payslip.contact.getName(true), $F{payLine}.payslip.contact.tutor.payrollRef].findAll().join(" - ")]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>

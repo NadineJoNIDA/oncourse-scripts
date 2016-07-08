@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="28"/>
+	<property name="versionNumber" value="29"/>
 	<property name="keyCode" value="ish.onCourse.enrolmentSales"/>
 	<property name="ish.oncourse.title" value="Enrolment Sales"/>
 	<property name="ish.oncourse.filePrefix" value="enrolmentSales"/>
@@ -150,7 +150,7 @@
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-12" style="data field" x="5" y="2" width="359" height="14" uuid="41a1cc37-243d-43b3-b2e1-62cb3b5b9551"/>
 					<textFieldExpression><![CDATA[($F{invoiceLine.invoice.createdByUser}==null ||
-				($F{invoiceLine.invoice.createdByUser.lastName}==null && $F{invoiceLine.invoice.createdByUser.lastName}==null))?
+				($F{invoiceLine.invoice.createdByUser.lastName}==null && $F{invoiceLine.invoice.createdByUser.firstName}==null))?
 				new java.lang.String("website"):
 				(($F{invoiceLine.invoice.createdByUser.lastName}==null)?"":($F{invoiceLine.invoice.createdByUser.lastName} +" "))+
 				(($F{invoiceLine.invoice.createdByUser.firstName}==null)?"":($F{invoiceLine.invoice.createdByUser.firstName}))]]></textFieldExpression>
@@ -158,7 +158,7 @@
 				<textField evaluationTime="Group" evaluationGroup="user" isBlankWhenNull="false">
 					<reportElement key="textField-6" style="data field (numeric)" x="370" y="2" width="116" height="14" uuid="3fe6727e-2b17-4bc6-b06e-16f5805e5391"/>
 					<textFieldExpression><![CDATA[($F{invoiceLine.invoice.createdByUser}==null ||
-					($F{invoiceLine.invoice.createdByUser.lastName}==null && $F{invoiceLine.invoice.createdByUser.lastName}==null))?
+					($F{invoiceLine.invoice.createdByUser.lastName}==null && $F{invoiceLine.invoice.createdByUser.firstName}==null))?
 					$V{groupWebsiteEnrolCount}:$V{groupEnrolCount}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="user" isBlankWhenNull="false">

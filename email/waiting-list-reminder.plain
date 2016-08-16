@@ -18,6 +18,6 @@ Please visit ${Preferences.get("web.url")}/class/${courseClass.course.code}-${co
 <% } %>
 --------------------------------------------------
 
-To remove yourself from the waiting list and unsubscribe to these notices, please visit https://www.skillsoncourse.com.au/portal/subscriptions
+To remove yourself from the waiting list and unsubscribe to these notices, please visit ${waitingList.student.getPortalLink("subscriptions")}
 
 ${render("Footer")}

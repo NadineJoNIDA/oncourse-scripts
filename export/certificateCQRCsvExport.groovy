@@ -1,19 +1,26 @@
-output << '[VERSION200]' << "\r\n"
+csv.delimiter = '\t'
+csv.writeHeader = false
 
-records.each { Certificate c ->
-	output << "\"${c.certificateOutcomes.collect { co -> co.outcome.enrolment }.find { e -> e.vetClientID }?.vetClientID ?: ""}\"" << '\t'
-	output << "\"${c.student.studentNumber}\"" << '\t'
-	output << "\"${c.student.contact.firstName}\"" << '\t'
-	output << "\"${c.student.contact.lastName}\"" << '\t'
-	output << "\"${c.student.contact.birthDate?.format("dd/MM/YYYY")}\"" << '\t'
-	output << "\"${c.student.contact.isMale == null ? "@" : (c.student.contact.isMale ? "M" : "F")}\"" << '\t'
-	output << "\"${c.qualification?.nationalCode ?: ""}\"" << '\t'
-	output << "\"${c.isQualification ? "Q" : "S"}\"" << '\t'
-	output << "\"${c.createdOn?.format("dd/MM/YYYY")}\"" << '\t'
-	output << "\"${c.certificateNumber}\"" << '\t'
-	output << "\"English\"" << '\t'
-	c.certificateOutcomes.collect { co -> co.outcome?.module?.nationalCode }.each { code ->
-		output << "\"${code}\"" << '\t'
+csv << ["header line" : '[VERSION200]']
+
+records.each { c ->
+	 def map = [
+	        "VET clientId"        : c.certificateOutcomes*.outcome*.enrolment*.vetClientID.find(),
+			"student number"      : c.student.studentNumber,
+			"first name"          : c.student.contact.firstName,
+			"last name"           : c.student.contact.lastName,
+			"birthDate"           : c.student.contact.birthDate?.format("dd/MM/YYYY"),
+			"gender"              : c.student.contact.isMale == null ? "@" : (c.student.contact.isMale ? "M" : "F"),
+			"nationalCode"        : c.qualification?.nationalCode,
+			"isQualification"     : c.isQualification ? "Q" : "S",
+			"createdOn"           : c.createdOn?.format("dd/MM/YYYY"),
+			"certificateNumber"   : c.certificateNumber,
+			"language"            : "English"
+	]
+
+	c.certificateOutcomes*.outcome*.module*.nationalCode.each { code ->
+		map << [ "${code}" : code ]
 	}
-	output << "\r\n"
+
+	csv << map
 }

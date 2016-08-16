@@ -43,8 +43,8 @@ ${render("Header", [title: "Tax Invoice"])}
         <div class="ish_text_container">
           <p class="align-left" style="font-family: Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;font-size: 13px;color: #000000;color: #000000 !important;background-color: #ffffff;border: 0;letter-spacing: normal;mso-line-height-rule: exactly;-mso-line-height-rule: exactly;line-height: 150%;margin-top: .2em;margin-right: 0;margin-bottom: 0;margin-left: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;word-wrap: break-word;border: 0;text-align: left;">
             ${invoice.invoiceNumber}<br />
-            ${invoice.invoiceDate.format("EEEEE d MMMMM yyyy")}<br />
-            ${invoice.dateDue.format("EEEEE d MMMMM yyyy")}<br />
+            ${invoice.invoiceDate.format("EEEE d MMMM yyyy")}<br />
+            ${invoice.dateDue.format("EEEE d MMMM yyyy")}<br />
             <% if (invoice.customerReference) { %>
             ${invoice.customerReference}
             <% } %>

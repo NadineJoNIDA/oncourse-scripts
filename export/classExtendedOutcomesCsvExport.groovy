@@ -1,3 +1,5 @@
+import ish.oncourse.get.GetDeliveryMode
+
 records.collectMany { cc -> cc.enrolments }.collectMany { e -> e.outcomes }.each { o ->
 	csv << [
 			"studentNumber"         : o.enrolment.student.studentNumber,
@@ -15,9 +17,12 @@ records.collectMany { cc -> cc.enrolments }.collectMany { e -> e.outcomes }.each
 			"OutcomeStartDate"      : o.startDate?.format("d/M/Y"),
 			"OutcomeEndDate"        : o.endDate?.format("d/M/Y"),
 			"OutcomeStatus"         : o.status?.displayName,
-			"DeliveryMode"          : o.deliveryMode ?: "Not Set",
+			"DeliveryMode"          : GetDeliveryMode.valueOf(o).get() ?: "Not Set",
 			"NationalFundingSource" : o.fundingSource,
 			"StateFundingSource"    : o.vetFundingSourceStateID,
 			"CommitmentId"          : o.vetPurchasingContractID,
+			"ConcessionType"		: o.enrolment.vetFeeExemptionType,
+			"OutcomeMarkedOnlineBy"	: o.markedByTutor?.contact?.fullName ?: "Office",
+			"OnlineMarkingDate"		: o.markedByTutorDate?.format("d/M/Y"),
 	]
 }

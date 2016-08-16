@@ -5,7 +5,7 @@
     <property name="entity" value="Certificate"/>
     <property name="isSubreport" value="true"/>
     <property name="isVisible" value="false"/>
-    <property name="versionNumber" value="2"/>
+    <property name="versionNumber" value="5"/>
     <property name="keyCode" value="ish.onCourse.certificate.skillset"/>
     <property name="ish.oncourse.title" value="Certificate"/>
     <property name="ish.oncourse.filePrefix" value="certificate"/>
@@ -59,6 +59,7 @@
         </conditionalStyle>
     </style>
     <parameter name="ReportName" class="java.lang.String"/>
+    <field name="global.print_qr_code" class="java.lang.Boolean"/>
     <field name="certificate" class="java.lang.Object"/>
     <field name="datasource.successfulOutcomes" class="net.sf.jasperreports.engine.JRDataSource"/>
     <field name="subreport.ish.onCourse.certificate.attainment.subreport" class="net.sf.jasperreports.engine.JasperReport"/>
@@ -150,7 +151,7 @@
         <band splitType="Stretch"/>
     </columnFooter>
     <lastPageFooter>
-        <band height="250" splitType="Stretch">
+        <band height="280" splitType="Stretch">
             <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
             <line>
                 <reportElement key="line-1" style="Footer" positionType="FixRelativeToBottom" x="292" y="5" width="202" height="1" uuid="36a86cfa-41d8-4beb-ae15-ba76bf0230dc"/>
@@ -201,6 +202,43 @@
                 <reportElement key="textField-17" style="data field (date)" x="359" y="73" width="71" height="13" uuid="bda137df-9e73-4f92-93df-2fcfc65f36fe"/>
                 <textFieldExpression><![CDATA[$F{certificate}.printedOn]]></textFieldExpression>
             </textField>
+            <image>
+                <reportElement x="450" y="205" width="70" height="70">
+                    <property name="local_mesure_unitwidth" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <printWhenExpression>$F{global.print_qr_code}</printWhenExpression>
+                </reportElement>
+                <imageExpression ><![CDATA[$F{certificate}.getQRCodeImage()]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement x="450" y="184" width="58" height="22">
+                    <printWhenExpression>$F{global.print_qr_code}</printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="8" fontName="Open Sans" pdfFontName="Open Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Certificate verification]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="450" y="205" width="58" height="10">
+                    <printWhenExpression>$F{global.print_qr_code}</printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="7" fontName="Open Sans" pdfFontName="Open Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{certificate}.qrUniqueCode]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="507" y="180" width="15" height="90" forecolor="#1E1061">
+                    <printWhenExpression>$F{global.print_qr_code}</printWhenExpression>
+                </reportElement>
+                <textElement verticalAlignment="Top" rotation="Right" textAlignment="Center">
+                    <font size="8" fontName="Open Sans" pdfFontName="Open Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[www.skills.courses]]></text>
+            </staticText>
         </band>
     </lastPageFooter>
     <summary>

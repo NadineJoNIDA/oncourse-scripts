@@ -129,7 +129,7 @@ ${render("Header", [title: "Reminder: CourseClasses are avaliable to enrol"])}
         <td class="ish_content_container left" style="border: 0;border-collapse: collapse;background-color: #ffffff;border: 0;padding-top: 5px;padding-right: 17px;padding-bottom: 10px;padding-left: 17px; vertical-align: top;" align="left" valign="top">
             <div class="ish_text_container">
                 <p class="align-left" style="font-family: Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;font-size: 13px;color: #464646;color: #464646 !important;background-color: #ffffff;border: 0;letter-spacing: normal;mso-line-height-rule: exactly;-mso-line-height-rule: exactly;line-height: 150%;margin-top: .2em;margin-right: 0;margin-bottom: 0;margin-left: 0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;word-wrap: break-word;border: 0;text-align: left;">
-                    To remove yourself from the waiting list and unsubscribe to these notices, please visit <a style="color: #0084b4;color: #0084b4 !important;background-color: #ffffff;text-decoration: none;border: 0;word-wrap: break-word;" href="https://www.skillsoncourse.com.au/portal/subscriptions" target="_blank">https://www.skillsoncourse.com.au/portal/subscriptions</a>
+                    To remove yourself from the waiting list and unsubscribe to these notices, please visit <a style="color: #0084b4;color: #0084b4 !important;background-color: #ffffff;text-decoration: none;border: 0;word-wrap: break-word;" href="${waitingList.student.getPortalLink("subscriptions")}" target="_blank">the skillsOnCourse Portal.</a>
                 </p>
             </div>
         </td>

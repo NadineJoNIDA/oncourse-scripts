@@ -9,6 +9,7 @@ records.each { AccountTransaction t ->
 			"Invoice number"     : t.invoiceNumber,
 			"Payment type"       : t.paymentType,
 			"Contact name"       : t.contactName,
-			"id"                 : t.id
+			"id"                 : t.id,
+			"createdOn"          : t.createdOn?.format("d-M-y HH:mm:ss")
 	]
 }

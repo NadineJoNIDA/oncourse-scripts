@@ -2,11 +2,12 @@ def run(args) {
   def enrolment = args.entity
   
   if (enrolment.status == EnrolmentStatus.SUCCESS && enrolment.confirmationStatus == ConfirmationStatus.NOT_SENT) {
-    def m = Email.create("Enrolment Confirmation")
-    m.bind(enrolment: enrolment)
-    m.to(enrolment.student.contact)
-    
-    m.send()
+
+    email {
+      template "Enrolment Confirmation"
+      bindings enrolment: enrolment
+      to enrolment.student.contact
+    }
 
     enrolment.setConfirmationStatus(ConfirmationStatus.SENT)
     args.context.commitChanges()

@@ -45,7 +45,7 @@ def run(args) {
 
         }
 
-        smtp {
+        email {
             from preference.email.from
             subject 'Notification of unmarked attendance'
             to preference.email.admin

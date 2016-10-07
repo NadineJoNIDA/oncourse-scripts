@@ -1,6 +1,8 @@
 def run(args) {
     def context = args.context
-    def waitingLists = context.select(SelectQuery.query(WaitingList))
+
+    def waitingLists = ObjectSelect.query(WaitingList)
+            .select(context)
 
     waitingLists.each() { waitingList ->
         def courseClasses = waitingList.course.courseClasses.findAll() { courseClass ->
@@ -8,13 +10,11 @@ def run(args) {
         }
         
         if (courseClasses.size() > 0) {
-            def m = Email.create("Waiting List reminder")
-            m.bind(waitingList : waitingList)
-            m.bind(courseClasses : courseClasses)
-            m.to(waitingList.student.contact)
-            m.send()
-
-            context.commitChanges()
+            email {
+                template "Waiting List reminder"
+                bindings waitingList : waitingList, courseClasses : courseClasses
+                to waitingList.student.contact
+            }
         }
     }
     return null

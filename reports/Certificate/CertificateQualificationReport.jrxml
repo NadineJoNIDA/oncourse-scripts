@@ -5,7 +5,7 @@
 	<property name="entity" value="Certificate"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="54"/>
+	<property name="versionNumber" value="56"/>
 	<property name="keyCode" value="ish.onCourse.certificate"/>
 	<property name="ish.oncourse.title" value="Qualification"/>
 	<property name="ish.oncourse.filePrefix" value="qualification"/>
@@ -75,7 +75,8 @@
 	<field name="pref.avetmiss.certificate.signatory.name" class="java.lang.String"/>
 	<field name="image.logo-nrt" class="java.io.InputStream"/>
 	<field name="image.logo-VETAB" class="java.io.InputStream"/>
-	<filterExpression><![CDATA[$F{certificate}.completeQualification && ![QualificationType.SKILLSET_TYPE, QualificationType.SKILLSET_LOCAL_TYPE].contains($F{certificate}.qualification.type)]]></filterExpression>
+	<filterExpression>
+		<![CDATA[$F{certificate}.isQualification && ![QualificationType.SKILLSET_TYPE, QualificationType.SKILLSET_LOCAL_TYPE].contains($F{certificate}.qualification.type)]]></filterExpression>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -182,7 +183,7 @@
 				<reportElement key="textField-17" style="data field (date)" x="359" y="73" width="71" height="13" uuid="bda137df-9e73-4f92-93df-2fcfc65f36fe"/>
 				<textFieldExpression><![CDATA[$F{certificate}.printedOn]]></textFieldExpression>
 			</textField>
-			<image>
+			<image hyperlinkType="Reference">
 				<reportElement x="450" y="225" width="70" height="70">
 					<property name="local_mesure_unitwidth" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -190,7 +191,9 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<printWhenExpression>$F{global.print_qr_code}</printWhenExpression>
 				</reportElement>
-				<imageExpression ><![CDATA[$F{certificate}.getQRCodeImage()]]></imageExpression>
+				<imageExpression><![CDATA[$F{certificate}.getQRCodeImage()]]></imageExpression>
+				<hyperlinkReferenceExpression>"http://www.skills.courses/" + $F{certificate}.qrUniqueCode.toString()
+				</hyperlinkReferenceExpression>
 			</image>
 			<staticText>
 				<reportElement x="450" y="204" width="58" height="22">

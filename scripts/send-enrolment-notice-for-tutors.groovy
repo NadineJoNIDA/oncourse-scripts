@@ -5,11 +5,11 @@ def run(args) {
             tutorRole.definedTutorRole.name == "Course Manager"
         }
         tutorRoles.each() { tutorRole ->
-            def m = Email.create("Enrolment notification")
-            m.bind(enrolment: enrolment)
-            m.to(tutorRole.tutor.contact)
-            m.send()
+            email {
+                template "Enrolment notification"
+                bindings enrolment: enrolment
+                to tutorRole.tutor.contact
+            }
         }
-        args.context.commitChanges()
     }
 }

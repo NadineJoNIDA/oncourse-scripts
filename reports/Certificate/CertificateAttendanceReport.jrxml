@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2016-09-20T15:50:38 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CertificateAttendanceReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" whenResourceMissingType="Empty" uuid="410c1ff3-4a09-4d6a-8550-8fb96d5ac0d0">
 	<property name="name" value="Certificate-Attendance"/>
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="22"/>
+	<property name="versionNumber" value="23"/>
 	<property name="keyCode" value="ish.oncourse.nonVetCertificate"/>
 	<property name="ish.oncourse.title" value="AttendanceCertificate"/>
 	<property name="ish.oncourse.filePrefix" value="AttendanceCertificate"/>
@@ -112,6 +113,11 @@
 				<reportElement key="textField-3" style="Footer" x="0" y="285" width="540" height="16" uuid="ec98a9de-46fe-4dd7-99ea-23090e5750db"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["Duration: "+$F{courseClass.classroomHours}+" hours"]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="false">
+				<reportElement key="textField-3" style="Footer" x="-1" y="302" width="540" height="16" uuid="03e33009-a5a5-47a8-bc99-81824a19d24b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["Date Achieved: " + $F{enrolment}.outcomes*.endDate.flatten().max().format("dd MMM yyyy")]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

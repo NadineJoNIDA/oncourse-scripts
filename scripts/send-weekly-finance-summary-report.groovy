@@ -21,7 +21,7 @@ def run(args) {
 //    println endDate
 //    def startDate = DateUtils.addMonths(endDate, -1)
 
-    smtp {
+    email {
         from preference.email.from
         to preference.email.admin
         subject "onCourse transaction summary ${startDate.format("dd/MM/yy")} to ${endDate.format("dd/MM/yy")}"

@@ -5,7 +5,7 @@
 	<property name="entity" value="Certificate"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="26"/>
+	<property name="versionNumber" value="27"/>
 	<property name="keyCode" value="ish.onCourse.certificate.transcript"/>
 	<property name="ish.oncourse.title" value="Academic Transcript"/>
 	<property name="ish.oncourse.filePrefix" value="certificate"/>
@@ -72,7 +72,8 @@
 	<field name="datasource.outcomes" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.certificate.transcript.subreport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="student.studentNumber" class="java.lang.Long"/>
-	<filterExpression><![CDATA[$F{certificate}.completeQualification && ![QualificationType.SKILLSET_TYPE, QualificationType.SKILLSET_LOCAL_TYPE].contains($F{certificate}.qualification.type)]]></filterExpression>
+	<filterExpression>
+		<![CDATA[$F{certificate}.isQualification && ![QualificationType.SKILLSET_TYPE, QualificationType.SKILLSET_LOCAL_TYPE].contains($F{certificate}.qualification.type)]]></filterExpression>
 	<pageHeader>
 		<band height="180" splitType="Stretch">
 			<textField isBlankWhenNull="false">

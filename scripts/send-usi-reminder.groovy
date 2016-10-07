@@ -1,25 +1,26 @@
 def run(args) {
-  def usiRequiredDate = Date.parse("dd/MM/yyyy", "01/01/2015")
-  def monthBefore = new Date().minus(30)
+    def usiRequiredDate = Date.parse("dd/MM/yyyy", "01/01/2015")
+    def monthBefore = new Date().minus(30)
 
-  def context = args.context
+    def context = args.context
 
-  def exp = Enrolment.CREATED_ON.gt(monthBefore)
-        .andExp(Enrolment.STATUS.eq(EnrolmentStatus.SUCCESS))
-        .andExp(Enrolment.COURSE_CLASS.dot(CourseClass.COURSE).dot(Course.COURSE_MODULES).ne(null))
-        .andExp(Enrolment.STUDENT.dot(Student.USI).eq(null))
-        .andExp(Enrolment.COURSE_CLASS.dot(CourseClass.END_DATE_TIME).eq(null).orExp(Enrolment.COURSE_CLASS.dot(CourseClass.END_DATE_TIME).gt(usiRequiredDate)));
+    def enrolmentsWithoutUsi = ObjectSelect.query(Enrolment)
+            .where(Enrolment.CREATED_ON.gt(monthBefore))
+            .and(Enrolment.STATUS.eq(EnrolmentStatus.SUCCESS))
+            .and(Enrolment.COURSE_CLASS.dot(CourseClass.COURSE).dot(Course.COURSE_MODULES).ne(null))
+            .and(Enrolment.STUDENT.dot(Student.USI).eq(null))
+            .and(Enrolment.COURSE_CLASS.dot(CourseClass.END_DATE_TIME).eq(null).orExp(Enrolment.COURSE_CLASS.dot(CourseClass.END_DATE_TIME).gt(usiRequiredDate)))
+            .select(context)
 
-  def enrolmentsWithoutUsi = context.select(SelectQuery.query(Enrolment, exp))
+    enrolmentsWithoutUsi.each() { enrolment ->
+        email {
+            template "USI reminder email"
+            bindings enrolment: enrolment
+            to enrolment.student.contact
+        }
+    }
 
-  enrolmentsWithoutUsi.each() {
-    def m = Email.create("USI reminder email")
-    m.bind(enrolment: it)
-    m.to(it.student.contact)
-    m.send()
-    context.commitChanges()
-  }
-    smtp {
+    email {
         from preference.email.admin
         subject 'USI reminder email notification'
         to preference.email.admin

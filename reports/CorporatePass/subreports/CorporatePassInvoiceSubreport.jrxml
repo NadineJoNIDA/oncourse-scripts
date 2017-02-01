@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="13"/>
+	<property name="versionNumber" value="14"/>
 	<property name="keyCode" value="ish.onCourse.corporatePassInvoiceSubreport"/>
 	<property name="ish.oncourse.title" value="CorporatePass"/>
 	<property name="ish.oncourse.filePrefix" value="CorporatePass"/>
@@ -84,7 +84,7 @@
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement style="data field (date)" x="162" y="0" width="151" height="20" uuid="5004e49e-c6bc-4c37-8d68-eda9ee520fa7"/>
-					<textFieldExpression><![CDATA[$F{invoiceLine}.invoice.invoiceDate.format("dd MMM yyyy")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{invoiceLine}.invoice.invoiceDate.format("d MMM yyyy")]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement style="data field (numeric)" x="335" y="0" width="104" height="20" uuid="dab39a90-d151-4a79-91fb-1b6e789bb9cb"/>

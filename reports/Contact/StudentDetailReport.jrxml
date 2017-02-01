@@ -5,7 +5,7 @@
 	<property name="entity" value="Contact"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="27"/>
+	<property name="versionNumber" value="29"/>
 	<property name="keyCode" value="ish.onCourse.studentDetailsReport"/>
 	<property name="ish.oncourse.title" value="Student Details"/>
 	<property name="ish.oncourse.filePrefix" value="studentDetails"/>
@@ -59,13 +59,13 @@
 	</style>
 	<subDataset name="subDataSet" uuid="c97e421f-a1b2-4251-8cc0-2c69f3d2c269">
 		<field name="note.note" class="java.lang.String"/>
-		<field name="note.timestamp" class="java.util.Date"/>
+		<field name="note.createdOn" class="java.util.Date"/>
 		<field name="note.systemUser" class="java.lang.Object"/>
 		<field name="note.systemUser.firstName" class="java.lang.String"/>
 		<field name="note.systemUser.lastName" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="ReportName" class="java.lang.String"/>
-	<field name="contact" class="java.lang.Object"/>
+	<field name="contact" class="ish.oncourse.server.cayenne.Contact"/>
 	<field name="datasource.noteRelations" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="subreport.ish.onCourse.studentEnrolmentsSubReport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="datasource.student.enrolments" class="net.sf.jasperreports.engine.JRDataSource"/>
@@ -85,8 +85,8 @@
 					<text><![CDATA[Address]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-2" style="data field (date)" x="95" y="15" width="204" height="15" uuid="c524184a-aa44-42c2-b833-6b7d76385bba"/>
-					<textFieldExpression><![CDATA[$F{contact}.birthDate]]></textFieldExpression>
+					<reportElement key="textField-2" style="data field" x="95" y="15" width="204" height="15" uuid="c524184a-aa44-42c2-b833-6b7d76385bba"/>
+					<textFieldExpression><![CDATA[$F{contact}.birthDate?.format("d MMM yyyy")]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-3" style="data field" x="95" y="30" width="204" height="15" uuid="bf4b3a5d-6b78-4f14-bc3f-bbcf8c2cc611"/>
@@ -284,7 +284,7 @@
 								</textField>
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 									<reportElement style="Footer" positionType="FixRelativeToBottom" x="5" y="12" width="400" height="12" uuid="ae60d3a4-79d4-4a02-ac8b-41c27576c0cb"/>
-									<textFieldExpression><![CDATA["(Created ${$F{note.timestamp}.format("dd MMM yyyy 'at' hh:mm a")} by ${[$F{note.systemUser.firstName}, $F{note.systemUser.lastName}].findAll().join(" ") ?: "system"})"]]></textFieldExpression>
+									<textFieldExpression><![CDATA["(Created ${$F{note.createdOn}.format("dd MMM yyyy 'at' hh:mm a")} by ${[$F{note.systemUser.firstName}, $F{note.systemUser.lastName}].findAll().join(" ") ?: "system"})"]]></textFieldExpression>
 								</textField>
 							</frame>
 						</jr:listContents>

@@ -5,7 +5,7 @@
 	<property name="entity" value="Contact"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="34"/>
+	<property name="versionNumber" value="35"/>
 	<property name="keyCode" value="ish.onCourse.tutorDetailsReport"/>
 	<property name="ish.oncourse.title" value="Tutor Details"/>
 	<property name="ish.oncourse.filePrefix" value="tutorDetails"/>
@@ -93,8 +93,8 @@
 					<text><![CDATA[Address]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-2" style="data field (date)" x="87" y="77" width="119" height="15" uuid="6b5cfb77-b747-40e9-92a1-b2ab877ea93a"/>
-					<textFieldExpression><![CDATA[$F{birthDate}]]></textFieldExpression>
+					<reportElement key="textField-2" style="data field" x="87" y="77" width="119" height="15" uuid="6b5cfb77-b747-40e9-92a1-b2ab877ea93a"/>
+					<textFieldExpression><![CDATA[$F{contact}.birthDate?.format("d MMM yyyy")]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-3" style="data field" x="87" y="30" width="204" height="15" uuid="d539e700-e3f2-445b-8904-f3458674b1da"/>

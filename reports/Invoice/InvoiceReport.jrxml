@@ -5,7 +5,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="93"/>
+	<property name="versionNumber" value="97"/>
 	<property name="keyCode" value="ish.onCourse.invoiceReport"/>
 	<property name="ish.oncourse.title" value="Invoice line list"/>
 	<property name="ish.oncourse.filePrefix" value="invoice line"/>
@@ -58,7 +58,7 @@
 		</conditionalStyle>
 	</style>
 	<subDataset name="invoiceDueDateDataSet" uuid="e6257fab-ae2b-4677-9278-f69a1bcfbf0e">
-		<field name="dueDate" class="java.util.Date"/>
+		<field name="dueDate" class="java.time.LocalDate"/>
 		<field name="unpaidAmount" class="ish.math.Money"/>
 	</subDataset>
 	<parameter name="ReportName" class="java.lang.String"/>
@@ -69,7 +69,6 @@
 	<field name="image.logo" class="java.io.InputStream"/>
 	<field name="invoice.publicNotes" class="java.lang.String"/>
 	<field name="invoice.contact.isCompany" class="java.lang.Boolean"/>
-	<field name="invoice.dateDue" class="java.util.Date"/>
 	<field name="invoice.customerReference" class="java.lang.String"/>
 	<field name="pref.college.name" class="java.lang.String"/>
 	<field name="pref.avetmiss.address.line1" class="java.lang.String"/>
@@ -89,8 +88,9 @@
 	<field name="finalPriceToPayIncTax" class="ish.math.Money"/>
 	<field name="invoice.contact.title" class="java.lang.String"/>
 	<field name="datasource.invoice.unpaidInvoiceDueDates" class="net.sf.jasperreports.engine.JRDataSource"/>
-	<sortField name="account.type" order="Descending"/>
+	<sortField name="title"/>
 	<sortField name="description"/>
+	<sortField name="account.type" order="Descending"/>
 	<variable name="invoiceLineTaxTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="details" calculation="Sum">
 		<variableExpression><![CDATA[($F{taxEach}.multiply($F{quantity})).toBigDecimal()]]></variableExpression>
 	</variable>
@@ -136,7 +136,7 @@
 				<textField evaluationTime="Group" evaluationGroup="details" isBlankWhenNull="false">
 					<reportElement key="textField" style="data field (date)" x="390" y="1" width="149" height="26" uuid="64e3d79c-040e-47ee-a8e1-2ad840db84d3"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[$F{invoiceLine}.invoice.invoiceDate.format("dd MMM yyyy")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{invoiceLine}.invoice.invoiceDate.format("d MMM yyyy")]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="details" isBlankWhenNull="false">
 					<reportElement key="textField-5" style="header 1" stretchType="RelativeToTallestObject" x="0" y="80" width="538" height="28" uuid="422fef20-096d-4fb6-a15f-6aeef21f48fb"/>
@@ -241,7 +241,7 @@
 				<textField isBlankWhenNull="false">
 					<reportElement key="textField-26" style="data field (date)" x="458" y="42" width="60" height="15" uuid="d0426a39-f812-4dc3-9e50-e0f461dc1862"/>
 					<textElement textAlignment="Center"/>
-					<textFieldExpression><![CDATA[$F{invoice.dateDue}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{invoiceLine}.invoice.dateDue.format("d MMM yyyy")]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -324,7 +324,7 @@
 								<textField pattern="d MMMM yyyy" isBlankWhenNull="true">
 									<reportElement key="textField-1" style="data field (datetime)" x="347" y="0" width="104" height="15" uuid="5145739e-a62d-4ad5-8095-86ff96c5cbec"/>
 									<textElement textAlignment="Right"/>
-									<textFieldExpression><![CDATA[$F{dueDate}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{dueDate}.format("d MMMM yyyy")]]></textFieldExpression>
 								</textField>
 								<textField isBlankWhenNull="true">
 									<reportElement key="textField-2" style="data field (money)" x="454" y="0" width="85" height="15" uuid="872d908c-f653-4fe0-9875-886e0fe3bfb4"/>

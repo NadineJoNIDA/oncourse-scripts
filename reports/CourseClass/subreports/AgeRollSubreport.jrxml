@@ -5,7 +5,7 @@
 	<property name="entity" value="PrintableAttendance"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="22"/>
+	<property name="versionNumber" value="24"/>
 	<property name="keyCode" value="ish.onCourse.rollAge"/>
 	<property name="ish.oncourse.title" value="Enrolments"/>
 	<property name="ish.oncourse.filePrefix" value="CourseClass_enrolements"/>
@@ -58,7 +58,7 @@
 	<field name="studentLastName" class="java.lang.String"/>
 	<field name="isTutor" class="java.lang.Boolean"/>
 	<field name="sessionDesc" class="java.lang.String"/>
-	<field name="isPresent" class="java.lang.Boolean"/>
+	<field name="displayableStatus" class="java.lang.String"/>
 	<field name="sessionDate" class="java.util.Date"/>
 	<field name="studentNo" class="java.lang.Long"/>
 	<field name="mobile" class="java.lang.String"/>
@@ -141,6 +141,7 @@ phone]]></text>
 									<bottomPen lineWidth="0.0"/>
 									<rightPen lineWidth="0.0"/>
 								</box>
+								<textElement markup="html"/>
 								<textFieldExpression><![CDATA[$V{studentName}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -221,8 +222,8 @@ phone]]></text>
 						<cellContents/>
 					</crosstabTotalColumnHeader>
 				</columnGroup>
-				<measure name="isPresent" class="java.lang.Boolean">
-					<measureExpression><![CDATA[$F{isPresent}]]></measureExpression>
+				<measure name="displayableStatus" class="java.lang.String">
+					<measureExpression><![CDATA[$F{displayableStatus}]]></measureExpression>
 				</measure>
 				<crosstabCell width="46" height="32">
 					<cellContents mode="Opaque" style="crosstab">
@@ -235,7 +236,7 @@ phone]]></text>
 								<rightPen lineWidth="0.0"/>
 							</box>
 							<textElement textAlignment="Center"/>
-							<textFieldExpression><![CDATA[$V{isPresent} == null ? "" : $V{isPresent}.booleanValue() ? "Y" : "N"]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$V{displayableStatus}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>

@@ -5,7 +5,7 @@
 	<property name="entity" value="PrintableAttendance"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="14"/>
+	<property name="versionNumber" value="17"/>
 	<property name="keyCode" value="ish.onCourse.simpleroll"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -54,14 +54,18 @@
 	</style>
 	<field name="studentName" class="java.lang.String"/>
 	<field name="sessionDesc" class="java.lang.String"/>
-	<field name="isPresent" class="java.lang.Boolean"/>
+	<field name="displayableStatus" class="java.lang.String"/>
 	<field name="sessionDate" class="java.util.Date"/>
 	<field name="studentNo" class="java.lang.Long"/>
 	<field name="invoiceNo" class="java.lang.String"/>
 	<field name="sex" class="java.lang.String"/>
 	<field name="mobile" class="java.lang.String"/>
 	<field name="isSortable" class="java.lang.Boolean"/>
+	<field name="studentLastName" class="java.lang.String"/>
+	<field name="studentFirstName" class="java.lang.String"/>
 	<sortField name="isSortable" order="Descending"/>
+	<sortField name="studentLastName"/>
+	<sortField name="studentFirstName"/>
 	<sortField name="studentName"/>
 	<sortField name="sessionDate"/>
 	<background>
@@ -104,6 +108,7 @@
 						<cellContents mode="Opaque" style="crosstab">
 							<textField isBlankWhenNull="false">
 								<reportElement key="textField" style="data field" x="0" y="0" width="150" height="15" uuid="bb137255-c609-43d7-b997-2164112d822c"/>
+								<textElement markup="html"/>
 								<textFieldExpression><![CDATA[$V{studentName}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -136,15 +141,15 @@
 						<cellContents/>
 					</crosstabTotalColumnHeader>
 				</columnGroup>
-				<measure name="isPresent" class="java.lang.Boolean">
-					<measureExpression><![CDATA[$F{isPresent}]]></measureExpression>
+				<measure name="displayableStatus" class="java.lang.String">
+					<measureExpression><![CDATA[$F{displayableStatus}]]></measureExpression>
 				</measure>
 				<crosstabCell width="30" height="15">
 					<cellContents mode="Opaque" style="crosstab">
 						<textField isBlankWhenNull="true">
 							<reportElement key="textField" style="data field" x="0" y="0" width="30" height="15" uuid="eff923d7-b780-4c77-a08a-46af0a09d35f"/>
 							<textElement textAlignment="Center"/>
-							<textFieldExpression><![CDATA[$V{isPresent} == null ? "" : $V{isPresent}.booleanValue() ? "Y" : "N"]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$V{displayableStatus}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>

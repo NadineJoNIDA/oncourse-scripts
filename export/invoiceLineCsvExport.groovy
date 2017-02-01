@@ -9,7 +9,7 @@ records.collectMany { Invoice i -> i.invoiceLines }.each { il ->
 			"Invoice line Account Code"     : il.account.accountCode,
 			"Invoice line Account name"     : il.account.description,
 			"Invoice line amount"           : il.priceTotalIncTax?.toPlainString(),
-			"Invoice line Tax"              : il.taxEach?.toPlainString(),
+			"Invoice line Tax"              : il.totalTax?.toPlainString(),
 			"Tax Type"                      : il.tax.taxCode,
 			"Invoice line discount"         : il.discountTotalExTax?.toPlainString(),
 			"Invoice Owing"                 : il.invoice.amountOwing?.toPlainString(),

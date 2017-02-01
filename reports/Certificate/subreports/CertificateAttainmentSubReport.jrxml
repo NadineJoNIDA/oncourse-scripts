@@ -5,7 +5,7 @@
 	<property name="entity" value="Outcome"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="15"/>
+	<property name="versionNumber" value="16"/>
 	<property name="keyCode" value="ish.onCourse.certificate.attainment.subreport"/>
 	<property name="ish.oncourse.title" value="Outcomes"/>
 	<property name="ish.oncourse.filePrefix" value="Outcomes"/>
@@ -72,7 +72,7 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="28" splitType="Stretch">
+		<band height="28" splitType="Prevent">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField-1" style="header 3" x="0" y="0" width="514" height="26" uuid="f1238d8c-826e-4dee-8c09-e666c29908a6"/>
 				<textElement textAlignment="Center">

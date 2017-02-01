@@ -1,3 +1,5 @@
+import java.time.LocalDate
+
 xml.mkp.xmlDeclaration(version: "1.0", encoding: "utf-8")
 
 def map = records.groupBy { Payslip p -> p.contact }
@@ -10,7 +12,7 @@ xml.data() {
 			allowEmail(c.allowEmail)
 			allowPost(c.allowPost)
 			allowSms(c.allowSms)
-			birthDate(c.birthDate)
+			birthDate(c.birthDate?.format("EEE MMM dd hh:mm:ss zzz yyyy"))
 			deliveryStatusEmail(c.deliveryStatusEmail)
 			deliveryStatusPost(c.deliveryStatusPost)
 			deliveryStatusSms(c.deliveryStatusSms)

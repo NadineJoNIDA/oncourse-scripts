@@ -1,0 +1,13 @@
+${render("Header")}
+
+Dear ${enrolment.student.contact.firstName},
+
+Thank you for your participation in ${enrolment.courseClass.course.name}.
+
+As a soon-to-be graduate of ${Preferences.get("college.name")}, we would like to invite you to partake in a short survey and tell us about your recent experience. Your feedback will be vital in the improvement of future programs and course delivery.
+
+Click the link below to go to the survey:
+
+${Preferences.get("web.url")}
+
+${render("Footer")}

@@ -1,0 +1,75 @@
+
+${render("Header", [title: "WaitingList"])}
+<table style="border:0;border-collapse:collapse;clear:both;border:0;min-width:100%" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
+    <tbody>
+    <tr>
+        <td style="border:0;border-collapse:collapse;background-color:#ffffff;border:0;padding-top:10px;padding-right:17px;padding-bottom:10px;padding-left:17px" align="left">
+            <div>
+                <h2 style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:18px;color:#464646;color:#464646!important;background-color:#ffffff;border:0;font-weight:normal;font-style:normal;letter-spacing:normal;line-height:125%;margin-top:0;margin-right:0;margin-bottom:0;margin-left:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0">
+                    Dear ${waitingList.student.contact.fullName},
+                </h2>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table style="border:0;border-collapse:collapse;clear:both;border:0;min-width:100%" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
+    <tbody>
+    <tr>
+        <td style="border:0;border-collapse:collapse;background-color:#ffffff;border:0;padding-top:0;padding-right:17px;padding-bottom:10px;padding-left:17px;vertical-align:top" align="left" valign="top">
+            <div>
+                <p style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:13px;color:#000000;color:#000000!important;background-color:#ffffff;border:0;letter-spacing:normal;line-height:150%;margin-top:.2em;margin-right:0;margin-bottom:0;margin-left:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;vertical-align:top;word-wrap:break-word;border:0;text-align:left">
+                    Limited class vacancies have become available for enrolment in<br>
+                    ${waitingList.course.name}.
+                </p>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="border:0;border-collapse:collapse;background-color:#ffffff;border:0;padding-top:0;padding-right:17px;padding-bottom:10px;padding-left:17px;vertical-align:top" align="left" valign="top">
+            <div>
+                <p style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:13px;color:#000000;color:#000000!important;background-color:#ffffff;border:0;letter-spacing:normal;line-height:150%;margin-top:.2em;margin-right:0;margin-bottom:0;margin-left:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;vertical-align:top;word-wrap:break-word;border:0;text-align:left">
+                    Please visit <br>
+                    <a style="color: #0084b4;background-color: #ffffff;text-decoration: none;border: 0;word-wrap: break-word;" href="${Preferences.get("web.url")}/course/${waitingList.course.code}" target="_blank">${Preferences.get("web.url")}/course/${waitingList.course.code}</a> at your <br>
+                    earliest convenience if you wish to take this opportunity to enrol.
+                </p>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="border:0;border-collapse:collapse;background-color:#ffffff;border:0;padding-top:0;padding-right:17px;padding-bottom:10px;padding-left:17px;vertical-align:top" align="left" valign="top">
+            <div>
+                <p style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:13px;color:#000000;color:#000000!important;background-color:#ffffff;border:0;letter-spacing:normal;line-height:150%;margin-top:.2em;margin-right:0;margin-bottom:0;margin-left:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;vertical-align:top;word-wrap:break-word;border:0;text-align:left">
+                    This enrolment opportunity is available on a first come, first served <br>
+                    basis. If you are unable to enrol using the link above because the class <br>
+                    is already full, you will remain on the waiting list and receive further <br>
+                    communication from us when new classes become available.
+                </p>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="border:0;border-collapse:collapse;background-color:#ffffff;border:0;padding-top:0;padding-right:17px;padding-bottom:10px;padding-left:17px;vertical-align:top" align="left" valign="top">
+            <div>
+                <p style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:13px;color:#000000;color:#000000!important;background-color:#ffffff;border:0;letter-spacing:normal;line-height:150%;margin-top:.2em;margin-right:0;margin-bottom:0;margin-left:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;vertical-align:top;word-wrap:break-word;border:0;text-align:left">
+                    To remove yourself from the waiting list and unsubscribe to these <br>
+                    notices, please visit <a style="color: #0084b4;background-color: #ffffff;text-decoration: none;border: 0;word-wrap: break-word;" href="${waitingList.student.getPortalLink("subscriptions")}" target="_blank">${waitingList.student.getPortalLink("subscriptions")}</a>
+                </p>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<table style="border:0;border-collapse:collapse;clear:both;border:0;min-width:100%" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
+    <tbody>
+    <tr style="font-size:1px">
+        <td width="100%" valign="middle" style="height:1px;background-color:#ffffff;border:0;padding-top:15px;padding-right:17px;padding-bottom:0;padding-left:17px" align="left">
+            <div align="center">
+                <div style="width: 510px;min-height:1px;text-decoration:none;display:block;background-color:transparent"></div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+${render("Footer")}

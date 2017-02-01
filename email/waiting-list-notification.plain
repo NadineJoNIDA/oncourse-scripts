@@ -1,0 +1,14 @@
+${render("Header")}
+
+Dear ${waitingList.student.contact.fullName},
+
+Limited class vacancies have become available for enrolment in 
+${waitingList.course.name}.
+
+Please visit ${Preferences.get("web.url")}/course/${waitingList.course.code} at your earliest convenience if you wish to take this opportunity to enrol.
+
+Enrolment is available on a first come, first served basis. If you are unable to enrol using the link above because the class is already full, you will remain on the waiting list and receive further communication from us when new classes become available.
+
+To remove yourself from the waiting list and unsubscribe to these notices, please visit ${waitingList.student.getPortalLink("subscriptions")}
+
+${render("Footer")}

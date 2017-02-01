@@ -5,7 +5,7 @@
 	<property name="entity" value="Invoice"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="30"/>
+	<property name="versionNumber" value="31"/>
 	<property name="keyCode" value="ish.onCourse.debtorsReport "/>
 	<property name="ish.oncourse.title" value="Debtors and Creditors list"/>
 	<property name="ish.oncourse.filePrefix" value="debtors"/>
@@ -63,7 +63,6 @@
 	<field name="invoice" class="ish.oncourse.server.cayenne.Invoice"/>
 	<field name="contact.lastName" class="java.lang.String"/>
 	<field name="global.reportTitle" class="java.lang.String"/>
-	<field name="dateDue" class="java.util.Date"/>
 	<field name="amountOwing" class="java.lang.Object"/>
 	<field name="contact.phones" class="java.lang.String">
 		<fieldDescription><![CDATA[Phone numbers for this contact.]]></fieldDescription>
@@ -72,45 +71,45 @@
 	<field name="contact.id" class="java.lang.Long"/>
 	<field name="contact.student.studentNumber" class="java.lang.Long"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<variable name="oldest" class="java.util.Date" resetType="Group" resetGroup="invoice" calculation="Lowest">
-		<variableExpression><![CDATA[((((ish.math.Money)$F{amountOwing}).toBigDecimal()).compareTo(new BigDecimal("0")) != 0) ?$F{dateDue}:null]]></variableExpression>
+	<variable name="oldest" class="java.time.LocalDate" resetType="Group" resetGroup="invoice" calculation="Lowest">
+		<variableExpression><![CDATA[((((ish.math.Money)$F{amountOwing}).toBigDecimal()).compareTo(new BigDecimal("0")) != 0) ? $F{invoice}.dateDue :null]]></variableExpression>
 	</variable>
 	<variable name="sum30days" class="java.math.BigDecimal" resetType="Group" resetGroup="invoice" calculation="Sum">
-		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*30l) && (new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*60l))?
+		<variableExpression><![CDATA[((java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days > 30) && (java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days < 60))?
 		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
 	</variable>
 	<variable name="sum60days" class="java.math.BigDecimal" resetType="Group" resetGroup="invoice" calculation="Sum">
-		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*60l) && (new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*90l))?
+		<variableExpression><![CDATA[((java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days > 60) && (java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days < 90))?
 		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
 	</variable>
 	<variable name="sum90days" class="java.math.BigDecimal" resetType="Group" resetGroup="invoice" calculation="Sum">
-		<variableExpression><![CDATA[(new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*90l)?
+		<variableExpression><![CDATA[(java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days > 90)?
 		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
 	</variable>
 	<variable name="sumUnder30" class="java.math.BigDecimal" resetType="Group" resetGroup="invoice" calculation="Sum">
-		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*30l))?
+		<variableExpression><![CDATA[((java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days < 30))?
 		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
 	</variable>
 	<variable name="totalOwing" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[((ish.math.Money)$F{amountOwing}).toBigDecimal()]]></variableExpression>
 	</variable>
 	<variable name="totalSumUnder30" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*30l))?
+		<variableExpression><![CDATA[((java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days < 30))?
 		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
 		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
 	</variable>
 	<variable name="totalSum30days" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*30l) && (new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*60l))?
+		<variableExpression><![CDATA[((java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days > 30) && (java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days < 60))?
 		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
 		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
 	</variable>
 	<variable name="totalSum60days" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[((new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*60l) && (new Date().getTime() - $F{dateDue}.getTime() < 1000*60*60*24*90l))?
+		<variableExpression><![CDATA[((java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days > 60) && (java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days < 90))?
 		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
 		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
 	</variable>
 	<variable name="totalSum90days" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[(new Date().getTime() - $F{dateDue}.getTime() > 1000*60*60*24*90l)?
+		<variableExpression><![CDATA[(java.time.Period.between($F{invoice}.dateDue, java.time.LocalDate.now()).days > 90)?
 		((ish.math.Money)$F{amountOwing}).toBigDecimal():new BigDecimal("0")]]></variableExpression>
 		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
 	</variable>
@@ -169,7 +168,7 @@
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="invoice" isBlankWhenNull="true">
 					<reportElement key="textField-5" style="data field (date)" x="421" y="1" width="53" height="15" uuid="bf9600a7-5eeb-4309-b495-12628891b856"/>
-					<textFieldExpression><![CDATA[($V{totalOwing}.compareTo(new BigDecimal("0")) == 0)?null:$V{oldest}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($V{totalOwing}.compareTo(new BigDecimal("0")) == 0)?null:$V{oldest}.format("d MMM yyyy")]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="invoice" isBlankWhenNull="true">
 					<reportElement key="textField-6" style="data field (numeric)" x="477" y="1" width="68" height="15" uuid="7a657af3-6bbb-4f25-ada7-15f9140cfc9d">

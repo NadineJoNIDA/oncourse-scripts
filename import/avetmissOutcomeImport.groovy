@@ -11,6 +11,7 @@ import ish.common.types.AvetmissStudentIndigenousStatus
 import ish.common.types.AvetmissStudentLabourStatus
 import ish.common.types.AvetmissStudentSchoolLevel
 import ish.oncourse.server.cayenne.*
+import ish.util.DateFormatter
 import ish.util.EnumUtil
 import ish.validation.ValidationUtil
 import org.apache.cayenne.ObjectContext
@@ -20,6 +21,9 @@ import org.apache.cayenne.query.SelectQuery
 import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 logger = LogManager.getLogger(getClass())
@@ -40,8 +44,8 @@ def import120(String nat120, String nat60, String nat80, String nat85, ObjectCon
 		def studentNumber = line.readString(10)
 		def moduleId = line.readString(12)
 		def courseId = line.readString(10)
-		def start = line.readDate(8)
-		def end = line.readDate(8)
+		LocalDate start = line.readLocalDate(8)
+		LocalDate end = line.readLocalDate(8)
 		def deliveryMode = line.readInteger(2)
 		def result = line.readInteger(2)
 		def scheduledHours = line.readString(4)
@@ -238,7 +242,7 @@ def import80(String rawLine, Contact contact, Student student, ObjectContext con
 	student.contact.isMale = "M".equals(gender) ? Boolean.TRUE : "F".equals(gender) ? Boolean.FALSE : null
 	// ------------------
 	// date of birth p26
-	student.contact.birthDate = line.readDate(8)
+	student.contact.birthDate = line.readLocalDate(8)
 
 	// ------------------
 	// postcode p71
@@ -518,7 +522,21 @@ class InputLine {
 			return null
 		}
 
-		return Date.parse("ddMMyyyy", value)
+		return DateFormatter.formatDateToNoon(Date.parse("ddMMyyyy", value))
+	}
+
+	public LocalDate readLocalDate(int length) {
+
+		String value = readString(length)
+		if (value == null) {
+			return null
+		}
+		if (value.length() != 8) {
+			logger.warn("AVETMISS dates must be 8 characters. Got: '{}'", value)
+			return null
+		}
+
+		return LocalDate.parse(value, DateTimeFormatter.ofPattern("ddMMyyyy"))
 	}
 }
 

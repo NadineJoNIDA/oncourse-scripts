@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="22"/>
+	<property name="versionNumber" value="23"/>
 	<property name="keyCode" value="ish.onCourse.traineeTrainingPlanReport"/>
 	<property name="ish.oncourse.title" value="Traineeship Training Plan"/>
 	<property name="ish.oncourse.filePrefix" value="TraineeshipTrainingPlan"/>
@@ -160,8 +160,8 @@
 					<text><![CDATA[Date of Birth]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-19" style="data field (date)" x="95" y="136" width="400" height="15" uuid="ee7edaf5-72b6-4ca7-bd5d-5b482f854306"/>
-					<textFieldExpression><![CDATA[$F{student.contact.birthDate}]]></textFieldExpression>
+					<reportElement key="textField-19" style="data field" x="95" y="136" width="400" height="15" uuid="ee7edaf5-72b6-4ca7-bd5d-5b482f854306"/>
+					<textFieldExpression><![CDATA[$F{enrolment}.student.contact.birthDate?.format("d MMM yyyy")]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>

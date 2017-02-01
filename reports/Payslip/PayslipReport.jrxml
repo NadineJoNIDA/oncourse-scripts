@@ -5,7 +5,7 @@
 	<property name="entity" value="PayLine"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="16"/>
+	<property name="versionNumber" value="17"/>
 	<property name="keyCode" value="ish.onCourse.payslipReport"/>
 	<property name="ish.oncourse.title" value="Payslip Report"/>
 	<property name="ish.oncourse.filePrefix" value="PayslipReport"/>
@@ -58,12 +58,23 @@
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
 	<field name="payLine" class="java.lang.Object"/>
+	<field name="payslip.contact.lastName" class="java.lang.String"/>
+	<field name="payslip.contact.firstName" class="java.lang.String"/>
+	<field name="classCost.courseClass.startDateTime" class="java.util.Date"/>
+	<field name="dateFor" class="java.util.Date"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
+	<sortField name="payslip.contact.lastName" order="Ascending"/>
+	<sortField name="payslip.contact.firstName" order="Ascending"/>
+	<sortField name="classCost.courseClass.startDateTime" order="Ascending"/>
+	<sortField name="dateFor" order="Ascending"/>
 	<variable name="total" class="java.math.BigDecimal" resetType="Group" resetGroup="payslip" calculation="Sum">
 		<variableExpression><![CDATA[$F{payLine}.value.multiply($F{payLine}.quantity)]]></variableExpression>
 	</variable>
+	<variable name="totalSum" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{payLine}.value.multiply($F{payLine}.quantity)]]></variableExpression>
+	</variable>
 	<group name="payslip">
-		<groupExpression><![CDATA[$F{payLine}.payslip.id]]></groupExpression>
+		<groupExpression><![CDATA[$F{payLine}.payslip.contact.id]]></groupExpression>
 		<groupHeader>
 			<band height="38" splitType="Stretch">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -90,7 +101,7 @@
 		</groupFooter>
 	</group>
 	<group name="CourseClass">
-		<groupExpression><![CDATA[$F{payLine}.classCost?.id]]></groupExpression>
+		<groupExpression><![CDATA[$F{payLine}.classCost?.courseClass?.uniqueCode]]></groupExpression>
 		<groupHeader>
 			<band height="20">
 				<rectangle>
@@ -181,4 +192,18 @@
 			</image>
 		</band>
 	</pageFooter>
+	<lastPageFooter>
+		<band height="25">
+			<staticText>
+				<reportElement style="header 2" x="263" y="0" width="97" height="25"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement style="header 2" x="456" y="0" width="78" height="25"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new Money($V{totalSum})]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
 </jasperReport>

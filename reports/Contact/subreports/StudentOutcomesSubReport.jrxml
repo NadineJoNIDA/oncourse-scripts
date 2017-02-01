@@ -5,7 +5,7 @@
 	<property name="entity" value="Outcome"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="20"/>
+	<property name="versionNumber" value="21"/>
 	<property name="keyCode" value="ish.onCourse.studentOutcomesSubReport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -52,11 +52,9 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<field name="outcome" class="java.lang.Object"/>
+	<field name="outcome" class="ish.oncourse.server.cayenne.Outcome"/>
 	<field name="code" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
-	<field name="startDate" class="java.util.Date"/>
-	<field name="endDate" class="java.util.Date"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -124,17 +122,17 @@
 				<textFieldExpression><![CDATA[$F{outcome}.status?.displayName]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-4" style="data field (date)" stretchType="RelativeToTallestObject" x="91" y="15" width="103" height="14" isPrintWhenDetailOverflows="true" uuid="946b62d9-ca8c-499a-8d56-14a74cb52e0b">
+				<reportElement key="textField-4" style="data field" stretchType="RelativeToTallestObject" x="91" y="15" width="103" height="14" isPrintWhenDetailOverflows="true" uuid="946b62d9-ca8c-499a-8d56-14a74cb52e0b">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{outcome}.startDate?.format("d MMM yyyy")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-5" style="data field (date)" stretchType="RelativeToTallestObject" x="194" y="15" width="105" height="14" isPrintWhenDetailOverflows="true" uuid="488b366a-73be-405d-a3cf-4f924b318dd8">
+				<reportElement key="textField-5" style="data field" stretchType="RelativeToTallestObject" x="194" y="15" width="105" height="14" isPrintWhenDetailOverflows="true" uuid="488b366a-73be-405d-a3cf-4f924b318dd8">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{endDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{outcome}.endDate?.format("d MMM yyyy")]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

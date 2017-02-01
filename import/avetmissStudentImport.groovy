@@ -13,6 +13,8 @@ import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 logger = LogManager.getLogger(getClass())
 
@@ -127,7 +129,7 @@ def import80(String data, Map<String, Student> importedStudents, ObjectContext c
 		aStudent.contact.isMale = "M".equals(gender) ? Boolean.TRUE : "F".equals(gender) ? Boolean.FALSE : null
 		// ------------------
 		// date of birth p26
-		aStudent.contact.birthDate = line.readDate(8)
+		aStudent.contact.birthDate = line.readLocalDate(8)
 
 		// ------------------
 		// postcode p71
@@ -405,7 +407,7 @@ class InputLine {
 	 * @param length
 	 * @return Date
 	 */
-	public Date readDate(int length) {
+	public LocalDate readLocalDate(int length) {
 
 		String value = readString(length)
 		if (value == null) {
@@ -416,6 +418,6 @@ class InputLine {
 			return null
 		}
 
-		return Date.parse("ddMMyyyy", value)
+		return LocalDate.parse(value, DateTimeFormatter.ofPattern("ddMMyyyy"))
 	}
 }

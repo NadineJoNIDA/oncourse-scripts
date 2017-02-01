@@ -5,7 +5,7 @@
 	<property name="entity" value="Contact"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="35"/>
+	<property name="versionNumber" value="36"/>
 	<property name="keyCode" value="ish.onCourse.mailingListReport"/>
 	<property name="ish.oncourse.title" value="Mailing List"/>
 	<property name="ish.oncourse.filePrefix" value="MailingList"/>
@@ -58,11 +58,11 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
+	<field name="contact" class="ish.oncourse.server.cayenne.Contact"/>
 	<field name="firstName" class="java.lang.String"/>
 	<field name="lastName" class="java.lang.String"/>
 	<field name="email" class="java.lang.String"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
-	<field name="birthDate" class="java.util.Date"/>
 	<field name="street" class="java.lang.String"/>
 	<field name="suburb" class="java.lang.String"/>
 	<field name="postcode" class="java.lang.String"/>
@@ -150,11 +150,11 @@
 				<textFieldExpression><![CDATA[$F{lastName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-5" style="data field (date)" x="188" y="0" width="69" height="15" uuid="92a8082d-bd6d-4b96-927b-5c10b8d07c97">
+				<reportElement key="textField-5" style="data field" x="188" y="0" width="69" height="15" uuid="92a8082d-bd6d-4b96-927b-5c10b8d07c97">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{birthDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{contact}.birthDate?.format("d MMM yyyy")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-5" style="data field" x="615" y="0" width="171" height="15" uuid="b32b8196-c544-4299-8fa6-e0df1938e00b"/>

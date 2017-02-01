@@ -5,7 +5,7 @@
 	<property name="entity" value="Contact"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="21"/>
+	<property name="versionNumber" value="22"/>
 	<property name="keyCode" value="ish.onCourse.studentTranscriptReport"/>
 	<property name="ish.oncourse.title" value="Student Transcript"/>
 	<property name="ish.oncourse.filePrefix" value="studentTranscript"/>
@@ -64,7 +64,7 @@
 	<field name="lastName" class="java.lang.String">
 		<fieldDescription><![CDATA[Student last name]]></fieldDescription>
 	</field>
-	<field name="contact" class="java.lang.Object"/>
+	<field name="contact" class="ish.oncourse.server.cayenne.Contact"/>
 	<field name="student.countryOfBirth.name" class="java.lang.String"/>
 	<field name="email" class="java.lang.String"/>
 	<field name="fax" class="java.lang.String"/>
@@ -102,8 +102,8 @@
 					<text><![CDATA[Address]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField-2" style="data field (date)" x="95" y="15" width="204" height="15" uuid="841bb142-ccd2-450c-8b03-3368f5c24afc"/>
-					<textFieldExpression><![CDATA[$F{birthDate}]]></textFieldExpression>
+					<reportElement key="textField-2" style="data field" x="95" y="15" width="204" height="15" uuid="841bb142-ccd2-450c-8b03-3368f5c24afc"/>
+					<textFieldExpression><![CDATA[$F{contact}.birthDate?.format("d MMM yyyy")]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement key="textField-3" style="data field" x="95" y="30" width="204" height="15" uuid="31bdc444-5fd1-402f-a964-4f0eceb38e61"/>

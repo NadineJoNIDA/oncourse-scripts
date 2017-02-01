@@ -5,7 +5,7 @@
 	<property name="entity" value="Outcome"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="18"/>
+	<property name="versionNumber" value="19"/>
 	<property name="keyCode" value="ish.onCourse.traineeshipTrainingPlanModulesSubReport"/>
 	<property name="ish.oncourse.title" value="UnitOfCompetencySubReport"/>
 	<property name="ish.oncourse.filePrefix" value="traineeshipTrainingPlanModulesSubReport"/>
@@ -56,11 +56,9 @@
 			<style mode="Opaque" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<field name="outcome" class="java.lang.Object"/>
+	<field name="outcome" class="ish.oncourse.server.cayenne.Outcome"/>
 	<field name="module.nationalCode" class="java.lang.String"/>
 	<field name="module.title" class="java.lang.String"/>
-	<field name="startDate" class="java.util.Date"/>
-	<field name="endDate" class="java.util.Date"/>
 	<field name="reportableHours" class="java.math.BigDecimal"/>
 	<field name="deliveryMode" class="java.lang.Object"/>
 	<field name="name" class="java.lang.String"/>
@@ -126,12 +124,12 @@
 				<textFieldExpression><![CDATA[$F{outcome}.status?.displayName]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-4" style="data field (date)" stretchType="RelativeToTallestObject" x="1" y="20" width="68" height="14" isPrintWhenDetailOverflows="true" uuid="b7eadfc0-2875-415d-a35f-ae40115d9981"/>
-				<textFieldExpression><![CDATA[$F{startDate}]]></textFieldExpression>
+				<reportElement key="textField-4" style="data field" stretchType="RelativeToTallestObject" x="1" y="20" width="68" height="14" isPrintWhenDetailOverflows="true" uuid="b7eadfc0-2875-415d-a35f-ae40115d9981"/>
+				<textFieldExpression><![CDATA[$F{outcome}.startDate?.format("d MMM yyyy")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-5" style="data field (date)" stretchType="RelativeToTallestObject" x="70" y="20" width="68" height="14" isPrintWhenDetailOverflows="true" uuid="b766d4d2-06b6-476d-8d21-6a139a8f1602"/>
-				<textFieldExpression><![CDATA[$F{endDate}]]></textFieldExpression>
+				<reportElement key="textField-5" style="data field" stretchType="RelativeToTallestObject" x="70" y="20" width="68" height="14" isPrintWhenDetailOverflows="true" uuid="b766d4d2-06b6-476d-8d21-6a139a8f1602"/>
+				<textFieldExpression><![CDATA[$F{outcome}.endDate?.format("d MMM yyyy")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-6" style="data field (numeric)" x="139" y="20" width="40" height="14" uuid="d887fd6b-ab47-48f9-aaaf-25773adca1fa">

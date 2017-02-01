@@ -15,6 +15,8 @@ import org.apache.cayenne.query.ObjectSelect
 import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.LogManager
 
+import java.time.LocalDate
+
 
 def import80 = new Import80(data: new String(avetmiss80),
         context: context,
@@ -254,8 +256,8 @@ class Avetmiss120Parser {
         data = [clientId      : (String) null,
                 moduleId      : (String) null,
                 courseId      : (String) null,
-                start         : (Date) null,
-                end           : (Date) null,
+                start         : (LocalDate) null,
+                end           : (LocalDate) null,
                 deliveryMode  : (Integer) null,
                 result        : (Integer) null,
                 scheduledHours: (String) null,
@@ -268,8 +270,8 @@ class Avetmiss120Parser {
         data.clientId = line.readString(10)
         data.moduleId = line.readString(12)
         data.courseId = line.readString(10)
-        data.start = line.readDate(8)
-        data.end = line.readDate(8)
+        data.start = line.readLocalDate(8)
+        data.end = line.readLocalDate(8)
         data.deliveryMode = line.readInteger(2)
         data.result = line.readInteger(2)
         data.scheduledHours = line.readString(4)

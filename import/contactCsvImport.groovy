@@ -11,6 +11,8 @@ import ish.oncourse.server.imports.CsvParser
 import org.apache.cayenne.query.ObjectSelect
 
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 def reader = new CsvParser(new InputStreamReader(new ByteArrayInputStream(contactFile)))
 
@@ -22,7 +24,7 @@ reader.eachLine { line ->
 		contact.middleName = line.middleName
 		contact.honorific = line.honorific
 		contact.isMale = line.gender?.toBoolean()
-		contact.birthDate = line.birthDate ? new SimpleDateFormat("yyyy-MM-dd").parse(line.birthDate) : null
+		contact.birthDate = line.birthDate ? LocalDate.parse(line.birthDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null
 		contact.isCompany = line.company?.toBoolean()
 		contact.isStudent = line.isStudent?.toBoolean() ?: false
 		contact.isTutor = line.isTutor?.toBoolean() ?: false

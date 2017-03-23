@@ -4,7 +4,7 @@
     <property name="entity" value="CourseClass"/>
     <property name="isSubreport" value="false"/>
     <property name="isVisible" value="true"/>
-    <property name="versionNumber" value="1"/>
+    <property name="versionNumber" value="2"/>
     <property name="keyCode" value="ish.onCourse.AssessmentTaskMatrix"/>
     <property name="ish.oncourse.title" value="AssessmentTaskMatrix"/>
     <property name="ish.oncourse.filePrefix" value="assessmentTaskMatrix"/>
@@ -78,6 +78,9 @@
         </band>
     </pageHeader>
     <columnHeader>
+        <band splitType="Stretch"/>
+    </columnHeader>
+    <detail>
         <band height="30" splitType="Stretch">
             <elementGroup>
                 <subreport isUsingCache="true">
@@ -87,9 +90,6 @@
                 </subreport>
             </elementGroup>
         </band>
-    </columnHeader>
-    <detail>
-        <band splitType="Stretch"/>
     </detail>
     <columnFooter>
         <band splitType="Stretch"/>

@@ -4,7 +4,7 @@
     <property name="entity" value="PrintableAssessmentClassModule"/>
     <property name="isSubreport" value="true"/>
     <property name="isVisible" value="false"/>
-    <property name="versionNumber" value="1"/>
+    <property name="versionNumber" value="3"/>
     <property name="keyCode" value="ish.onCourse.AssessmentTaskMatrix.subreport"/>
     <import value="net.sf.jasperreports.engine.*"/>
     <import value="java.util.*"/>
@@ -49,8 +49,10 @@
     </style>
     <field name="printableAssessmentClassModule" class="java.lang.Object"/>
     <field name="module.nationalCode" class="java.lang.String"/>
+    <field name="assessmentClass.dueDate" class="java.util.Date"/>
     <field name="assessmentClass.assessment.code" class="java.lang.String"/>
     <sortField name="module.nationalCode"/>
+    <sortField name="assessmentClass.dueDate"/>
     <sortField name="assessmentClass.assessment.code"/>
     <background>
         <band splitType="Stretch"/>
@@ -123,7 +125,7 @@
                                 <textElement markup="html" verticalAlignment="Top"/>
                                 <textFieldExpression><![CDATA[$V{assessmentClass}.assessment.name + "<br/>" + $V{assessmentClass}.assessment.code]]></textFieldExpression>
                             </textField>
-                            <textField isBlankWhenNull="false" pattern="d/MM/yy">
+                            <textField isBlankWhenNull="false" pattern="d/M/yy">
                                 <reportElement style="data field" x="0" y="60" width="80" height="20"/>
                                 <box>
                                     <topPen lineWidth="0.2" lineStyle="Solid" lineColor="#A3A3A3"/>

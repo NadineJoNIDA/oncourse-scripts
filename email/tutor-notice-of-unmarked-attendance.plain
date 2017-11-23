@@ -1,0 +1,17 @@
+${render("Header")}
+
+Dear ${tutor.firstName},
+
+${s.courseClass.course.name} (${s.courseClass.uniqueCode}) had a session that ran on ${s.startDatetime.format("d/M/yy")} where attendance records have not been marked.
+
+Enrolled: ${s.courseClass.successAndQueuedEnrolments.size()}
+
+Unmarked attendance: ${s.attendance.findAll{ a -> AttendanceType.UNMARKED.equals(a.attendanceType)}.size()}
+
+Absent: ${s.attendance.findAll{ a -> [AttendanceType.DID_NOT_ATTEND_WITH_REASON, AttendanceType.DID_NOT_ATTEND_WITHOUT_REASON].contains(a.attendanceType)}.size()}
+
+Attended: ${s.attendance.findAll{ a -> [AttendanceType.ATTENDED, AttendanceType.PARTIAL].contains(a.attendanceType)}.size()}
+
+Click through to mark the class roll ${tutor.getPortalLink(s.courseClass, 7)}
+
+${render("Footer")}

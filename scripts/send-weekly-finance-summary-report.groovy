@@ -1,4 +1,4 @@
-import org.apache.commons.lang3.time.DateUtils
+import java.time.LocalDate
 
 def run(args) {
     def context = args.context
@@ -9,17 +9,15 @@ def run(args) {
     //If you want to change date period use one of the sections below:
 
     //set period in number of days (e.g. for the last 7 days)
-    def endDate = Calendar.getInstance().getTime()
-    endDate.set(hourOfDay: 0, minute: 0, second: 0)
-    def startDate = endDate - 7
+    LocalDate endDate = LocalDate.now().minusDays(1)
+    LocalDate startDate = endDate.minusDays(6)
 
-    
+
+
 //    set period in calendar months (e.g. for the last month)
-    
-//    def endDate = Calendar.getInstance().getTime()
-//    endDate.set(dayOfMonth: 1,hourOfDay: 0, minute: 0, second: 0)
-//    println endDate
-//    def startDate = DateUtils.addMonths(endDate, -1)
+//    LocalDate endDate = LocalDate.now().minusMonths(1)
+//    endDate = endDate.withDayOfMonth(endDate.lengthOfMonth())
+//    LocalDate startDate = endDate.withDayOfMonth(1)
 
     email {
         from preference.email.from
@@ -29,7 +27,7 @@ def run(args) {
         attachment "Trial_Balance.pdf", "application/pdf", report {
                                                                     keycode "ish.onCourse.trialBalance"
                                                                     records accounts
-                                                                    param 'dateRange_from' : startDate, 'dateRange_to' : endDate
+                                                                    param 'localdateRange_from' : startDate, 'localdateRange_to' : endDate
                                                                 }
     }
 }

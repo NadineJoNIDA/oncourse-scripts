@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-04-03T16:31:20 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InvoiceReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" isFloatColumnFooter="true" whenResourceMissingType="Empty" uuid="ba1ca0c5-0202-4784-a5bd-c3ff7fab3dd8">
 	<property name="name" value="Invoice"/>
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="97"/>
+	<property name="versionNumber" value="115"/>
 	<property name="keyCode" value="ish.onCourse.invoiceReport"/>
 	<property name="ish.oncourse.title" value="Invoice line list"/>
 	<property name="ish.oncourse.filePrefix" value="invoice line"/>
 	<property name="ish.oncourse.description" value="To supply hard copy Tax Invoices to students and other debtors.This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="source"/>
+	<import value="ish.math.Money"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
-	<import value="ish.math.Money"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
 	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
 		<paragraph spacingAfter="8"/>
@@ -417,8 +418,8 @@
 	</title>
 	<detail>
 		<band height="44" splitType="Stretch">
-			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="data field" x="0" y="3" width="284" height="14" uuid="d1681704-2a6d-4d30-9d3e-f177d8372d41"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField" style="data field" x="0" y="3" width="284" height="14" isPrintWhenDetailOverflows="true" uuid="d1681704-2a6d-4d30-9d3e-f177d8372d41"/>
 				<textFieldExpression><![CDATA[$F{quantity} > 1 ? $F{quantity}.toInteger() + "x " + $F{title} : $F{title}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -441,7 +442,7 @@
 				<textFieldExpression><![CDATA[$F{finalPriceToPayIncTax}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-5" style="data field" stretchType="RelativeToBandHeight" x="0" y="18" width="284" height="14" isRemoveLineWhenBlank="true" uuid="cf3571f7-7e89-418f-8037-392d7a97bbb8"/>
+				<reportElement key="textField-5" style="data field" positionType="Float" x="0" y="18" width="284" height="14" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="cf3571f7-7e89-418f-8037-392d7a97bbb8"/>
 				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
@@ -459,16 +460,20 @@
 			</line>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="25" splitType="Stretch">
-			<textField evaluationTime="Page" isBlankWhenNull="false">
-				<reportElement key="pageNumberFooter" style="Footer strong" x="0" y="0" width="300" height="15" uuid="1106d334-b156-4af7-a64d-a75ba7206e2c"/>
-				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
-			</textField>
-			<image scaleImage="RetainShape" hAlign="Right" isUsingCache="true" onErrorType="Blank">
-				<reportElement key="oncourseLogo" style="Footer" x="472" y="17" width="67" height="7" uuid="2863530e-11e5-4c1e-8296-ae64db1a9926"/>
-				<imageExpression><![CDATA[$F{image.poweredby}]]></imageExpression>
-			</image>
-		</band>
-	</pageFooter>
+    <pageFooter>
+        <band height="25" splitType="Stretch">
+            <textField evaluationTime="Page" isBlankWhenNull="false">
+                <reportElement key="pageNumberFooter" style="Footer strong" x="0" y="0" width="300" height="15" uuid="1106d334-b156-4af7-a64d-a75ba7206e2c"/>
+                <textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report" isBlankWhenNull="false">
+                <reportElement key="totalPageCountFooter" style="Footer" x="0" y="11" width="300" height="13" uuid="d3e402c5-a433-4f08-90db-5c66216e08f3"/>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT} + " record" + ($V{REPORT_COUNT}>1 ? "s" : "") + " on " + $V{PAGE_NUMBER} + " page" + ($V{PAGE_NUMBER}>1 ? "s" : "") + " (printed " + new Date().format("E d MMM yyyy h:mma") + ")"]]></textFieldExpression>
+            </textField>
+            <image scaleImage="RetainShape" hAlign="Right" isUsingCache="true" onErrorType="Blank">
+                <reportElement key="oncourseLogo" style="Footer" x="472" y="17" width="67" height="7" uuid="2863530e-11e5-4c1e-8296-ae64db1a9926"/>
+                <imageExpression><![CDATA[$F{image.poweredby}]]></imageExpression>
+            </image>
+        </band>
+    </pageFooter>
 </jasperReport>

@@ -5,7 +5,7 @@
 	<property name="entity" value="Account"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="18"/>
+	<property name="versionNumber" value="22"/>
 	<property name="keyCode" value="ish.onCourse.trialBalance"/>
 	<property name="ish.oncourse.title" value="Trial Balance"/>
 	<property name="ish.oncourse.filePrefix" value="trialBalance"/>
@@ -71,28 +71,28 @@
 		<defaultValueExpression><![CDATA["d MMM yyyy"]]></defaultValueExpression>
 	</parameter>
 	<field name="account" class="ish.oncourse.server.cayenne.Account"/>
-	<field name="global.dateRange_from" class="java.util.Date"/>
-	<field name="global.dateRange_to" class="java.util.Date"/>
+	<field name="global.localdateRange_from" class="java.time.LocalDate"/>
+	<field name="global.localdateRange_to" class="java.time.LocalDate"/>
 	<field name="accountCode" class="java.lang.String"/>
 	<field name="image.poweredby" class="java.io.InputStream"/>
 	<field name="description" class="java.lang.String"/>
 	<variable name="TOTAL_OPENING_DEBIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.dateRange_from})?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.localdateRange_from})?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_OPENING_CREDIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.dateRange_from})?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.localdateRange_from})?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_CURRENT_DEBIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{account}.debit ? $F{account}.getMovements($F{global.dateRange_from}, $F{global.dateRange_to}).toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.debit ? $F{account}.getMovements($F{global.localdateRange_from}, $F{global.localdateRange_to}).toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_CURRENT_CREDIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{account}.credit ? $F{account}.getMovements($F{global.dateRange_from}, $F{global.dateRange_to}) ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.credit ? $F{account}.getMovements($F{global.localdateRange_from}, $F{global.localdateRange_to}) ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_CLOSING_DEBIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.dateRange_to})?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.localdateRange_to}.plusDays(1))?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_CLOSING_CREDIT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.dateRange_to})?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
+		<variableExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.localdateRange_to}.plusDays(1))?.toBigDecimal() ?: BigDecimal.ZERO : BigDecimal.ZERO]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -130,8 +130,7 @@
 				<reportElement key="textField-5" style="data field (date)" x="1" y="15" width="740" height="14" uuid="dea62875-e87d-416e-87b3-86a783ec7630">
 					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
 				</reportElement>
-				<textFieldExpression><![CDATA["From " + (new DateFormatter(new SimpleDateFormat($P{dFormat})).valueToString($F{global.dateRange_from}))+
-" to "+ (new DateFormatter(new SimpleDateFormat($P{dFormat})).valueToString($F{global.dateRange_to}))]]></textFieldExpression>
+				<textFieldExpression><![CDATA["From " + $F{global.localdateRange_from}.format($P{dFormat}) + " to " + $F{global.localdateRange_to}.format($P{dFormat})]]></textFieldExpression>
 				<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
 			</textField>
 			<staticText>
@@ -172,7 +171,7 @@
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Prevent">
-			<printWhenExpression><![CDATA[$F{account}.getBalance($F{global.dateRange_from}) != Money.ZERO || $F{account}.getMovements($F{global.dateRange_from}, $F{global.dateRange_to}) != Money.ZERO || $F{account}.getBalance($F{global.dateRange_to}) != Money.ZERO]]></printWhenExpression>
+			<printWhenExpression><![CDATA[$F{account}.getBalance($F{global.localdateRange_from}) != Money.ZERO || $F{account}.getMovements($F{global.localdateRange_from}, $F{global.localdateRange_to}) != Money.ZERO || $F{account}.getBalance($F{global.localdateRange_to}) != Money.ZERO]]></printWhenExpression>
 			<rectangle>
 				<reportElement style="alternateRow" stretchType="RelativeToBandHeight" x="0" y="0" width="730" height="20" uuid="f49197f9-a28e-459d-82a6-fc8111d777e3">
 					<property name="com.jaspersoft.studio.unit.x" value="mm"/>
@@ -188,27 +187,27 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="243" y="1" width="80" height="15" uuid="c4010ebb-d3a0-412d-95a4-db9a00c1b55f"/>
-				<textFieldExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.dateRange_from}) : null]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.localdateRange_from}) : null]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="323" y="1" width="77" height="15" uuid="cd425c5f-3e93-4442-bb06-4a7a50db5106"/>
-				<textFieldExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.dateRange_from}) : null]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.localdateRange_from}) : null]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="484" y="1" width="77" height="15" uuid="f2c491ea-a0a0-4a49-a04e-d31acd659a87"/>
-				<textFieldExpression><![CDATA[$F{account}.credit ? $F{account}.getMovements($F{global.dateRange_from}, $F{global.dateRange_to}) : null]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.credit ? $F{account}.getMovements($F{global.localdateRange_from}, $F{global.localdateRange_to}) : null]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="565" y="1" width="80" height="15" uuid="4d533d43-2e1d-4b60-8209-bcdf13d2f356"/>
-				<textFieldExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.dateRange_to}) : null]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.debit ? $F{account}.getBalance($F{global.localdateRange_to}.plusDays(1)) : null]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="645" y="1" width="77" height="15" uuid="1a7d6271-a314-4f2e-9dc0-291b88cf1506"/>
-				<textFieldExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.dateRange_to}) : null]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.credit ? $F{account}.getBalance($F{global.localdateRange_to}.plusDays(1)) : null]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-16" style="data field (money)" x="404" y="1" width="80" height="15" uuid="625e84c0-20fd-4d12-9941-f75f929463dd"/>
-				<textFieldExpression><![CDATA[$F{account}.debit ? $F{account}.getMovements($F{global.dateRange_from}, $F{global.dateRange_to}) : null]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{account}.debit ? $F{account}.getMovements($F{global.localdateRange_from}, $F{global.localdateRange_to}) : null]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

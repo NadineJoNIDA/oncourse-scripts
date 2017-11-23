@@ -5,7 +5,7 @@
 	<property name="entity" value="Room"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="45"/>
+	<property name="versionNumber" value="46"/>
 	<property name="keyCode" value="ish.onCourse.roomDetailsReport"/>
 	<property name="ish.oncourse.description" value="A report that allows users to print the details of all sessions that are scheduled for a particular room, for a particular date range.This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
@@ -15,6 +15,8 @@
 	<property name="ish.oncourse.additionalProperty.visualElement" value="DateRange"/>
 	<property name="ish.oncourse.additionalProperty.defaultValue1" value="financialYearStart"/>
 	<property name="ish.oncourse.additionalProperty.defaultValue2" value="tomorrow"/>
+	<property name="ish.oncourse.additionalProperty.property1" value="startDatetime"/>
+	<property name="ish.oncourse.additionalProperty.property2" value="startDatetime"/>
 	<property name="sortOn" value="name"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>

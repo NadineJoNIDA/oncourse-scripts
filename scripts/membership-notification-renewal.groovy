@@ -1,8 +1,8 @@
 def run(args) {
-    def oneWeek = new Date() + 6
+    def oneWeek = new Date() + 1
     oneWeek.set(hourOfDay: 0, minute: 0, second: 0)
 
-    def oneWeekOneDay = new Date() + 7
+    def oneWeekOneDay = new Date() + 8
     oneWeekOneDay.set(hourOfDay: 0, minute: 0, second: 0)
 
     ObjectSelect.query(Membership)

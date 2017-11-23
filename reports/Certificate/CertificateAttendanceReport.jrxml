@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2016-09-20T15:50:38 -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-11-13T15:12:58 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CertificateAttendanceReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" whenResourceMissingType="Empty" uuid="410c1ff3-4a09-4d6a-8550-8fb96d5ac0d0">
 	<property name="name" value="Certificate-Attendance"/>
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="23"/>
+	<property name="versionNumber" value="25"/>
 	<property name="keyCode" value="ish.oncourse.nonVetCertificate"/>
 	<property name="ish.oncourse.title" value="AttendanceCertificate"/>
 	<property name="ish.oncourse.filePrefix" value="AttendanceCertificate"/>
@@ -81,7 +81,7 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="352" splitType="Stretch">
+		<band height="318" splitType="Stretch">
 			<staticText>
 				<reportElement key="staticText-1" style="Footer" x="0" y="142" width="540" height="16" uuid="83e9f535-b758-42b1-aded-12782612901c"/>
 				<textElement textAlignment="Center"/>
@@ -97,7 +97,7 @@
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[has completed the course]]></text>
 			</staticText>
-			<textField isBlankWhenNull="false">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField-2" style="header 3" x="0" y="239" width="540" height="46" uuid="bab125a9-0ea4-4e47-bb8b-11866e036e08"/>
 				<textElement textAlignment="Center">
 					<font size="18"/>
@@ -110,15 +110,18 @@
 				<text><![CDATA[Certificate of Attendance]]></text>
 			</staticText>
 			<textField pattern="###0.00" isBlankWhenNull="false">
-				<reportElement key="textField-3" style="Footer" x="0" y="285" width="540" height="16" uuid="ec98a9de-46fe-4dd7-99ea-23090e5750db"/>
+				<reportElement key="textField-3" style="Footer" positionType="Float" x="0" y="285" width="540" height="16" uuid="ec98a9de-46fe-4dd7-99ea-23090e5750db"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["Duration: "+$F{courseClass.classroomHours}+" hours"]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00" isBlankWhenNull="false">
-				<reportElement key="textField-3" style="Footer" x="-1" y="302" width="540" height="16" uuid="03e33009-a5a5-47a8-bc99-81824a19d24b"/>
+				<reportElement key="textField-3" style="Footer" positionType="Float" x="-1" y="302" width="540" height="16" uuid="03e33009-a5a5-47a8-bc99-81824a19d24b"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["Date Achieved: " + $F{enrolment}.outcomes*.endDate.flatten().max().format("dd MMM yyyy")]]></textFieldExpression>
 			</textField>
+			<break>
+				<reportElement positionType="FixRelativeToBottom" mode="Transparent" x="0" y="0" width="99" height="1" uuid="33f2d105-2ef2-44bf-a488-1a552b192b03"/>
+			</break>
 		</band>
 	</detail>
 	<columnFooter>

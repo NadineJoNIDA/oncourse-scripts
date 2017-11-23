@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-10-10T16:11:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EnrolmentInvoiceSubReport" language="groovy" pageWidth="764" pageHeight="514" orientation="Landscape" columnWidth="764" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b539f15d-5d18-4941-a28a-6b5ca65e46c0">
 	<property name="name" value="Enrolment Subreport"/>
 	<property name="entity" value="Enrolment"/>
@@ -10,9 +11,9 @@
 	<property name="ish.oncourse.title" value="Enrolments"/>
 	<property name="ish.oncourse.filePrefix" value="Enrolments"/>
 	<property name="ish.oncourse.pdfFileName" value="Enrolments.pdf"/>
+	<import value="ish.math.Money"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
-	<import value="ish.math.Money"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
 	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
 		<paragraph spacingAfter="8"/>
@@ -253,10 +254,6 @@
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-7" style="header 3 (right)" x="359" y="13" width="69" height="16" uuid="1d0c2680-af85-4750-93dd-d1524efa0710"/>
 				<textFieldExpression><![CDATA[new ish.math.Money($V{sumInvoiceTotal})]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement key="textField-7" style="header 3 (right)" x="429" y="13" width="69" height="16" uuid="9251363a-15eb-41b6-9996-f6ad04c7048b"/>
-				<textFieldExpression><![CDATA[new ish.math.Money($V{balanceOuStandingTotal})]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-7" style="header 3 (right)" x="258" y="13" width="53" height="16" uuid="28a3cd1a-3489-4303-b2be-db7b933c54fb"/>

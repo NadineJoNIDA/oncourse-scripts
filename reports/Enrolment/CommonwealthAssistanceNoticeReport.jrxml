@@ -4,9 +4,9 @@
     <property name="entity" value="Enrolment"/>
     <property name="isSubreport" value="false"/>
     <property name="isVisible" value="true"/>
-    <property name="versionNumber" value="1"/>
+    <property name="versionNumber" value="2"/>
     <property name="keyCode" value="ish.oncourse.enrolment.can"/>
-    <property name="ish.oncourse.description" value="This report prints in Landscape format."/>
+    <property name="ish.oncourse.description" value="This report prints in Landscape format. It prints only enrolments from classes with ticked checkbox 'This is a VET Student Loan eligible class'. Other enrolments will be skipped."/>
     <property name="ish.oncourse.pdfFileName" value="CommonwealthAssistanceNoticeReport_report.pdf"/>
     <property name="ireport.scriptlethandling" value="0"/>
     <property name="ireport.encoding" value="UTF-8"/>
@@ -92,6 +92,7 @@
             $F{enrolment}.feeHelpAmount.multiply(1.2) :
             $F{enrolment}.feeHelpAmount).floatValue()]]></variableExpression>
     </variable>
+    <filterExpression><![CDATA[$F{enrolment}.courseClass.feeHelpClass]]></filterExpression>
 
     <group name="student" isStartNewPage="true">
         <groupExpression><![CDATA[$F{enrolment}.id]]></groupExpression>

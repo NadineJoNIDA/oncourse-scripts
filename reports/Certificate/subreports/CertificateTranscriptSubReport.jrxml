@@ -5,7 +5,7 @@
 	<property name="entity" value="Outcome"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="12"/>
+	<property name="versionNumber" value="14"/>
 	<property name="keyCode" value="ish.onCourse.certificate.transcript.subreport"/>
 	<property name="ish.oncourse.title" value="Outcomes"/>
 	<property name="ish.oncourse.filePrefix" value="Outcomes"/>
@@ -88,16 +88,18 @@
 	<detail>
 		<band height="26" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-1" style="data field" stretchType="RelativeToTallestObject" x="0" y="0" width="97" height="26" isPrintWhenDetailOverflows="true" uuid="b4f28956-0bbd-4124-a028-852e2db17801"/>
+				<reportElement style="data field" stretchType="RelativeToTallestObject" x="0" y="0" width="97" height="26" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Top"/>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-2" style="data field" stretchType="RelativeToTallestObject" x="99" y="0" width="238" height="26" isPrintWhenDetailOverflows="true" uuid="dfc81ccc-4909-47a8-838b-a0974b3d0b73"/>
+				<reportElement style="data field" stretchType="RelativeToTallestObject" x="99" y="0" width="238" height="26" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Top"/>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField-5" style="data field" stretchType="RelativeToTallestObject" x="346" y="0" width="147" height="26" isPrintWhenDetailOverflows="true" uuid="cb11f815-76d5-4146-b3e5-ac21fae34dc6"/>
-				<textElement textAlignment="Left"/>
+				<reportElement style="data field" stretchType="RelativeToTallestObject" x="346" y="0" width="147" height="26" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Left" verticalAlignment="Top"/>
 				<textFieldExpression><![CDATA[$F{outcome}.status?.displayName]]></textFieldExpression>
 			</textField>
 		</band>

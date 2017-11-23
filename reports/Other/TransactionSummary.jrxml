@@ -5,7 +5,7 @@
 	<property name="entity" value="AccountTransaction"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="46"/>
+	<property name="versionNumber" value="47"/>
 	<property name="keyCode" value="ish.onCourse.transactionsummary"/>
 	<property name="ish.oncourse.title" value="Transactions"/>
 	<property name="ish.oncourse.filePrefix" value="transactionSummary"/>
@@ -65,8 +65,8 @@
 	<parameter name="dFormat" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["d MMM yyyy"]]></defaultValueExpression>
 	</parameter>
-	<field name="global.dateRange_from" class="java.util.Date"/>
-	<field name="global.dateRange_to" class="java.util.Date"/>
+	<field name="global.localdateRange_from" class="java.time.LocalDate"/>
+	<field name="global.localdateRange_to" class="java.time.LocalDate"/>
 	<field name="accountTransaction" class="java.lang.Object"/>
 	<field name="account.accountCode" class="java.lang.String"/>
 	<field name="transactionDate" class="java.util.Date"/>
@@ -145,15 +145,14 @@
 			</staticText>
 			<textField evaluationTime="Report" isBlankWhenNull="false">
 				<reportElement key="textField-5" style="data field (date)" x="69" y="16" width="470" height="14" uuid="af90eb14-5baa-4733-bb87-f9ab78864b15">
-					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1) && $F{global.dateRange_from} != null && $F{global.dateRange_to} != null]]></printWhenExpression>
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1) && $F{global.localdateRange_from} != null && $F{global.localdateRange_to} != null]]></printWhenExpression>
 				</reportElement>
-				<textFieldExpression><![CDATA[(new DateFormatter(new SimpleDateFormat($P{dFormat})).valueToString($F{global.dateRange_from}))+
-" to  "+ (new DateFormatter(new SimpleDateFormat($P{dFormat})).valueToString($F{global.dateRange_to}))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{global.localdateRange_from}.format($P{dFormat}) + " to  "+ $F{global.localdateRange_to}.format($P{dFormat})]]></textFieldExpression>
 				<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-2" style="Label" x="1" y="16" width="68" height="14" uuid="f56c6a49-48b6-408b-ad08-9693ba4ec9c1">
-					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1) && $F{global.dateRange_from} != null && $F{global.dateRange_to} != null]]></printWhenExpression>
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1) && $F{global.localdateRange_from} != null && $F{global.localdateRange_to} != null]]></printWhenExpression>
 				</reportElement>
 				<text><![CDATA[Date range]]></text>
 			</staticText>

@@ -1,0 +1,19 @@
+${render("Header")} 
+
+Dear ${enrolment.student.contact.fullName},
+
+Your class schedule has been updated. Please visit ${Preferences.get("web.url")}/class/${enrolment.courseClass.course.code}-${enrolment.courseClass.code} to confirm the class details, directions and course requirements.
+
+Class: ${enrolment.courseClass.course.code}-${enrolment.courseClass.code} ${enrolment.courseClass.course.name}
+<% if (enrolment.courseClass.startDateTime == null) { %>
+Start: On enrolment
+Expected duration: ${enrolment.courseClass.expectedHours ?: "not specified"}
+<% } else { %>
+Start: ${enrolment.courseClass.startDateTime.format("h:mm a EEEE d MMMM yyyy zzzz", enrolment.courseClass.getTimeZone())}
+End: ${enrolment.courseClass.endDateTime.format("h:mm a EEEE d MMMM yyyy zzzz", enrolment.courseClass.getTimeZone())}
+<% } %>
+Location:${enrolment.courseClass.displayableLocation}
+
+Enrolment reference: ${enrolment.invoiceLine.invoice.invoiceNumber}
+
+${render("Footer")}

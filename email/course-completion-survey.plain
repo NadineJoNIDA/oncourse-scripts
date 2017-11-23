@@ -1,0 +1,11 @@
+${render("Header")}
+
+Dear ${enrolment.student.contact.firstName},
+
+At ${Preferences.get("college.name")} we value honest, constructive feedback to help us continually improve our services. It would be of great assistance if you could tell us about your recent experience in our ${enrolment.courseClass.course.name} course.
+
+Please complete our short three question survey which should take less than a minute of your time. There is also space for comments.
+
+Click here to start the survey: ${enrolment.student.getPortalLink(enrolment)}
+
+${render("Footer")}

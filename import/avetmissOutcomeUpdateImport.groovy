@@ -219,6 +219,8 @@ class Avetmiss120Parser {
     def Map<String, Map> extModules = [:]
 
     private Map data
+
+    // "clientId" is Student.studentNumber in DB or CustomField.clientId
     private String clientId
     private Contact contact
     private Qualification qualification
@@ -294,7 +296,6 @@ class Avetmiss120Parser {
 
         if (!contact) {
             logger.error("Cannot find contact with clientId: {}", clientId)
-            throw new RuntimeException(String.format("Cannot find contact with clientId: %s", clientId))
         }
     }
 

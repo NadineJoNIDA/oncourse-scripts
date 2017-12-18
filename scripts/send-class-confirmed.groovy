@@ -14,27 +14,32 @@ def run(args) {
                     key "send-class-confirmed", courseClass
                     keyCollision "drop"
                     to e.student.contact
-                    bindings courseClass: courseClass
+                    bindings courseClass: courseClass, contact: e.student.contact
                 }
             }
         }
         //send notification to admin
         else {
-            Message lastStudentMessage = MessageUtils.getLastMessageByKey(MessageUtils.generateCreatorKey("send-class-confirmed", courseClass), args.context)
+            Message lastStudentMessage = ObjectSelect.query(Message.class)
+                .where(Message.CREATOR_KEY.eq(MessageUtils.generateCreatorKey("send-class-confirmed", courseClass)))
+                .orderBy(Message.ID.desc())
+                .selectFirst(args.context)
 
             if (lastStudentMessage){
 
                 //Attention! Set your own 'prefix'
-                String prefix = "class no viable natalia.borisova@sydney.edu.au"
+                String prefix = "class no viable " + preference.email.from
                 String messageUniqueKey = MessageUtils.generateCreatorKey(prefix, courseClass)
-                Message lastAdminMessage = MessageUtils.getLastMessageByKey(messageUniqueKey, args.context)
+                Message lastAdminMessage = ObjectSelect.query(Message.class)
+                    .where(Message.CREATOR_KEY.eq(messageUniqueKey))
+                    .orderBy(Message.ID.desc())
+                    .selectFirst(args.context)
 
                 if (!lastAdminMessage || lastAdminMessage.getCreatedOn() < lastStudentMessage.getCreatedOn()) {
                     email {
-
-                        //Attention! Set your own 'from' and 'to'
-                        from "info@sydney.edu.au"
-                        to "natalia.borisova@sydney.edu.au"
+                        
+                        from preference.email.from
+                        to preference.email.admin
                         subject "Confirmed class now below class minimum"
                         key messageUniqueKey
                         content "Due to enrolment cancellations or other class changes ${courseClass.code} ${courseClass.course.name}, is no longer viable. It has already been confirmed as running via emails to the students. Please investigate. "

@@ -41,18 +41,18 @@ import120.run()
 class Import80 {
     def logger = LogManager.getLogger(getClass())
 
-    def String data
-    def ObjectContext context
-    def String clientIdFN
+    String data
+    ObjectContext context
+    String clientIdFN
 
-    def Map<String, Contact> imported = [:];
+    Map<String, Contact> imported = [:];
 
     def errors = []
 
-    def int lineNumber = 0
-    def InputLine line
-    def Avetmiss80Parser parser
-    def Map value
+    int lineNumber = 0
+    InputLine line
+    Avetmiss80Parser parser
+    Map value
 
 
     def run() {
@@ -100,18 +100,18 @@ class Import80 {
 class Import85 {
     def logger = LogManager.getLogger(getClass())
 
-    def String data
-    def ObjectContext context
-    def String clientIdFN
+    String data
+    ObjectContext context
+    String clientIdFN
 
-    def Map<String, Contact> imported = [:];
+    Map<String, Contact> imported = [:]
 
     def errors = []
 
-    def int lineNumber = 0
-    def InputLine line
-    def Avetmiss85Parser parser
-    def Map value
+    int lineNumber = 0
+    InputLine line
+    Avetmiss85Parser parser
+    Map value
 
     def run() {
         data.eachLine { rawLine ->
@@ -146,7 +146,7 @@ class Import85 {
             try {
                 context.commitChanges()
                 imported.clear()
-                logger.warn("{} lines committed", lineNumber);
+                logger.warn("{} lines committed", lineNumber)
             } catch (Exception e) {
                 logger.error(e);
                 throw e;
@@ -161,17 +161,17 @@ class Import120 {
 
     def nat120
     def nat60
-    def ObjectContext context;
+    ObjectContext context
 
-    def List<String> errors = []
-    def Map<String, Qualification> qualifications = [:]
-    def Map<String, PriorLearning> priorLearnings = [:]
-    def Map<String, Module> modules = [:]
+    List<String> errors = []
+    Map<String, Qualification> qualifications = [:]
+    Map<String, PriorLearning> priorLearnings = [:]
+    Map<String, Module> modules = [:]
 
 
     def lineNumber = 1
-    def InputLine line
-    def AvetmissImportService service
+    InputLine line
+    AvetmissImportService service
 
 
     def run() {
@@ -179,7 +179,7 @@ class Import120 {
 
         nat120.eachLine { rawLine ->
             line = new InputLine(rawLine)
-            def Avetmiss120Parser parser = new Avetmiss120Parser(line: line, context: context, service: service,
+            Avetmiss120Parser parser = new Avetmiss120Parser(line: line, context: context, service: service,
                     errors: errors, priorLearnings: priorLearnings, qualifications: qualifications, nat60:nat60)
             parser.parse()
 
@@ -192,7 +192,7 @@ class Import120 {
                     priorLearnings.clear()
                     qualifications.clear()
                 } catch (Exception e) {
-                    throw e;
+                    throw e
                 }
             }
 
@@ -208,15 +208,15 @@ class Import120 {
 class Avetmiss120Parser {
     static logger = LogManager.getLogger("Avetmiss120Parser")
 
-    def InputLine line
-    def ObjectContext context
-    def AvetmissImportService service
+    InputLine line
+    ObjectContext context
+    AvetmissImportService service
     def nat60
 
-    def List<String> errors = []
-    def Map<String, Qualification> qualifications = [:]
-    def Map<String, PriorLearning> priorLearnings = [:]
-    def Map<String, Map> extModules = [:]
+    List<String> errors = []
+    Map<String, Qualification> qualifications = [:]
+    Map<String, PriorLearning> priorLearnings = [:]
+    Map<String, Map> extModules = [:]
 
     private Map data
 
@@ -232,6 +232,9 @@ class Avetmiss120Parser {
     def parse() {
         parseData()
         initContact()
+        if (!contact){
+            return
+        }
         initQualification()
         initModule()
 

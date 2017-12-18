@@ -6,7 +6,7 @@
 	<property name="entity" value="Outcome"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="3"/>
+	<property name="versionNumber" value="5"/>
 	<property name="keyCode" value="ish.onCourse.assessmentOutcomesSubReport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -129,7 +129,7 @@
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField-3" style="data field" stretchType="RelativeToTallestObject" x="270" y="15" width="230" height="14" isPrintWhenDetailOverflows="true" uuid="cf22ba3c-8fb7-448e-90ed-ecb33145c0e2"/>
-				<textFieldExpression><![CDATA[$F{outcome}.status?.displayName]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{outcome}.status?.displayName == "Not set" ? "" : $F{outcome}.status?.displayName]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-4" style="data field" stretchType="RelativeToTallestObject" x="91" y="15" width="58" height="14" isPrintWhenDetailOverflows="true" uuid="946b62d9-ca8c-499a-8d56-14a74cb52e0b">

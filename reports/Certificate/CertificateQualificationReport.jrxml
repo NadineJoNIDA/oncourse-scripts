@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-09-21T10:18:29 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CertificateQualificationReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" whenResourceMissingType="Empty" uuid="2fd4d775-3611-4fe6-8c74-bc35c0f9f2a3">
 	<property name="name" value="Certificate"/>
 	<property name="entity" value="Certificate"/>
@@ -12,11 +13,11 @@
 	<property name="ish.oncourse.description" value="onCourse includes AQF recommended templates for full Qualification Certificates, Statements of Attainment and transcripts. Certificates can only be generated from units that are recorded as part of onCourse enrolments.This report prints in Portrait format."/>
 	<property name="ish.oncourse.pdfFileName" value="Qualification.pdf"/>
 	<property name="ish.oncourse.reports.following" value="ish.onCourse.certificate.attainment;ish.onCourse.certificate.skillset;ish.onCourse.certificate.transcript"/>
-	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="ish.common.types.QualificationType"/>
+	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
-	<import value="net.sf.jasperreports.engine.data.*"/>
 	<import value="org.apache.commons.lang3.StringUtils"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
 	<import value="org.apache.commons.lang3.time.DateUtils"/>
 	<style name="default" isDefault="true" forecolor="#000000" vTextAlign="Bottom" markup="none" fontName="Open Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="OpenSans" pdfEncoding="Cp1252" isPdfEmbedded="true">
 		<paragraph spacingAfter="8"/>

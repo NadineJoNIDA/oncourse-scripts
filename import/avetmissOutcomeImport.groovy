@@ -33,8 +33,8 @@ import120(new String(avetmiss120), new String(avetmiss60), new String(avetmiss80
 context.commitChanges()
 
 def import120(String nat120, String nat60, String nat80, String nat85, ObjectContext context) {
-	def List<String> validationResult = []
-	def Map<String, Student> newStudents = [:]
+    List<String> validationResult = []
+    Map<String, Student> newStudents = [:]
 	def lineNumber = 1
 	nat120.eachLine { rawLine ->
 		def line = new InputLine(rawLine)
@@ -104,7 +104,7 @@ def import120(String nat120, String nat60, String nat80, String nat85, ObjectCon
 		priorLearning.outcomeIdTrainingOrg = outcomeId
 
 		if (!validationResult.isEmpty()) {
-			logger.error(String.format("Student number: %s, students: %s, validation: %s", studentNumber, newStudents.keySet(), validationResult.join("\n")));
+			logger.error(String.format("Student number: %s, students: %s, validation: %s", studentNumber, newStudents.keySet(), validationResult.join("\n")))
 			throw new RuntimeException(validationResult.join("\n"))
 		}
 		if ((newStudents.size() % 10) == 0) {
@@ -112,8 +112,8 @@ def import120(String nat120, String nat60, String nat80, String nat85, ObjectCon
 				context.commitChanges()
 				newStudents.clear()
 			} catch (Exception e) {
-				logger.error(String.format("Student number: %s, students: %s", studentNumber, newStudents.keySet()), e);
-				throw e;
+				logger.error(String.format("Student number: %s, students: %s", studentNumber, newStudents.keySet()), e)
+				throw e
 			}
 		}
 
@@ -430,11 +430,11 @@ def import85(String rawLine, Student student) {
 	student.contact.workPhone = line.readString(20)
 	student.contact.mobilePhone = line.readString(20)
 
-	def email = StringUtils.trimToNull(line.readString(80));
+	def email = StringUtils.trimToNull(line.readString(80))
 	if (email) {
 		email = email.replaceFirst("\\.\$", "").replace(",", ".").replace("..", ".")
 		if (ValidationUtil.isValidEmailAddress(email)) {
-			student.contact.email = email;
+			student.contact.email = email
 		} else {
 			logger.error(String.format("Wrong email format for %s: %s", student.studentNumber, email))
 		}
@@ -445,7 +445,7 @@ def import85(String rawLine, Student student) {
 }
 
 
-def Country getCountryWithCode(Integer countryCode, ObjectContext context) throws Exception {
+Country getCountryWithCode(Integer countryCode, ObjectContext context) throws Exception {
 	Expression expr = Country.SACC_CODE.eq(countryCode)
 	List<Country> countries = context.select(SelectQuery.query(Country.class, expr))
 	if (countries.size() != 1) {
@@ -458,13 +458,13 @@ def Country getCountryWithCode(Integer countryCode, ObjectContext context) throw
 class InputLine {
 	private static final Logger logger = LogManager.getLogger(InputLine)
 
-	def String text
-	def int position
+    String text
+    int position
 
 	/**
 	 * @param text
 	 */
-	public InputLine(String text) {
+    InputLine(String text) {
 		this.text = text
 		this.position = 0
 	}
@@ -473,7 +473,7 @@ class InputLine {
 	 * @param length
 	 * @return String
 	 */
-	public String readString(int length) {
+    String readString(int length) {
 
 		if (this.text.length() < this.position + length) {
 			logger.debug("Tried to retrieve {} bytes, but not enough left.", length)
@@ -494,7 +494,7 @@ class InputLine {
 	 * @param length
 	 * @return Integer
 	 */
-	public Integer readInteger(int length) {
+    Integer readInteger(int length) {
 		String value = readString(length)
 		if (value == null) {
 			return null
@@ -511,7 +511,7 @@ class InputLine {
 	 * @param length
 	 * @return Date
 	 */
-	public Date readDate(int length) {
+    Date readDate(int length) {
 
 		String value = readString(length)
 		if (value == null) {
@@ -525,7 +525,7 @@ class InputLine {
 		return DateFormatter.formatDateToNoon(Date.parse("ddMMyyyy", value))
 	}
 
-	public LocalDate readLocalDate(int length) {
+    LocalDate readLocalDate(int length) {
 
 		String value = readString(length)
 		if (value == null) {

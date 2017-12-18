@@ -20,25 +20,25 @@ import85.run()
 class Import80 {
     def logger = LogManager.getLogger(getClass())
 
-    def String data
-    def ObjectContext context
-    def String clientIdFN
+    String data
+    ObjectContext context
+    String clientIdFN
 
-    def Map<String, Contact> imported = [:];
+    Map<String, Contact> imported = [:]
 
     def errors = []
 
-    def int lineNumber = 0
-    def InputLine line
-    def Avetmiss80Parser parser
-    def Map value
+    int lineNumber = 0
+    InputLine line
+    Avetmiss80Parser parser
+    Map value
 
 
     def run() {
         data.eachLine { rawLine ->
 
             line = new InputLine(rawLine)
-            parser = Avetmiss80Parser.valueOf(line, lineNumber, context);
+            parser = Avetmiss80Parser.valueOf(line, lineNumber, context)
             value = parser.parse()
 
             if (parser.errors.empty) {
@@ -68,8 +68,8 @@ class Import80 {
                 context.commitChanges()
                 imported.clear()
             } catch (Exception e) {
-                logger.error(e);
-                throw e;
+                logger.error(e)
+                throw e
             }
         }
     }
@@ -79,18 +79,18 @@ class Import80 {
 class Import85 {
     def logger = LogManager.getLogger(getClass())
 
-    def String data
-    def ObjectContext context
-    def String clientIdFN
+    String data
+    ObjectContext context
+    String clientIdFN
 
-    def Map<String, Contact> imported = [:];
+    Map<String, Contact> imported = [:]
 
     def errors = []
 
-    def int lineNumber = 0
-    def InputLine line
-    def Avetmiss85Parser parser
-    def Map value
+    int lineNumber = 0
+    InputLine line
+    Avetmiss85Parser parser
+    Map value
 
     def run() {
         data.eachLine { rawLine ->
@@ -126,10 +126,10 @@ class Import85 {
             try {
                 context.commitChanges()
                 imported.clear()
-                logger.warn("{} lines committed", lineNumber);
+                logger.warn("{} lines committed", lineNumber)
             } catch (Exception e) {
-                logger.error(e);
-                throw e;
+                logger.error(e)
+                throw e
             }
         }
     }

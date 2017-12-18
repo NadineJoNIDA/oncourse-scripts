@@ -1,19 +1,14 @@
-import ish.oncourse.server.cayenne.CourseClass
-
 def run (args) {
 	
 	CourseClass marketingClass = args.entity
 
-	if (marketingClass.getIsDistantLearningCourse())
+	if (!marketingClass || marketingClass.getIsDistantLearningCourse())
 		return
-
-	List ccTutors = marketingClass?.firstSession?.tutors
-
-	if(ccTutors == null || ccTutors.size() == 0)
-		return
-
-	Tutor ccTutor = ccTutors.get(0)
-
+    
+    if (!marketingClass?.firstSession?.tutors)
+        return
+    
+    Tutor ccTutor = marketingClass?.firstSession?.tutors?.first()
 	List<Enrolment> enrolmentList =  new ArrayList<>()
 
 	def today = Calendar.getInstance().getTime()

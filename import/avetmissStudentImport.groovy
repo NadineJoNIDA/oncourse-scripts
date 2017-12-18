@@ -18,9 +18,8 @@ import java.time.format.DateTimeFormatter
 
 logger = LogManager.getLogger(getClass())
 
-
-def List<String> validationResult = new ArrayList<>()
-def Map<String, Student> importedStudents = new HashMap<>()
+List<String> validationResult = new ArrayList<>()
+Map<String, Student> importedStudents = new HashMap<>()
 
 import80(new String(avetmiss80), importedStudents, context, validationResult)
 import85(new String(avetmiss85), importedStudents, context, validationResult)
@@ -342,7 +341,7 @@ def import85(String data, Map<String, Student> importedStudents, ObjectContext c
 	}
 }
 
-def Country getCountryWithCode(Integer countryCode, ObjectContext context) throws Exception {
+Country getCountryWithCode(Integer countryCode, ObjectContext context) throws Exception {
 	Expression expr = Country.SACC_CODE.eq(countryCode)
 	List<Country> countries = context.select(SelectQuery.query(Country.class, expr))
 	if (countries.size() != 1) {
@@ -360,7 +359,7 @@ class InputLine {
 	/**
 	 * @param text
 	 */
-	public InputLine(String text) {
+    InputLine(String text) {
 		this.text = text
 		this.position = 0
 	}
@@ -369,7 +368,7 @@ class InputLine {
 	 * @param length
 	 * @return String
 	 */
-	public String readString(int length) {
+    String readString(int length) {
 
 		if (this.text.length() < this.position + length) {
 			logger.debug("Tried to retrieve {} bytes, but not enough left.", length)
@@ -390,7 +389,7 @@ class InputLine {
 	 * @param length
 	 * @return Integer
 	 */
-	public Integer readInteger(int length) {
+    Integer readInteger(int length) {
 		String value = readString(length)
 		if (value == null) {
 			return null
@@ -407,7 +406,7 @@ class InputLine {
 	 * @param length
 	 * @return Date
 	 */
-	public LocalDate readLocalDate(int length) {
+    LocalDate readLocalDate(int length) {
 
 		String value = readString(length)
 		if (value == null) {

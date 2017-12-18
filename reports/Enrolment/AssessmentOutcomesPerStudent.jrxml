@@ -6,7 +6,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="2"/>
+	<property name="versionNumber" value="4"/>
 	<property name="keyCode" value="ish.onCourse.assessmentOutcomesStudent"/>
 	<property name="ish.oncourse.title" value="Assessment Outcomes  - per student"/>
 	<property name="ish.oncourse.filePrefix" value="academicTranscript"/>
@@ -170,7 +170,7 @@
 		<band height="32" splitType="Stretch">
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-1" style="header 1" x="0" y="1" width="534" height="26" uuid="004018a2-62de-437a-9dda-146584ee5173"/>
-				<textFieldExpression><![CDATA[$F{enrolment}.student.contact.getName(true) + " Assessment Outcomes"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{enrolment}.student.contact.getName(true) + " Assessment Outcome report"]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

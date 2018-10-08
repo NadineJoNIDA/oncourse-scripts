@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2018-02-23T11:42:43 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CertificateAttainmentReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="517" leftMargin="39" rightMargin="39" topMargin="28" bottomMargin="50" whenResourceMissingType="Empty" uuid="6fb605b7-2bf2-46d1-8131-f4ad03f6f727">
 	<property name="name" value="Certificate-Attainment"/>
 	<property name="entity" value="Certificate"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="120"/>
+	<property name="versionNumber" value="121"/>
 	<property name="keyCode" value="ish.onCourse.certificate.attainment"/>
 	<property name="ish.oncourse.title" value="Certificate"/>
 	<property name="ish.oncourse.filePrefix" value="certificate"/>
@@ -92,7 +93,7 @@
 				<textElement textAlignment="Center">
 					<font size="16"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{certificate}.student.contact.fullName]]></textFieldExpression>
+				<textFieldExpression><![CDATA[(($F{certificate}.student.contact.firstName == $F{certificate}.student.contact.lastName) ? $F{certificate}.student.contact.lastName : $F{certificate}.student.contact.fullName)]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-8" style="Footer" x="0" y="239" width="517" height="12" uuid="8664d378-2438-4920-9989-7f78d0c377e7"/>

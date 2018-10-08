@@ -18,7 +18,7 @@ records.each { Invoice i ->
         "Invoice Number"			: i.invoiceNumber,
         "Total"						: "\$" + i.totalIncTax.toPlainString(),
         "Owing"						: "\$" + i.amountOwing.toPlainString(),
-        "Last Payment In Date"		: (!i.paymentInLines.isEmpty()) ? i.paymentInLines.sort{it.createdOn}.last().createdOn.format("dd/MM/YYYY") : "No payments",
+        "Last Payment In Date"		: (!i.paymentInLines.isEmpty()) ? i.paymentInLines.sort{it.createdOn}.last().createdOn?.format("dd/MM/YYYY") : "No payments",
         "Last Payment In Amount"	: (!i.paymentInLines.isEmpty()) ? "\$" + i.paymentInLines.sort{it.createdOn}.last().amount.toPlainString() : "No payments",
         "Payment Due Date"			: i.dateDue,
         "Days Overdue"				: i.overdue > Money.ZERO ? dateDiff(i.dateDue, today) : "0" ,

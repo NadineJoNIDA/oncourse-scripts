@@ -61,6 +61,10 @@ records.each { Contact c ->
 			"tutorPayrollNo"                 : c.tutor?.payrollRef,
 			"tutorDateStarted"               : c.tutor?.dateStarted?.format("yyyy-MM-dd"),
 			"tutorDateFinished"              : c.tutor?.dateFinished?.format("yyyy-MM-dd"),
+			"workingWithChildrenCheckStatus" : c.tutor?.wwChildrenStatus,
+			"workingWithChildrenCheckDate"	 : c.tutor?.wwChildrenCheckedOn?.format("yyyy-MM-dd"),
+			"workingWithChildrenCheckRef"	 : c.tutor?.wwChildrenRef,
+			"workingWithChildrenCheckExpiry" : c.tutor?.wwChildrenExpiry?.format("yyyy-MM-dd"),
 			"tutorResume"                    : c.tutor?.resume
 	]
 }

@@ -18,7 +18,7 @@ xml.data() {
             courseName(s.enrolment?.courseClass?.course?.name)
             courseClassUniqueCode(s.enrolment?.courseClass?.uniqueCode)
             roomName(s.enrolment?.courseClass?.room?.name)
-            siteName(s.enrolment?.courseClass?.room?.site.name)
+            siteName(s.enrolment?.courseClass?.room?.site?.name)
 
             s.enrolment?.courseClass?.tutorRoles?.each {t ->
                 tutor(id: t.id) {

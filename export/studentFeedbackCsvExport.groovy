@@ -15,7 +15,8 @@ records.each { Survey s ->
             "courseName"                        : s.enrolment?.courseClass?.course?.name,
             "courseClassUniqueCode"             : s.enrolment?.courseClass?.uniqueCode,
             "roomName"                          : s.enrolment?.courseClass?.room?.name,
-            "siteName"                          : s.enrolment?.courseClass?.room?.site.name,
-            "tutorName"                         : s.enrolment?.courseClass?.tutorRoles?.find()?.tutor?.contact?.fullName
+            "siteName"                          : s.enrolment?.courseClass?.room?.site?.name,
+            "tutorName"                         : s.enrolment?.courseClass?.tutorRoles?.collect { tr -> tr?.tutor.fullName }.join("/ "), 
+            "status"                            : s.visibility?.displayName
     ]
 }

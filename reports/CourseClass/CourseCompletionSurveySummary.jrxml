@@ -6,7 +6,7 @@
     <property name="entity" value="CourseClass"/>
     <property name="isSubreport" value="false"/>
     <property name="isVisible" value="true"/>
-    <property name="versionNumber" value="5"/>
+    <property name="versionNumber" value="6"/>
     <property name="keyCode" value="ish.onCourse.CourseClass.courseCompletionSurveySummary"/>
     <property name="ish.oncourse.title" value="Course Completion Survey Summary"/>
     <property name="ish.oncourse.filePrefix" value="CourseCompletionSurveySummary"/>
@@ -62,13 +62,13 @@
         <variableExpression><![CDATA[$F{successAndQueuedEnrolments}*.surveys.flatten()]]></variableExpression>
     </variable>
     <variable name="venueScoreCourseClassAvg" class="java.lang.Float" resetType="Column">
-        <variableExpression><![CDATA[$V{surveyList}*.venueScore.sum() / $V{surveyList}*.venueScore.findAll().size()]]></variableExpression>
+        <variableExpression><![CDATA[$V{surveyList}*.venueScore.sum() / ($V{surveyList}*.venueScore.findAll().size() ?: 1)]]></variableExpression>
     </variable>
     <variable name="courseScoreCourseClassAvg" class="java.lang.Float" resetType="Column">
-        <variableExpression><![CDATA[$V{surveyList}*.courseScore.sum() / $V{surveyList}*.courseScore.findAll().size()]]></variableExpression>
+        <variableExpression><![CDATA[$V{surveyList}*.courseScore.sum() / ($V{surveyList}*.courseScore.findAll().size() ?: 1)]]></variableExpression>
     </variable>
     <variable name="tutorScoreCourseClassAvg" class="java.lang.Float">
-        <variableExpression><![CDATA[$V{surveyList}*.tutorScore.sum() / $V{surveyList}*.tutorScore.findAll().size()]]></variableExpression>
+        <variableExpression><![CDATA[$V{surveyList}*.tutorScore.sum() / ($V{surveyList}*.tutorScore.findAll().size() ?: 1)]]></variableExpression>
     </variable>
     <variable name="venueScorePageAvg" class="java.lang.Float" calculation="Average" incrementType="None" resetType="Report">
         <variableExpression><![CDATA[$V{venueScoreCourseClassAvg}]]></variableExpression>

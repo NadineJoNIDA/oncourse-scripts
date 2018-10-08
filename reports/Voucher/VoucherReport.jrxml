@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2018-02-23T11:42:31 -->
+<!-- 2018-08-24T11:56:11 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CertificateAttendanceReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" whenResourceMissingType="Empty" uuid="410c1ff3-4a09-4d6a-8550-8fb96d5ac0d0">
-	<property name="name" value="Certificate-Attendance"/>
-	<property name="entity" value="Enrolment"/>
+	<property name="name" value="Voucher Report"/>
+	<property name="entity" value="Voucher"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="27"/>
-	<property name="keyCode" value="ish.oncourse.nonVetCertificate"/>
-	<property name="ish.oncourse.title" value="AttendanceCertificate"/>
-	<property name="ish.oncourse.filePrefix" value="AttendanceCertificate"/>
-	<property name="ish.oncourse.description" value="Report is generated at the conclusion of any non VET short courses to verify that the student attended all of the required number of classes.This report prints in Portrait format."/>
-	<property name="ish.oncourse.pdfFileName" value="AttendanceCertificate.pdf"/>
+	<property name="versionNumber" value="6"/>
+	<property name="keyCode" value="ish.oncourse.VoucherReport"/>
+	<property name="ish.oncourse.title" value="VoucherReport"/>
+	<property name="ish.oncourse.filePrefix" value="VoucherReport"/>
+	<property name="ish.oncourse.description" value=" "/>
+	<property name="ish.oncourse.pdfFileName" value="VoucherReport.pdf"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
@@ -58,7 +58,7 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="ReportName" class="java.lang.String"/>
-	<field name="enrolment" class="ish.oncourse.server.cayenne.Enrolment"/>
+	<field name="voucher" class="ish.oncourse.server.cayenne.Voucher"/>
 	<field name="pref.avetmiss.collegename" class="java.lang.String"/>
 	<field name="pref.avetmiss.address.line1" class="java.lang.String"/>
 	<field name="pref.avetmiss.address.suburb" class="java.lang.String"/>
@@ -81,47 +81,73 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="318" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText-1" style="Footer" x="0" y="142" width="540" height="16" uuid="83e9f535-b758-42b1-aded-12782612901c"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[This is to certify that]]></text>
-			</staticText>
+		<band height="500" splitType="Stretch">
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-1" style="header 1" x="0" y="157" width="540" height="52" uuid="665fcbc9-1bc1-4c6b-af09-97b610a87bf3"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[(($F{enrolment}.student.contact.firstName == $F{enrolment}.student.contact.lastName) ? $F{enrolment}.student.contact.lastName : $F{enrolment}.student.contact.fullName)]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement key="staticText-2" style="Footer" x="0" y="222" width="540" height="16" uuid="9a87d2ee-56dd-4026-bf4a-0525e61dc163"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[has completed the course]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
-				<reportElement key="textField-2" style="header 3" x="0" y="239" width="540" height="46" uuid="bab125a9-0ea4-4e47-bb8b-11866e036e08"/>
+				<reportElement key="textField-1" style="header 1" x="0" y="150" width="540" height="22" uuid="665fcbc9-1bc1-4c6b-af09-97b610a87bf3"/>
 				<textElement textAlignment="Center">
-					<font size="18"/>
+					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{courseClass.course.name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Your " + $F{voucher}.voucherProduct.name + " voucher is ready to redeem"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField-2" style="header 3" x="0" y="270" width="540" height="20" uuid="bab125a9-0ea4-4e47-bb8b-11866e036e08"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["How to redeem your voucher"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-6" style="header 2" x="0" y="87" width="540" height="32" uuid="69b9ce5f-9bed-4417-afd6-7a3c821a8eb0"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[Certificate of Attendance]]></text>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Gift Voucher]]></text>
 			</staticText>
-			<textField pattern="###0.00" isBlankWhenNull="false">
-				<reportElement key="textField-3" style="Footer" positionType="Float" x="0" y="285" width="540" height="16" uuid="ec98a9de-46fe-4dd7-99ea-23090e5750db"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA["Duration: "+$F{courseClass.classroomHours}+" hours"]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00" isBlankWhenNull="false">
-				<reportElement key="textField-3" style="Footer" positionType="Float" x="-1" y="302" width="540" height="16" uuid="03e33009-a5a5-47a8-bc99-81824a19d24b"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA["Date Achieved: " + $F{enrolment}.outcomes*.endDate.flatten().max().format("dd MMM yyyy")]]></textFieldExpression>
-			</textField>
 			<break>
 				<reportElement positionType="FixRelativeToBottom" mode="Transparent" x="0" y="0" width="99" height="1" uuid="33f2d105-2ef2-44bf-a488-1a552b192b03"/>
 			</break>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-1" style="header 1" x="-1" y="172" width="540" height="22" uuid="e9f9b5b9-3bad-49e5-abe3-4ccfe4f1fc59"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Voucher code: " + $F{voucher}.code]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-1" style="header 1" x="0" y="194" width="540" height="22" uuid="44b581e3-2803-47f9-8f09-8e4cd07b74d4"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Your voucher is valid until " + $F{voucher}.expiryDate.format("dd MMM YYYY")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField-2" style="header 3" x="0" y="290" width="540" height="40" uuid="d5aadb1b-5b9f-4071-86ec-84b3dbf0313a"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans Light" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Redeeming your voucher is easy. Visit our website and choose from our wide range of classes."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField-2" style="header 3" x="0" y="340" width="540" height="40" uuid="f0ecdde9-5287-4130-807e-2f6bc28b3e01"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans Light" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["When you are ready click Enrol and follow the enrolment process - at the checkout enter your voucher code: "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField-2" style="header 3" x="0" y="410" width="540" height="40" uuid="77a3134d-4fd0-42c8-8e60-0da595164c88"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans Light" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["If you have any questions about our courses or your voucher, don't hesitate to contact us."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField-2" style="header 3" x="0" y="380" width="540" height="20" uuid="be27efb7-1473-4ec5-a1cd-8cc91209354d"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{voucher}.code]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

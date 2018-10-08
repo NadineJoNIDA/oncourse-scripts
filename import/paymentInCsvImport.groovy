@@ -13,11 +13,8 @@ import ish.oncourse.server.cayenne.Invoice
 import ish.oncourse.server.cayenne.PaymentIn
 import ish.oncourse.server.cayenne.PaymentInLine
 import ish.oncourse.server.cayenne.PaymentMethod
-import ish.oncourse.server.cayenne.Preference
 import ish.oncourse.server.cayenne.SystemUser
 import ish.oncourse.server.imports.CsvParser
-import ish.persistence.CommonPreferenceController
-import ish.util.LocalDateUtils
 import ish.util.SetBankingMethod
 import org.apache.cayenne.query.ObjectSelect
 import org.apache.cayenne.query.SelectById
@@ -89,11 +86,7 @@ reader.eachLine { line  ->
         throwException("validation error - Row [${i}]: Amount [${amount}] can not be greater than invoice amount owing [${allAmountOwing}].")
     }
 
-    LocalDate transactionLockedDate = LocalDateUtils.stringToValue(
-            ObjectSelect.query(Preference.class)
-                    .where(Preference.NAME.eq(CommonPreferenceController.FINANCE_TRANSACTION_LOCKED))
-                    .selectOne(context)
-                    .getValueString())
+    LocalDate transactionLockedDate = transactionLockedService.transactionLocked
 
     if ((dateBanked <=> transactionLockedDate) < 1) {
         throwException("validation error - Row [${i}]: Payment In can not be processed in for a period that has been finalised.")

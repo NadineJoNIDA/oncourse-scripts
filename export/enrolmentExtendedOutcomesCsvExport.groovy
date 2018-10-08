@@ -25,5 +25,6 @@ records.collectMany { e -> e.outcomes }.each { o ->
             "SupressAVETMISSExport" : o.enrolment.suppressAvetmissExport,
             "OutcomeMarkedOnlineBy"	: o.markedByTutor?.contact?.fullName ?: "Office",
             "OnlineMarkingDate"		: o.markedByTutorDate?.format("d/M/Y"),
+            "fundingSource"         : o.enrolment.relatedFundingSource?.name ?: "Fee for service (non-funded)"
     ]
 }

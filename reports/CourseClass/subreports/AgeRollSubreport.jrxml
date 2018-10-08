@@ -5,7 +5,7 @@
 	<property name="entity" value="PrintableAttendance"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="24"/>
+	<property name="versionNumber" value="27"/>
 	<property name="keyCode" value="ish.onCourse.rollAge"/>
 	<property name="ish.oncourse.title" value="Enrolments"/>
 	<property name="ish.oncourse.filePrefix" value="CourseClass_enrolements"/>
@@ -63,6 +63,10 @@
 	<field name="studentNo" class="java.lang.Long"/>
 	<field name="mobile" class="java.lang.String"/>
 	<field name="age" class="java.lang.String"/>
+    <sortField name="sessionDate"/>
+    <sortField name="studentLastName"/>
+    <sortField name="studentFirstName"/>
+    <sortField name="studentNo"/>
 	<variable name="studentNameFirst" class="java.lang.String">
 		<variableExpression><![CDATA[$F{isTutor}.booleanValue() ? "Tutor signature: " : "" + $F{studentFirstName} + " " + $F{studentLastName}]]></variableExpression>
 	</variable>
@@ -129,7 +133,7 @@ phone]]></text>
 				</crosstabHeaderCell>
 				<rowGroup name="studentName" width="179">
 					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$V{studentNameFirst}]]></bucketExpression>
+						<bucketExpression><![CDATA[$V{studentNameFirst} + "__" + $F{studentNo}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents mode="Opaque" style="crosstab">
@@ -142,7 +146,7 @@ phone]]></text>
 									<rightPen lineWidth="0.0"/>
 								</box>
 								<textElement markup="html"/>
-								<textFieldExpression><![CDATA[$V{studentName}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($V{studentName}.split("__").size() == 0 ? "" : $V{studentName}.split("__")[0])]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabRowHeader>

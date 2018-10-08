@@ -24,5 +24,6 @@ records.collectMany { cc -> cc.enrolments }.collectMany { e -> e.outcomes }.each
 			"ConcessionType"		: o.enrolment.vetFeeExemptionType,
 			"OutcomeMarkedOnlineBy"	: o.markedByTutor?.contact?.fullName ?: "Office",
 			"OnlineMarkingDate"		: o.markedByTutorDate?.format("d/M/Y"),
+			"fundingSource"         : o.enrolment.relatedFundingSource?.name ?: "Fee for service (non-funded)"
 	]
 }

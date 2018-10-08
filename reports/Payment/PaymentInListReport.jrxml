@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentIn"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="40"/>
+	<property name="versionNumber" value="41"/>
 	<property name="keyCode" value="ish.onCourse.paymentInListReport"/>
 	<property name="ish.oncourse.description" value="A detailed report displaying transactions made to and from each general ledger account over a specified period of time.This report prints in Portrait format."/>
 	<property name="ish.oncourse.additionalProperty" value="classRange"/>
@@ -178,7 +178,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-6" style="data field" x="330" y="0" width="80" height="15" uuid="666e229e-340f-41be-8399-a9695eca1e13"/>
-				<textFieldExpression><![CDATA[$F{paymentIn}.status]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{paymentIn}.statusString]]></textFieldExpression>
 			</textField>
 			<textField pattern="d MMM yyyy" isBlankWhenNull="true">
 				<reportElement key="textField-6" style="data field" x="5" y="0" width="100" height="15" uuid="d4063da6-c254-4bb9-8119-42696877eb71">

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-09-21T10:18:29 -->
+<!-- 2018-02-23T11:41:53 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CertificateQualificationReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" whenResourceMissingType="Empty" uuid="2fd4d775-3611-4fe6-8c74-bc35c0f9f2a3">
 	<property name="name" value="Certificate"/>
 	<property name="entity" value="Certificate"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="70"/>
+	<property name="versionNumber" value="73"/>
 	<property name="keyCode" value="ish.onCourse.certificate"/>
 	<property name="ish.oncourse.title" value="Qualification"/>
 	<property name="ish.oncourse.filePrefix" value="qualification"/>
@@ -97,7 +97,7 @@
 				<textElement textAlignment="Center">
 					<font size="18"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{certificate}.student.contact.fullName]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{certificate}.student.contact.firstName == $F{certificate}.student.contact.lastName) ? $F{certificate}.student.contact.lastName : $F{certificate}.student.contact.fullName]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText-2" style="Footer" x="0" y="196" width="540" height="22" uuid="8fd03523-8a97-465c-808d-9d90a6c9e3da"/>

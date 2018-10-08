@@ -5,7 +5,7 @@
 	<property name="entity" value="PrintableAttendance"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="29"/>
+	<property name="versionNumber" value="30"/>
 	<property name="keyCode" value="ish.onCourse.roll"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
@@ -66,7 +66,7 @@
 	<sortField name="isSortable" order="Descending"/>
 	<sortField name="studentLastName"/>
 	<sortField name="studentFirstName"/>
-	<sortField name="studentName"/>
+	<sortField name="studentNo"/>
 	<sortField name="sessionDate"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -112,14 +112,14 @@
 				</crosstabHeaderCell>
 				<rowGroup name="studentName" width="179">
 					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$F{studentName}]]></bucketExpression>
+						<bucketExpression><![CDATA[$F{studentName} + "__" + $F{studentNo}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents mode="Opaque" style="crosstab">
 							<textField isBlankWhenNull="false">
 								<reportElement key="textField" style="data field" x="0" y="0" width="177" height="16" uuid="43d43ba5-831e-49ef-b4e7-af4533077afd"/>
 								<textElement markup="html"/>
-								<textFieldExpression><![CDATA[$V{studentName}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($V{studentName}.split("__").size() == 0 ? "" : $V{studentName}.split("__")[0])]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabRowHeader>

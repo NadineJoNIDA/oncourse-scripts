@@ -11,7 +11,7 @@ def run(args) {
 	def enrolments = ObjectSelect.query(Enrolment)
 			.where(Enrolment.COURSE_CLASS.dot(CourseClass.COURSE).dot(Course.IS_VET).eq(true))
 			.and(Enrolment.OUTCOMES.dot(Outcome.MODIFIED_ON).between(yesterdayStart, yesterdayEnd))
-			.select(context);
+			.select(context)
 
 	enrolments = enrolments.findAll { e ->  e.outcomes.findAll { o -> OutcomeStatus.STATUS_NOT_SET.equals(o.status) }.empty }
 

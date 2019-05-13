@@ -45,7 +45,7 @@ class Import80 {
     ObjectContext context
     String clientIdFN
 
-    Map<String, Contact> imported = [:];
+    Map<String, Contact> imported = [:]
 
     def errors = []
 
@@ -59,7 +59,7 @@ class Import80 {
         data.eachLine { rawLine ->
 
             line = new InputLine(rawLine)
-            parser = Avetmiss80Parser.valueOf(line, lineNumber, context);
+            parser = Avetmiss80Parser.valueOf(line, lineNumber, context)
             value = parser.parse()
 
             if (parser.errors.empty) {
@@ -89,8 +89,8 @@ class Import80 {
                 context.commitChanges()
                 imported.clear()
             } catch (Exception e) {
-                logger.error(e);
-                throw e;
+                logger.error(e)
+                throw e
             }
         }
     }
@@ -148,8 +148,8 @@ class Import85 {
                 imported.clear()
                 logger.warn("{} lines committed", lineNumber)
             } catch (Exception e) {
-                logger.error(e);
-                throw e;
+                logger.error(e)
+                throw e
             }
         }
     }

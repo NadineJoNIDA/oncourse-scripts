@@ -35,7 +35,7 @@ xml.data() {
 						price() {
 							def taxRate = cc.tax ? cc.tax.rate : new BigDecimal(0)
 							amount(DiscountUtils.getDiscountedFee(dcc, cc.feeIncGst, taxRate).toPlainString())
-							taxAmount(DiscountUtils.getDiscountedFee(dcc, cc.feeIncGst, taxRate).multiply(taxRate))
+							taxAmount(DiscountUtils.getDiscountedFee(dcc, cc.feeIncGst, taxRate).multiply(taxRate).toPlainString())
 							taxName(cc.tax?.taxCode ?: "unknown")
 							discountAmount(DiscountUtils.discountValue(dcc, cc.feeIncGst, taxRate).toPlainString())
 							discountName(dcc.discount.name)

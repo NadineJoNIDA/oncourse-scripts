@@ -40,7 +40,7 @@ def run(args) {
 
                 c.setPrintedOn(currentDate)
                 if (c.issuedOn == null) {
-                    c.setIssuedOn(currentDate);
+                    c.setIssuedOn(currentDate)
                 }
                 args.context.commitChanges()
 

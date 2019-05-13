@@ -5,7 +5,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="28"/>
+	<property name="versionNumber" value="30"/>
 	<property name="keyCode" value="ish.onCourse.totalDiscounts"/>
 	<property name="ish.oncourse.description" value="To confirm uptake and cost of discounts across a selection of classes.This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
@@ -26,7 +26,7 @@
 	<style name="Label" style="default" forecolor="#6A7E99"/>
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
-	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="¤#,###,##0.00;¤(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
 	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
 	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
@@ -232,12 +232,12 @@
 							</reportElement>
 							<textFieldExpression><![CDATA[$V{classExpectedIncome}.compareTo(BigDecimal.ZERO) > 0 ? ($V{discountValue}.multiply(new BigDecimal(100.0)).divide($V{classExpectedIncome}, 2, RoundingMode.HALF_UP).toString() + "%") : ""]]></textFieldExpression>
 						</textField>
-						<staticText>
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 							<reportElement key="textField-2" style="data field (money)" x="6" y="1" width="50" height="14" uuid="1bb53f34-4b26-444d-b3f2-8eac7af864a5">
 								<printWhenExpression><![CDATA[$V{discountValue}.compareTo(BigDecimal.ZERO) == 0 || $V{classExpectedIncome}.compareTo(BigDecimal.ZERO) == 0]]></printWhenExpression>
 							</reportElement>
-							<text><![CDATA[$0.00]]></text>
-						</staticText>
+							<textFieldExpression><![CDATA[Money.ZERO]]></textFieldExpression>
+						</textField>
 					</cellContents>
 				</crosstabCell>
 				<crosstabCell width="62" height="30" rowTotalGroup="classCode">

@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentInterface"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="8"/>
+	<property name="versionNumber" value="9"/>
 	<property name="keyCode" value="ish.onCourse.reconciliationSummary"/>
 	<property name="ish.oncourse.title" value="Cash Movements Summary Report"/>
 	<property name="ish.oncourse.filePrefix" value="Cash Movements Summary Report"/>
@@ -36,7 +36,7 @@
 	<style name="Label" style="default" forecolor="#6A7E99"/>
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
-	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="¤#,###,##0.00;¤(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
 	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
 	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
@@ -128,7 +128,7 @@
 					<reportElement style="header 2" x="10" y="1" width="220" height="18" uuid="c878056a-0fd7-4514-81e2-9ac539ec5dc2"/>
 					<textFieldExpression><![CDATA[$F{account}?.accountCode + " - " + $F{account}?.description]]></textFieldExpression>
 				</textField>
-				<textField evaluationTime="Group" evaluationGroup="account" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+				<textField evaluationTime="Group" evaluationGroup="account" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="header 3 (right)" x="320" y="1" width="70" height="18" uuid="9d1aca95-158f-4cdb-8487-dcc7c2edf17f"/>
 					<textFieldExpression><![CDATA[$V{totalByAccount}]]></textFieldExpression>
 				</textField>
@@ -136,7 +136,7 @@
 					<reportElement style="Label" x="10" y="21" width="50" height="15" uuid="d98ce41d-5199-451c-a658-910362acaba2"/>
 					<text><![CDATA[Reconciled]]></text>
 				</staticText>
-				<textField evaluationTime="Group" evaluationGroup="account" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+				<textField evaluationTime="Group" evaluationGroup="account" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="data field (money)" x="120" y="21" width="70" height="15" uuid="cb8ffd80-f738-464b-a84d-c8ddaf18cc76"/>
 					<textFieldExpression><![CDATA[$V{reconciledByAccount}]]></textFieldExpression>
 				</textField>
@@ -144,7 +144,7 @@
 					<reportElement style="Label" x="210" y="21" width="60" height="15" uuid="bbc83657-9ffb-4aff-bf63-2d72e4b5794b"/>
 					<text><![CDATA[Unreconciled]]></text>
 				</staticText>
-				<textField evaluationTime="Group" evaluationGroup="account" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+				<textField evaluationTime="Group" evaluationGroup="account" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="data field (money)" x="320" y="21" width="70" height="15" uuid="7d257a65-3f04-4aca-8216-57bd8470288a"/>
 					<textFieldExpression><![CDATA[$V{unreconciledByAccount}]]></textFieldExpression>
 				</textField>
@@ -174,7 +174,7 @@
 					<reportElement style="header 2" x="270" y="1" width="30" height="18" uuid="bcc65c72-aa20-49e9-9fe9-5e54815d1c4f"/>
 					<textFieldExpression><![CDATA[$V{absoluteTotalByDate} == $V{absoluteReconciledByDate} ? "[ x ]" : $V{absoluteReconciledByDate} > 0f ? "[ - ]" : "[    ]"]]></textFieldExpression>
 				</textField>
-				<textField evaluationTime="Group" evaluationGroup="dateBanked" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+				<textField evaluationTime="Group" evaluationGroup="dateBanked" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="header 2" x="320" y="1" width="70" height="18" uuid="afb33500-a9c5-4176-9d29-3532f27538ac"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{totalByDate}]]></textFieldExpression>
@@ -197,7 +197,7 @@
 					<reportElement style="header 3" x="270" y="2" width="30" height="15" uuid="edd6f246-4c16-4c04-863b-a8348c4e0b23"/>
 					<textFieldExpression><![CDATA[$V{absoluteTotalByType} == $V{absoluteReconciledByType} ? "[ x ]" : $V{absoluteReconciledByType} > 0f ? "[ - ]" : "[    ]"]]></textFieldExpression>
 				</textField>
-				<textField evaluationTime="Group" evaluationGroup="paymentMethod" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+				<textField evaluationTime="Group" evaluationGroup="paymentMethod" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="header 3 (right)" x="320" y="2" width="70" height="15" uuid="2bbbed1e-be30-4a56-aa3f-a280b3acd6c5"/>
 					<textFieldExpression><![CDATA[$V{totalByType}]]></textFieldExpression>
 				</textField>

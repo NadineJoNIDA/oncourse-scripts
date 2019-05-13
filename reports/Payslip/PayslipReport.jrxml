@@ -5,7 +5,7 @@
 	<property name="entity" value="PayLine"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="17"/>
+	<property name="versionNumber" value="18"/>
 	<property name="keyCode" value="ish.onCourse.payslipReport"/>
 	<property name="ish.oncourse.title" value="Payslip Report"/>
 	<property name="ish.oncourse.filePrefix" value="PayslipReport"/>
@@ -24,7 +24,7 @@
 	<style name="Label" style="default" forecolor="#6A7E99"/>
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
-	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="¤#,###,##0.00;¤(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
 	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
 	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
@@ -90,7 +90,7 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="20" splitType="Stretch">
-				<textField pattern="$#,###,##0.00;$(-#,###,##0.00)">
+				<textField pattern="¤#,###,##0.00;¤(-#,###,##0.00)">
 					<reportElement key="textField-1" style="header 3 (right)" x="360" y="0" width="120" height="20" uuid="220d5197-877d-4f2d-b924-e6abeb267a70">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>

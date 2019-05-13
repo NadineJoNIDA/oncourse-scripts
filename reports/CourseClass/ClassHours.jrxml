@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="38"/>
+	<property name="versionNumber" value="39"/>
 	<property name="keyCode" value="ish.onCourse.classHours"/>
 	<property name="ish.oncourse.description" value="A summary of the classroom, nominal and reportable hours for each class, for use in the administration of VET / AVETMISS courses.This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
@@ -22,7 +22,7 @@
 	<style name="Label" style="default" forecolor="#6A7E99"/>
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
-	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="¤#,###,##0.00;¤(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
 	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
 	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>

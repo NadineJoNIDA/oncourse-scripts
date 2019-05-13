@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentInterface"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="39"/>
+	<property name="versionNumber" value="40"/>
 	<property name="keyCode" value="ish.onCourse.banking2"/>
 	<property name="ish.oncourse.description" value="This report shows payments in and is designed to take along to the bank when you deposit cash and cheques.This report prints in Portrait format."/>
 	<property name="sortOn" value="administrationCentre.name;dateBanked;paymentMethod.name;createdOn"/>
@@ -103,7 +103,7 @@
 		<groupExpression><![CDATA[null]]></groupExpression>
 		<groupFooter>
 			<band height="27" splitType="Stretch">
-				<textField evaluationTime="Report" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+				<textField evaluationTime="Report" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement key="textField-8" style="header 3 (right)" x="329" y="5" width="133" height="15" uuid="6ae9c1eb-d24d-4f63-a2d2-0b48f09a3a71"/>
 					<textElement markup="html"/>
 					<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
@@ -219,7 +219,7 @@
 ((($F{chequeBank}==null) && ($F{chequeBranch}==null))?"":("("+$F{chequeBank}+", "+$F{chequeBranch}+")"))+
 (( ((ish.common.types.PaymentStatus)$F{status}).equals(ish.common.types.PaymentStatus.SUCCESS) )?"":"   -- FAILED! --")]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 				<reportElement key="textField-8" style="data field (money)" x="372" y="1" width="90" height="16" uuid="f4659b5d-ce4a-4f6e-a4e7-12066cb774f7"/>
 				<textFieldExpression><![CDATA[StringUtils.equalsIgnoreCase("payment in", $F{typeOfPayment}) ? $F{amount} : "( " + $F{amount} + " )"]]></textFieldExpression>
 			</textField>

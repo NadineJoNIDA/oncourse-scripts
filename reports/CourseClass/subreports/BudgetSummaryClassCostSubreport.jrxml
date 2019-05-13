@@ -5,7 +5,7 @@
 	<property name="entity" value="ClassCost"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="9"/>
+	<property name="versionNumber" value="10"/>
 	<property name="keyCode" value="ish.oncourse.budgetSummary.classCostSubreport"/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>
 	<import value="ish.common.types.ClassCostFlowType"/>
@@ -20,7 +20,7 @@
 	<style name="Label" style="default" forecolor="#6A7E99"/>
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
-	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="¤#,###,##0.00;¤(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
 	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
 	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>

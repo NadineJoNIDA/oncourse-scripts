@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2019-04-02T12:12:51 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CertificateTranscriptSubReport" language="groovy" pageWidth="514" pageHeight="842" columnWidth="514" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="43f1b98f-40e1-4daf-9630-b053ee1470e3">
 	<property name="name" value="Ceriticate-Transcript Subreport"/>
 	<property name="entity" value="Outcome"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="14"/>
+	<property name="versionNumber" value="18"/>
 	<property name="keyCode" value="ish.onCourse.certificate.transcript.subreport"/>
 	<property name="ish.oncourse.title" value="Outcomes"/>
 	<property name="ish.oncourse.filePrefix" value="Outcomes"/>
@@ -23,7 +24,7 @@
 	<style name="Label" style="default" forecolor="#6A7E99"/>
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
-	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="¤#,###,##0.00;¤(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
 	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
 	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
@@ -69,38 +70,51 @@
 	</pageHeader>
 	<columnHeader>
 		<band height="40" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement key="staticText-1" style="header 3" x="0" y="22" width="337" height="15" uuid="534fcce9-e62f-43b3-bfc7-313ced9f755b"/>
+				<reportElement key="staticText-1" style="header 3" x="30" y="22" width="320" height="15" uuid="534fcce9-e62f-43b3-bfc7-313ced9f755b"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Units of Competency Attained]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText-6" style="header 3" x="346" y="22" width="147" height="15" uuid="68fc849c-e74f-4dc4-9b15-df295e66c6e5"/>
+				<reportElement key="staticText-6" style="header 3" x="350" y="22" width="143" height="15" uuid="68fc849c-e74f-4dc4-9b15-df295e66c6e5"/>
 				<textElement textAlignment="Left">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Result]]></text>
 			</staticText>
+			<staticText>
+				<reportElement key="staticText-1" style="header 3" x="0" y="22" width="30" height="15" uuid="fab1cd58-cd85-467f-b301-9b4d176168ee"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Year]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="26" splitType="Stretch">
+		<band height="31" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement style="data field" stretchType="RelativeToTallestObject" x="0" y="0" width="97" height="26" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="data field" stretchType="RelativeToTallestObject" x="30" y="0" width="90" height="26" isPrintWhenDetailOverflows="true" uuid="24884c0e-5599-4785-9d20-4fcea9e3890b"/>
 				<textElement verticalAlignment="Top"/>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="data field" stretchType="RelativeToTallestObject" x="99" y="0" width="238" height="26" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="data field" stretchType="RelativeToTallestObject" x="120" y="0" width="223" height="26" isPrintWhenDetailOverflows="true" uuid="60f9611e-1cb0-4281-b0cc-5ddd02e7eec4"/>
 				<textElement verticalAlignment="Top"/>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="data field" stretchType="RelativeToTallestObject" x="346" y="0" width="147" height="26" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="data field" stretchType="RelativeToTallestObject" x="350" y="0" width="143" height="26" isPrintWhenDetailOverflows="true" uuid="0b913386-c109-4aa5-bce6-910e9b407e2b"/>
 				<textElement textAlignment="Left" verticalAlignment="Top"/>
 				<textFieldExpression><![CDATA[$F{outcome}.status?.displayName]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="data field" stretchType="RelativeToTallestObject" x="0" y="0" width="30" height="26" isPrintWhenDetailOverflows="true" uuid="f70acf6f-0b60-4974-bccc-74c4e0b2f11b"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{outcome}.endDate.format("YYYY")]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

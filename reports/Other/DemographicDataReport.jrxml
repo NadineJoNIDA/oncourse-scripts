@@ -4,7 +4,7 @@
     <property name="entity" value="Enrolment"/>
     <property name="isSubreport" value="false"/>
     <property name="isVisible" value="true"/>
-    <property name="versionNumber" value="1"/>
+    <property name="versionNumber" value="2"/>
     <property name="keyCode" value="ish.onCourse.defaultDemographicData"/>
     <property name="ish.oncourse.description" value="For a selection of classes or enrolments, aggregate the responses to the standard student demographic questions such as age, gender, residential suburb, country of birth and language spoken. This report prints in portrait format."/>
     <import value="net.sf.jasperreports.engine.*"/>
@@ -22,7 +22,7 @@
     <style name="Label" style="default" forecolor="#6A7E99"/>
     <style name="Label right" style="Label" hTextAlign="Right"/>
     <style name="data field" style="default"/>
-    <style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+    <style name="data field (money)" style="data field" hTextAlign="Right" pattern="¤#,###,##0.00;¤(-#,###,##0.00)"/>
     <style name="data field (numeric)" style="data field" hTextAlign="Right"/>
     <style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
     <style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>

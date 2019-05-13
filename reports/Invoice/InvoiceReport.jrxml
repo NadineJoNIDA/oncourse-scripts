@@ -6,7 +6,7 @@
 	<property name="entity" value="InvoiceLine"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="115"/>
+	<property name="versionNumber" value="116"/>
 	<property name="keyCode" value="ish.onCourse.invoiceReport"/>
 	<property name="ish.oncourse.title" value="Invoice line list"/>
 	<property name="ish.oncourse.filePrefix" value="invoice line"/>
@@ -26,7 +26,7 @@
 	<style name="Label" style="default" forecolor="#6A7E99"/>
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
-	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="¤#,###,##0.00;¤(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
 	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
 	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
@@ -436,7 +436,7 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{taxEach}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 				<reportElement key="textField-4" style="data field (money)" x="474" y="3" width="65" height="14" uuid="efea5495-9d00-43e8-b7bc-2a26ca02d3b3"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{finalPriceToPayIncTax}]]></textFieldExpression>

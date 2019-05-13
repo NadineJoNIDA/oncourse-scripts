@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentInterface"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="14"/>
+	<property name="versionNumber" value="15"/>
 	<property name="keyCode" value="ish.onCourse.reconciliationDetail"/>
 	<property name="ish.oncourse.title" value="Cash Movements Detail Report"/>
 	<property name="ish.oncourse.filePrefix" value="Cash Movements Detail Report"/>
@@ -36,7 +36,7 @@
 	<style name="Label" style="default" forecolor="#6A7E99"/>
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
-	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="¤#,###,##0.00;¤(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
 	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
 	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>
@@ -133,7 +133,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{account}?.accountCode + " - " + $F{account}?.description]]></textFieldExpression>
 				</textField>
-				<textField evaluationTime="Group" evaluationGroup="account" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+				<textField evaluationTime="Group" evaluationGroup="account" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="header 3 (right)" x="320" y="1" width="70" height="18" uuid="e7d8cf68-5cd1-4077-8db0-0ede9add98f8"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{totalByAccount}]]></textFieldExpression>
@@ -142,7 +142,7 @@
 					<reportElement style="Label" x="10" y="21" width="50" height="15" uuid="4e6f4629-2028-474c-b171-90233aad10aa"/>
 					<text><![CDATA[Reconciled]]></text>
 				</staticText>
-				<textField evaluationTime="Group" evaluationGroup="account" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+				<textField evaluationTime="Group" evaluationGroup="account" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="data field (money)" x="120" y="21" width="70" height="15" uuid="e1ca61db-6299-40c5-8688-5fc335801678"/>
 					<textFieldExpression><![CDATA[$V{reconciledByAccount}]]></textFieldExpression>
 				</textField>
@@ -150,7 +150,7 @@
 					<reportElement style="Label" x="210" y="21" width="60" height="15" uuid="db86bbfc-7844-489f-8686-e7d29088b79b"/>
 					<text><![CDATA[Unreconciled]]></text>
 				</staticText>
-				<textField evaluationTime="Group" evaluationGroup="account" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+				<textField evaluationTime="Group" evaluationGroup="account" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="data field (money)" x="320" y="21" width="70" height="15" uuid="4072b7c7-7eb4-4c87-91e2-ff4cc5d55329"/>
 					<textFieldExpression><![CDATA[$V{unreconciledByAccount}]]></textFieldExpression>
 				</textField>
@@ -185,7 +185,7 @@
 					<reportElement style="header 2" x="10" y="1" width="220" height="18" uuid="a15d6467-bcd2-44a5-ab5d-e929c62bb2f1"/>
 					<textFieldExpression><![CDATA["Banked " + $F{dateBanked}.format("d MMMM y")]]></textFieldExpression>
 				</textField>
-				<textField evaluationTime="Group" evaluationGroup="dateBanked" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+				<textField evaluationTime="Group" evaluationGroup="dateBanked" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="header 2" x="320" y="1" width="70" height="18" uuid="5dd52c5c-9e9c-4a13-81c0-d90119100f5e"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{totalByDate}]]></textFieldExpression>
@@ -204,7 +204,7 @@
 					<reportElement style="header 3" x="10" y="3" width="220" height="15" uuid="cd79e905-674e-4c4b-afce-20109430eeed"/>
 					<textFieldExpression><![CDATA[$F{paymentMethod}.name + ((PaymentType.CREDIT_CARD.equals($F{paymentMethod}.type) && $F{creditCardType} != null) ? " - " + $F{creditCardType}.displayName : "")]]></textFieldExpression>
 				</textField>
-				<textField evaluationTime="Group" evaluationGroup="paymentMethod" pattern="$#,###,##0.00;$(-#,###,##0.00)" isBlankWhenNull="true">
+				<textField evaluationTime="Group" evaluationGroup="paymentMethod" pattern="¤#,###,##0.00;¤(-#,###,##0.00)" isBlankWhenNull="true">
 					<reportElement style="header 3 (right)" x="320" y="3" width="70" height="15" uuid="c23539ff-dd6d-4ba9-8132-2cad9c7f084a"/>
 					<textFieldExpression><![CDATA[$V{totalByType}]]></textFieldExpression>
 				</textField>

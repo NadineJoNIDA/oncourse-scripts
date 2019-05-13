@@ -5,7 +5,7 @@
 	<property name="entity" value="Discount"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="16"/>
+	<property name="versionNumber" value="17"/>
 	<property name="keyCode" value="ish.oncourse.discount.takeUp"/>
 	<property name="ish.oncourse.description" value="This report can be working incorrectly with invoice lines which apply more than 1 discounts and one (or more) of these discounts has been changed. It prints in Portrait format."/>
 	<property name="ish.oncourse.pdfFileName" value="DiscountTakeUp_report.pdf"/>
@@ -28,7 +28,7 @@
 	<style name="Label" style="default" forecolor="#6A7E99"/>
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
-	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="¤#,###,##0.00;¤(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
 	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
 	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>

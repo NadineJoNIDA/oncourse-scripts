@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentOut"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="7"/>
+	<property name="versionNumber" value="8"/>
 	<property name="keyCode" value="ish.onCourse.paymentOutListReport"/>
 	<property name="ish.oncourse.description" value="A detailed report displaying transactions made to and from each general ledger account over a specified period of time.This report prints in Landscape format."/>
 	<property name="ish.oncourse.additionalProperty" value="classRange"/>
@@ -32,7 +32,7 @@
 	<style name="Label" style="default" forecolor="#6A7E99"/>
 	<style name="Label right" style="Label" hTextAlign="Right"/>
 	<style name="data field" style="default"/>
-	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="$#,###,##0.00;$(-#,###,##0.00)"/>
+	<style name="data field (money)" style="data field" hTextAlign="Right" pattern="¤#,###,##0.00;¤(-#,###,##0.00)"/>
 	<style name="data field (numeric)" style="data field" hTextAlign="Right"/>
 	<style name="data field (datetime)" style="data field" pattern="d MMM yyyy h:mma"/>
 	<style name="data field (day)" style="data field" pattern="E d MMM h:mma"/>

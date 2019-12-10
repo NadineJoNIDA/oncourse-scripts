@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="30"/>
+
 	<property name="keyCode" value="ish.onCourse.classDetailsReport"/>
 	<property name="ish.oncourse.description" value="To obtain full list of one or more classes scheduled sessions. This is a list view of the timetabled sessions.This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>

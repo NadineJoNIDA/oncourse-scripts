@@ -10,7 +10,14 @@ import ish.common.types.AvetmissStudentEnglishProficiency
 import ish.common.types.AvetmissStudentIndigenousStatus
 import ish.common.types.AvetmissStudentLabourStatus
 import ish.common.types.AvetmissStudentSchoolLevel
-import ish.oncourse.server.cayenne.*
+import ish.oncourse.server.cayenne.Contact
+import ish.oncourse.server.cayenne.Country
+import ish.oncourse.server.cayenne.Language
+import ish.oncourse.server.cayenne.Module
+import ish.oncourse.server.cayenne.Outcome
+import ish.oncourse.server.cayenne.PriorLearning
+import ish.oncourse.server.cayenne.Qualification
+import ish.oncourse.server.cayenne.Student
 import ish.util.DateFormatter
 import ish.util.EnumUtil
 import ish.validation.ValidationUtil
@@ -24,7 +31,6 @@ import org.apache.logging.log4j.Logger
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
 
 logger = LogManager.getLogger(getClass())
 

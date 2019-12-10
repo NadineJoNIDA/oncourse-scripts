@@ -4,7 +4,7 @@
     <property name="entity" value="Contact"/>
     <property name="isSubreport" value="false"/>
     <property name="isVisible" value="true"/>
-    <property name="versionNumber" value="4"/>
+
     <property name="keyCode" value="ish.onCourse.studentAttendanceAverageReport"/>
     <property name="ish.oncourse.title" value="Student Attendance Averages"/>
     <property name="ish.oncourse.description" value="A summary of their overall attendance."/>

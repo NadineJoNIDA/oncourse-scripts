@@ -5,7 +5,7 @@
 	<property name="entity" value="PaymentOut"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="8"/>
+
 	<property name="keyCode" value="ish.onCourse.paymentOutListReport"/>
 	<property name="ish.oncourse.description" value="A detailed report displaying transactions made to and from each general ledger account over a specified period of time.This report prints in Landscape format."/>
 	<property name="ish.oncourse.additionalProperty" value="classRange"/>

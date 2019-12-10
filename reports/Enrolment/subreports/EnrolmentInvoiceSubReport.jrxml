@@ -6,7 +6,7 @@
 	<property name="entity" value="Enrolment"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="17"/>
+
 	<property name="keyCode" value="ish.onCourse.enrolmentInvoiceSubReport"/>
 	<property name="ish.oncourse.title" value="Enrolments"/>
 	<property name="ish.oncourse.filePrefix" value="Enrolments"/>

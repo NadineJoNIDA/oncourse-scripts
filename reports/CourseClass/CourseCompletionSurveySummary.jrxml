@@ -6,7 +6,7 @@
     <property name="entity" value="CourseClass"/>
     <property name="isSubreport" value="false"/>
     <property name="isVisible" value="true"/>
-    <property name="versionNumber" value="6"/>
+
     <property name="keyCode" value="ish.onCourse.CourseClass.courseCompletionSurveySummary"/>
     <property name="ish.oncourse.title" value="Course Completion Survey Summary"/>
     <property name="ish.oncourse.filePrefix" value="CourseCompletionSurveySummary"/>

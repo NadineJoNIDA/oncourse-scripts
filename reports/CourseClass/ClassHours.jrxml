@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="39"/>
+
 	<property name="keyCode" value="ish.onCourse.classHours"/>
 	<property name="ish.oncourse.description" value="A summary of the classroom, nominal and reportable hours for each class, for use in the administration of VET / AVETMISS courses.This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>

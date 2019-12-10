@@ -4,7 +4,7 @@
     <property name="entity" value="PrintableAssessmentClassModule"/>
     <property name="isSubreport" value="true"/>
     <property name="isVisible" value="false"/>
-    <property name="versionNumber" value="4"/>
+
     <property name="keyCode" value="ish.onCourse.AssessmentTaskMatrix.subreport"/>
     <import value="net.sf.jasperreports.engine.*"/>
     <import value="java.util.*"/>

@@ -5,7 +5,7 @@
 	<property name="entity" value="ContactRelation"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="9"/>
+
 	<property name="keyCode" value="ish.onCourse.traineeshipTrainingPlanEmployerSubReport"/>
 	<property name="ish.oncourse.title" value="EmployerSubReport"/>
 	<property name="ish.oncourse.filePrefix" value="traineeshipTrainingPlanEmployerSubReport"/>

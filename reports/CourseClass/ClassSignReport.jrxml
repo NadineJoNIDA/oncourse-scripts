@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="37"/>
+
 	<property name="keyCode" value="ish.onCourse.classSignReport"/>
 	<property name="ish.oncourse.description" value="Report that can be printed off and used as a sign or label on door of Training Room.This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>

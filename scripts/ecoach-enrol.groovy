@@ -6,31 +6,28 @@ BASE_URL = ""
 apiKey = ""
 userId = ""
 
-def run (args) {
-	
-			
-	def enrolment = args.entity
 
-	// make or get students
-	def member = postMember(enrolment)
-	
-	//get course id for group add
-	def courses =  getCourses()
+def enrolment = args.entity
 
-	def course = courses .find { c -> c.title == enrolment.courseClass.course.name }
+// make or get students
+def member = postMember(enrolment)
 
-	// get groups (classes) in course
-	def courseClasses = getGroups(course["id"])
-	def courseClass = courseClasses.find { cc -> cc.name == enrolment.courseClass.uniqueCode }
+//get course id for group add
+def courses = getCourses()
 
-	if (!courseClass) {
-	    //create groupClass if one does not exist
-	    courseClass = postGroup(enrolment, course["id"])
-	}
+def course = courses.find { c -> c.title == enrolment.courseClass.course.name }
 
-	////add student to group
-	enrolMemberToGroup(member["id"], courseClass["id"])
-} 
+// get groups (classes) in course
+def courseClasses = getGroups(course["id"])
+def courseClass = courseClasses.find { cc -> cc.name == enrolment.courseClass.uniqueCode }
+
+if (!courseClass) {
+    //create groupClass if one does not exist
+    courseClass = postGroup(enrolment, course["id"])
+}
+
+////add student to group
+enrolMemberToGroup(member["id"], courseClass["id"])
 
 def getCourses() {
     def client = new RESTClient(BASE_URL)
@@ -72,10 +69,10 @@ def postMember(enrolment) {
     client.request(Method.POST, ContentType.JSON) {
         uri.path = "/api/v1/members"
         uri.query = [
-                username: enrolment.student.contact.email,
+                username : enrolment.student.contact.email,
                 firstname: enrolment.student.contact.firstName,
-                lastname: enrolment.student.contact.lastName,
-                email: enrolment.student.contact.email
+                lastname : enrolment.student.contact.lastName,
+                email    : enrolment.student.contact.email
         ]
 
         response.success = { resp, result ->
@@ -94,7 +91,7 @@ def postGroup(enrolment, courseId) {
     client.request(Method.POST, ContentType.JSON) {
         uri.path = "/api/v1/courses/${courseId}/groups"
         body = [
-            name: enrolment.courseClass.uniqueCode
+                name: enrolment.courseClass.uniqueCode
         ]
 
         response.success = { resp, result ->
@@ -115,7 +112,7 @@ def enrolMemberToGroup(memberId, groupId) {
     client.request(Method.POST, ContentType.JSON) {
         uri.path = "/api/v1/groups/${groupId}/students"
         body = [
-            ids: id
+                ids: id
         ]
 
         response.success = { resp, result ->

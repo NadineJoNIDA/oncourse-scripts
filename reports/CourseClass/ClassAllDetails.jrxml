@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="37"/>
+
 	<property name="keyCode" value="ish.onCourse.classAllDetails"/>
 	<property name="ish.oncourse.description" value="Detailed report of all information for a given class, including delivery mode, minimum and maximum places, enrolment numbers, fees and discounts, session details, course description, tutor information and directions for getting to the campus. This report prints in Portrait format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>

@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="36"/>
+
 	<property name="keyCode" value="ish.onCourse.classBySubjectReport"/>
 	<property name="ish.oncourse.description" value="To obtain an overview of all classes status within a given time period, such as a term. Classes are grouped by their Category/Sub Category tag. This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>

@@ -5,7 +5,7 @@
     <property name="entity" value="Module"/>
     <property name="isSubreport" value="false"/>
     <property name="isVisible" value="true"/>
-    <property name="versionNumber" value="1"/>
+
     <property name="keyCode" value="ish.onCourse.moduleListReport"/>
     <property name="ish.oncourse.title" value="Module List"/>
     <property name="ish.oncourse.filePrefix" value="ModuleList"/>

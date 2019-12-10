@@ -5,7 +5,7 @@
 	<property name="entity" value="PayLine"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="18"/>
+
 	<property name="keyCode" value="ish.onCourse.payslipReport"/>
 	<property name="ish.oncourse.title" value="Payslip Report"/>
 	<property name="ish.oncourse.filePrefix" value="PayslipReport"/>

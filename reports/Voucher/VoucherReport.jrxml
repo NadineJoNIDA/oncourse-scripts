@@ -6,7 +6,7 @@
 	<property name="entity" value="Voucher"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="7"/>
+
 	<property name="keyCode" value="ish.oncourse.VoucherReport"/>
 	<property name="ish.oncourse.title" value="VoucherReport"/>
 	<property name="ish.oncourse.filePrefix" value="VoucherReport"/>

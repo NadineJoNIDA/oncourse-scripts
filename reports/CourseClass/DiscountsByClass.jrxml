@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="37"/>
+
 	<property name="keyCode" value="ish.onCourse.discountsByClass"/>
 	<property name="ish.oncourse.description" value="List of all discounts for a given Class and their take up value.This report prints in Portrait format."/>
 	<property name="sortOn" value="course.code;code"/>

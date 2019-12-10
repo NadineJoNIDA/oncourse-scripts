@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="21"/>
+
 	<property name="keyCode" value="ish.onCourse.budgetSummaryReport"/>
 	<property name="ish.oncourse.description" value="This report shows in a subject grouping summary format the same data as the Budget Details by Subject report, without the class level data. This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>

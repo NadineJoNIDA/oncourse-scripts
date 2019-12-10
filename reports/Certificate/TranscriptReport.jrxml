@@ -6,7 +6,7 @@
 	<property name="entity" value="Certificate"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="7"/>
+
 	<property name="keyCode" value="ish.onCourse.transcript"/>
 	<property name="ish.oncourse.title" value="Academic Transcript"/>
 	<property name="ish.oncourse.filePrefix" value="certificate"/>

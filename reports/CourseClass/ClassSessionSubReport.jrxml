@@ -14,7 +14,7 @@
 	<property name="entity" value="Session"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="142"/>
+
 	<property name="keyCode" value="ish.onCourse.ClassSessionReportMain"/>
 	<property name="ish.oncourse.description" value="The purpose of this report is to allow the user to select multiple classes (which may contain the same students e.g. those doing a Diploma may undertake 4 classes simultaneously) and print a date range specified timetable of sessions to show the students when and where to turn up to class. This report prints in Landscape format."/>
 	<import value="net.sf.jasperreports.engine.*"/>
@@ -221,7 +221,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement style="data field" x="150" y="1" width="10" height="19" isRemoveLineWhenBlank="true" uuid="20376038-ce2b-4d37-9a68-e8ccecec2107"/>
-				<textFieldExpression><![CDATA[new java.math.BigDecimal(((($F{endDatetime}.getTime()-$F{startDatetime}.getTime())/60000)>=60?(((($F{endDatetime}.getTime()-$F{startDatetime}.getTime())/60000)%60)==0?00:(($F{endDatetime}.getTime()-$F{startDatetime}.getTime())/60000)%60):((($F{endDatetime}.getTime()-$F{startDatetime}.getTime())/60000))))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.math.BigDecimal(((($F{endDatetime}.getTime()-$F{startDatetime}.getTime())/60000)>=60?((((Double)(new Date().getTime()-new Date().getTime() / 60000))%60)==0?00:((Double)(new Date().getTime()-new Date().getTime() / 60000))%60):((($F{endDatetime}.getTime()-$F{startDatetime}.getTime())/60000))))]]></textFieldExpression>
 			</textField>
 			<elementGroup>
 				<subreport isUsingCache="true">

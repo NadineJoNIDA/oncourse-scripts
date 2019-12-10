@@ -6,7 +6,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="6"/>
+
 	<property name="keyCode" value="ish.onCourse.enrolmentIncomeAccount"/>
 	<property name="ish.oncourse.description" value="To obtain a summary of the enrolments and income for each class, grouped by income account This report prints in Portrait format."/>
 	<property name="sortOn" value="incomeAccount.accountCode"/>

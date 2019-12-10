@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClassTutor"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="12"/>
+
 	<property name="keyCode" value="ish.onCourse.tutorsSubreport"/>
 	<property name="ish.oncourse.filePrefix" value="tutors"/>
 	<property name="ish.oncourse.pdfFileName" value="tutors.pdf"/>

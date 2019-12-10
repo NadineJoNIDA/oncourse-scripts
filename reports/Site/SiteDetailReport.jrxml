@@ -5,7 +5,7 @@
 	<property name="entity" value="Site"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="20"/>
+
 	<property name="keyCode" value="ish.onCourse.siteDetailsReport"/>
 	<property name="ish.oncourse.title" value="Site Details"/>
 	<property name="ish.oncourse.filePrefix" value="siteDetails"/>

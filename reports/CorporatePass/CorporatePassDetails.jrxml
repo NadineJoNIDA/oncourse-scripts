@@ -5,7 +5,7 @@
 	<property name="entity" value="CorporatePass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="17"/>
+
 	<property name="keyCode" value="ish.onCourse.corporatePassDetailsReport"/>
 	<property name="ish.oncourse.title" value="CorporatePass Details"/>
 	<property name="ish.oncourse.filePrefix" value="corporatePass"/>
@@ -95,13 +95,13 @@
 					<textElement verticalAlignment="Top"/>
 					<text><![CDATA[Limited to classes]]></text>
 				</staticText>
-				<textField isBlankWhenNull="true">
+				<textField isBlankWhenNull="true" isStretchWithOverflow="true">
 					<reportElement key="textField-3" style="data field" x="93" y="57" width="446" height="33" uuid="369b60d7-58a6-4230-a575-de7589ad1090"/>
 					<textElement verticalAlignment="Top"/>
 					<textFieldExpression><![CDATA[$F{corporatePass}.linkedClassesList]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement key="staticText-8" style="header 2" x="1" y="90" width="223" height="21" uuid="b07b22c8-df8e-4456-9240-ad1730f09685"/>
+					<reportElement key="staticText-8" style="header 2" x="1" y="90" width="223" height="21" uuid="b07b22c8-df8e-4456-9240-ad1730f09685" positionType="Float"/>
 					<text><![CDATA[Usage history]]></text>
 				</staticText>
 			</band>

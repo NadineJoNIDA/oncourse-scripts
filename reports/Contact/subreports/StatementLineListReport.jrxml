@@ -5,7 +5,7 @@
 	<property name="entity" value="StatementLinePrintableObject"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="27"/>
+
 	<property name="keyCode" value="ish.onCourse.statementLineListReport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>

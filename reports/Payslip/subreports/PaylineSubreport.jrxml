@@ -5,7 +5,7 @@
 	<property name="entity" value="Payline"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="19"/>
+
 	<property name="keyCode" value="ish.onCourse.paylineSubreport"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>

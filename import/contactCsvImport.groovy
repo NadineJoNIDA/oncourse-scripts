@@ -2,8 +2,13 @@
 contactFile=Please select contact CSV file...
 )*/
 
-
-import ish.oncourse.server.cayenne.*
+import ish.oncourse.server.cayenne.Contact
+import ish.oncourse.server.cayenne.ContactNoteRelation
+import ish.oncourse.server.cayenne.Country
+import ish.oncourse.server.cayenne.Language
+import ish.oncourse.server.cayenne.Note
+import ish.oncourse.server.cayenne.Student
+import ish.oncourse.server.cayenne.Tutor
 import ish.oncourse.server.imports.CreateUserFriendlyMessage
 import ish.oncourse.server.imports.CsvParser
 import org.apache.cayenne.query.ObjectSelect

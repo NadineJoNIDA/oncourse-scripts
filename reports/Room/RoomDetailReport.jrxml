@@ -5,7 +5,7 @@
 	<property name="entity" value="Room"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="47"/>
+
 	<property name="keyCode" value="ish.onCourse.roomDetailsReport"/>
 	<property name="ish.oncourse.description" value="A report that allows users to print the details of all sessions that are scheduled for a particular room, for a particular date range.This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>

@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="36"/>
+
 	<property name="keyCode" value="ish.onCourse.classInvoiceReport"/>
 	<property name="ish.oncourse.description" value=" Invaluable as a method of cross referencing incoming payments for a given Class. the report lists the names of all enrolling students, Invoice No, fee charged, fee paid and any outstanding balances.This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>

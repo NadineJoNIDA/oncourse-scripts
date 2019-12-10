@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="12"/>
+
 	<property name="keyCode" value="ish.onCourse.enrolmentSummarySubreport"/>
 	<property name="ish.oncourse.title" value="Enrolment Summary by State - subreport"/>
 	<property name="ish.oncourse.filePrefix" value="EnrolmentReport"/>

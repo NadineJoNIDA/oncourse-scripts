@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="26"/>
+
 	<property name="keyCode" value="ish.onCourse.cancelledClassesCountReport"/>
 	<property name="ish.oncourse.description" value="Provides a summary list of the number of enrolments and monetary value of those enrolments for classes which have been cancelled and the students transferred, refunded or credited. This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="false"/>

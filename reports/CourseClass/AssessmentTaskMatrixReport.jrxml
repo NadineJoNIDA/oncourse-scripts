@@ -4,7 +4,7 @@
     <property name="entity" value="CourseClass"/>
     <property name="isSubreport" value="false"/>
     <property name="isVisible" value="true"/>
-    <property name="versionNumber" value="3"/>
+
     <property name="keyCode" value="ish.onCourse.AssessmentTaskMatrix"/>
     <property name="ish.oncourse.title" value="AssessmentTaskMatrix"/>
     <property name="ish.oncourse.filePrefix" value="assessmentTaskMatrix"/>

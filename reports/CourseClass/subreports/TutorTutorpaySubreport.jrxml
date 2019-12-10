@@ -5,7 +5,7 @@
 	<property name="entity" value="Tutor"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="14"/>
+
 	<property name="keyCode" value="ish.onCourse.tutorTutorpaySubreport"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
 	<import value="net.sf.jasperreports.engine.*"/>

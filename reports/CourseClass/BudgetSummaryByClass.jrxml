@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="31"/>
+
 	<property name="keyCode" value="aftrs.budgetReport"/>
 	<property name="ish.oncourse.description" value="To obtain a detailed print out of the budgeted and actual income and expense lines, one page per class. The report layout is modelled on the budget tab in the class window. This report prints in Landscape format."/>
 	<property name="sortOn" value="course.code;code"/>

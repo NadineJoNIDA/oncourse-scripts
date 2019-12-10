@@ -14,7 +14,7 @@
 	<property name="entity" value="Session"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="28"/>
+
 	<property name="keyCode" value="ish.onCourse.ClassSessionReportPlanning"/>
 	<property name="ish.oncourse.description" value="This report is for venue planning purposes, to show all the sessions of the selected classes printed in date order. This can be useful for one class, or a group of classes sharing a venue or tutor. This report prints in Landscape format."/>
 	<import value="net.sf.jasperreports.engine.*"/>

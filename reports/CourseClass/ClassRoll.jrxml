@@ -6,7 +6,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="34"/>
+
 	<property name="keyCode" value="ish.onCourse.classRoll"/>
 	<property name="ish.oncourse.description" value="To create a list of students enrolled and columns for each of the scheduled sessions, used to mark attendance.This report prints in Landscape format."/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>

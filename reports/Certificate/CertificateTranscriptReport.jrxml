@@ -6,7 +6,7 @@
 	<property name="entity" value="Certificate"/>
 	<property name="isSubreport" value="true"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="29"/>
+
 	<property name="keyCode" value="ish.onCourse.certificate.transcript"/>
 	<property name="ish.oncourse.title" value="Academic Transcript"/>
 	<property name="ish.oncourse.filePrefix" value="certificate"/>
@@ -63,6 +63,7 @@
 	<field name="certificate" class="ish.oncourse.server.cayenne.Certificate"/>
 	<field name="awardedOn" class="java.util.Date"/>
 	<field name="issuedOn" class="java.util.Date"/>
+	<field name="printedOn" class="java.util.Date"/>
 	<field name="qualification.title" class="java.lang.String"/>
 	<field name="pref.avetmiss.collegename" class="java.lang.String"/>
 	<field name="pref.avetmiss.address.line1" class="java.lang.String"/>
@@ -104,7 +105,7 @@
 			</staticText>
 			<textField evaluationTime="Report" pattern="d MMM yyyy" isBlankWhenNull="false">
 				<reportElement key="textField" style="data field (date)" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="66" y="163" width="71" height="13" uuid="73baab83-b5d0-4524-b2b4-7c2c627642fb"/>
-				<textFieldExpression><![CDATA[$F{issuedOn}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{printedOn}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Label" x="0" y="163" width="66" height="13" uuid="69457b69-72c4-45ba-97bd-c24f8322ad68"/>

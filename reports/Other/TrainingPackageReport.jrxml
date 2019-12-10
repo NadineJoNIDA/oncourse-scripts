@@ -5,7 +5,7 @@
 	<property name="entity" value="TrainingPackage"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="17"/>
+
 	<property name="keyCode" value="ish.onCourse.trainingPackageReport"/>
 	<property name="ish.oncourse.title" value="Training Packages List"/>
 	<property name="ish.oncourse.filePrefix" value="TrainingPackagesList"/>

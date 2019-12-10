@@ -4,7 +4,7 @@
     <property name="entity" value="Contact"/>
     <property name="isSubreport" value="false"/>
     <property name="isVisible" value="true"/>
-    <property name="versionNumber" value="3"/>
+
     <property name="keyCode" value="ish.onCourse.statementReport.all"/>
     <property name="ish.oncourse.description" value="To print all transactions (both debits and credits) for a particular contact.This report prints in Portrait format."/>
     <property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>

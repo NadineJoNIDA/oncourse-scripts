@@ -5,7 +5,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="17"/>
+
 	<property name="keyCode" value="ish.onCourse.SimpleClassRoll"/>
 	<property name="ish.oncourse.reports.isObjectOnSeparatePage" value="true"/>
 	<property name="ish.oncourse.description" value="Session by Session grid created for marking student attendance.This report prints in Portrait format."/>

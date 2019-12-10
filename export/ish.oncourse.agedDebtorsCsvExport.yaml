@@ -1,0 +1,11 @@
+keyCode: ish.oncourse.agedDebtorCsvExport.csv
+entityClass: Invoice
+name: Historic Aged Debtor Csv Export
+versionNumber: 1
+minVersion: 9.13
+exportTemplate: ish.oncourse.agedDebtorCsvExport.groovy
+outputType: csv
+variables:
+  - name: debtorThreshold
+    label: Debtor Threshold
+    dataType: DATE

@@ -6,7 +6,7 @@
 	<property name="entity" value="Session"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="false"/>
-	<property name="versionNumber" value="14"/>
+
 	<property name="keyCode" value="ish.onCourse.shedule"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>

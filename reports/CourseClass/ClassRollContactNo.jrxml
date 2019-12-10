@@ -6,7 +6,7 @@
 	<property name="entity" value="CourseClass"/>
 	<property name="isSubreport" value="false"/>
 	<property name="isVisible" value="true"/>
-	<property name="versionNumber" value="27"/>
+
 	<property name="keyCode" value="ish.onCourse.classRollContactNo"/>
 	<property name="ish.oncourse.description" value="To create a Class Roll that includes the contact telephone numbers of students in the Class. This roll is not designed to be distributed around the Class Room. This report prints in Landscape format."/>
 	<import value="net.sf.jasperreports.engine.*"/>
